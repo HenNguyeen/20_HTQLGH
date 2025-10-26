@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "K45W0SG8aetJPhIZpyJwS1Lk5KB8EulAW69gWBfeWH0=",
+  "Source": "DeliveryManagementAPI",
+  "BasePath": "_content/DeliveryManagementAPI",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}

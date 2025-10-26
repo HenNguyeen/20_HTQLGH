@@ -1,0 +1,142 @@
+### Delivery Management API - Test Endpoints
+### Base URL: https://localhost:5001 hoặc http://localhost:5000
+
+@baseUrl = https://localhost:5001
+@orderId = ORD001
+@staffId = STAFF001
+
+### ============================================
+### ORDERS API
+### ============================================
+
+### 1. Lấy tất cả đơn hàng
+GET {{baseUrl}}/api/orders
+Accept: application/json
+
+###
+
+### 2. Lấy đơn hàng theo ID
+GET {{baseUrl}}/api/orders/{{orderId}}
+Accept: application/json
+
+###
+
+### 3. Tạo đơn hàng mới
+POST {{baseUrl}}/api/orders
+Content-Type: application/json
+
+{
+  "orderCode": "WEB20251019004",
+  "customerName": "Nguyễn Thị Mai",
+  "customerPhone": "0919876543",
+  "deliveryAddress": "789 Lê Văn Sỹ",
+  "ward": "Phường 14",
+  "district": "Quận 3",
+  "city": "TP. Hồ Chí Minh",
+  "productCode": "PROD004",
+  "packageType": 8,
+  "weight": 3.0,
+  "size": "50x40x10 cm",
+  "distance": 6.5,
+  "isFragile": true,
+  "isValuable": true,
+  "isVehicle": false,
+  "collectMoney": true,
+  "collectionAmount": 8000000,
+  "paymentMethod": 1,
+  "deliveryType": 1,
+  "notes": "Laptop mới, cần giao cẩn thận"
+}
+
+###
+
+### 4. Cập nhật trạng thái đơn hàng
+PATCH {{baseUrl}}/api/orders/{{orderId}}/status
+Content-Type: application/json
+
+{
+  "orderId": "{{orderId}}",
+  "status": 2,
+  "staffId": "{{staffId}}",
+  "notes": "Đang trên đường giao hàng"
+}
+
+###
+
+### 5. Gán nhân viên cho đơn hàng
+PATCH {{baseUrl}}/api/orders/ORD003/assign-staff/STAFF003
+Content-Type: application/json
+
+###
+
+### 6. Lấy đơn hàng theo trạng thái
+GET {{baseUrl}}/api/orders/status/2
+Accept: application/json
+
+###
+
+### 7. Lấy đơn hàng theo nhân viên
+GET {{baseUrl}}/api/orders/staff/{{staffId}}
+Accept: application/json
+
+###
+
+### ============================================
+### DELIVERY STAFF API
+### ============================================
+
+### 8. Lấy tất cả nhân viên giao hàng
+GET {{baseUrl}}/api/deliverystaff
+Accept: application/json
+
+###
+
+### 9. Lấy nhân viên đang rảnh
+GET {{baseUrl}}/api/deliverystaff/available
+Accept: application/json
+
+###
+
+### 10. Thêm nhân viên mới
+POST {{baseUrl}}/api/deliverystaff
+Content-Type: application/json
+
+{
+  "fullName": "Lê Văn Giang",
+  "phoneNumber": "0956789012",
+  "vehicleType": "Xe máy",
+  "vehiclePlate": "59F6-44444",
+  "isAvailable": true
+}
+
+###
+
+### ============================================
+### TRACKING API
+### ============================================
+
+### 11. Lấy lịch sử check-in của đơn hàng
+GET {{baseUrl}}/api/tracking/order/{{orderId}}
+Accept: application/json
+
+###
+
+### 12. Check-in vị trí mới
+POST {{baseUrl}}/api/tracking/checkin
+Content-Type: application/json
+
+{
+  "orderId": "{{orderId}}",
+  "latitude": 10.7890,
+  "longitude": 106.6880,
+  "locationName": "Đang ở gần địa chỉ giao hàng",
+  "notes": "Sắp đến nơi giao hàng"
+}
+
+###
+
+### 13. Theo dõi đơn hàng theo mã
+GET {{baseUrl}}/api/tracking/track/WEB20251019001
+Accept: application/json
+
+###

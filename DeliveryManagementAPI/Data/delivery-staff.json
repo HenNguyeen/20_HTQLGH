@@ -1,0 +1,42 @@
+[
+  {
+    "staffId": "STAFF001",
+    "fullName": "Trần Văn Bình",
+    "phoneNumber": "0987654321",
+    "vehicleType": "Xe máy",
+    "vehiclePlate": "59A1-12345",
+    "isAvailable": false
+  },
+  {
+    "staffId": "STAFF002",
+    "fullName": "Phạm Văn Cường",
+    "phoneNumber": "0901234567",
+    "vehicleType": "Xe máy",
+    "vehiclePlate": "59B2-67890",
+    "isAvailable": false
+  },
+  {
+    "staffId": "STAFF003",
+    "fullName": "Hoàng Thị Dung",
+    "phoneNumber": "0923456789",
+    "vehicleType": "Xe tải nhỏ",
+    "vehiclePlate": "59C3-11111",
+    "isAvailable": true
+  },
+  {
+    "staffId": "STAFF004",
+    "fullName": "Đinh Văn Em",
+    "phoneNumber": "0934567890",
+    "vehicleType": "Xe máy",
+    "vehiclePlate": "59D4-22222",
+    "isAvailable": true
+  },
+  {
+    "staffId": "STAFF005",
+    "fullName": "Ngô Thị Phương",
+    "phoneNumber": "0945678901",
+    "vehicleType": "Xe tải",
+    "vehiclePlate": "59E5-33333",
+    "isAvailable": true
+  }
+]

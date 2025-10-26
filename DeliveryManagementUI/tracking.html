@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Theo Dõi Đơn Hàng - Delivery Management</title>
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Leaflet.js -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        #map { height: 400px; min-height: 300px; border-radius: 12px; }
+        .timeline { border-left: 3px solid #0d6efd; margin-left: 1.5rem; padding-left: 1.5rem; }
+        .timeline-event { position: relative; margin-bottom: 2rem; }
+        .timeline-event:last-child { margin-bottom: 0; }
+        .timeline-dot { position: absolute; left: -2.1rem; top: 0.2rem; width: 1.2rem; height: 1.2rem; background: #0d6efd; border-radius: 50%; border: 3px solid #fff; box-shadow: 0 0 0 2px #0d6efd; }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <i class="fas fa-shipping-fast"></i>
+            <h4>Quản Lý Giao Hàng</h4>
+        </div>
+        <ul class="sidebar-menu">
+            <li><a href="index.html"><i class="fas fa-home"></i><span>Dashboard</span></a></li>
+            <li><a href="orders.html"><i class="fas fa-box"></i><span>Đơn Hàng</span></a></li>
+            <li><a href="staff.html"><i class="fas fa-users"></i><span>Nhân Viên</span></a></li>
+            <li class="active"><a href="tracking.html"><i class="fas fa-map-marked-alt"></i><span>Theo Dõi GPS</span></a></li>
+            <li><a href="#" onclick="alert('Tính năng đang phát triển')"><i class="fas fa-chart-bar"></i><span>Báo Cáo</span></a></li>
+            <li><a href="#" onclick="alert('Tính năng đang phát triển')"><i class="fas fa-cog"></i><span>Cài Đặt</span></a></li>
+        </ul>
+    </div>
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Top Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
+            <div class="container-fluid">
+                <button class="btn btn-link" id="sidebarToggle"><i class="fas fa-bars"></i></button>
+                <div class="ms-auto d-flex align-items-center">
+                    <div class="dropdown auth-only">
+                        <button class="btn btn-link dropdown-toggle text-decoration-none" type="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-user-circle fa-lg me-2"></i>
+                            <span class="user-name">User</span>
+                            <span class="user-role badge bg-primary ms-2">Role</span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><h6 class="dropdown-header"><span class="user-name">User</span></h6></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#" onclick="alert('Tính năng đang phát triển')"><i class="fas fa-user me-2"></i>Thông tin tài khoản</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="alert('Tính năng đang phát triển')"><i class="fas fa-cog me-2"></i>Cài đặt</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-danger" href="#" onclick="auth.logout()"><i class="fas fa-sign-out-alt me-2"></i>Đăng xuất</a></li>
+                        </ul>
+                    </div>
+                    <div class="auth-only" style="display:none;">
+                        <a href="login.html" class="btn btn-primary btn-sm">Đăng nhập</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <!-- Tracking Content -->
+        <div class="container-fluid p-4">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2><i class="fas fa-map-marked-alt"></i> Theo Dõi Đơn Hàng</h2>
+                <form class="d-flex" id="searchOrderForm" onsubmit="return false;">
+                    <input type="text" class="form-control me-2" id="orderCodeInput" placeholder="Nhập mã đơn hàng...">
+                    <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i> Tìm kiếm</button>
+                </form>
+            </div>
+            <div class="row mb-4">
+                <div class="col-lg-7 mb-3 mb-lg-0">
+                    <div class="card">
+                        <div class="card-header bg-primary text-white">
+                            <i class="fas fa-map"></i> Bản Đồ Đơn Hàng
+                        </div>
+                        <div class="card-body p-0">
+                            <div id="map"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                    <div class="card h-100">
+                        <div class="card-header bg-info text-white">
+                            <i class="fas fa-route"></i> Lộ Trình & Checkpoint
+                        </div>
+                        <div class="card-body">
+                            <div id="orderInfo" class="mb-3"></div>
+                            <div id="timeline" class="timeline"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="trackingAlert"></div>
+        </div>
+    </div>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Leaflet.js -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <!-- Custom JS -->
+    <script src="js/api-service.js"></script>
+    <script src="js/tracking.js"></script>
+</body>
+</html>

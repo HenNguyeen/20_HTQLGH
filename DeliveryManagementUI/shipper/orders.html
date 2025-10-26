@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shipper - Đơn hàng của tôi</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary border-bottom">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="./index.html"><i class="fas fa-truck"></i> Khu vực Shipper</a>
+      <div class="ms-auto d-flex align-items-center">
+        <div class="dropdown">
+          <button class="btn btn-link text-white dropdown-toggle text-decoration-none" type="button" data-bs-toggle="dropdown">
+            <i class="fas fa-user-circle fa-lg me-2"></i>
+            <span class="user-name">User</span>
+            <span class="user-role badge bg-warning ms-2">Shipper</span>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li><h6 class="dropdown-header"><span class="user-name">User</span></h6></li>
+            <li><a class="dropdown-item" href="./orders.html"><i class="fas fa-box me-2"></i>Đơn của tôi</a></li>
+            <li><a class="dropdown-item" href="../profile.html"><i class="fas fa-user me-2"></i>Thông tin tài khoản</a></li>
+            <li><a class="dropdown-item" href="#" id="toggleAvailability"><i class="fas fa-toggle-on me-2"></i>Đổi trạng thái</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item text-danger" href="#" onclick="auth.logout()"><i class="fas fa-sign-out-alt me-2"></i>Đăng xuất</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container py-4">
+    <div class="row mb-4">
+      <div class="col-md-12">
+        <h3><i class="fas fa-box"></i> Đơn hàng của tôi</h3>
+        <p class="text-muted">Quản lý và cập nhật trạng thái các đơn hàng bạn đang phụ trách.</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+        <h5 class="mb-0"><i class="fas fa-list"></i> Danh sách đơn hàng</h5>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-hover align-middle">
+            <thead>
+              <tr>
+                <th>Mã đơn</th>
+                <th>Khách hàng</th>
+                <th>Địa chỉ</th>
+                <th>Trạng thái</th>
+                <th>Hành động</th>
+              </tr>
+            </thead>
+            <tbody id="ordersTableBody">
+              <tr><td colspan="5" class="text-center text-muted">Đang tải...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <!-- Modal cập nhật trạng thái -->
+    <div class="modal fade" id="updateStatusModal" tabindex="-1" aria-labelledby="updateStatusModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="updateStatusModalLabel">Cập nhật trạng thái đơn hàng</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form id="updateStatusForm">
+              <input type="hidden" id="modalOrderId" />
+              <div class="mb-3">
+                <label for="orderStatusSelect" class="form-label">Trạng thái mới</label>
+                <select class="form-select" id="orderStatusSelect" required>
+                  <option value="1">Đã nhận - Chưa giao</option>
+                  <option value="2">Đang giao</option>
+                  <option value="3">Đã giao</option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label for="gpsLocation" class="form-label">Vị trí hiện tại (GPS)</label>
+                <input type="text" class="form-control" id="gpsLocation" placeholder="Tự động lấy khi cập nhật" readonly />
+              </div>
+              <button type="submit" class="btn btn-primary">Cập nhật</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/api-service.js"></script>
+  <script src="./js/shipper-common.js"></script>
+  <script src="./js/shipper-orders.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

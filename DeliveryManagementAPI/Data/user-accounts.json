@@ -1,0 +1,20 @@
+[
+  {
+    "UserId": 1,
+    "Username": "admin",
+    "PasswordHash": "",
+    "FullName": "Quản trị viên",
+    "Email": "admin@example.com",
+    "PhoneNumber": "0123456789",
+    "Role": "admin"
+  },
+  {
+    "UserId": 2,
+    "Username": "testuser",
+    "PasswordHash": "8d969eef6ecad3c29a3a629280e686cff8fab2e5c7bfb3c6c8667b41a6a1e94d",
+    "FullName": "Tài Khoản Test",
+    "Email": "testuser@example.com",
+    "PhoneNumber": "0999999999",
+    "Role": "customer"
+  }
+]

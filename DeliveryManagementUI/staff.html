@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản Lý Nhân Viên - Delivery Management</title>
+    
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <i class="fas fa-shipping-fast"></i>
+            <h4>Quản Lý Giao Hàng</h4>
+        </div>
+        <ul class="sidebar-menu">
+            <li>
+                <a href="index.html">
+                    <i class="fas fa-home"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li>
+                <a href="orders.html">
+                    <i class="fas fa-box"></i>
+                    <span>Đơn Hàng</span>
+                </a>
+            </li>
+            <li class="active">
+                <a href="staff.html">
+                    <i class="fas fa-users"></i>
+                    <span>Nhân Viên</span>
+                </a>
+            </li>
+            <li>
+                <a href="accounts.html">
+                    <i class="fas fa-user-shield"></i>
+                    <span>Tài Khoản</span>
+                </a>
+            </li>
+            <li>
+                <a href="reports.html">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Báo Cáo</span>
+                </a>
+            </li>
+            <li>
+                <a href="tracking.html">
+                    <i class="fas fa-map-marked-alt"></i>
+                    <span>Theo Dõi GPS</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" onclick="alert('Tính năng đang phát triển')">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Báo Cáo</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" onclick="alert('Tính năng đang phát triển')">
+                    <i class="fas fa-cog"></i>
+                    <span>Cài Đặt</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Top Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
+            <div class="container-fluid">
+                <button class="btn btn-link" id="sidebarToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="ms-auto d-flex align-items-center">
+                    <div class="dropdown">
+                        <button class="btn btn-link dropdown-toggle text-decoration-none" type="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-user-circle fa-lg me-2"></i>
+                            <span class="user-name">User</span>
+                            <span class="user-role badge bg-primary ms-2">Role</span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><h6 class="dropdown-header"><span class="user-name">User</span></h6></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="profile.html"><i class="fas fa-user me-2"></i>Thông tin tài khoản</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="alert('Tính năng đang phát triển')"><i class="fas fa-cog me-2"></i>Cài đặt</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-danger" href="#" onclick="auth.logout()"><i class="fas fa-sign-out-alt me-2"></i>Đăng xuất</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Staff Content -->
+        <div class="container-fluid p-4">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2>
+                    <i class="fas fa-users"></i> Quản Lý Nhân Viên Giao Hàng
+                </h2>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addStaffModal">
+                    <i class="fas fa-user-plus"></i> Thêm Nhân Viên
+                </button>
+            </div>
+
+            <!-- Stats Row -->
+            <div class="row mb-4">
+                <div class="col-md-3 mb-3">
+                    <div class="card border-primary">
+                        <div class="card-body text-center">
+                            <i class="fas fa-users fa-3x text-primary mb-2"></i>
+                            <h3 id="totalStaff" class="mb-0">0</h3>
+                            <p class="text-muted mb-0">Tổng Nhân Viên</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <div class="card border-success">
+                        <div class="card-body text-center">
+                            <i class="fas fa-user-check fa-3x text-success mb-2"></i>
+                            <h3 id="availableStaff" class="mb-0">0</h3>
+                            <p class="text-muted mb-0">Đang Rảnh</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <div class="card border-warning">
+                        <div class="card-body text-center">
+                            <i class="fas fa-truck fa-3x text-warning mb-2"></i>
+                            <h3 id="busyStaff" class="mb-0">0</h3>
+                            <p class="text-muted mb-0">Đang Giao Hàng</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <div class="card border-info">
+                        <div class="card-body text-center">
+                            <i class="fas fa-motorcycle fa-3x text-info mb-2"></i>
+                            <h3 id="totalVehicles" class="mb-0">0</h3>
+                            <p class="text-muted mb-0">Phương Tiện</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filter Row -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <label class="form-label">Tìm kiếm</label>
+                            <input type="text" class="form-control" id="searchStaff" placeholder="Tên, SĐT, biển số...">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Trạng thái</label>
+                            <select class="form-select" id="statusFilter">
+                                <option value="">Tất cả</option>
+                                <option value="true">Đang rảnh</option>
+                                <option value="false">Đang bận</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Loại xe</label>
+                            <select class="form-select" id="vehicleFilter">
+                                <option value="">Tất cả</option>
+                                <option value="Xe máy">Xe máy</option>
+                                <option value="Xe tải nhỏ">Xe tải nhỏ</option>
+                                <option value="Xe tải">Xe tải</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2 d-flex align-items-end">
+                            <button class="btn btn-secondary w-100" onclick="resetFilters()">
+                                <i class="fas fa-redo"></i> Đặt lại
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Staff Cards Grid -->
+            <div class="row" id="staffContainer">
+                <div class="col-12 text-center py-5">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Đang tải...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Staff Modal -->
+    <div class="modal fade" id="addStaffModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-user-plus"></i> Thêm Nhân Viên Mới
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addStaffForm">
+                        <div class="mb-3">
+                            <label class="form-label">Họ Tên *</label>
+                            <input type="text" class="form-control" name="fullName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Số Điện Thoại *</label>
+                            <input type="tel" class="form-control" name="phoneNumber" required>
+                        </div>
+                        <hr>
+                        <h6 class="text-muted mb-3"><i class="fas fa-user-lock"></i> Thông tin tài khoản đăng nhập</h6>
+                        <div class="mb-3">
+                            <label class="form-label">Tên đăng nhập (Username) *</label>
+                            <input type="text" class="form-control" name="username" placeholder="Ví dụ: shipper01" required>
+                            <small class="text-muted">Tài khoản shipper sẽ dùng để đăng nhập hệ thống</small>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Email *</label>
+                            <input type="email" class="form-control" name="email" placeholder="Ví dụ: shipper01@company.com" required>
+                        </div>
+                        <div class="alert alert-info mb-3">
+                            <i class="fas fa-info-circle"></i> Mật khẩu mặc định: <strong>123456</strong> (shipper có thể đổi sau khi đăng nhập)
+                        </div>
+                        <hr>
+                        <h6 class="text-muted mb-3"><i class="fas fa-motorcycle"></i> Thông tin phương tiện</h6>
+                        <div class="mb-3">
+                            <label class="form-label">Loại Phương Tiện *</label>
+                            <select class="form-select" name="vehicleType" required>
+                                <option value="">-- Chọn loại xe --</option>
+                                <option value="Xe máy">Xe máy</option>
+                                <option value="Xe tải nhỏ">Xe tải nhỏ</option>
+                                <option value="Xe tải">Xe tải</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Biển Số Xe *</label>
+                            <input type="text" class="form-control" name="vehiclePlate" placeholder="Ví dụ: 59A1-12345" required>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="isAvailable" id="isAvailable" checked>
+                            <label class="form-check-label" for="isAvailable">
+                                Sẵn sàng làm việc
+                            </label>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-primary" onclick="addStaff()">
+                        <i class="fas fa-save"></i> Thêm Nhân Viên
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Staff Orders Modal -->
+    <div class="modal fade" id="staffOrdersModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-box"></i> Đơn Hàng Của Nhân Viên
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="staffOrdersContent">
+                        <div class="text-center py-4">
+                            <div class="spinner-border" role="status">
+                                <span class="visually-hidden">Đang tải...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Account Info Modal (after adding staff) -->
+    <div class="modal fade" id="accountInfoModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title">
+                        <i class="fas fa-check-circle"></i> Thêm nhân viên thành công!
+                    </h5>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-success mb-3">
+                        <i class="fas fa-info-circle"></i> Tài khoản đăng nhập đã được tạo cho nhân viên giao hàng
+                    </div>
+                    <div class="card bg-light">
+                        <div class="card-body">
+                            <h6 class="mb-3"><i class="fas fa-user-shield"></i> Thông tin tài khoản</h6>
+                            <div class="mb-2">
+                                <label class="text-muted small">Họ tên:</label>
+                                <p class="mb-0"><strong id="accountFullName"></strong></p>
+                            </div>
+                            <div class="mb-2">
+                                <label class="text-muted small">Tên đăng nhập:</label>
+                                <div class="input-group input-group-sm">
+                                    <input type="text" class="form-control" id="accountUsername" readonly>
+                                    <button class="btn btn-outline-secondary" onclick="copyToClipboard('accountUsername')">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="mb-2">
+                                <label class="text-muted small">Mật khẩu mặc định:</label>
+                                <div class="input-group input-group-sm">
+                                    <input type="text" class="form-control" id="accountPassword" readonly>
+                                    <button class="btn btn-outline-secondary" onclick="copyToClipboard('accountPassword')">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="mb-0">
+                                <label class="text-muted small">Email:</label>
+                                <p class="mb-0"><strong id="accountEmail"></strong></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="alert alert-warning mt-3 mb-0">
+                        <i class="fas fa-exclamation-triangle"></i> <strong>Lưu ý:</strong> Hãy gửi thông tin này cho nhân viên để họ có thể đăng nhập vào hệ thống.
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="downloadAccountInfo()">
+                        <i class="fas fa-download"></i> Tải thông tin
+                    </button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JS -->
+    <script src="js/api-service.js"></script>
+    <script src="js/staff.js"></script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+[
+  {
+    "checkpointId": "CP001",
+    "orderId": "ORD001",
+    "latitude": 10.7769,
+    "longitude": 106.7009,
+    "locationName": "Kho trung tâm - Quận 1",
+    "checkInTime": "2025-10-19T09:30:00",
+    "notes": "Đã lấy hàng từ kho"
+  },
+  {
+    "checkpointId": "CP002",
+    "orderId": "ORD001",
+    "latitude": 10.7820,
+    "longitude": 106.6950,
+    "locationName": "Ngã tư Hàng Xanh",
+    "checkInTime": "2025-10-19T10:15:00",
+    "notes": "Đang trên đường giao hàng"
+  },
+  {
+    "checkpointId": "CP003",
+    "orderId": "ORD001",
+    "latitude": 10.7850,
+    "longitude": 106.6920,
+    "locationName": "Gần địa chỉ giao hàng",
+    "checkInTime": "2025-10-19T10:45:00",
+    "notes": "Sắp đến nơi"
+  }
+]

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JWT Test Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-8 mx-auto">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h4><i class="fas fa-key"></i> JWT Authentication Test</h4>
+                    </div>
+                    <div class="card-body">
+                        <h5>Current Status</h5>
+                        <div id="authStatus"></div>
+                        
+                        <hr>
+                        
+                        <h5>Quick Login</h5>
+                        <div class="btn-group-vertical w-100 mb-3">
+                            <button class="btn btn-danger mb-2" onclick="quickLogin('admin', 'admin123')">
+                                <i class="fas fa-user-shield"></i> Login as Admin
+                            </button>
+                            <button class="btn btn-success mb-2" onclick="quickLogin('customer1', 'customer123')">
+                                <i class="fas fa-user"></i> Login as Customer
+                            </button>
+                            <button class="btn btn-info mb-2" onclick="quickLogin('shipper1', 'shipper123')">
+                                <i class="fas fa-shipping-fast"></i> Login as Shipper
+                            </button>
+                            <button class="btn btn-warning" onclick="testLogout()">
+                                <i class="fas fa-sign-out-alt"></i> Logout
+                            </button>
+                        </div>
+                        
+                        <hr>
+                        
+                        <h5>API Tests</h5>
+                        <div class="btn-group-vertical w-100">
+                            <button class="btn btn-outline-primary mb-2" onclick="testGetOrders()">
+                                <i class="fas fa-box"></i> GET /api/Orders (Requires Auth)
+                            </button>
+                            <button class="btn btn-outline-primary mb-2" onclick="testGetStaff()">
+                                <i class="fas fa-users"></i> GET /api/DeliveryStaff (Requires Auth)
+                            </button>
+                            <button class="btn btn-outline-primary mb-2" onclick="testCreateOrder()">
+                                <i class="fas fa-plus"></i> POST /api/Orders (Admin/Customer only)
+                            </button>
+                            <button class="btn btn-outline-primary mb-2" onclick="testTrackPublic()">
+                                <i class="fas fa-map-marker-alt"></i> GET /api/Tracking/track/DH001 (Public)
+                            </button>
+                        </div>
+                        
+                        <hr>
+                        
+                        <h5>Response</h5>
+                        <pre id="response" class="bg-light p-3" style="max-height: 300px; overflow-y: auto;">
+Waiting for test...
+                        </pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/api-service.js"></script>
+    <script>
+        // Update status on load
+        window.addEventListener('DOMContentLoaded', updateStatus);
+        
+        function updateStatus() {
+            const statusDiv = document.getElementById('authStatus');
+            const isLoggedIn = auth.isLoggedIn();
+            
+            if (isLoggedIn) {
+                const user = auth.getCurrentUser();
+                const token = auth.getToken();
+                
+                statusDiv.innerHTML = `
+                    <div class="alert alert-success">
+                        <i class="fas fa-check-circle"></i> <strong>Logged In</strong><br>
+                        <strong>Name:</strong> ${user.fullName}<br>
+                        <strong>Username:</strong> ${user.username}<br>
+                        <strong>Role:</strong> <span class="badge bg-primary">${user.role}</span><br>
+                        <strong>Email:</strong> ${user.email}<br>
+                        <strong>Token:</strong> <code>${token.substring(0, 50)}...</code>
+                    </div>
+                `;
+            } else {
+                statusDiv.innerHTML = `
+                    <div class="alert alert-warning">
+                        <i class="fas fa-exclamation-triangle"></i> Not logged in
+                    </div>
+                `;
+            }
+        }
+        
+        async function quickLogin(username, password) {
+            const responseDiv = document.getElementById('response');
+            responseDiv.textContent = 'Logging in...';
+            
+            try {
+                const result = await apiService.login({ username, password });
+                
+                if (result && result.token) {
+                    auth.setToken(result.token, false);
+                    auth.setCurrentUser(result.user, false);
+                    
+                    responseDiv.textContent = JSON.stringify(result, null, 2);
+                    updateStatus();
+                    
+                    utils.showToast(`Logged in as ${result.user.fullName}`, 'success');
+                } else {
+                    responseDiv.textContent = 'Login failed!';
+                }
+            } catch (err) {
+                responseDiv.textContent = 'Error: ' + err.message;
+            }
+        }
+        
+        function testLogout() {
+            auth.removeToken();
+            document.getElementById('response').textContent = 'Logged out successfully!';
+            updateStatus();
+            utils.showToast('Logged out', 'info');
+        }
+        
+        async function testGetOrders() {
+            const responseDiv = document.getElementById('response');
+            responseDiv.textContent = 'Loading orders...';
+            
+            try {
+                const orders = await apiService.getAllOrders();
+                responseDiv.textContent = JSON.stringify(orders, null, 2);
+                utils.showToast(`Loaded ${orders.length} orders`, 'success');
+            } catch (err) {
+                responseDiv.textContent = 'Error: ' + err.message;
+                utils.showToast('Failed to load orders', 'danger');
+            }
+        }
+        
+        async function testGetStaff() {
+            const responseDiv = document.getElementById('response');
+            responseDiv.textContent = 'Loading staff...';
+            
+            try {
+                const staff = await apiService.getAllStaff();
+                responseDiv.textContent = JSON.stringify(staff, null, 2);
+                utils.showToast(`Loaded ${staff.length} staff members`, 'success');
+            } catch (err) {
+                responseDiv.textContent = 'Error: ' + err.message;
+                utils.showToast('Failed to load staff', 'danger');
+            }
+        }
+        
+        async function testCreateOrder() {
+            const responseDiv = document.getElementById('response');
+            responseDiv.textContent = 'Creating test order...';
+            
+            const testOrder = {
+                senderName: "Test Sender",
+                senderPhone: "0123456789",
+                senderAddress: "123 Test St",
+                senderWard: "Ward 1",
+                senderDistrict: "District 1",
+                senderCity: "HCM",
+                receiverName: "Test Receiver",
+                receiverPhone: "0987654321",
+                receiverAddress: "456 Test Ave",
+                receiverWard: "Ward 2",
+                receiverDistrict: "District 2",
+                receiverCity: "HCM",
+                weight: 1.5,
+                packageType: 0,
+                deliveryType: 0,
+                paymentMethod: 0,
+                isFragile: false,
+                isValuable: false,
+                isVehicle: false,
+                distance: 10,
+                collectMoney: false
+            };
+            
+            try {
+                const result = await apiService.createOrder(testOrder);
+                responseDiv.textContent = JSON.stringify(result, null, 2);
+                utils.showToast('Order created successfully!', 'success');
+            } catch (err) {
+                responseDiv.textContent = 'Error: ' + err.message;
+                utils.showToast('Failed to create order', 'danger');
+            }
+        }
+        
+        async function testTrackPublic() {
+            const responseDiv = document.getElementById('response');
+            responseDiv.textContent = 'Tracking order DH001...';
+            
+            try {
+                const result = await apiService.trackByOrderCode('DH001');
+                responseDiv.textContent = JSON.stringify(result, null, 2);
+                utils.showToast('Tracking data loaded', 'success');
+            } catch (err) {
+                responseDiv.textContent = 'Error: ' + err.message;
+                utils.showToast('Failed to track order', 'danger');
+            }
+        }
+    </script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
