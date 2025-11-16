@@ -33,7 +33,8 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
             // Redirect based on role
             setTimeout(() => {
                 if (result.user.role === 'admin') {
-                    window.location.href = 'index.html'; // Admin Dashboard
+                    // Admin should land on the admin staff/dashboard page
+                    window.location.href = 'staff.html';
                 } else if (result.user.role === 'customer') {
                     window.location.href = 'customer/index.html'; // Customer Area
                 } else if (result.user.role === 'shipper') {
@@ -64,3 +65,47 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
         submitBtn.innerHTML = 'Đăng Nhập';
     }
 });
+
+// Google Sign-In handling (if GIS available)
+function handleCredentialResponse(response) {
+    const idToken = response.credential;
+    // send to backend
+    apiService.request('/auth/google', {
+        method: 'POST',
+        body: JSON.stringify({ idToken })
+    }).then(result => {
+        if (result && result.token) {
+            auth.setToken(result.token, true);
+            auth.setCurrentUser(result.user, true);
+            window.location.href = (result.user.role === 'customer') ? 'customer/index.html' : 'index.html';
+        } else {
+            document.getElementById('loginAlert').innerHTML = `<div class="alert alert-danger">Đăng nhập Google thất bại</div>`;
+        }
+    }).catch(err => {
+        console.error('Google login error', err);
+        document.getElementById('loginAlert').innerHTML = `<div class="alert alert-danger">Lỗi khi đăng nhập bằng Google</div>`;
+    });
+}
+
+// wait for google script to load and render button
+function initGoogleSignIn() {
+    if (window.google && window.google.accounts && window.GOOGLE_CLIENT_ID) {
+        try {
+            google.accounts.id.initialize({
+                client_id: window.GOOGLE_CLIENT_ID,
+                callback: handleCredentialResponse,
+            });
+            google.accounts.id.renderButton(
+                document.getElementById('googleSignInDiv'),
+                { theme: 'outline', size: 'large' }
+            );
+        } catch (e) {
+            console.warn('Google Identity init failed', e);
+        }
+    } else {
+        // retry shortly
+        setTimeout(initGoogleSignIn, 500);
+    }
+}
+
+initGoogleSignIn();

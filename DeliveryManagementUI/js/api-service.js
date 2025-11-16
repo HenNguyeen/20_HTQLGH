@@ -1,4 +1,4 @@
-// API Configuration
+    // API Configuration
 const API_BASE_URL = 'http://localhost:5221/api';
 
 // Auth Helper Functions
@@ -67,13 +67,22 @@ const auth = {
     // Logout
     logout() {
         this.removeToken();
-        window.location.href = 'login.html';
+        // Redirect to the shared login page at site root so all roles use the same login.
+        // Use absolute path to avoid relative path issues from subfolders (shipper/, customer/, etc.).
+        try {
+            const origin = window.location.origin || (window.location.protocol + '//' + window.location.host);
+            window.location.href = origin + '/login.html';
+        } catch (e) {
+            // fallback to a root-relative path
+            window.location.href = '/login.html';
+        }
     },
 
     // Redirect to login if not authenticated
     requireAuth() {
         if (!this.isLoggedIn()) {
-            window.location.href = 'login.html';
+            const origin = window.location.origin || (window.location.protocol + '//' + window.location.host);
+            window.location.href = origin + '/login.html';
             return false;
         }
         return true;
@@ -112,7 +121,8 @@ class ApiService {
                 auth.removeToken();
                 utils.showToast('Phiên đăng nhập hết hạn. Vui lòng đăng nhập lại!', 'warning');
                 setTimeout(() => {
-                    window.location.href = 'login.html';
+                    const origin = window.location.origin || (window.location.protocol + '//' + window.location.host);
+                    window.location.href = origin + '/login.html';
                 }, 1500);
                 throw new Error('Unauthorized');
             }
@@ -262,6 +272,33 @@ class ApiService {
         return await this.request(`/deliverystaff/${staffId}`, {
             method: 'DELETE'
         });
+    }
+
+    // Customers (Admin)
+    async getAllCustomers() {
+        return await this.request('/customers');
+    }
+
+    async getCustomerById(id) {
+        return await this.request(`/customers/${id}`);
+    }
+
+    async createCustomer(data) {
+        return await this.request('/customers', {
+            method: 'POST',
+            body: JSON.stringify(data)
+        });
+    }
+
+    async updateCustomer(id, data) {
+        return await this.request(`/customers/${id}`, {
+            method: 'PUT',
+            body: JSON.stringify(data)
+        });
+    }
+
+    async deleteCustomer(id) {
+        return await this.request(`/customers/${id}`, { method: 'DELETE' });
     }
 
     async getStaffOrders(staffId) {
@@ -544,4 +581,11 @@ const utils = {
 // Export for use in other files
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = { apiService, utils, auth };
+}
+
+// Expose to window so inline handlers (onclick="auth.logout()") can access these
+if (typeof window !== 'undefined') {
+    window.apiService = apiService;
+    window.utils = utils;
+    window.auth = auth;
 }

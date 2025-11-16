@@ -1,4 +1,7 @@
 using DeliveryManagementAPI.Services;
+using Microsoft.Extensions.FileProviders;
+using System.IO;
+using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -143,7 +146,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI(c =>
     {
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "Delivery Management API v1");
-        c.RoutePrefix = string.Empty; // Swagger UI tại root
+        c.RoutePrefix = "swagger"; // move Swagger UI to /swagger to avoid root conflicts with the static UI
     });
 }
 
@@ -153,6 +156,55 @@ app.UseCors("AllowAll");
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+// Serve the DeliveryManagementUI static files from the repository root (sibling folder) so the UI and API share the same origin.
+// The DeliveryManagementUI folder sits next to DeliveryManagementAPI, so go up one level from the API content root.
+var uiPath = Path.GetFullPath(Path.Combine(builder.Environment.ContentRootPath, "..", "DeliveryManagementUI"));
+// Fallback: if the sibling path doesn't exist, also check a DeliveryManagementUI folder inside the content root (for alternate layouts).
+if (!Directory.Exists(uiPath))
+{
+    uiPath = Path.Combine(builder.Environment.ContentRootPath, "DeliveryManagementUI");
+}
+
+if (Directory.Exists(uiPath))
+{
+    // If root requested, redirect to /Home/home.html so visiting '/' opens the Home page explicitly
+    app.Use(async (context, next) =>
+    {
+        var p = context.Request.Path.Value;
+        if (string.Equals(p, "/", StringComparison.OrdinalIgnoreCase) || string.Equals(p, "/index.html", StringComparison.OrdinalIgnoreCase))
+        {
+            // Ensure redirect responses are not cached by the browser
+            context.Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
+            context.Response.Headers["Pragma"] = "no-cache";
+            context.Response.Headers["Expires"] = "0";
+            context.Response.Redirect("/Home/home.html", false);
+            return;
+        }
+        await next();
+    });
+
+    // Serve default files: prefer Home/home.html as the default root document, then index.html
+    app.UseDefaultFiles(new DefaultFilesOptions
+    {
+        FileProvider = new PhysicalFileProvider(uiPath),
+        RequestPath = "",
+        DefaultFileNames = new List<string> { "Home/home.html", "index.html" }
+    });
+
+    app.UseStaticFiles(new StaticFileOptions
+    {
+        FileProvider = new PhysicalFileProvider(uiPath),
+        RequestPath = "",
+        OnPrepareResponse = ctx =>
+        {
+            // Prevent caching of static files in development so clients always fetch latest changes
+            ctx.Context.Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
+            ctx.Context.Response.Headers["Pragma"] = "no-cache";
+            ctx.Context.Response.Headers["Expires"] = "0";
+        }
+    });
+}
 
 app.MapControllers();
 

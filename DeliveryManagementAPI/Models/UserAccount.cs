@@ -12,6 +12,8 @@ namespace DeliveryManagementAPI.Models
     public string Email { get; set; } = string.Empty;
     public string PhoneNumber { get; set; } = string.Empty;
     public string Role { get; set; } = string.Empty; // "admin", "shipper", "customer"
+    // Google account id (sub) if user signed up via Google
+    public string? GoogleId { get; set; }
         [JsonIgnore]
         public string? PasswordResetToken { get; set; }
         [JsonIgnore]

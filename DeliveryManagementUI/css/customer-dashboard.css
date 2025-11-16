@@ -1,0 +1,50 @@
+/* Small dashboard styles to emulate GHN-like layout while reusing bootstrap */
+
+.app-shell { display: flex; min-height: 100vh; background:#f5f7fb; }
+
+.sidebar { width: 260px; background: #083a7a; color: #fff; display:flex; flex-direction:column; }
+.sidebar .brand-logo { width: 120px; height: auto; }
+.sidebar-top { border-bottom: 1px solid rgba(255,255,255,0.06); }
+.user-panel { border-bottom: 1px solid rgba(255,255,255,0.04); }
+.avatar { color: #fff; }
+.sidebar-nav { padding-top: 8px; }
+.sidebar-nav .nav-link { display:block; color: rgba(255,255,255,0.9); padding: 10px 12px; border-radius:6px; margin:6px 4px; text-decoration:none; }
+.sidebar-nav .nav-link:hover { background: rgba(255,255,255,0.04); }
+.sidebar-nav .nav-link.active { background: rgba(255,255,255,0.08); font-weight:600; }
+.sidebar-footer { border-top: 1px solid rgba(255,255,255,0.04); margin-top:auto; }
+
+.balance-box { background: linear-gradient(90deg,#0b61b5,#0f83d1); color:#fff; border-radius:8px; }
+.balance-box .h5 { font-weight:700; }
+.verify-box { background: #fff; color:#082a55; }
+.verify-box .btn { background:#ff7a00; border:none; }
+.verify-box i { color:#ffb24d; }
+
+.status-tabs .btn { white-space: nowrap; }
+.status-tabs .btn.active { background:#0b61b5; color:#fff; border-color:#0b61b5; }
+
+.main-header .search-box input { height:44px; }
+
+.sidebar .small { color: rgba(255,255,255,0.85); }
+.sidebar .nav-link .me-2 { width:18px; }
+
+/* Make header compact on small screens */
+@media (max-width: 991px) {
+  .sidebar { display:none; }
+  .main-header { padding: 8px; }
+}
+
+.main-content { flex:1; display:flex; flex-direction:column; min-height:100vh; }
+.main-header { background: #fff; }
+.search-box input { border-radius: 24px; }
+.main-body { background: transparent; }
+.cards .quick-card { border-radius:10px; box-shadow: 0 6px 18px rgba(15,23,42,0.04); }
+.empty-state { background: #fff; border-radius: 10px; box-shadow: 0 6px 18px rgba(15,23,42,0.04); }
+.illustration svg { max-width: 100%; height: auto; }
+
+/* Make sure table styles stay readable */
+.table th, .table td { vertical-align: middle; }
+
+@media (max-width: 991px) {
+  .sidebar { display:none; }
+  .main-content { padding: 0; }
+}

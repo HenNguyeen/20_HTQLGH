@@ -1,6 +1,8 @@
 using DeliveryManagementAPI.Models;
 using DeliveryManagementAPI.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using Google.Apis.Auth;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
@@ -73,6 +75,59 @@ namespace DeliveryManagementAPI.Controllers
             return Ok(new { success = true });
         }
 
+        [HttpPost("google")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GoogleSignIn([FromBody] GoogleSignInRequest req)
+        {
+            if (string.IsNullOrEmpty(req.IdToken))
+                return BadRequest(new { message = "Id token required" });
+
+            try
+            {
+                var settings = new GoogleJsonWebSignature.ValidationSettings()
+                {
+                    Audience = new[] { _config["Authentication:Google:ClientId"] }
+                };
+
+                var payload = await GoogleJsonWebSignature.ValidateAsync(req.IdToken, settings);
+
+                var googleId = payload.Subject; // sub
+                var email = payload.Email;
+
+                // find existing user by googleId or email
+                var user = await _userService.GetByEmailAsync(email!);
+                if (user == null || user.GoogleId != googleId)
+                {
+                    // if user exists but no GoogleId, link it
+                    if (user != null && string.IsNullOrEmpty(user.GoogleId))
+                    {
+                        user.GoogleId = googleId;
+                        await _userService.UpdateAsync(user);
+                    }
+                    else if (user == null)
+                    {
+                        // create new user (customer)
+                        var newUser = new UserAccount
+                        {
+                            Username = email!,
+                            Email = email!,
+                            FullName = payload.Name ?? string.Empty,
+                            Role = "customer",
+                            GoogleId = googleId
+                        };
+                        user = await _userService.CreateUserAsync(newUser);
+                    }
+                }
+
+                var token = GenerateJwtToken(user);
+                return Ok(new { token, user = new { user.UserId, user.Username, user.FullName, user.Email, user.Role } });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = "Invalid Google token", detail = ex.Message });
+            }
+        }
+
         private string GenerateJwtToken(UserAccount user)
         {
             var jwtSettings = _config.GetSection("JwtSettings");
@@ -124,5 +179,10 @@ namespace DeliveryManagementAPI.Controllers
     {
         public string? Token { get; set; }
         public string? NewPassword { get; set; }
+    }
+
+    public class GoogleSignInRequest
+    {
+        public string? IdToken { get; set; }
     }
 }

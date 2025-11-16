@@ -171,3 +171,9 @@ E:\Tài liệu Word\CNPM NC\QLGiaoHang\DeliveryManagementAPI\bin\Debug\net9.0\ru
 E:\Tài liệu Word\CNPM NC\QLGiaoHang\DeliveryManagementAPI\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
 E:\Tài liệu Word\CNPM NC\QLGiaoHang\DeliveryManagementAPI\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
 E:\Tài liệu Word\CNPM NC\QLGiaoHang\DeliveryManagementAPI\bin\Debug\net9.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+E:\Tài liệu Word\CNPM NC\QLGiaoHang\DeliveryManagementAPI\bin\Debug\net9.0\Google.Apis.dll
+E:\Tài liệu Word\CNPM NC\QLGiaoHang\DeliveryManagementAPI\bin\Debug\net9.0\Google.Apis.Auth.dll
+E:\Tài liệu Word\CNPM NC\QLGiaoHang\DeliveryManagementAPI\bin\Debug\net9.0\Google.Apis.Core.dll
+E:\Tài liệu Word\CNPM NC\QLGiaoHang\DeliveryManagementAPI\bin\Debug\net9.0\Newtonsoft.Json.dll
+E:\Tài liệu Word\CNPM NC\QLGiaoHang\DeliveryManagementAPI\bin\Debug\net9.0\System.Management.dll
+E:\Tài liệu Word\CNPM NC\QLGiaoHang\DeliveryManagementAPI\bin\Debug\net9.0\runtimes\win\lib\net7.0\System.Management.dll
