@@ -5128,11 +5128,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\Tài liệu Word\\CNPM NC\\QLGiaoHang\\DeliveryManagementAPI\\DeliveryManagementAPI.csproj",
+      "projectUniqueName": "C:\\Users\\DELL\\Documents\\GitHub\\20_HTQLGH\\DeliveryManagementAPI\\DeliveryManagementAPI.csproj",
       "projectName": "DeliveryManagementAPI",
-      "projectPath": "E:\\Tài liệu Word\\CNPM NC\\QLGiaoHang\\DeliveryManagementAPI\\DeliveryManagementAPI.csproj",
+      "projectPath": "C:\\Users\\DELL\\Documents\\GitHub\\20_HTQLGH\\DeliveryManagementAPI\\DeliveryManagementAPI.csproj",
       "packagesPath": "C:\\Users\\DELL\\.nuget\\packages\\",
-      "outputPath": "E:\\Tài liệu Word\\CNPM NC\\QLGiaoHang\\DeliveryManagementAPI\\obj\\",
+      "outputPath": "C:\\Users\\DELL\\Documents\\GitHub\\20_HTQLGH\\DeliveryManagementAPI\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

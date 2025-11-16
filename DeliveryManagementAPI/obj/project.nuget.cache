@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "wRmzkR+n+4w=",
+  "dgSpecHash": "s0vrj7+2obE=",
   "success": true,
-  "projectFilePath": "E:\\Tài liệu Word\\CNPM NC\\QLGiaoHang\\DeliveryManagementAPI\\DeliveryManagementAPI.csproj",
+  "projectFilePath": "C:\\Users\\DELL\\Documents\\GitHub\\20_HTQLGH\\DeliveryManagementAPI\\DeliveryManagementAPI.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\DELL\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\DELL\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",
