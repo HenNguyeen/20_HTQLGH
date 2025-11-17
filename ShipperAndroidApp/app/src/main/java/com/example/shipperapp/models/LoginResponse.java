@@ -5,10 +5,10 @@ public class LoginResponse {
     public User user;
 
     public static class User {
-        public int UserId;
-        public String Username;
-        public String FullName;
-        public String Email;
-        public String Role;
+        public int userId;
+        public String username;
+        public String fullName;
+        public String email;
+        public String role;
     }
 }

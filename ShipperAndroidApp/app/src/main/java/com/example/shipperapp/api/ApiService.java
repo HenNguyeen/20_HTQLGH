@@ -21,6 +21,9 @@ public interface ApiService {
     @GET("api/orders/my")
     Call<List<Order>> getMyOrders();
 
+    @GET("api/orders/staff/{staffId}")
+    Call<List<Order>> getOrdersByStaff(@Path("staffId") int staffId);
+
     @PATCH("api/orders/{id}/status")
     Call<Order> updateOrderStatus(@Path("id") int orderId, @Body UpdateOrderStatusDto dto);
 

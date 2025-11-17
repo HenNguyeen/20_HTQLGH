@@ -1,5 +1,8 @@
 package com.example.shipperapp;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -8,7 +11,15 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.util.Log;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import android.os.Handler;
+import android.widget.Switch;
 
 import com.example.shipperapp.api.RetrofitClient;
 import com.example.shipperapp.api.ApiService;
@@ -24,7 +35,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class OrderDetailActivity extends AppCompatActivity {
-    private final String BASE_URL = "http://10.0.2.2:5000/";
+    private final String BASE_URL = "http://10.0.2.2:5221/";
     private int orderId;
 
     private TextView tvOrderCode, tvStatus;
@@ -33,6 +44,38 @@ public class OrderDetailActivity extends AppCompatActivity {
     private EditText etLat, etLng, etNote;
 
     private final List<String> statuses = Arrays.asList("ChuaNhan", "DaNhanChuaGiao", "DaNhanDangGiao", "DaGiao");
+    private FusedLocationProviderClient fusedLocationClient;
+    private static final int REQ_LOCATION = 1001;
+    private Switch switchAutoTrack;
+    private Handler trackHandler = new Handler();
+    private final long TRACK_INTERVAL_MS = 2 * 60 * 1000; // 2 minutes
+    private final Runnable trackRunnable = new Runnable() {
+        @Override
+        public void run() {
+            // get location and post
+            try {
+                if (ContextCompat.checkSelfPermission(OrderDetailActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                    fusedLocationClient.getLastLocation().addOnSuccessListener(location -> {
+                        if (location != null) {
+                            postCheckInWithLocation(location);
+                        } else {
+                            Log.d("OrderDetail", "trackRunnable: lastLocation null");
+                        }
+                        // schedule next
+                        trackHandler.postDelayed(trackRunnable, TRACK_INTERVAL_MS);
+                    }).addOnFailureListener(e -> {
+                        Log.e("OrderDetail", "trackRunnable getLastLocation failed", e);
+                        trackHandler.postDelayed(trackRunnable, TRACK_INTERVAL_MS);
+                    });
+                } else {
+                    // request permission
+                    ActivityCompat.requestPermissions(OrderDetailActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQ_LOCATION);
+                }
+            } catch (SecurityException ex) {
+                Log.e("OrderDetail", "trackRunnable SecurityException", ex);
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,10 +98,32 @@ public class OrderDetailActivity extends AppCompatActivity {
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerStatus.setAdapter(spinnerAdapter);
 
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        switchAutoTrack = findViewById(R.id.switchAutoTrack);
+        switchAutoTrack.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) startTracking(); else stopTracking();
+        });
+
         loadOrder();
 
         btnUpdateStatus.setOnClickListener(v -> updateStatus());
         btnCheckIn.setOnClickListener(v -> doCheckIn());
+    }
+
+    private void startTracking() {
+        // ensure permission
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQ_LOCATION);
+            return;
+        }
+        trackHandler.removeCallbacks(trackRunnable);
+        trackHandler.post(trackRunnable);
+        Toast.makeText(this, "Bắt đầu tự động theo dõi vị trí", Toast.LENGTH_SHORT).show();
+    }
+
+    private void stopTracking() {
+        trackHandler.removeCallbacks(trackRunnable);
+        Toast.makeText(this, "Dừng theo dõi vị trí", Toast.LENGTH_SHORT).show();
     }
 
     private void loadOrder() {
@@ -69,8 +134,8 @@ public class OrderDetailActivity extends AppCompatActivity {
             public void onResponse(Call<Order> call, Response<Order> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     Order o = response.body();
-                    tvOrderCode.setText(o.OrderCode != null ? o.OrderCode : String.valueOf(o.OrderId));
-                    tvStatus.setText(o.Status != null ? o.Status : "");
+                    tvOrderCode.setText(o.orderCode != null ? o.orderCode : String.valueOf(o.orderId));
+                    tvStatus.setText(o.status != null ? o.status : "");
                 } else {
                     Log.e("OrderDetail", "Failed load order: " + response.code());
                 }
@@ -86,10 +151,10 @@ public class OrderDetailActivity extends AppCompatActivity {
     private void updateStatus() {
         String sel = (String) spinnerStatus.getSelectedItem();
         UpdateOrderStatusDto dto = new UpdateOrderStatusDto();
-        dto.OrderId = String.valueOf(orderId);
-        dto.Status = sel;
-        dto.StaffId = "";
-        dto.Notes = "Cập nhật từ app";
+        dto.orderId = String.valueOf(orderId);
+        dto.status = sel;
+        dto.staffId = "";
+        dto.notes = "Cập nhật từ app";
 
         ApiService api = RetrofitClient.getApiServiceWithAuth(this, BASE_URL);
         Call<Order> call = api.updateOrderStatus(orderId, dto);
@@ -97,7 +162,11 @@ public class OrderDetailActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Order> call, Response<Order> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    tvStatus.setText(response.body().Status != null ? response.body().Status : "");
+                    tvStatus.setText(response.body().status != null ? response.body().status : "");
+                    // If status changed to "DaNhanDangGiao" -> attempt auto check-in
+                    if ("DaNhanDangGiao".equals(response.body().status)) {
+                        attemptAutoCheckIn();
+                    }
                 } else {
                     Log.e("OrderDetail", "Failed update status: " + response.code());
                 }
@@ -123,10 +192,10 @@ public class OrderDetailActivity extends AppCompatActivity {
         double lng = Double.parseDouble(lngS);
 
         LocationCheckpoint cp = new LocationCheckpoint();
-        cp.OrderId = orderId;
-        cp.Latitude = lat;
-        cp.Longitude = lng;
-        cp.Note = note;
+        cp.orderId = orderId;
+        cp.latitude = lat;
+        cp.longitude = lng;
+        cp.note = note;
 
         ApiService api = RetrofitClient.getApiServiceWithAuth(this, BASE_URL);
         Call<LocationCheckpoint> call = api.checkIn(cp);
@@ -146,5 +215,72 @@ public class OrderDetailActivity extends AppCompatActivity {
                 Log.e("OrderDetail", "Error", t);
             }
         });
+    }
+
+    // --- Automatic check-in helpers ---
+    private void attemptAutoCheckIn() {
+        // check permission
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // request permission
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQ_LOCATION);
+            return;
+        }
+        sendAutoCheckIn();
+    }
+
+    private void sendAutoCheckIn() {
+        try {
+            fusedLocationClient.getLastLocation().addOnSuccessListener(location -> {
+                if (location != null) {
+                    postCheckInWithLocation(location);
+                } else {
+                    Toast.makeText(this, "Không lấy được vị trí để check-in", Toast.LENGTH_SHORT).show();
+                }
+            }).addOnFailureListener(e -> {
+                Log.e("OrderDetail", "getLastLocation failed", e);
+                Toast.makeText(this, "Không lấy được vị trí: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            });
+        } catch (SecurityException ex) {
+            Log.e("OrderDetail", "Location permission missing", ex);
+        }
+    }
+
+    private void postCheckInWithLocation(Location location) {
+        LocationCheckpoint cp = new LocationCheckpoint();
+        cp.orderId = orderId;
+        cp.latitude = location.getLatitude();
+        cp.longitude = location.getLongitude();
+        cp.note = "Auto check-in on status change";
+
+        ApiService api = RetrofitClient.getApiServiceWithAuth(this, BASE_URL);
+        Call<LocationCheckpoint> call = api.checkIn(cp);
+        call.enqueue(new Callback<LocationCheckpoint>() {
+            @Override
+            public void onResponse(Call<LocationCheckpoint> call, Response<LocationCheckpoint> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    Toast.makeText(OrderDetailActivity.this, "Auto check-in thành công", Toast.LENGTH_SHORT).show();
+                } else {
+                    Log.e("OrderDetail", "Auto check-in failed: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LocationCheckpoint> call, Throwable t) {
+                Log.e("OrderDetail", "Auto check-in error", t);
+            }
+        });
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQ_LOCATION) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // permission granted, retry auto check-in
+                sendAutoCheckIn();
+            } else {
+                Toast.makeText(this, "Quyền vị trí bị từ chối", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }

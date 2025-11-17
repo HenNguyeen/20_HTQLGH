@@ -1,0 +1,90 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.example.shipperapp"
+4    android:versionCode="1"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="21"
+8-->C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml
+9        android:targetSdkVersion="33" />
+9-->C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml
+10
+11    <uses-permission android:name="android.permission.INTERNET" />
+11-->C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:4:5-67
+11-->C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:4:22-64
+12
+13    <permission
+13-->[androidx.core:core:1.9.0] C:\Users\DELL\.gradle\caches\8.9\transforms\0d3aa342b9549cc1543d2e7fe296e21a\transformed\core-1.9.0\AndroidManifest.xml:22:5-24:47
+14        android:name="com.example.shipperapp.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+14-->[androidx.core:core:1.9.0] C:\Users\DELL\.gradle\caches\8.9\transforms\0d3aa342b9549cc1543d2e7fe296e21a\transformed\core-1.9.0\AndroidManifest.xml:23:9-81
+15        android:protectionLevel="signature" />
+15-->[androidx.core:core:1.9.0] C:\Users\DELL\.gradle\caches\8.9\transforms\0d3aa342b9549cc1543d2e7fe296e21a\transformed\core-1.9.0\AndroidManifest.xml:24:9-44
+16
+17    <uses-permission android:name="com.example.shipperapp.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+17-->[androidx.core:core:1.9.0] C:\Users\DELL\.gradle\caches\8.9\transforms\0d3aa342b9549cc1543d2e7fe296e21a\transformed\core-1.9.0\AndroidManifest.xml:26:5-97
+17-->[androidx.core:core:1.9.0] C:\Users\DELL\.gradle\caches\8.9\transforms\0d3aa342b9549cc1543d2e7fe296e21a\transformed\core-1.9.0\AndroidManifest.xml:26:22-94
+18
+19    <application
+19-->C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:6:5-19:19
+20        android:allowBackup="true"
+20-->C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:7:9-35
+21        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+21-->[androidx.core:core:1.9.0] C:\Users\DELL\.gradle\caches\8.9\transforms\0d3aa342b9549cc1543d2e7fe296e21a\transformed\core-1.9.0\AndroidManifest.xml:28:18-86
+22        android:debuggable="true"
+23        android:label="ShipperApp"
+23-->C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:8:9-35
+24        android:supportsRtl="true"
+24-->C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:9:9-35
+25        android:testOnly="true" >
+26        <activity
+26-->C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:10:9-15:20
+27            android:name="com.example.shipperapp.LoginActivity"
+27-->C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:10:19-48
+28            android:exported="true" >
+28-->C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:10:49-72
+29            <intent-filter>
+29-->C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:11:13-14:29
+30                <action android:name="android.intent.action.MAIN" />
+30-->C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:12:17-69
+30-->C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:12:25-66
+31
+32                <category android:name="android.intent.category.LAUNCHER" />
+32-->C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:13:17-77
+32-->C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:13:27-74
+33            </intent-filter>
+34        </activity>
+35        <activity android:name="com.example.shipperapp.OrderListActivity" />
+35-->C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:16:9-55
+35-->C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:16:19-52
+36        <activity android:name="com.example.shipperapp.OrderDetailActivity" />
+36-->C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:17:9-57
+36-->C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:17:19-54
+37        <activity android:name="com.example.shipperapp.MainActivity" />
+37-->C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:18:9-50
+37-->C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:18:19-47
+38
+39        <provider
+39-->[androidx.emoji2:emoji2:1.2.0] C:\Users\DELL\.gradle\caches\8.9\transforms\29e5b5bd6bcc029d38e6072392b8b6d4\transformed\emoji2-1.2.0\AndroidManifest.xml:24:9-32:20
+40            android:name="androidx.startup.InitializationProvider"
+40-->[androidx.emoji2:emoji2:1.2.0] C:\Users\DELL\.gradle\caches\8.9\transforms\29e5b5bd6bcc029d38e6072392b8b6d4\transformed\emoji2-1.2.0\AndroidManifest.xml:25:13-67
+41            android:authorities="com.example.shipperapp.androidx-startup"
+41-->[androidx.emoji2:emoji2:1.2.0] C:\Users\DELL\.gradle\caches\8.9\transforms\29e5b5bd6bcc029d38e6072392b8b6d4\transformed\emoji2-1.2.0\AndroidManifest.xml:26:13-68
+42            android:exported="false" >
+42-->[androidx.emoji2:emoji2:1.2.0] C:\Users\DELL\.gradle\caches\8.9\transforms\29e5b5bd6bcc029d38e6072392b8b6d4\transformed\emoji2-1.2.0\AndroidManifest.xml:27:13-37
+43            <meta-data
+43-->[androidx.emoji2:emoji2:1.2.0] C:\Users\DELL\.gradle\caches\8.9\transforms\29e5b5bd6bcc029d38e6072392b8b6d4\transformed\emoji2-1.2.0\AndroidManifest.xml:29:13-31:52
+44                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+44-->[androidx.emoji2:emoji2:1.2.0] C:\Users\DELL\.gradle\caches\8.9\transforms\29e5b5bd6bcc029d38e6072392b8b6d4\transformed\emoji2-1.2.0\AndroidManifest.xml:30:17-75
+45                android:value="androidx.startup" />
+45-->[androidx.emoji2:emoji2:1.2.0] C:\Users\DELL\.gradle\caches\8.9\transforms\29e5b5bd6bcc029d38e6072392b8b6d4\transformed\emoji2-1.2.0\AndroidManifest.xml:31:17-49
+46            <meta-data
+46-->[androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\DELL\.gradle\caches\8.9\transforms\8891136e42edc4be356dd444147de65a\transformed\lifecycle-process-2.4.1\AndroidManifest.xml:31:13-33:52
+47                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+47-->[androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\DELL\.gradle\caches\8.9\transforms\8891136e42edc4be356dd444147de65a\transformed\lifecycle-process-2.4.1\AndroidManifest.xml:32:17-78
+48                android:value="androidx.startup" />
+48-->[androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\DELL\.gradle\caches\8.9\transforms\8891136e42edc4be356dd444147de65a\transformed\lifecycle-process-2.4.1\AndroidManifest.xml:33:17-49
+49        </provider>
+50    </application>
+51
+52</manifest>

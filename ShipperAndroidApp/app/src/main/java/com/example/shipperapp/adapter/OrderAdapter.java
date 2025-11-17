@@ -35,8 +35,8 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Order o = orders.get(position);
-        holder.tvCode.setText(o.OrderCode != null ? o.OrderCode : "#" + o.OrderId);
-        holder.tvStatus.setText(o.Status != null ? o.Status : "");
+        holder.tvCode.setText(o.orderCode != null ? o.orderCode : "#" + o.orderId);
+        holder.tvStatus.setText(o.status != null ? o.status : "");
         holder.itemView.setOnClickListener(v -> listener.onItemClick(o));
     }
 

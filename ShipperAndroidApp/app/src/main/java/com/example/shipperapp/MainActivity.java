@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         // No layout included; this is a minimal example focusing on networking
 
-        ApiService api = RetrofitClient.getApiServiceWithAuth(this, "http://10.0.2.2:5000/");
+        ApiService api = RetrofitClient.getApiServiceWithAuth(this, "http://10.0.2.2:5221/");
 
         // Example: get current shipper info (requires Authorization header saved by Login)
         Call<DeliveryStaff> call = api.getMyStaff();
@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<DeliveryStaff> call, Response<DeliveryStaff> response) {
                 if (response.isSuccessful()) {
                     DeliveryStaff staff = response.body();
-                    Log.i("ShipperApp", "My staff: " + (staff != null ? staff.FullName : "null"));
+                    Log.i("ShipperApp", "My staff: " + (staff != null ? staff.fullName : "null"));
                 } else {
                     Log.e("ShipperApp", "Failed: " + response.code());
                 }

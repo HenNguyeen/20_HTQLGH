@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "com.example.shipperapp-merged_res-30:/layout_activity_order_list.xml.flat",
+        "source": "com.example.shipperapp-main-32:/layout/activity_order_list.xml"
+    },
+    {
+        "merged": "com.example.shipperapp-merged_res-30:/layout_activity_order_detail.xml.flat",
+        "source": "com.example.shipperapp-main-32:/layout/activity_order_detail.xml"
+    },
+    {
+        "merged": "com.example.shipperapp-merged_res-30:/layout_item_order.xml.flat",
+        "source": "com.example.shipperapp-main-32:/layout/item_order.xml"
+    },
+    {
+        "merged": "com.example.shipperapp-merged_res-30:/layout_activity_login.xml.flat",
+        "source": "com.example.shipperapp-main-32:/layout/activity_login.xml"
+    }
+]
