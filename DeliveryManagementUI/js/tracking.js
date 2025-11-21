@@ -71,13 +71,15 @@ async function searchOrder(orderCode) {
     showTrackingAlert('Đang tải dữ liệu đơn hàng...', 'info');
     clearMapAndTimeline();
     try {
-        const order = await ApiService.getOrderByCode(orderCode);
-        if (!order) {
+        // Use trackByOrderCode which returns { Order, Checkpoints }
+        const tracking = await ApiService.trackByOrderCode(orderCode);
+        if (!tracking || !tracking.order) {
             showTrackingAlert('Không tìm thấy đơn hàng với mã: ' + orderCode, 'danger');
             return;
         }
+        const order = tracking.order || tracking.Order || tracking.Order;
+        const checkpoints = tracking.checkpoints || tracking.Checkpoints || [];
         renderOrderInfo(order);
-        const checkpoints = await ApiService.getOrderCheckpoints(orderCode);
         if (!checkpoints || checkpoints.length === 0) {
             showTrackingAlert('Chưa có dữ liệu checkpoint cho đơn hàng này.', 'warning');
             return;
@@ -110,7 +112,8 @@ function renderRouteOnMap(checkpoints) {
     routeLayer = L.polyline(latlngs, { color: '#0d6efd', weight: 5 }).addTo(map);
     latlngs.forEach((latlng, idx) => {
         const marker = L.marker(latlng).addTo(map);
-        marker.bindPopup(`<b>Checkpoint ${idx + 1}</b><br>${formatCheckpointTime(checkpoints[idx].timestamp)}`);
+        // Backend returns CheckInTime and Notes (PascalCase) -> serialized as-is
+        marker.bindPopup(`<b>Checkpoint ${idx + 1}</b><br>${formatCheckpointTime(checkpoints[idx].checkInTime)}`);
         checkpointMarkers.push(marker);
     });
     map.fitBounds(routeLayer.getBounds(), { padding: [30, 30] });
@@ -121,9 +124,9 @@ function renderTimeline(checkpoints) {
     timeline.innerHTML = checkpoints.map((cp, idx) => `
         <div class="timeline-event">
             <div class="timeline-dot"></div>
-            <div><strong>Checkpoint ${idx + 1}</strong> - ${formatCheckpointTime(cp.timestamp)}</div>
+            <div><strong>Checkpoint ${idx + 1}</strong> - ${formatCheckpointTime(cp.checkInTime)}</div>
             <div class="text-muted small">Vị trí: (${cp.latitude.toFixed(5)}, ${cp.longitude.toFixed(5)})</div>
-            <div class="text-muted small">${cp.note || ''}</div>
+            <div class="text-muted small">${cp.notes || ''}</div>
         </div>
     `).join('');
 }
