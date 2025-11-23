@@ -103,3 +103,130 @@ function renderPackageType(labels, counts, revenues) {
 }
 
 document.addEventListener('DOMContentLoaded', loadReports);
+
+// Export to Excel function
+async function exportToExcel() {
+  try {
+    utils.showToast('Đang tạo file Excel...', 'info');
+    
+    // Fetch all data
+    const [orders, summary, byStaff, byDelivery, byPackage] = await Promise.all([
+      apiService.getAllOrders(),
+      apiService.getReportsSummary(),
+      apiService.getOrdersByStaff(),
+      apiService.getByDeliveryType(),
+      apiService.getByPackageType()
+    ]);
+
+    // Create workbook
+    const wb = XLSX.utils.book_new();
+
+    // Sheet 1: Tổng quan
+    const summaryData = [
+      ['BÁO CÁO DOANH THU TỔNG QUAN'],
+      ['Ngày xuất báo cáo:', new Date().toLocaleString('vi-VN')],
+      [],
+      ['Tổng số đơn hàng:', summary.totalOrders || 0],
+      ['Tổng doanh thu:', (summary.totalRevenue || 0).toLocaleString('vi-VN') + ' VNĐ'],
+      [],
+      ['PHÂN BỔ THEO TRẠNG THÁI'],
+      ['Trạng thái', 'Số lượng', 'Tỷ lệ %']
+    ];
+    
+    const statusNames = ['Chưa Nhận', 'Đã Nhận - Chưa Giao', 'Đang Giao', 'Đã Giao'];
+    (summary.byStatus || []).forEach(s => {
+      const percent = summary.totalOrders ? ((s.count / summary.totalOrders) * 100).toFixed(1) : 0;
+      summaryData.push([statusNames[s.status] || s.status, s.count, percent + '%']);
+    });
+
+    const ws1 = XLSX.utils.aoa_to_sheet(summaryData);
+    XLSX.utils.book_append_sheet(wb, ws1, 'Tổng Quan');
+
+    // Sheet 2: Chi tiết đơn hàng
+    const ordersData = [
+      ['CHI TIẾT ĐơN HÀNG'],
+      ['Mã Đơn', 'Khách Hàng', 'SĐT', 'Địa Chỉ', 'Loại Hàng', 'Loại Giao', 'Phí Giao', 'Trạng Thái', 'Nhân Viên', 'Ngày Tạo']
+    ];
+    
+    orders.forEach(order => {
+      ordersData.push([
+        order.orderCode || '',
+        order.customer?.fullName || '',
+        order.customer?.phoneNumber || '',
+        order.pickupAddress || '',
+        order.packageType || '',
+        order.deliveryType || '',
+        order.deliveryFee || 0,
+        statusNames[order.status] || order.status,
+        order.deliveryStaff?.fullName || 'Chưa gán',
+        order.createdAt ? new Date(order.createdAt).toLocaleString('vi-VN') : ''
+      ]);
+    });
+
+    const ws2 = XLSX.utils.aoa_to_sheet(ordersData);
+    XLSX.utils.book_append_sheet(wb, ws2, 'Chi Tiết Đơn Hàng');
+
+    // Sheet 3: Theo nhân viên
+    const staffData = [
+      ['THỐNG KÊ THEO NHÂN VIÊN'],
+      ['Nhân Viên', 'Số Đơn', 'Tổng Doanh Thu']
+    ];
+    
+    byStaff.forEach(s => {
+      staffData.push([
+        s.staffName || 'Chưa gán',
+        s.count || 0,
+        (s.revenue || 0).toLocaleString('vi-VN') + ' VNĐ'
+      ]);
+    });
+
+    const ws3 = XLSX.utils.aoa_to_sheet(staffData);
+    XLSX.utils.book_append_sheet(wb, ws3, 'Theo Nhân Viên');
+
+    // Sheet 4: Theo loại giao hàng
+    const deliveryData = [
+      ['THỐNG KÊ THEO LOẠI GIAO HÀNG'],
+      ['Loại Giao', 'Số Đơn', 'Doanh Thu']
+    ];
+    
+    byDelivery.forEach(d => {
+      deliveryData.push([
+        d.typeName || '',
+        d.count || 0,
+        (d.revenue || 0).toLocaleString('vi-VN') + ' VNĐ'
+      ]);
+    });
+
+    const ws4 = XLSX.utils.aoa_to_sheet(deliveryData);
+    XLSX.utils.book_append_sheet(wb, ws4, 'Theo Loại Giao');
+
+    // Sheet 5: Theo loại hàng
+    const packageData = [
+      ['THỐNG KÊ THEO LOẠI HÀNG'],
+      ['Loại Hàng', 'Số Đơn', 'Doanh Thu']
+    ];
+    
+    byPackage.forEach(p => {
+      packageData.push([
+        p.typeName || '',
+        p.count || 0,
+        (p.revenue || 0).toLocaleString('vi-VN') + ' VNĐ'
+      ]);
+    });
+
+    const ws5 = XLSX.utils.aoa_to_sheet(packageData);
+    XLSX.utils.book_append_sheet(wb, ws5, 'Theo Loại Hàng');
+
+    // Generate filename with timestamp
+    const timestamp = new Date().toISOString().slice(0, 10);
+    const filename = `BaoCaoDoanhThu_${timestamp}.xlsx`;
+
+    // Download file
+    XLSX.writeFile(wb, filename);
+    
+    utils.showToast('Xuất Excel thành công!', 'success');
+  } catch (error) {
+    console.error('Export error:', error);
+    utils.showToast('Lỗi khi xuất Excel: ' + error.message, 'danger');
+  }
+}

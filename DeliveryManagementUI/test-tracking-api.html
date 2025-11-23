@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Tracking API</title>
+    <style>
+        body { font-family: monospace; padding: 20px; background: #f5f5f5; }
+        .test-section { background: white; padding: 15px; margin: 10px 0; border-radius: 5px; border-left: 4px solid #2196f3; }
+        .error { border-left-color: #f44336; }
+        .success { border-left-color: #4caf50; }
+        button { padding: 8px 16px; margin: 5px; cursor: pointer; background: #2196f3; color: white; border: none; border-radius: 4px; }
+        button:hover { background: #1976d2; }
+        input { padding: 8px; margin: 5px; border: 1px solid #ddd; border-radius: 4px; }
+        pre { background: #263238; color: #aed581; padding: 10px; border-radius: 4px; overflow-x: auto; }
+        h3 { margin-top: 0; }
+    </style>
+</head>
+<body>
+    <h1>🧪 Test Tracking API</h1>
+    
+    <div class="test-section">
+        <h3>1. Cấu hình</h3>
+        <label>API Base URL:</label>
+        <input type="text" id="apiUrl" value="http://localhost:5221/api" style="width: 300px;">
+        <br>
+        <label>Order ID:</label>
+        <input type="number" id="orderId" value="1" placeholder="Order ID">
+        <button onclick="saveConfig()">💾 Lưu cấu hình</button>
+    </div>
+
+    <div class="test-section">
+        <h3>2. Test Authentication</h3>
+        <label>Phone:</label>
+        <input type="text" id="phone" value="0912345678">
+        <label>Password:</label>
+        <input type="password" id="password" value="123456">
+        <button onclick="testLogin()">🔑 Login</button>
+        <button onclick="clearToken()">🗑️ Xóa Token</button>
+        <pre id="loginResult">Chưa login...</pre>
+    </div>
+
+    <div class="test-section">
+        <h3>3. Test GET /tracking/location/{orderId}</h3>
+        <button onclick="testGetLocation()">📍 Get Current Location</button>
+        <pre id="locationResult">Chưa test...</pre>
+    </div>
+
+    <div class="test-section">
+        <h3>4. Test GET /tracking/order/{orderId}</h3>
+        <button onclick="testGetCheckpoints()">📋 Get All Checkpoints</button>
+        <pre id="checkpointsResult">Chưa test...</pre>
+    </div>
+
+    <div class="test-section">
+        <h3>5. Test POST /tracking/checkin</h3>
+        <label>Latitude:</label>
+        <input type="number" id="testLat" value="10.762622" step="0.000001">
+        <label>Longitude:</label>
+        <input type="number" id="testLng" value="106.660172" step="0.000001">
+        <button onclick="testCheckIn()">✅ Test Check-in</button>
+        <pre id="checkinResult">Chưa test...</pre>
+    </div>
+
+    <script>
+        let apiUrl = 'http://localhost:5221/api';
+        let orderId = 1;
+        let token = localStorage.getItem('authToken');
+
+        function saveConfig() {
+            apiUrl = document.getElementById('apiUrl').value;
+            orderId = document.getElementById('orderId').value;
+            alert('Đã lưu cấu hình');
+        }
+
+        function clearToken() {
+            localStorage.removeItem('authToken');
+            token = null;
+            document.getElementById('loginResult').textContent = 'Token đã xóa';
+        }
+
+        async function testLogin() {
+            const phone = document.getElementById('phone').value;
+            const password = document.getElementById('password').value;
+            const resultEl = document.getElementById('loginResult');
+            
+            try {
+                resultEl.textContent = 'Đang login...';
+                
+                const response = await fetch(`${apiUrl}/auth/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ phoneNumber: phone, password })
+                });
+
+                if (!response.ok) {
+                    const error = await response.text();
+                    resultEl.textContent = `❌ ERROR ${response.status}:\n${error}`;
+                    return;
+                }
+
+                const data = await response.json();
+                token = data.token;
+                localStorage.setItem('authToken', token);
+                
+                resultEl.textContent = `✅ SUCCESS!\n${JSON.stringify(data, null, 2)}`;
+                resultEl.parentElement.className = 'test-section success';
+            } catch (error) {
+                resultEl.textContent = `❌ NETWORK ERROR:\n${error.message}`;
+                resultEl.parentElement.className = 'test-section error';
+            }
+        }
+
+        async function testGetLocation() {
+            const resultEl = document.getElementById('locationResult');
+            
+            try {
+                resultEl.textContent = `Đang gọi GET ${apiUrl}/tracking/location/${orderId}...`;
+                
+                const headers = { 'Content-Type': 'application/json' };
+                if (token) headers['Authorization'] = `Bearer ${token}`;
+                
+                const response = await fetch(`${apiUrl}/tracking/location/${orderId}`, {
+                    method: 'GET',
+                    headers
+                });
+
+                const responseText = await response.text();
+                
+                if (!response.ok) {
+                    resultEl.textContent = `❌ ERROR ${response.status}:\n${responseText}`;
+                    resultEl.parentElement.className = 'test-section error';
+                    return;
+                }
+
+                const data = JSON.parse(responseText);
+                resultEl.textContent = `✅ SUCCESS!\n${JSON.stringify(data, null, 2)}`;
+                resultEl.parentElement.className = 'test-section success';
+            } catch (error) {
+                resultEl.textContent = `❌ ERROR:\n${error.message}`;
+                resultEl.parentElement.className = 'test-section error';
+            }
+        }
+
+        async function testGetCheckpoints() {
+            const resultEl = document.getElementById('checkpointsResult');
+            
+            try {
+                resultEl.textContent = `Đang gọi GET ${apiUrl}/tracking/order/${orderId}...`;
+                
+                const headers = { 'Content-Type': 'application/json' };
+                if (token) headers['Authorization'] = `Bearer ${token}`;
+                
+                const response = await fetch(`${apiUrl}/tracking/order/${orderId}`, {
+                    method: 'GET',
+                    headers
+                });
+
+                const responseText = await response.text();
+                
+                if (!response.ok) {
+                    resultEl.textContent = `❌ ERROR ${response.status}:\n${responseText}`;
+                    resultEl.parentElement.className = 'test-section error';
+                    return;
+                }
+
+                const data = JSON.parse(responseText);
+                resultEl.textContent = `✅ SUCCESS! (${data.length} checkpoints)\n${JSON.stringify(data, null, 2)}`;
+                resultEl.parentElement.className = 'test-section success';
+            } catch (error) {
+                resultEl.textContent = `❌ ERROR:\n${error.message}`;
+                resultEl.parentElement.className = 'test-section error';
+            }
+        }
+
+        async function testCheckIn() {
+            const resultEl = document.getElementById('checkinResult');
+            const lat = parseFloat(document.getElementById('testLat').value);
+            const lng = parseFloat(document.getElementById('testLng').value);
+            
+            try {
+                resultEl.textContent = `Đang gọi POST ${apiUrl}/tracking/checkin...`;
+                
+                const headers = { 'Content-Type': 'application/json' };
+                if (token) headers['Authorization'] = `Bearer ${token}`;
+                
+                const body = {
+                    orderId: parseInt(orderId),
+                    latitude: lat,
+                    longitude: lng,
+                    locationName: 'Test location',
+                    notes: 'Test checkpoint from debug page'
+                };
+                
+                const response = await fetch(`${apiUrl}/tracking/checkin`, {
+                    method: 'POST',
+                    headers,
+                    body: JSON.stringify(body)
+                });
+
+                const responseText = await response.text();
+                
+                if (!response.ok) {
+                    resultEl.textContent = `❌ ERROR ${response.status}:\n${responseText}`;
+                    resultEl.parentElement.className = 'test-section error';
+                    return;
+                }
+
+                const data = JSON.parse(responseText);
+                resultEl.textContent = `✅ SUCCESS!\n${JSON.stringify(data, null, 2)}`;
+                resultEl.parentElement.className = 'test-section success';
+            } catch (error) {
+                resultEl.textContent = `❌ ERROR:\n${error.message}`;
+                resultEl.parentElement.className = 'test-section error';
+            }
+        }
+
+        // Load token on page load
+        if (token) {
+            document.getElementById('loginResult').textContent = `Token hiện tại:\n${token.substring(0, 50)}...`;
+        }
+    </script>
+</body>
+</html>

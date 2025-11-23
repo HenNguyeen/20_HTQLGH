@@ -51,21 +51,24 @@ public class OrderDetailActivity extends AppCompatActivity {
     private Switch switchAutoTrack;
     private Handler trackHandler = new Handler();
     private Location currentLocation = null;
-    private final long TRACK_INTERVAL_MS = 2 * 60 * 1000; // 2 minutes
+    private final long TRACK_INTERVAL_MS = 30 * 1000; // 30 seconds for near real-time tracking
     private final Runnable trackRunnable = new Runnable() {
         @Override
         public void run() {
+            Log.d("OrderDetail", "=== trackRunnable RUNNING === orderId: " + orderId);
             // get location and post
             try {
                 if (ContextCompat.checkSelfPermission(OrderDetailActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                     fusedLocationClient.getLastLocation().addOnSuccessListener(location -> {
                         if (location != null) {
+                            Log.d("OrderDetail", "Got location: lat=" + location.getLatitude() + ", lng=" + location.getLongitude());
                             // store current location and update UI fields
                             currentLocation = location;
                             runOnUiThread(() -> {
                                 etLat.setText(String.valueOf(location.getLatitude()));
                                 etLng.setText(String.valueOf(location.getLongitude()));
                             });
+                            Log.d("OrderDetail", "Calling postCheckInWithLocation...");
                             postCheckInWithLocation(location);
                         } else {
                             Log.d("OrderDetail", "trackRunnable: lastLocation null");
@@ -145,11 +148,14 @@ public class OrderDetailActivity extends AppCompatActivity {
     }
 
     private void startTracking() {
+        Log.d("OrderDetail", "*** START TRACKING called for orderId: " + orderId);
         // ensure permission
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            Log.w("OrderDetail", "Location permission not granted, requesting...");
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQ_LOCATION);
             return;
         }
+        Log.d("OrderDetail", "Location permission OK");
         // get last known location immediately and update fields
         try {
             fusedLocationClient.getLastLocation().addOnSuccessListener(location -> {
@@ -167,12 +173,15 @@ public class OrderDetailActivity extends AppCompatActivity {
 
         trackHandler.removeCallbacks(trackRunnable);
         trackHandler.post(trackRunnable);
-        Toast.makeText(this, "Bắt đầu tự động theo dõi vị trí", Toast.LENGTH_SHORT).show();
+        Log.d("OrderDetail", "trackRunnable posted to handler - will run immediately");
+        Toast.makeText(this, "Đã bật chia sẻ vị trí real-time (30s/lần)", Toast.LENGTH_LONG).show();
     }
 
     private void stopTracking() {
+        Log.d("OrderDetail", "*** STOP TRACKING called");
         trackHandler.removeCallbacks(trackRunnable);
-        Toast.makeText(this, "Dừng theo dõi vị trí", Toast.LENGTH_SHORT).show();
+        currentLocation = null;
+        Toast.makeText(this, "Đã tắt chia sẻ vị trí", Toast.LENGTH_SHORT).show();
     }
 
     private void loadOrder() {
@@ -263,7 +272,8 @@ public class OrderDetailActivity extends AppCompatActivity {
         cp.orderId = orderId;
         cp.latitude = lat;
         cp.longitude = lng;
-        cp.notes = note;
+        cp.locationName = "Manual check-in"; // Must not be null
+        cp.notes = note.isEmpty() ? "Manual check-in" : note;
 
         ApiService api = RetrofitClient.getApiServiceWithAuth(this, BASE_URL);
         Call<LocationCheckpoint> call = api.checkIn(cp);
@@ -291,7 +301,8 @@ public class OrderDetailActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<LocationCheckpoint> call, Throwable t) {
-                Log.e("OrderDetail", "Error", t);
+                Log.e("OrderDetail", "<<< AUTO CHECK-IN NETWORK ERROR: " + t.getMessage(), t);
+                Toast.makeText(OrderDetailActivity.this, "✗ Lỗi mạng: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -329,17 +340,21 @@ public class OrderDetailActivity extends AppCompatActivity {
         cp.orderId = orderId;
         cp.latitude = location.getLatitude();
         cp.longitude = location.getLongitude();
-        cp.notes = "Auto check-in on status change";
+        cp.locationName = "Auto tracking"; // Must not be null
+        cp.notes = "Auto tracking check-in";
 
+        Log.d("OrderDetail", ">>> Sending checkpoint: orderId=" + cp.orderId + ", lat=" + cp.latitude + ", lng=" + cp.longitude + ", locationName=" + cp.locationName);
+        
         ApiService api = RetrofitClient.getApiServiceWithAuth(this, BASE_URL);
         Call<LocationCheckpoint> call = api.checkIn(cp);
         call.enqueue(new Callback<LocationCheckpoint>() {
             @Override
             public void onResponse(Call<LocationCheckpoint> call, Response<LocationCheckpoint> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    Toast.makeText(OrderDetailActivity.this, "Auto check-in thành công", Toast.LENGTH_SHORT).show();
+                    Log.d("OrderDetail", "<<< AUTO CHECK-IN SUCCESS: " + response.code() + ", checkpointId=" + response.body().checkpointId);
+                    Toast.makeText(OrderDetailActivity.this, "✓ Vị trí đã gửi", Toast.LENGTH_SHORT).show();
                 } else {
-                    Log.e("OrderDetail", "Auto check-in failed: " + response.code());
+                    Log.e("OrderDetail", "<<< AUTO CHECK-IN FAILED: " + response.code());
                     try {
                         if (response.errorBody() != null) {
                             String err = response.errorBody().string();

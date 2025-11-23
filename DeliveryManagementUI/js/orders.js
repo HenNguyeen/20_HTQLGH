@@ -284,8 +284,13 @@ function calculateEstimatedFee() {
     }
 }
 
-// View Order Detail
+// View Order Detail - redirect to dedicated page with real-time tracking
 async function viewOrderDetail(orderId) {
+    window.location.href = `order-detail.html?id=${orderId}`;
+}
+
+// Legacy modal view (keeping for reference but now redirecting)
+async function viewOrderDetailModal(orderId) {
     try {
         const order = await apiService.getOrderById(orderId);
         
