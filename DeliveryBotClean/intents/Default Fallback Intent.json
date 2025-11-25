@@ -1,0 +1,21 @@
+{
+  "name": "Default Fallback Intent",
+  "auto": true,
+  "webhookUsed": false,
+  "fallbackIntent": true,
+  "responses": [
+    {
+      "resetContexts": false,
+      "messages": [
+        {
+          "type": 0,
+          "lang": "vi",
+          "speech": [
+            "Xin lỗi, tôi chưa hiểu câu hỏi của bạn. Bạn có thể hỏi lại được không?",
+            "Tôi chưa rõ ý bạn. Bạn có thể nói rõ hơn không?"
+          ]
+        }
+      ]
+    }
+  ]
+}

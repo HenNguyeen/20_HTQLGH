@@ -1,0 +1,35 @@
+[
+  {
+    "data": [
+      {"text": "tra cứu đơn hàng ", "userDefined": false},
+      {"text": "1", "alias": "order-id", "meta": "@sys.number-integer", "userDefined": true}
+    ],
+    "isTemplate": false,
+    "count": 0
+  },
+  {
+    "data": [
+      {"text": "kiểm tra đơn ", "userDefined": false},
+      {"text": "2", "alias": "order-id", "meta": "@sys.number-integer", "userDefined": true}
+    ],
+    "isTemplate": false,
+    "count": 0
+  },
+  {
+    "data": [
+      {"text": "đơn hàng ", "userDefined": false},
+      {"text": "3", "alias": "order-id", "meta": "@sys.number-integer", "userDefined": true},
+      {"text": " của tôi đâu", "userDefined": false}
+    ],
+    "isTemplate": false,
+    "count": 0
+  },
+  {
+    "data": [
+      {"text": "xem đơn ", "userDefined": false},
+      {"text": "5", "alias": "order-id", "meta": "@sys.number-integer", "userDefined": true}
+    ],
+    "isTemplate": false,
+    "count": 0
+  }
+]

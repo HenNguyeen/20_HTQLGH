@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.shipperapp-mergeDebugResources-30:/values-kk/values-kk.xml",
+            "outputFile": "com.example.shipperapp-mergeDebugResources-31:/values-kk/values-kk.xml",
             "map": [
                 {
                     "source": "C:\\Users\\DELL\\.gradle\\caches\\8.10.2\\transforms\\3f5c227d4f2b56954934b3215d6e6f6e\\transformed\\appcompat-1.6.1\\res\\values-kk\\values-kk.xml",
@@ -21,24 +21,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\DELL\\.gradle\\caches\\8.10.2\\transforms\\01374442020e521891cd0a87782021a2\\transformed\\core-1.9.0\\res\\values-kk\\values-kk.xml",
-                    "from": {
-                        "startLines": "2",
-                        "startColumns": "4",
-                        "startOffsets": "55",
-                        "endColumns": "100",
-                        "endOffsets": "151"
-                    },
-                    "to": {
-                        "startLines": "114",
-                        "startColumns": "4",
-                        "startOffsets": "10208",
-                        "endColumns": "100",
-                        "endOffsets": "10304"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\DELL\\.gradle\\caches\\8.10.2\\transforms\\24118e7e34d366939c3d4889d0c02ab8\\transformed\\material-1.8.0\\res\\values-kk\\values-kk.xml",
+                    "source": "C:\\Users\\DELL\\.gradle\\caches\\8.10.2\\transforms\\0591ea510023f65242f243d2d59d3743\\transformed\\material-1.9.0\\res\\values-kk\\values-kk.xml",
                     "from": {
                         "startLines": "2,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -54,6 +37,23 @@
                         "endLines": "5,33,34,35,36,37,38,39,40,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112",
                         "endColumns": "12,77,75,78,93,87,91,111,81,63,94,69,62,106,64,66,60,66,61,53,113,58,60,53,74,125,87,88,141,71,72,88,56,55,65,70,76,85,71,75,80,69,86,71,90,92,73,74,91,51,65,83,85,61,63,62,103,99,93,100,60,59,83",
                         "endOffsets": "318,3087,3163,3242,3336,3424,3516,3628,3710,5991,6086,6156,6219,6326,6391,6458,6519,6586,6648,6702,6816,6875,6936,6990,7065,7191,7279,7368,7510,7582,7655,7744,7801,7857,7923,7994,8071,8157,8229,8305,8386,8456,8543,8615,8706,8799,8873,8948,9040,9092,9158,9242,9328,9390,9454,9517,9621,9721,9815,9916,9977,10037,10121"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\DELL\\.gradle\\caches\\8.10.2\\transforms\\01374442020e521891cd0a87782021a2\\transformed\\core-1.9.0\\res\\values-kk\\values-kk.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "100",
+                        "endOffsets": "151"
+                    },
+                    "to": {
+                        "startLines": "114",
+                        "startColumns": "4",
+                        "startOffsets": "10208",
+                        "endColumns": "100",
+                        "endOffsets": "10304"
                     }
                 },
                 {

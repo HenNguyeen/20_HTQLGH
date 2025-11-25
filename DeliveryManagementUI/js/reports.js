@@ -27,6 +27,10 @@ async function loadReports() {
 
       const byPackage = await apiService.getByPackageType();
       renderPackageType(byPackage.map(d => d.typeName), byPackage.map(d => d.count), byPackage.map(d => d.revenue));
+
+    // Staff performance with ratings
+    const staffPerformance = await apiService.getStaffPerformance();
+    renderStaffPerformance(staffPerformance);
   } catch (e) {
     utils.showToast('Không tải được báo cáo', 'danger');
   }
@@ -100,6 +104,38 @@ function renderPackageType(labels, counts, revenues) {
       }
     }
   });
+}
+
+function renderStaffPerformance(data) {
+  const tbody = document.getElementById('staffPerformanceBody');
+  
+  if (!data || data.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="8" class="text-center text-muted">Không có dữ liệu</td></tr>';
+    return;
+  }
+  
+  tbody.innerHTML = data.map(staff => {
+    const ratingStars = staff.averageRating > 0 ? 
+      `<span class="text-warning">${'⭐'.repeat(Math.round(staff.averageRating))}</span> ${staff.averageRating.toFixed(1)}` :
+      '<span class="text-muted">Chưa có</span>';
+    
+    const statusBadge = staff.isAvailable ?
+      '<span class="badge bg-success">Rảnh</span>' :
+      '<span class="badge bg-warning">Bận</span>';
+    
+    return `
+      <tr>
+        <td><strong>${staff.staffName}</strong></td>
+        <td>${staff.phoneNumber}</td>
+        <td>${staff.vehicleType}</td>
+        <td><span class="badge bg-primary">${staff.orderCount}</span></td>
+        <td>${staff.revenue.toLocaleString('vi-VN')}đ</td>
+        <td>${ratingStars}</td>
+        <td>${staff.feedbackCount}</td>
+        <td>${statusBadge}</td>
+      </tr>
+    `;
+  }).join('');
 }
 
 document.addEventListener('DOMContentLoaded', loadReports);
@@ -216,6 +252,29 @@ async function exportToExcel() {
 
     const ws5 = XLSX.utils.aoa_to_sheet(packageData);
     XLSX.utils.book_append_sheet(wb, ws5, 'Theo Loại Hàng');
+
+    // Sheet 6: Chất lượng nhân viên
+    const staffPerformance = await apiService.getStaffPerformance();
+    const performanceData = [
+      ['CHẤT LƯỢNG DỊCH VỤ NHÂN VIÊN'],
+      ['Nhân Viên', 'SĐT', 'Loại Xe', 'Tổng Đơn', 'Doanh Thu', 'Đánh Giá TB', 'Số Đánh Giá', 'Trạng Thái']
+    ];
+    
+    staffPerformance.forEach(s => {
+      performanceData.push([
+        s.staffName || '',
+        s.phoneNumber || '',
+        s.vehicleType || '',
+        s.orderCount || 0,
+        (s.revenue || 0).toLocaleString('vi-VN') + ' VNĐ',
+        s.averageRating > 0 ? s.averageRating.toFixed(1) + '/5' : 'Chưa có',
+        s.feedbackCount || 0,
+        s.isAvailable ? 'Rảnh' : 'Bận'
+      ]);
+    });
+
+    const ws6 = XLSX.utils.aoa_to_sheet(performanceData);
+    XLSX.utils.book_append_sheet(wb, ws6, 'Chất Lượng Nhân Viên');
 
     // Generate filename with timestamp
     const timestamp = new Date().toISOString().slice(0, 10);

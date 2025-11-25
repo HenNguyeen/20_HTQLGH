@@ -7,5 +7,6 @@ public class Order {
     public String orderCode = "";
     public String status = ""; // map to OrderStatus string
     public DeliveryStaff assignedStaff;
+    public Customer customer;
     public List<LocationCheckpoint> checkpoints;
 }

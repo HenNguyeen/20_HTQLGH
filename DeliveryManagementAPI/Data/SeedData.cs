@@ -44,10 +44,19 @@ namespace DeliveryManagementAPI.Data
                 new UserAccount
                 {
                     Username = "shipper1",
-                    PasswordHash = UserAccountService.HashPassword("shipper123"),
+                    PasswordHash = UserAccountService.HashPassword("123456"),
                     FullName = "Trần Văn B",
                     Email = "shipper1@gmail.com",
                     PhoneNumber = "0923456789",
+                    Role = "shipper"
+                },
+                new UserAccount
+                {
+                    Username = "shipper2",
+                    PasswordHash = UserAccountService.HashPassword("123456"),
+                    FullName = "Lê Thị C",
+                    Email = "shipper2@gmail.com",
+                    PhoneNumber = "0934567890",
                     Role = "shipper"
                 }
             };

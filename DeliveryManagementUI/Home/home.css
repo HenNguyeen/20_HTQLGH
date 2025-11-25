@@ -136,49 +136,56 @@
 
 
 .sidebar {
-  position: fixed;
-  top: 160px;
-  right: 10px;
-  width: 70px;                 /* nhỏ gọn */
-  background-color: #004aad;
-  border-radius: 10px;
-  padding: 10px 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 14px;
-  z-index: 999;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-  transition: width 0.3s ease;
+  position: fixed !important;
+  top: 160px !important;
+  right: 10px !important;
+  left: auto !important;
+  width: 70px !important;
+  height: auto !important;
+  background-color: #004aad !important;
+  border-radius: 10px !important;
+  padding: 10px 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  gap: 5px !important;
+  z-index: 999 !important;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15) !important;
+  transition: all 0.3s ease !important;
+  overflow: hidden !important;
 }
 
 .sidebar:hover {
-  width: 200px;                /* mở rộng khi hover */
+  width: 200px !important;
 }
 
 .sidebar a {
-  color: #fff;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 8px 12px;
-  border-radius: 8px;
-  font-size: 14px;
-  white-space: nowrap;
-  width: 100%;
-  transition: all 0.3s ease;
+  color: #fff !important;
+  text-decoration: none !important;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 12px !important;
+  padding: 12px 15px !important;
+  margin: 0 !important;
+  border-radius: 0 !important;
+  font-size: 14px !important;
+  white-space: nowrap !important;
+  width: 100% !important;
+  transition: all 0.3s ease !important;
 }
 
 .sidebar a i {
-  font-size: 18px;
-  min-width: 24px;
-  text-align: center;
+  font-size: 20px !important;
+  min-width: 20px !important;
+  text-align: center !important;
+  flex-shrink: 0 !important;
 }
 
 .sidebar a:hover {
-  background-color: #ff6600;
-  transform: translateX(-3px);
+  background-color: rgba(255, 255, 255, 0.15) !important;
+  transform: translateX(-3px) !important;
 }
 
 /* Footer */
@@ -247,4 +254,105 @@ html {
 /* Hiện menu khi hover */
 .dropdown:hover .dropdown-menu {
   display: block;
+}
+
+/* Dark Mode Overrides for Home Page */
+body.theme-dark {
+  background-color: #12161d;
+  color: #e2e8f0;
+}
+
+body.theme-dark .header {
+  background-color: #1e2530;
+  border-bottom-color: #f36f21;
+}
+
+body.theme-dark .top-bar {
+  background-color: #2d3642;
+  color: #e2e8f0;
+  border-bottom-color: #3d4a5c;
+}
+
+body.theme-dark .nav-bar {
+  background-color: #1e2530;
+  border-bottom-color: #00a8f3;
+}
+
+body.theme-dark .menu a {
+  color: #e2e8f0;
+}
+
+body.theme-dark .menu a:hover {
+  color: #ff6600;
+}
+
+body.theme-dark .actions input {
+  background-color: #2d3642;
+  border-color: #3d4a5c;
+  color: #e2e8f0;
+}
+
+body.theme-dark .actions input::placeholder {
+  color: #94a3b8;
+}
+
+body.theme-dark .login-btn {
+  background-color: #ff6600;
+  color: white;
+}
+
+body.theme-dark .banner {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("../Image/9ceecfa7c1d35a103cb8305fe61c764f.jpg");
+}
+
+body.theme-dark .banner-content h1,
+body.theme-dark .banner-content h2,
+body.theme-dark .banner-content p {
+  color: #fff;
+}
+
+body.theme-dark .banner-content .highlight {
+  color: #ff6600;
+}
+
+body.theme-dark .services {
+  background-color: #12161d;
+  color: #e2e8f0;
+}
+
+body.theme-dark .services h2,
+body.theme-dark .services h5,
+body.theme-dark .services p {
+  color: #e2e8f0;
+}
+
+body.theme-dark .sidebar {
+  background-color: #1e2530;
+}
+
+body.theme-dark .sidebar a {
+  color: #e2e8f0;
+}
+
+body.theme-dark .sidebar a:hover {
+  background-color: #ff6600;
+}
+
+body.theme-dark footer {
+  background-color: #1e2530;
+  color: #e2e8f0;
+}
+
+body.theme-dark .dropdown-menu {
+  background-color: #2d3642;
+  border-color: #3d4a5c;
+}
+
+body.theme-dark .dropdown-menu li a {
+  color: #e2e8f0;
+}
+
+body.theme-dark .dropdown-menu li a:hover {
+  background-color: #f36f21;
+  color: #fff;
 }

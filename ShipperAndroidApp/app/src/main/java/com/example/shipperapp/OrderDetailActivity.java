@@ -6,9 +6,9 @@ import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Spinner;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
 import android.widget.TextView;
 import android.util.Log;
 import android.widget.Toast;
@@ -19,13 +19,14 @@ import androidx.core.content.ContextCompat;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import android.os.Handler;
-import android.widget.Switch;
+import com.google.android.material.switchmaterial.SwitchMaterial;
 
 import com.example.shipperapp.api.RetrofitClient;
 import com.example.shipperapp.api.ApiService;
 import com.example.shipperapp.models.LocationCheckpoint;
 import com.example.shipperapp.models.Order;
 import com.example.shipperapp.models.UpdateOrderStatusDto;
+import com.example.shipperapp.services.TrackingService;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -39,19 +40,23 @@ import org.json.JSONObject;
 public class OrderDetailActivity extends AppCompatActivity {
     private final String BASE_URL = "http://10.0.2.2:5221/";
     private int orderId;
+    private int staffId = 1; // TODO: Get from login session
 
     private TextView tvOrderCode, tvStatus;
     private Spinner spinnerStatus;
-    private Button btnUpdateStatus, btnCheckIn;
-    private EditText etLat, etLng, etNote;
+    private MaterialButton btnUpdateStatus, btnCheckIn, btnShowMap;
+    private TextInputEditText etLat, etLng, etNote;
 
     private final List<String> statuses = Arrays.asList("ChuaNhan", "DaNhanChuaGiao", "DaNhanDangGiao", "DaGiao");
     private FusedLocationProviderClient fusedLocationClient;
     private static final int REQ_LOCATION = 1001;
-    private Switch switchAutoTrack;
+    private SwitchMaterial switchAutoTrack;
     private Handler trackHandler = new Handler();
     private Location currentLocation = null;
-    private final long TRACK_INTERVAL_MS = 30 * 1000; // 30 seconds for near real-time tracking
+    private final long TRACK_INTERVAL_MS = 10 * 1000; // 10 seconds for realtime tracking
+    
+    // SignalR Tracking Service
+    private TrackingService trackingService;
     private final Runnable trackRunnable = new Runnable() {
         @Override
         public void run() {
@@ -68,6 +73,13 @@ public class OrderDetailActivity extends AppCompatActivity {
                                 etLat.setText(String.valueOf(location.getLatitude()));
                                 etLng.setText(String.valueOf(location.getLongitude()));
                             });
+                            
+                            // Gửi vị trí qua SignalR (realtime)
+                            if (trackingService != null && trackingService.isConnected()) {
+                                trackingService.sendShipperLocation(staffId, orderId, location.getLatitude(), location.getLongitude());
+                            }
+                            
+                            // Vẫn gửi checkpoint để lưu lịch sử
                             Log.d("OrderDetail", "Calling postCheckInWithLocation...");
                             postCheckInWithLocation(location);
                         } else {
@@ -127,13 +139,30 @@ public class OrderDetailActivity extends AppCompatActivity {
         spinnerStatus.setAdapter(spinnerAdapter);
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        
+        // Khởi tạo SignalR Tracking Service
+        trackingService = new TrackingService(BASE_URL);
+        
         switchAutoTrack = findViewById(R.id.switchAutoTrack);
         switchAutoTrack.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 // disable manual inputs while auto tracking
                 etLat.setEnabled(false);
                 etLng.setEnabled(false);
-                startTracking();
+                
+                // Kết nối SignalR trước khi bắt đầu tracking
+                new Thread(() -> {
+                    try {
+                        trackingService.connect();
+                        runOnUiThread(() -> {
+                            startTracking();
+                            Toast.makeText(this, "✅ Đã kết nối tracking realtime", Toast.LENGTH_SHORT).show();
+                        });
+                    } catch (Exception e) {
+                        Log.e("OrderDetail", "SignalR connect error", e);
+                        runOnUiThread(() -> Toast.makeText(this, "❌ Lỗi kết nối realtime", Toast.LENGTH_SHORT).show());
+                    }
+                }).start();
             } else {
                 stopTracking();
                 etLat.setEnabled(true);
@@ -141,10 +170,19 @@ public class OrderDetailActivity extends AppCompatActivity {
             }
         });
 
+        btnShowMap = findViewById(R.id.btnShowMap);
+        
         loadOrder();
 
         btnUpdateStatus.setOnClickListener(v -> updateStatus());
         btnCheckIn.setOnClickListener(v -> doCheckIn());
+        btnShowMap.setOnClickListener(v -> openMapActivity());
+    }
+    
+    private void openMapActivity() {
+        android.content.Intent intent = new android.content.Intent(this, OrderMapActivity.class);
+        intent.putExtra("orderId", orderId);
+        startActivity(intent);
     }
 
     private void startTracking() {
@@ -181,7 +219,22 @@ public class OrderDetailActivity extends AppCompatActivity {
         Log.d("OrderDetail", "*** STOP TRACKING called");
         trackHandler.removeCallbacks(trackRunnable);
         currentLocation = null;
+        
+        // Ngắt kết nối SignalR
+        if (trackingService != null) {
+            new Thread(() -> trackingService.disconnect()).start();
+        }
+        
         Toast.makeText(this, "Đã tắt chia sẻ vị trí", Toast.LENGTH_SHORT).show();
+    }
+    
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        stopTracking();
+        if (trackingService != null) {
+            new Thread(() -> trackingService.disconnect()).start();
+        }
     }
 
     private void loadOrder() {

@@ -1,0 +1,13 @@
+{
+  "description": "Bot hỗ trợ hệ thống giao hàng",
+  "language": "vi",
+  "displayName": "DeliveryBot",
+  "defaultTimezone": "Asia/Bangkok",
+  "webhook": {
+    "available": true
+  },
+  "isPrivate": true,
+  "mlMinConfidence": 0.3,
+  "enableOnePlatformApi": true,
+  "onePlatformApiVersion": "v2"
+}

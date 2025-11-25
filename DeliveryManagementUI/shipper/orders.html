@@ -6,7 +6,11 @@
   <title>Shipper - Đơn hàng của tôi</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <link rel="stylesheet" href="../css/style.css" />
+  <style>
+    #routeMap { height: 350px; border-radius: 8px; margin-bottom: 15px; }
+  </style>
 </head>
 <body>
   <nav class="navbar navbar-expand-lg navbar-dark bg-primary border-bottom">
@@ -64,28 +68,79 @@
     </div>
     <!-- Modal cập nhật trạng thái -->
     <div class="modal fade" id="updateStatusModal" tabindex="-1" aria-labelledby="updateStatusModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
+      <div class="modal-dialog modal-lg">
         <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="updateStatusModalLabel">Cập nhật trạng thái đơn hàng</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <div class="modal-header bg-primary text-white">
+            <h5 class="modal-title" id="updateStatusModalLabel">
+              <i class="fas fa-box"></i> Chi tiết đơn hàng
+            </h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
+            <!-- Bản đồ lộ trình -->
+            <div class="mb-3">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <label class="form-label mb-0">
+                  <i class="fas fa-map-marked-alt"></i> Lộ trình giao hàng
+                </label>
+                <button type="button" class="btn btn-sm btn-outline-primary" onclick="refreshGPS()">
+                  <i class="fas fa-sync-alt"></i> Lấy vị trí
+                </button>
+              </div>
+              <div id="routeMap"></div>
+              <div id="distanceInfo" class="text-muted small"></div>
+            </div>
+            
             <form id="updateStatusForm">
               <input type="hidden" id="modalOrderId" />
-              <div class="mb-3">
-                <label for="orderStatusSelect" class="form-label">Trạng thái mới</label>
-                <select class="form-select" id="orderStatusSelect" required>
-                  <option value="1">Đã nhận - Chưa giao</option>
-                  <option value="2">Đang giao</option>
-                  <option value="3">Đã giao</option>
-                </select>
+              
+              <!-- Thông tin đơn hàng -->
+              <div class="card mb-3 border-primary">
+                <div class="card-header bg-light">
+                  <h6 class="mb-0"><i class="fas fa-info-circle text-primary"></i> Thông tin chi tiết</h6>
+                </div>
+                <div class="card-body">
+                  <div id="orderInfoInModal"></div>
+                </div>
               </div>
-              <div class="mb-3">
-                <label for="gpsLocation" class="form-label">Vị trí hiện tại (GPS)</label>
-                <input type="text" class="form-control" id="gpsLocation" placeholder="Tự động lấy khi cập nhật" readonly />
+              
+              <h6 class="mb-3"><i class="fas fa-edit text-success"></i> Cập nhật trạng thái đơn hàng</h6>
+              
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="orderStatusSelect" class="form-label">Trạng thái mới</label>
+                  <select class="form-select" id="orderStatusSelect" required>
+                    <option value="2">📦 Đang lấy hàng</option>
+                    <option value="3">🚚 Đang giao</option>
+                    <option value="4">✅ Đã giao</option>
+                  </select>
+                </div>
+                
+                <div class="col-md-6 mb-3">
+                  <label for="gpsLocation" class="form-label">
+                    <i class="fas fa-map-marker-alt"></i> Vị trí hiện tại
+                  </label>
+                  <input type="text" class="form-control" id="gpsLocation" placeholder="Đang lấy GPS..." readonly />
+                </div>
               </div>
-              <button type="submit" class="btn btn-primary">Cập nhật</button>
+              
+              <div class="mb-3">
+                <label for="deliveryNotes" class="form-label">Ghi chú (tùy chọn)</label>
+                <textarea class="form-control" id="deliveryNotes" rows="2" placeholder="Ghi chú về quá trình giao hàng..."></textarea>
+              </div>
+              
+              <div class="form-check mb-3">
+                <input class="form-check-input" type="checkbox" id="shareLocationCheckbox" checked>
+                <label class="form-check-label" for="shareLocationCheckbox">
+                  <i class="fas fa-satellite-dish"></i> Chia sẻ vị trí realtime cho khách hàng
+                </label>
+              </div>
+              
+              <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-success btn-lg">
+                  <i class="fas fa-check-circle"></i> Cập nhật trạng thái đơn hàng
+                </button>
+              </div>
             </form>
           </div>
         </div>
@@ -93,6 +148,8 @@
     </div>
   </div>
 
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@microsoft/signalr@latest/dist/browser/signalr.min.js"></script>
   <script src="../js/api-service.js"></script>
   <script src="./js/shipper-common.js"></script>
   <script src="./js/shipper-orders.js"></script>

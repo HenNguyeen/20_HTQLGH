@@ -1,0 +1,34 @@
+{
+  "name": "TraCuuDonHang",
+  "auto": true,
+  "webhookUsed": true,
+  "fallbackIntent": false,
+  "responses": [
+    {
+      "resetContexts": false,
+      "action": "tra-cuu-don-hang",
+      "parameters": [
+        {
+          "name": "order-id",
+          "required": true,
+          "dataType": "@sys.number-integer",
+          "value": "$order-id",
+          "prompts": [
+            {
+              "lang": "vi",
+              "value": "Vui lòng cho tôi biết mã đơn hàng (ví dụ: 1, 2, 3) để tôi tra cứu cho bạn nhé!"
+            }
+          ],
+          "isList": false
+        }
+      ],
+      "messages": [
+        {
+          "type": 0,
+          "lang": "vi",
+          "speech": []
+        }
+      ]
+    }
+  ]
+}

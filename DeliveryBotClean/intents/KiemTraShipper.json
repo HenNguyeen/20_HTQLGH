@@ -1,0 +1,29 @@
+{
+  "name": "KiemTraShipper",
+  "auto": true,
+  "webhookUsed": true,
+  "fallbackIntent": false,
+  "responses": [
+    {
+      "resetContexts": false,
+      "action": "kiem-tra-shipper",
+      "parameters": [
+        {
+          "name": "shipper-name",
+          "required": false,
+          "dataType": "@sys.any",
+          "value": "$shipper-name",
+          "prompts": [],
+          "isList": false
+        }
+      ],
+      "messages": [
+        {
+          "type": 0,
+          "lang": "vi",
+          "speech": []
+        }
+      ]
+    }
+  ]
+}

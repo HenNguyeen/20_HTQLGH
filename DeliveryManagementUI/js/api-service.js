@@ -92,13 +92,39 @@ const auth = {
 // API Service Class
 class ApiService {
     constructor(baseUrl) {
-        this.baseUrl = baseUrl;
+        this.baseURL = baseUrl;
+    }
+
+    // Helper method for GET requests
+    async get(endpoint) {
+        return await this.request(endpoint, { method: 'GET' });
+    }
+
+    // Helper method for POST requests
+    async post(endpoint, data) {
+        return await this.request(endpoint, {
+            method: 'POST',
+            body: JSON.stringify(data)
+        });
+    }
+
+    // Helper method for PUT requests
+    async put(endpoint, data) {
+        return await this.request(endpoint, {
+            method: 'PUT',
+            body: JSON.stringify(data)
+        });
+    }
+
+    // Helper method for DELETE requests
+    async delete(endpoint) {
+        return await this.request(endpoint, { method: 'DELETE' });
     }
 
     // Generic request method with JWT authentication
     async request(endpoint, options = {}) {
         try {
-            const url = `${this.baseUrl}${endpoint}`;
+            const url = `${this.baseURL}${endpoint}`;
             
             // Add Authorization header if token exists
             const token = auth.getToken();
@@ -179,14 +205,22 @@ class ApiService {
     }
 
     // Cập nhật trạng thái đơn hàng, cho phép truyền GPS location (nếu có)
-    async updateOrderStatus(id, status, gpsLocation = null) {
-        // Nếu gpsLocation có, gửi kèm lên backend
-        const body = gpsLocation !== null
-            ? JSON.stringify({ status, gpsLocation })
-            : JSON.stringify({ status });
+    async updateOrderStatus(id, status, gpsLocation = null, notes = null) {
+        // Backend expects UpdateOrderStatusDto format
+        const payload = {
+            status: parseInt(status),
+            orderId: id.toString(),
+            staffId: "", // Optional
+            notes: notes || ""
+        };
+        
+        if (gpsLocation) {
+            payload.gpsLocation = gpsLocation;
+        }
+        
         return await this.request(`/orders/${id}/status`, {
             method: 'PATCH',
-            body
+            body: JSON.stringify(payload)
         });
     }
 
@@ -224,6 +258,18 @@ class ApiService {
 
     async getMyFeedbacks() {
         return await this.request('/feedback/my');
+    }
+
+    async getStaffRating(staffId) {
+        return await this.request(`/feedback/staff/${staffId}/rating`);
+    }
+
+    async getAllFeedbacks() {
+        return await this.request('/feedback');
+    }
+
+    async getMyRatings() {
+        return await this.request('/feedback/my-ratings');
     }
 
     // Delivery Staff API
@@ -428,6 +474,52 @@ class ApiService {
 
         async getByPackageType() {
             return await this.request('/reports/by-package-type');
+        }
+
+        async getStaffPerformance() {
+            return await this.request('/reports/staff-performance');
+        }
+
+        // ===== CHAT API =====
+        async getChatOrders() {
+            return await this.request('/chat/orders');
+        }
+
+        async getChatMessages(orderId) {
+            return await this.request(`/chat/order/${orderId}`);
+        }
+
+        async getMyMessages() {
+            return await this.request('/chat/my-messages');
+        }
+
+        async sendChatMessage(messageData) {
+            return await this.request('/chat/send', {
+                method: 'POST',
+                body: JSON.stringify(messageData)
+            });
+        }
+
+        async uploadChatImage(formData) {
+            const token = auth.getToken();
+            if (!token) {
+                throw new Error('Not authenticated');
+            }
+            
+            const response = await fetch(`${this.baseURL}/chat/upload`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+                body: formData
+            });
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                throw new Error(`Upload failed: ${errorText}`);
+            }
+
+            return await response.json();
         }
 }
 

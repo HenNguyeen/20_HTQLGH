@@ -137,5 +137,65 @@ namespace DeliveryManagementAPI.Controllers
 
             return Ok(result);
         }
+
+        [HttpGet("staff-performance")]
+        public async Task<ActionResult<IEnumerable<object>>> GetStaffPerformance()
+        {
+            var staffList = await _context.DeliveryStaffs.ToListAsync();
+            var result = new List<object>();
+
+            foreach (var staff in staffList)
+            {
+                var staffIdStr = staff.StaffId.ToString();
+                
+                // Đếm số đơn
+                var orderCount = await _context.Orders
+                    .Where(o => o.AssignedStaffId == staffIdStr)
+                    .CountAsync();
+
+                // Tính doanh thu
+                var revenue = await _context.Orders
+                    .Where(o => o.AssignedStaffId == staffIdStr && o.IsPaid && o.Status == OrderStatus.DaGiao)
+                    .SumAsync(o => (decimal?)o.ShippingFee) ?? 0m;
+
+                // Lấy order IDs
+                var orderIds = await _context.Orders
+                    .Where(o => o.AssignedStaffId == staffIdStr)
+                    .Select(o => o.OrderId)
+                    .ToListAsync();
+
+                // Tính rating trung bình
+                double averageRating = 0;
+                int feedbackCount = 0;
+
+                if (orderIds.Any())
+                {
+                    var feedbacks = await _context.Feedbacks
+                        .Where(f => orderIds.Contains(f.OrderId))
+                        .ToListAsync();
+
+                    if (feedbacks.Any())
+                    {
+                        averageRating = feedbacks.Average(f => f.Rating);
+                        feedbackCount = feedbacks.Count;
+                    }
+                }
+
+                result.Add(new
+                {
+                    staffId = staff.StaffId,
+                    staffName = staff.FullName,
+                    phoneNumber = staff.PhoneNumber,
+                    vehicleType = staff.VehicleType,
+                    isAvailable = staff.IsAvailable,
+                    orderCount,
+                    revenue,
+                    averageRating = Math.Round(averageRating, 2),
+                    feedbackCount
+                });
+            }
+
+            return Ok(result.OrderByDescending(x => ((dynamic)x).averageRating));
+        }
     }
 }

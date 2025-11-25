@@ -1,4 +1,0 @@
-com.example.shipperapp.test.app-androidTest-0 C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\build\generated\res\resValues\androidTest\debug
-com.example.shipperapp.test.app-mergeDebugAndroidTestResources-1 C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\build\intermediates\incremental\debugAndroidTest\mergeDebugAndroidTestResources\merged.dir
-com.example.shipperapp.test.app-mergeDebugAndroidTestResources-2 C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\build\intermediates\incremental\debugAndroidTest\mergeDebugAndroidTestResources\stripped.dir
-com.example.shipperapp.test.app-debugAndroidTest-3 C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\build\intermediates\merged_res\debugAndroidTest\mergeDebugAndroidTestResources

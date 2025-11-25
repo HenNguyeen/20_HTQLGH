@@ -21,7 +21,6 @@
           </button>
           <ul class="dropdown-menu dropdown-menu-end">
             <li><h6 class="dropdown-header"><span class="user-name">User</span></h6></li>
-            <li><a class="dropdown-item" href="./orders.html"><i class="fas fa-box me-2"></i>Đơn của tôi</a></li>
             <li><a class="dropdown-item" href="../profile.html"><i class="fas fa-user me-2"></i>Thông tin tài khoản</a></li>
             <li><a class="dropdown-item" href="#" id="toggleAvailability"><i class="fas fa-toggle-on me-2"></i>Đổi trạng thái</a></li>
             <li><hr class="dropdown-divider"></li>
@@ -98,11 +97,42 @@
       </div>
     </div>
 
-    <!-- Đơn hàng gần đây -->
+    <!-- Đánh giá của tôi -->
+    <div class="row mb-4">
+      <div class="col-md-12">
+        <div class="card shadow-sm">
+          <div class="card-header bg-warning text-white">
+            <h5 class="mb-0"><i class="fas fa-star"></i> Đánh Giá Của Tôi</h5>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-4 text-center border-end">
+                <h1 class="display-4 text-warning mb-2" id="myAverageRating">0.0</h1>
+                <div id="ratingStars" class="mb-2">
+                  <i class="far fa-star"></i>
+                  <i class="far fa-star"></i>
+                  <i class="far fa-star"></i>
+                  <i class="far fa-star"></i>
+                  <i class="far fa-star"></i>
+                </div>
+                <p class="text-muted mb-0"><span id="totalRatings">0</span> đánh giá</p>
+              </div>
+              <div class="col-md-8">
+                <h6 class="mb-3">Đánh giá gần đây:</h6>
+                <div id="recentRatings" style="max-height: 200px; overflow-y: auto;">
+                  <p class="text-muted text-center">Chưa có đánh giá nào</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Đơn hàng của tôi -->
     <div class="card">
-      <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-        <h5 class="mb-0"><i class="fas fa-list"></i> Đơn hàng gần đây</h5>
-        <a href="./orders.html" class="btn btn-sm btn-light">Xem tất cả</a>
+      <div class="card-header bg-primary text-white">
+        <h5 class="mb-0"><i class="fas fa-list"></i> Đơn hàng của tôi</h5>
       </div>
       <div class="card-body">
         <div class="table-responsive">
@@ -123,8 +153,92 @@
         </div>
       </div>
     </div>
+    
+    <!-- Modal chi tiết đơn hàng -->
+    <div class="modal fade" id="updateStatusModal" tabindex="-1" aria-labelledby="updateStatusModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header bg-primary text-white">
+            <h5 class="modal-title" id="updateStatusModalLabel">
+              <i class="fas fa-box"></i> Chi tiết đơn hàng
+            </h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <!-- Bản đồ lộ trình -->
+            <div class="mb-3">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <label class="form-label mb-0">
+                  <i class="fas fa-map-marked-alt"></i> Lộ trình giao hàng
+                </label>
+                <button type="button" class="btn btn-sm btn-outline-primary" onclick="refreshGPS()">
+                  <i class="fas fa-sync-alt"></i> Lấy vị trí
+                </button>
+              </div>
+              <div id="routeMap" style="height: 350px; border-radius: 8px; margin-bottom: 15px;"></div>
+              <div id="distanceInfo" class="text-muted small"></div>
+            </div>
+            
+            <form id="updateStatusForm">
+              <input type="hidden" id="modalOrderId" />
+              
+              <!-- Thông tin đơn hàng -->
+              <div class="card mb-3 border-primary">
+                <div class="card-header bg-light">
+                  <h6 class="mb-0"><i class="fas fa-info-circle text-primary"></i> Thông tin chi tiết</h6>
+                </div>
+                <div class="card-body">
+                  <div id="orderInfoInModal"></div>
+                </div>
+              </div>
+              
+              <h6 class="mb-3"><i class="fas fa-edit text-success"></i> Cập nhật trạng thái đơn hàng</h6>
+              
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="orderStatusSelect" class="form-label">Trạng thái mới</label>
+                  <select class="form-select" id="orderStatusSelect" required>
+                    <option value="2">📦 Đang lấy hàng</option>
+                    <option value="3">🚚 Đang giao</option>
+                    <option value="4">✅ Đã giao</option>
+                  </select>
+                </div>
+                
+                <div class="col-md-6 mb-3">
+                  <label for="gpsLocation" class="form-label">
+                    <i class="fas fa-map-marker-alt"></i> Vị trí hiện tại
+                  </label>
+                  <input type="text" class="form-control" id="gpsLocation" placeholder="Đang lấy GPS..." readonly />
+                </div>
+              </div>
+              
+              <div class="mb-3">
+                <label for="deliveryNotes" class="form-label">Ghi chú (tùy chọn)</label>
+                <textarea class="form-control" id="deliveryNotes" rows="2" placeholder="Ghi chú về quá trình giao hàng..."></textarea>
+              </div>
+              
+              <div class="form-check mb-3">
+                <input class="form-check-input" type="checkbox" id="shareLocationCheckbox" checked>
+                <label class="form-check-label" for="shareLocationCheckbox">
+                  <i class="fas fa-satellite-dish"></i> Chia sẻ vị trí realtime cho khách hàng
+                </label>
+              </div>
+              
+              <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-success btn-lg">
+                  <i class="fas fa-check-circle"></i> Cập nhật trạng thái đơn hàng
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@microsoft/signalr@latest/dist/browser/signalr.min.js"></script>
   <script src="../js/api-service.js"></script>
   <script src="./js/shipper-common.js"></script>
   <script src="./js/shipper-home.js"></script>

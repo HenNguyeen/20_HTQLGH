@@ -13,6 +13,14 @@
     --warning-color: #f6c23e;
     --info-color: #36b9cc;
     --sidebar-width: 260px;
+    /* Additional semantic tokens for theming */
+    --bg-color: #f8f9fc;
+    --text-color: #1f2d3d;
+    --card-bg: #ffffff;
+    --card-border: #e3e6f0;
+    --navbar-bg: #ffffff;
+    --sidebar-bg-start: #4e73df;
+    --sidebar-bg-end: #224abe;
 }
 
 body {
@@ -355,3 +363,142 @@ body {
 ::-webkit-scrollbar-thumb:hover {
     background: #224abe;
 }
+
+/* =============================
+   Dark Theme Overrides
+   Apply by adding class theme-dark to <body>
+   ============================= */
+body.theme-dark {
+    --bg-color: #12161d;
+    --text-color: #e2e8f0;
+    --card-bg: #1e2530;
+    --card-border: #2d3642;
+    --navbar-bg: #1e2530;
+    --sidebar-bg-start: #2d3e50;
+    --sidebar-bg-end: #1b2734;
+    background-color: var(--bg-color);
+    color: var(--text-color) !important;
+}
+
+/* Force light text for all elements in dark mode */
+body.theme-dark * {
+    border-color: var(--card-border);
+}
+
+body.theme-dark p,
+body.theme-dark span,
+body.theme-dark div,
+body.theme-dark label,
+body.theme-dark td,
+body.theme-dark th,
+body.theme-dark li,
+body.theme-dark a {
+    color: #e2e8f0;
+}
+
+body.theme-dark .navbar {
+    background-color: var(--navbar-bg) !important;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.6);
+}
+
+body.theme-dark .sidebar {
+    background: linear-gradient(180deg, var(--sidebar-bg-start) 0%, var(--sidebar-bg-end) 100%);
+    box-shadow: 2px 0 12px rgba(0,0,0,0.8);
+}
+
+body.theme-dark .card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.6);
+}
+
+body.theme-dark .card-header {
+    background-color: var(--card-bg);
+    border-bottom: 1px solid var(--card-border);
+    color: var(--text-color);
+}
+body.theme-dark .card-header h5,
+body.theme-dark .card-header h6 {
+    color: #f1f5f9 !important;
+}
+
+body.theme-dark .table thead th {
+    color: #cbd5e1 !important;
+    border-bottom-color: var(--card-border);
+}
+body.theme-dark .table td,
+body.theme-dark .table td * { 
+    color: #e2e8f0 !important; 
+}
+body.theme-dark .table {
+    color: #e2e8f0;
+}
+body.theme-dark .table tbody tr:hover {
+    background-color: rgba(255,255,255,0.05);
+}
+
+body.theme-dark .form-control,
+body.theme-dark .form-select {
+    background-color: #26303c;
+    border-color: var(--card-border);
+    color: var(--text-color);
+}
+body.theme-dark .form-control:focus,
+body.theme-dark .form-select:focus {
+    background-color: #2d3642;
+    color: var(--text-color);
+}
+body.theme-dark .form-control::placeholder {
+    color: #94a3b8;
+}
+
+body.theme-dark .form-label,
+body.theme-dark h1, body.theme-dark h2, body.theme-dark h3, 
+body.theme-dark h4, body.theme-dark h5, body.theme-dark h6 {
+    color: #f1f5f9;
+}
+
+body.theme-dark .btn-outline-secondary {
+    color: #cbd5e1;
+    border-color: #475569;
+    background-color: transparent;
+}
+body.theme-dark .btn-outline-secondary:hover {
+    background-color: #475569;
+    border-color: #475569;
+    color: #f1f5f9;
+}
+
+body.theme-dark .badge {
+    color: #ffffff;
+}
+
+body.theme-dark .dropdown-menu {
+    background-color: var(--card-bg);
+    border-color: var(--card-border);
+}
+body.theme-dark .dropdown-item {
+    color: var(--text-color);
+}
+body.theme-dark .dropdown-item:hover {
+    background-color: rgba(255,255,255,0.1);
+    color: #f1f5f9;
+}
+
+body.theme-dark .modal-content { background-color: var(--card-bg); }
+body.theme-dark .modal-header {
+    background-color: var(--sidebar-bg-start);
+    border-bottom-color: var(--card-border);
+}
+body.theme-dark .modal-body {
+    color: var(--text-color);
+}
+
+body.theme-dark .status-pending { background-color: #374151; color: #9ca3af; }
+body.theme-dark .status-received { background-color: #4b5563; color: #fcd34d; }
+body.theme-dark .status-delivering { background-color: #1e3a8a; color: #bfdbfe; }
+body.theme-dark .status-completed { background-color: #065f46; color: #d1fae5; }
+
+body.theme-dark ::-webkit-scrollbar-track { background: #1e2530; }
+body.theme-dark ::-webkit-scrollbar-thumb { background: #3b495a; }
+body.theme-dark ::-webkit-scrollbar-thumb:hover { background: #4e5d70; }

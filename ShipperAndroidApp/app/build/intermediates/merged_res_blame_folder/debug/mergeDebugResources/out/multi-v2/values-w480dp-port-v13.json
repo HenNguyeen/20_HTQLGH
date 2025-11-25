@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.shipperapp-mergeDebugResources-30:/values-w480dp-port-v13/values-w480dp-port-v13.xml",
+            "outputFile": "com.example.shipperapp-mergeDebugResources-31:/values-w480dp-port-v13/values-w480dp-port-v13.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\DELL\\.gradle\\caches\\8.10.2\\transforms\\24118e7e34d366939c3d4889d0c02ab8\\transformed\\material-1.8.0\\res\\values-w480dp-port-v13\\values-w480dp-port-v13.xml",
+                    "source": "C:\\Users\\DELL\\.gradle\\caches\\8.10.2\\transforms\\0591ea510023f65242f243d2d59d3743\\transformed\\material-1.9.0\\res\\values-w480dp-port-v13\\values-w480dp-port-v13.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9",
                         "startColumns": "4,4,4,4,4,4,4,4",

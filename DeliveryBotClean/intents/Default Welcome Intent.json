@@ -1,0 +1,21 @@
+{
+  "name": "Default Welcome Intent",
+  "auto": true,
+  "webhookUsed": false,
+  "fallbackIntent": false,
+  "responses": [
+    {
+      "resetContexts": false,
+      "messages": [
+        {
+          "type": 0,
+          "lang": "vi",
+          "speech": [
+            "Xin chào! Tôi là trợ lý ảo của Hệ thống Quản lý Giao hàng 🚚",
+            "Tôi có thể giúp bạn kiểm tra đơn hàng, tra cứu shipper, hoặc tư vấn về dịch vụ giao hàng. Bạn cần hỗ trợ gì?"
+          ]
+        }
+      ]
+    }
+  ]
+}

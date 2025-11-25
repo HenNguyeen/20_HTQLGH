@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.shipperapp-mergeDebugResources-30:/values-xlarge-v4/values-xlarge-v4.xml",
+            "outputFile": "com.example.shipperapp-mergeDebugResources-31:/values-xlarge-v4/values-xlarge-v4.xml",
             "map": [
                 {
                     "source": "C:\\Users\\DELL\\.gradle\\caches\\8.10.2\\transforms\\3f5c227d4f2b56954934b3215d6e6f6e\\transformed\\appcompat-1.6.1\\res\\values-xlarge-v4\\values-xlarge-v4.xml",

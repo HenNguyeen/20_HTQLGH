@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hệ thống Bưu cục GHTD toàn quốc | Giao Hàng Tốc Độ</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="icon" href="https://ghn.vn/favicon.ico">
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .header {
+      background: #fff;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    .top-bar {
+      background: #ffc107;
+      color: #333;
+      padding: 10px 0;
+      text-align: center;
+      font-size: 14px;
+    }
+    .top-bar span {
+      margin: 0 20px;
+    }
+    .nav-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 50px;
+    }
+    .logo img {
+      height: 50px;
+    }
+    .menu {
+      display: flex;
+      gap: 30px;
+    }
+    .menu a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+    .menu a:hover {
+      color: #ffc107;
+    }
+    .actions a {
+      margin-left: 10px;
+    }
+    .hero-section {
+      background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%);
+      padding: 80px 0;
+      color: white;
+      text-align: center;
+    }
+    .hero-section h1 {
+      font-size: 3rem;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+    .hero-section p {
+      font-size: 1.2rem;
+      opacity: 0.95;
+    }
+    .search-section {
+      background: white;
+      border-radius: 15px;
+      padding: 30px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+      margin-top: -50px;
+      position: relative;
+      z-index: 10;
+    }
+    .location-card {
+      border: 2px solid #ffc107;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 20px;
+      transition: all 0.3s;
+      background: white;
+    }
+    .location-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(255, 193, 7, 0.3);
+      border-color: #ff9800;
+    }
+    .location-card h5 {
+      color: #ff9800;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+    .location-card .info-item {
+      display: flex;
+      align-items: start;
+      margin-bottom: 10px;
+    }
+    .location-card .info-item i {
+      color: #ffc107;
+      margin-right: 10px;
+      margin-top: 3px;
+    }
+    .region-tabs {
+      border-bottom: 3px solid #ffc107;
+      margin-bottom: 30px;
+    }
+    .region-tabs .nav-link {
+      color: #666;
+      font-weight: 600;
+      border: none;
+      padding: 15px 30px;
+      transition: all 0.3s;
+    }
+    .region-tabs .nav-link:hover {
+      color: #ff9800;
+      background: #fff5e6;
+    }
+    .region-tabs .nav-link.active {
+      color: #ff9800;
+      background: #fff5e6;
+      border-bottom: 3px solid #ff9800;
+    }
+    .map-container {
+      width: 100%;
+      height: 600px;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+      margin-bottom: 40px;
+    }
+    .stats-box {
+      background: linear-gradient(135deg, #fff5e6, #fffbf0);
+      border-radius: 15px;
+      padding: 30px;
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    .stats-box h2 {
+      color: #ff9800;
+      font-weight: bold;
+      font-size: 3rem;
+    }
+    .stats-box p {
+      color: #666;
+      font-size: 1.1rem;
+    }
+    footer {
+      background: #333;
+      color: white;
+      text-align: center;
+      padding: 30px 0;
+      margin-top: 50px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="top-bar">
+      <span>📞 1900 636677</span>
+      <span>📍 Bưu cục GHTD toàn quốc</span>
+    </div>
+
+    <div class="nav-bar">
+      <div class="logo">
+        <a href="Home/home.html">
+          <img src="Image/Logo.jpg" alt="GHTD Logo">
+        </a>
+      </div>
+
+      <nav class="menu">
+        <a href="Home/home.html">Trang chủ</a>
+        <a href="Home/home.html#dichvu">Dịch vụ</a>
+        <a href="Home/home.html#gioithieu">Giới thiệu</a>
+        <a href="Home/home.html#hotro">Hỗ trợ</a>
+        <a href="Home/home.html#thongtin">Thông tin</a>
+      </nav>
+
+      <div class="actions">
+        <a href="login.html" class="btn btn-warning">Đăng ký / Đăng nhập</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container">
+      <h1><i class="fas fa-map-marked-alt"></i> HỆ THỐNG BƯU CỤC GHTD</h1>
+      <p>Phủ sóng toàn quốc - Giao hàng nhanh chóng đến mọi miền đất nước</p>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <div class="container mt-5">
+    <!-- Search Section -->
+    <div class="search-section">
+      <h3 class="text-center mb-4" style="color: #ff9800;">
+        <i class="fas fa-search"></i> TÌM KIẾM BƯU CỤC GẦN BẠN
+      </h3>
+      <div class="row">
+        <div class="col-md-4 mb-3">
+          <select class="form-select form-select-lg" id="provinceSelect">
+            <option selected>Chọn Tỉnh/Thành phố</option>
+            <option value="hanoi">Hà Nội</option>
+            <option value="hcm">Hồ Chí Minh</option>
+            <option value="danang">Đà Nẵng</option>
+            <option value="haiphong">Hải Phòng</option>
+            <option value="cantho">Cần Thơ</option>
+          </select>
+        </div>
+        <div class="col-md-4 mb-3">
+          <select class="form-select form-select-lg" id="districtSelect">
+            <option selected>Chọn Quận/Huyện</option>
+          </select>
+        </div>
+        <div class="col-md-4 mb-3">
+          <button class="btn btn-warning btn-lg w-100">
+            <i class="fas fa-search"></i> Tìm kiếm
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="row mt-5">
+      <div class="col-md-4">
+        <div class="stats-box">
+          <i class="fas fa-building fa-3x mb-3" style="color: #ff9800;"></i>
+          <h2>500+</h2>
+          <p>Bưu cục trên toàn quốc</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="stats-box">
+          <i class="fas fa-map-marked-alt fa-3x mb-3" style="color: #ff9800;"></i>
+          <h2>63/63</h2>
+          <p>Tỉnh/Thành phố</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="stats-box">
+          <i class="fas fa-clock fa-3x mb-3" style="color: #ff9800;"></i>
+          <h2>24/7</h2>
+          <p>Hoạt động liên tục</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Map Section -->
+    <div class="mt-5">
+      <h3 class="text-center mb-4" style="color: #ff9800;">
+        <i class="fas fa-globe"></i> BẢN ĐỒ HỆ THỐNG BƯU CỤC
+      </h3>
+      <div class="map-container">
+        <iframe 
+          src="https://www.google.com/maps/d/embed?mid=1A3N40Ysq9d8Et7ORM3CVPDgNDqRplJOv" 
+          width="100%" 
+          height="100%" 
+          frameborder="0" 
+          style="border:0;" 
+          allowfullscreen>
+        </iframe>
+      </div>
+    </div>
+
+    <!-- Region Tabs -->
+    <div class="mt-5">
+      <h3 class="text-center mb-4" style="color: #ff9800;">
+        <i class="fas fa-list"></i> DANH SÁCH BƯU CỤC THEO KHU VỰC
+      </h3>
+      
+      <ul class="nav nav-tabs region-tabs" id="regionTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" id="north-tab" data-bs-toggle="tab" data-bs-target="#north" type="button">
+            <i class="fas fa-location-arrow"></i> Miền Bắc
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="central-tab" data-bs-toggle="tab" data-bs-target="#central" type="button">
+            <i class="fas fa-location-arrow"></i> Miền Trung
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="south-tab" data-bs-toggle="tab" data-bs-target="#south" type="button">
+            <i class="fas fa-location-arrow"></i> Miền Nam
+          </button>
+        </li>
+      </ul>
+
+      <div class="tab-content mt-4" id="regionTabContent">
+        <!-- Miền Bắc -->
+        <div class="tab-pane fade show active" id="north" role="tabpanel">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="location-card">
+                <h5><i class="fas fa-building"></i> BƯU CỤC HÀ NỘI - TRUNG TÂM</h5>
+                <div class="info-item">
+                  <i class="fas fa-map-marker-alt"></i>
+                  <span>Số 45 Phố Huế, Quận Hai Bà Trưng, Hà Nội</span>
+                </div>
+                <div class="info-item">
+                  <i class="fas fa-phone"></i>
+                  <span>024 3971 5555</span>
+                </div>
+                <div class="info-item">
+                  <i class="fas fa-clock"></i>
+                  <span>Giờ làm việc: 8:00 - 18:00 (T2-T7)</span>
+                </div>
+                <button class="btn btn-outline-warning btn-sm mt-2">
+                  <i class="fas fa-directions"></i> Xem đường đi
+                </button>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="location-card">
+                <h5><i class="fas fa-building"></i> BƯU CỤC HÀ NỘI - TÂY</h5>
+                <div class="info-item">
+                  <i class="fas fa-map-marker-alt"></i>
+                  <span>Số 123 Phạm Hùng, Quận Cầu Giấy, Hà Nội</span>
+                </div>
+                <div class="info-item">
+                  <i class="fas fa-phone"></i>
+                  <span>024 3971 6666</span>
+                </div>
+                <div class="info-item">
+                  <i class="fas fa-clock"></i>
+                  <span>Giờ làm việc: 8:00 - 18:00 (T2-T7)</span>
+                </div>
+                <button class="btn btn-outline-warning btn-sm mt-2">
+                  <i class="fas fa-directions"></i> Xem đường đi
+                </button>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="location-card">
+                <h5><i class="fas fa-building"></i> BƯU CỤC HẢI PHÒNG</h5>
+                <div class="info-item">
+                  <i class="fas fa-map-marker-alt"></i>
+                  <span>Số 67 Lê Lợi, Quận Ngô Quyền, Hải Phòng</span>
+                </div>
+                <div class="info-item">
+                  <i class="fas fa-phone"></i>
+                  <span>0225 3842 999</span>
+                </div>
+                <div class="info-item">
+                  <i class="fas fa-clock"></i>
+                  <span>Giờ làm việc: 8:00 - 18:00 (T2-T7)</span>
+                </div>
+                <button class="btn btn-outline-warning btn-sm mt-2">
+                  <i class="fas fa-directions"></i> Xem đường đi
+                </button>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="location-card">
+                <h5><i class="fas fa-building"></i> BƯU CỤC QUẢNG NINH</h5>
+                <div class="info-item">
+                  <i class="fas fa-map-marker-alt"></i>
+                  <span>Số 234 Hạ Long, TP Hạ Long, Quảng Ninh</span>
+                </div>
+                <div class="info-item">
+                  <i class="fas fa-phone"></i>
+                  <span>0203 3825 777</span>
+                </div>
+                <div class="info-item">
+                  <i class="fas fa-clock"></i>
+                  <span>Giờ làm việc: 8:00 - 18:00 (T2-T7)</span>
+                </div>
+                <button class="btn btn-outline-warning btn-sm mt-2">
+                  <i class="fas fa-directions"></i> Xem đường đi
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Miền Trung -->
+        <div class="tab-pane fade" id="central" role="tabpanel">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="location-card">
+                <h5><i class="fas fa-building"></i> BƯU CỤC ĐÀ NẴNG - HẢI CHÂU</h5>
+                <div class="info-item">
+                  <i class="fas fa-map-marker-alt"></i>
+                  <span>Số 89 Hùng Vương, Quận Hải Châu, Đà Nẵng</span>
+                </div>
+                <div class="info-item">
+                  <i class="fas fa-phone"></i>
+                  <span>0236 3741 888</span>
+                </div>
+                <div class="info-item">
+                  <i class="fas fa-clock"></i>
+                  <span>Giờ làm việc: 8:00 - 18:00 (T2-T7)</span>
+                </div>
+                <button class="btn btn-outline-warning btn-sm mt-2">
+                  <i class="fas fa-directions"></i> Xem đường đi
+                </button>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="location-card">
+                <h5><i class="fas fa-building"></i> BƯU CỤC HUẾ</h5>
+                <div class="info-item">
+                  <i class="fas fa-map-marker-alt"></i>
+                  <span>Số 156 Lê Duẩn, TP Huế, Thừa Thiên Huế</span>
+                </div>
+                <div class="info-item">
+                  <i class="fas fa-phone"></i>
+                  <span>0234 3842 555</span>
+                </div>
+                <div class="info-item">
+                  <i class="fas fa-clock"></i>
+                  <span>Giờ làm việc: 8:00 - 18:00 (T2-T7)</span>
+                </div>
+                <button class="btn btn-outline-warning btn-sm mt-2">
+                  <i class="fas fa-directions"></i> Xem đường đi
+                </button>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="location-card">
+                <h5><i class="fas fa-building"></i> BƯU CỤC QUY NHƠN</h5>
+                <div class="info-item">
+                  <i class="fas fa-map-marker-alt"></i>
+                  <span>Số 45 Trần Hưng Đạo, TP Quy Nhơn, Bình Định</span>
+                </div>
+                <div class="info-item">
+                  <i class="fas fa-phone"></i>
+                  <span>0256 3812 444</span>
+                </div>
+                <div class="info-item">
+                  <i class="fas fa-clock"></i>
+                  <span>Giờ làm việc: 8:00 - 18:00 (T2-T7)</span>
+                </div>
+                <button class="btn btn-outline-warning btn-sm mt-2">
+                  <i class="fas fa-directions"></i> Xem đường đi
+                </button>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="location-card">
+                <h5><i class="fas fa-building"></i> BƯU CỤC NHA TRANG</h5>
+                <div class="info-item">
+                  <i class="fas fa-map-marker-alt"></i>
+                  <span>Số 78 Trần Phú, TP Nha Trang, Khánh Hòa</span>
+                </div>
+                <div class="info-item">
+                  <i class="fas fa-phone"></i>
+                  <span>0258 3525 333</span>
+                </div>
+                <div class="info-item">
+                  <i class="fas fa-clock"></i>
+                  <span>Giờ làm việc: 8:00 - 18:00 (T2-T7)</span>
+                </div>
+                <button class="btn btn-outline-warning btn-sm mt-2">
+                  <i class="fas fa-directions"></i> Xem đường đi
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Miền Nam -->
+        <div class="tab-pane fade" id="south" role="tabpanel">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="location-card">
+                <h5><i class="fas fa-building"></i> BƯU CỤC TP HCM - QUẬN 1</h5>
+                <div class="info-item">
+                  <i class="fas fa-map-marker-alt"></i>
+                  <span>Số 200 Nguyễn Huệ, Quận 1, TP Hồ Chí Minh</span>
+                </div>
+                <div class="info-item">
+                  <i class="fas fa-phone"></i>
+                  <span>028 3827 9999</span>
+                </div>
+                <div class="info-item">
+                  <i class="fas fa-clock"></i>
+                  <span>Giờ làm việc: 8:00 - 20:00 (T2-CN)</span>
+                </div>
+                <button class="btn btn-outline-warning btn-sm mt-2">
+                  <i class="fas fa-directions"></i> Xem đường đi
+                </button>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="location-card">
+                <h5><i class="fas fa-building"></i> BƯU CỤC TP HCM - TÂN BÌNH</h5>
+                <div class="info-item">
+                  <i class="fas fa-map-marker-alt"></i>
+                  <span>Số 456 Hoàng Hoa Thám, Quận Tân Bình, TP HCM</span>
+                </div>
+                <div class="info-item">
+                  <i class="fas fa-phone"></i>
+                  <span>028 3827 8888</span>
+                </div>
+                <div class="info-item">
+                  <i class="fas fa-clock"></i>
+                  <span>Giờ làm việc: 8:00 - 20:00 (T2-CN)</span>
+                </div>
+                <button class="btn btn-outline-warning btn-sm mt-2">
+                  <i class="fas fa-directions"></i> Xem đường đi
+                </button>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="location-card">
+                <h5><i class="fas fa-building"></i> BƯU CỤC CẦN THƠ</h5>
+                <div class="info-item">
+                  <i class="fas fa-map-marker-alt"></i>
+                  <span>Số 123 Mậu Thân, Quận Ninh Kiều, Cần Thơ</span>
+                </div>
+                <div class="info-item">
+                  <i class="fas fa-phone"></i>
+                  <span>0292 3736 666</span>
+                </div>
+                <div class="info-item">
+                  <i class="fas fa-clock"></i>
+                  <span>Giờ làm việc: 8:00 - 18:00 (T2-T7)</span>
+                </div>
+                <button class="btn btn-outline-warning btn-sm mt-2">
+                  <i class="fas fa-directions"></i> Xem đường đi
+                </button>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="location-card">
+                <h5><i class="fas fa-building"></i> BƯU CỤC VŨNG TÀU</h5>
+                <div class="info-item">
+                  <i class="fas fa-map-marker-alt"></i>
+                  <span>Số 89 Trần Hưng Đạo, TP Vũng Tàu, Bà Rịa - Vũng Tàu</span>
+                </div>
+                <div class="info-item">
+                  <i class="fas fa-phone"></i>
+                  <span>0254 3525 222</span>
+                </div>
+                <div class="info-item">
+                  <i class="fas fa-clock"></i>
+                  <span>Giờ làm việc: 8:00 - 18:00 (T2-T7)</span>
+                </div>
+                <button class="btn btn-outline-warning btn-sm mt-2">
+                  <i class="fas fa-directions"></i> Xem đường đi
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA Section -->
+    <div class="text-center my-5 p-5" style="background: linear-gradient(135deg, #fff5e6, #fffbf0); border-radius: 15px;">
+      <h3 class="mb-4" style="color: #ff9800;">
+        <i class="fas fa-question-circle"></i> CẦN HỖ TRỢ THÊM?
+      </h3>
+      <p class="mb-4">Liên hệ với chúng tôi để được tư vấn về bưu cục gần nhất và dịch vụ phù hợp</p>
+      <a href="tel:1900636677" class="btn btn-warning btn-lg me-3">
+        <i class="fas fa-phone"></i> Gọi 1900 636677
+      </a>
+      <a href="Home/home.html#lienhe" class="btn btn-outline-warning btn-lg">
+        <i class="fas fa-envelope"></i> Liên hệ trực tuyến
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2025 GiaoHangTocDo. All rights reserved.</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

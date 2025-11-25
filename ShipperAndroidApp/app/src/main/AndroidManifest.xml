@@ -19,7 +19,14 @@
         </activity>
         <activity android:name=".OrderListActivity" />
         <activity android:name=".OrderDetailActivity" />
+        <activity android:name=".OrderMapActivity" android:exported="false" />
         <activity android:name=".MainActivity" />
+        
+        <!-- Google Maps API Key - Demo/Development Only -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDKj8K_qQ8X5vN5xX5xX5xX5xX5xX5xX5x" />
+        <!-- TODO: Replace with your own API key from https://console.cloud.google.com/ -->
     </application>
 
 </manifest>

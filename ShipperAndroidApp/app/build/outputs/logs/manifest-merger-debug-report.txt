@@ -1,15 +1,17 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:1:1-25:12
-INJECTED from C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:1:1-25:12
-INJECTED from C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:1:1-25:12
-INJECTED from C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:1:1-25:12
-MERGED from [com.google.android.material:material:1.8.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\24118e7e34d366939c3d4889d0c02ab8\transformed\material-1.8.0\AndroidManifest.xml:17:1-26:12
+ADDED from C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:1:1-31:12
+INJECTED from C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:1:1-31:12
+INJECTED from C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:1:1-31:12
+INJECTED from C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:1:1-31:12
+MERGED from [com.google.android.gms:play-services-maps:18.1.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\e7c622b30b3a45f769449f5a79edff8b\transformed\jetified-play-services-maps-18.1.0\AndroidManifest.xml:17:1-44:12
+MERGED from [com.google.android.material:material:1.9.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\0591ea510023f65242f243d2d59d3743\transformed\material-1.9.0\AndroidManifest.xml:17:1-26:12
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] C:\Users\DELL\.gradle\caches\8.10.2\transforms\c058dd805a627031d5789e892af96e11\transformed\constraintlayout-2.1.4\AndroidManifest.xml:2:1-11:12
 MERGED from [androidx.appcompat:appcompat-resources:1.6.1] C:\Users\DELL\.gradle\caches\8.10.2\transforms\00938acd6233ce8ccb982a0de3b87fb1\transformed\jetified-appcompat-resources-1.6.1\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.appcompat:appcompat:1.6.1] C:\Users\DELL\.gradle\caches\8.10.2\transforms\3f5c227d4f2b56954934b3215d6e6f6e\transformed\appcompat-1.6.1\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.viewpager2:viewpager2:1.0.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\d5bc7d94dfbd6e452c7d01a3f2fb47ab\transformed\jetified-viewpager2-1.0.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.recyclerview:recyclerview:1.3.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\155d6d24430025a930cba2facf995bab\transformed\recyclerview-1.3.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.2.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\9dd2f9c14cbd9bdc2b402b3d34cb1473\transformed\coordinatorlayout-1.2.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.1.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\7fa571f422a243b60fa489714bf6fadc\transformed\swiperefreshlayout-1.1.0\AndroidManifest.xml:17:1-24:12
 MERGED from [com.google.android.gms:play-services-location:21.0.1] C:\Users\DELL\.gradle\caches\8.10.2\transforms\708dcf1821167ec615b55d4eb77e1547\transformed\jetified-play-services-location-21.0.1\AndroidManifest.xml:2:1-9:12
 MERGED from [com.google.android.gms:play-services-base:18.1.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\13390995c7dcccc58fec9c17689ae93b\transformed\jetified-play-services-base-18.1.0\AndroidManifest.xml:16:1-24:12
@@ -27,19 +29,18 @@ MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.5.1] C:\Users\DELL\.gradle
 MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.5.1] C:\Users\DELL\.gradle\caches\8.10.2\transforms\9c03c867f2e0ea92a1bf759c16129622\transformed\jetified-lifecycle-viewmodel-savedstate-2.5.1\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.core:core-ktx:1.9.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\1dd315fe387397f8c213d4298e81edef\transformed\jetified-core-ktx-1.9.0\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.drawerlayout:drawerlayout:1.1.1] C:\Users\DELL\.gradle\caches\8.10.2\transforms\bb74265e619297bf3073913c21468102\transformed\drawerlayout-1.1.1\AndroidManifest.xml:17:1-24:12
-MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.1.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\c9b206f22f08018f740427ff71068b72\transformed\coordinatorlayout-1.1.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.transition:transition:1.2.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\7de47da2ab07cc06ad650d90aea1e4f9\transformed\transition-1.2.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\8d6e68258ac677b0c2f349aedcd5aeca\transformed\vectordrawable-animated-1.1.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\cc5890bb5bebfa511341810f972411a4\transformed\vectordrawable-1.1.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\c3c541660ef30be26d2f99e31389bdb5\transformed\viewpager-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.customview:customview:1.1.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\c4fee82b6ddf9259a8d93c4a4a61bf58\transformed\customview-1.1.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.core:core:1.9.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\01374442020e521891cd0a87782021a2\transformed\core-1.9.0\AndroidManifest.xml:17:1-30:12
+MERGED from [androidx.cardview:cardview:1.0.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\d7f8efb9c9d3a9c93f20875b509a7d18\transformed\cardview-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\a98679ccc66d107e64a4b899b765cacf\transformed\cursoradapter-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\DELL\.gradle\caches\8.10.2\transforms\a6ef7f3d288e86e692030c60a4a9cdae\transformed\jetified-lifecycle-process-2.4.1\AndroidManifest.xml:17:1-37:12
 MERGED from [androidx.lifecycle:lifecycle-runtime:2.5.1] C:\Users\DELL\.gradle\caches\8.10.2\transforms\4942f05ea2281ce45f3131ec33bcfe40\transformed\lifecycle-runtime-2.5.1\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.savedstate:savedstate:1.2.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\aff5d5a7d0e91100897facb98bf59284\transformed\jetified-savedstate-1.2.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\DELL\.gradle\caches\8.10.2\transforms\e8a51d29c8e3355aacd7776241015eff\transformed\versionedparcelable-1.1.1\AndroidManifest.xml:17:1-27:12
-MERGED from [androidx.cardview:cardview:1.0.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\d7f8efb9c9d3a9c93f20875b509a7d18\transformed\cardview-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\138615dea80c83a5ea8b1d7b48767a3e\transformed\interpolator-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\DELL\.gradle\caches\8.10.2\transforms\bbf30b5268f9df746e32b4e079b8e37f\transformed\jetified-startup-runtime-1.1.1\AndroidManifest.xml:17:1-33:12
 MERGED from [androidx.tracing:tracing:1.0.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\cd4f6dac5ec79c1ab6052e6bf253394c\transformed\jetified-tracing-1.0.0\AndroidManifest.xml:17:1-24:12
@@ -60,6 +61,8 @@ MERGED from [androidx.annotation:annotation-experimental:1.3.0] C:\Users\DELL\.g
 		ADDED from C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:1:11-69
 uses-permission#android.permission.INTERNET
 ADDED from C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:3:5-67
+MERGED from [com.google.android.gms:play-services-maps:18.1.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\e7c622b30b3a45f769449f5a79edff8b\transformed\jetified-play-services-maps-18.1.0\AndroidManifest.xml:24:5-67
+MERGED from [com.google.android.gms:play-services-maps:18.1.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\e7c622b30b3a45f769449f5a79edff8b\transformed\jetified-play-services-maps-18.1.0\AndroidManifest.xml:24:5-67
 	android:name
 		ADDED from C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:3:22-64
 uses-permission#android.permission.ACCESS_FINE_LOCATION
@@ -71,10 +74,12 @@ ADDED from C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\ma
 	android:name
 		ADDED from C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:5:22-78
 application
-ADDED from C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:7:5-23:19
-INJECTED from C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:7:5-23:19
-MERGED from [com.google.android.material:material:1.8.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\24118e7e34d366939c3d4889d0c02ab8\transformed\material-1.8.0\AndroidManifest.xml:24:5-20
-MERGED from [com.google.android.material:material:1.8.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\24118e7e34d366939c3d4889d0c02ab8\transformed\material-1.8.0\AndroidManifest.xml:24:5-20
+ADDED from C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:7:5-29:19
+INJECTED from C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:7:5-29:19
+MERGED from [com.google.android.gms:play-services-maps:18.1.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\e7c622b30b3a45f769449f5a79edff8b\transformed\jetified-play-services-maps-18.1.0\AndroidManifest.xml:36:5-42:19
+MERGED from [com.google.android.gms:play-services-maps:18.1.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\e7c622b30b3a45f769449f5a79edff8b\transformed\jetified-play-services-maps-18.1.0\AndroidManifest.xml:36:5-42:19
+MERGED from [com.google.android.material:material:1.9.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\0591ea510023f65242f243d2d59d3743\transformed\material-1.9.0\AndroidManifest.xml:24:5-20
+MERGED from [com.google.android.material:material:1.9.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\0591ea510023f65242f243d2d59d3743\transformed\material-1.9.0\AndroidManifest.xml:24:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] C:\Users\DELL\.gradle\caches\8.10.2\transforms\c058dd805a627031d5789e892af96e11\transformed\constraintlayout-2.1.4\AndroidManifest.xml:9:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] C:\Users\DELL\.gradle\caches\8.10.2\transforms\c058dd805a627031d5789e892af96e11\transformed\constraintlayout-2.1.4\AndroidManifest.xml:9:5-20
 MERGED from [com.google.android.gms:play-services-location:21.0.1] C:\Users\DELL\.gradle\caches\8.10.2\transforms\708dcf1821167ec615b55d4eb77e1547\transformed\jetified-play-services-location-21.0.1\AndroidManifest.xml:7:5-20
@@ -135,16 +140,30 @@ activity#com.example.shipperapp.OrderDetailActivity
 ADDED from C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:21:9-57
 	android:name
 		ADDED from C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:21:19-54
-activity#com.example.shipperapp.MainActivity
-ADDED from C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:22:9-50
+activity#com.example.shipperapp.OrderMapActivity
+ADDED from C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:22:9-79
+	android:exported
+		ADDED from C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:22:52-76
 	android:name
-		ADDED from C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:22:19-47
+		ADDED from C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:22:19-51
+activity#com.example.shipperapp.MainActivity
+ADDED from C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:23:9-50
+	android:name
+		ADDED from C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:23:19-47
+meta-data#com.google.android.geo.API_KEY
+ADDED from C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:26:9-28:61
+	android:value
+		ADDED from C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:28:13-58
+	android:name
+		ADDED from C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:27:13-58
 uses-sdk
 INJECTED from C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml
 INJECTED from C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml
-MERGED from [com.google.android.material:material:1.8.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\24118e7e34d366939c3d4889d0c02ab8\transformed\material-1.8.0\AndroidManifest.xml:20:5-22:41
-MERGED from [com.google.android.material:material:1.8.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\24118e7e34d366939c3d4889d0c02ab8\transformed\material-1.8.0\AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.android.gms:play-services-maps:18.1.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\e7c622b30b3a45f769449f5a79edff8b\transformed\jetified-play-services-maps-18.1.0\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-maps:18.1.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\e7c622b30b3a45f769449f5a79edff8b\transformed\jetified-play-services-maps-18.1.0\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.material:material:1.9.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\0591ea510023f65242f243d2d59d3743\transformed\material-1.9.0\AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.android.material:material:1.9.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\0591ea510023f65242f243d2d59d3743\transformed\material-1.9.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] C:\Users\DELL\.gradle\caches\8.10.2\transforms\c058dd805a627031d5789e892af96e11\transformed\constraintlayout-2.1.4\AndroidManifest.xml:5:5-7:41
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] C:\Users\DELL\.gradle\caches\8.10.2\transforms\c058dd805a627031d5789e892af96e11\transformed\constraintlayout-2.1.4\AndroidManifest.xml:5:5-7:41
 MERGED from [androidx.appcompat:appcompat-resources:1.6.1] C:\Users\DELL\.gradle\caches\8.10.2\transforms\00938acd6233ce8ccb982a0de3b87fb1\transformed\jetified-appcompat-resources-1.6.1\AndroidManifest.xml:20:5-44
@@ -155,6 +174,8 @@ MERGED from [androidx.viewpager2:viewpager2:1.0.0] C:\Users\DELL\.gradle\caches\
 MERGED from [androidx.viewpager2:viewpager2:1.0.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\d5bc7d94dfbd6e452c7d01a3f2fb47ab\transformed\jetified-viewpager2-1.0.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.recyclerview:recyclerview:1.3.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\155d6d24430025a930cba2facf995bab\transformed\recyclerview-1.3.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.recyclerview:recyclerview:1.3.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\155d6d24430025a930cba2facf995bab\transformed\recyclerview-1.3.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.2.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\9dd2f9c14cbd9bdc2b402b3d34cb1473\transformed\coordinatorlayout-1.2.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.2.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\9dd2f9c14cbd9bdc2b402b3d34cb1473\transformed\coordinatorlayout-1.2.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.1.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\7fa571f422a243b60fa489714bf6fadc\transformed\swiperefreshlayout-1.1.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.1.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\7fa571f422a243b60fa489714bf6fadc\transformed\swiperefreshlayout-1.1.0\AndroidManifest.xml:20:5-22:41
 MERGED from [com.google.android.gms:play-services-location:21.0.1] C:\Users\DELL\.gradle\caches\8.10.2\transforms\708dcf1821167ec615b55d4eb77e1547\transformed\jetified-play-services-location-21.0.1\AndroidManifest.xml:5:5-44
@@ -189,8 +210,6 @@ MERGED from [androidx.core:core-ktx:1.9.0] C:\Users\DELL\.gradle\caches\8.10.2\t
 MERGED from [androidx.core:core-ktx:1.9.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\1dd315fe387397f8c213d4298e81edef\transformed\jetified-core-ktx-1.9.0\AndroidManifest.xml:5:5-44
 MERGED from [androidx.drawerlayout:drawerlayout:1.1.1] C:\Users\DELL\.gradle\caches\8.10.2\transforms\bb74265e619297bf3073913c21468102\transformed\drawerlayout-1.1.1\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.drawerlayout:drawerlayout:1.1.1] C:\Users\DELL\.gradle\caches\8.10.2\transforms\bb74265e619297bf3073913c21468102\transformed\drawerlayout-1.1.1\AndroidManifest.xml:20:5-22:41
-MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.1.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\c9b206f22f08018f740427ff71068b72\transformed\coordinatorlayout-1.1.0\AndroidManifest.xml:20:5-22:41
-MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.1.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\c9b206f22f08018f740427ff71068b72\transformed\coordinatorlayout-1.1.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.transition:transition:1.2.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\7de47da2ab07cc06ad650d90aea1e4f9\transformed\transition-1.2.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.transition:transition:1.2.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\7de47da2ab07cc06ad650d90aea1e4f9\transformed\transition-1.2.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\8d6e68258ac677b0c2f349aedcd5aeca\transformed\vectordrawable-animated-1.1.0\AndroidManifest.xml:20:5-22:41
@@ -203,6 +222,8 @@ MERGED from [androidx.customview:customview:1.1.0] C:\Users\DELL\.gradle\caches\
 MERGED from [androidx.customview:customview:1.1.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\c4fee82b6ddf9259a8d93c4a4a61bf58\transformed\customview-1.1.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.core:core:1.9.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\01374442020e521891cd0a87782021a2\transformed\core-1.9.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.core:core:1.9.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\01374442020e521891cd0a87782021a2\transformed\core-1.9.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.cardview:cardview:1.0.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\d7f8efb9c9d3a9c93f20875b509a7d18\transformed\cardview-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.cardview:cardview:1.0.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\d7f8efb9c9d3a9c93f20875b509a7d18\transformed\cardview-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\a98679ccc66d107e64a4b899b765cacf\transformed\cursoradapter-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\a98679ccc66d107e64a4b899b765cacf\transformed\cursoradapter-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\DELL\.gradle\caches\8.10.2\transforms\a6ef7f3d288e86e692030c60a4a9cdae\transformed\jetified-lifecycle-process-2.4.1\AndroidManifest.xml:21:5-23:41
@@ -213,8 +234,6 @@ MERGED from [androidx.savedstate:savedstate:1.2.0] C:\Users\DELL\.gradle\caches\
 MERGED from [androidx.savedstate:savedstate:1.2.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\aff5d5a7d0e91100897facb98bf59284\transformed\jetified-savedstate-1.2.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\DELL\.gradle\caches\8.10.2\transforms\e8a51d29c8e3355aacd7776241015eff\transformed\versionedparcelable-1.1.1\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\DELL\.gradle\caches\8.10.2\transforms\e8a51d29c8e3355aacd7776241015eff\transformed\versionedparcelable-1.1.1\AndroidManifest.xml:20:5-22:41
-MERGED from [androidx.cardview:cardview:1.0.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\d7f8efb9c9d3a9c93f20875b509a7d18\transformed\cardview-1.0.0\AndroidManifest.xml:20:5-44
-MERGED from [androidx.cardview:cardview:1.0.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\d7f8efb9c9d3a9c93f20875b509a7d18\transformed\cardview-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\138615dea80c83a5ea8b1d7b48767a3e\transformed\interpolator-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\138615dea80c83a5ea8b1d7b48767a3e\transformed\interpolator-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\DELL\.gradle\caches\8.10.2\transforms\bbf30b5268f9df746e32b4e079b8e37f\transformed\jetified-startup-runtime-1.1.1\AndroidManifest.xml:21:5-23:41
@@ -239,6 +258,28 @@ MERGED from [androidx.annotation:annotation-experimental:1.3.0] C:\Users\DELL\.g
 		INJECTED from C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml
 	android:minSdkVersion
 		INJECTED from C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml
+uses-permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from [com.google.android.gms:play-services-maps:18.1.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\e7c622b30b3a45f769449f5a79edff8b\transformed\jetified-play-services-maps-18.1.0\AndroidManifest.xml:23:5-79
+	android:name
+		ADDED from [com.google.android.gms:play-services-maps:18.1.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\e7c622b30b3a45f769449f5a79edff8b\transformed\jetified-play-services-maps-18.1.0\AndroidManifest.xml:23:22-76
+uses-feature#0x00020000
+ADDED from [com.google.android.gms:play-services-maps:18.1.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\e7c622b30b3a45f769449f5a79edff8b\transformed\jetified-play-services-maps-18.1.0\AndroidManifest.xml:26:5-28:35
+	android:glEsVersion
+		ADDED from [com.google.android.gms:play-services-maps:18.1.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\e7c622b30b3a45f769449f5a79edff8b\transformed\jetified-play-services-maps-18.1.0\AndroidManifest.xml:27:9-41
+	android:required
+		ADDED from [com.google.android.gms:play-services-maps:18.1.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\e7c622b30b3a45f769449f5a79edff8b\transformed\jetified-play-services-maps-18.1.0\AndroidManifest.xml:28:9-32
+queries
+ADDED from [com.google.android.gms:play-services-maps:18.1.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\e7c622b30b3a45f769449f5a79edff8b\transformed\jetified-play-services-maps-18.1.0\AndroidManifest.xml:30:5-34:15
+package#com.google.android.apps.maps
+ADDED from [com.google.android.gms:play-services-maps:18.1.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\e7c622b30b3a45f769449f5a79edff8b\transformed\jetified-play-services-maps-18.1.0\AndroidManifest.xml:33:9-64
+	android:name
+		ADDED from [com.google.android.gms:play-services-maps:18.1.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\e7c622b30b3a45f769449f5a79edff8b\transformed\jetified-play-services-maps-18.1.0\AndroidManifest.xml:33:18-61
+uses-library#org.apache.http.legacy
+ADDED from [com.google.android.gms:play-services-maps:18.1.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\e7c622b30b3a45f769449f5a79edff8b\transformed\jetified-play-services-maps-18.1.0\AndroidManifest.xml:39:9-41:40
+	android:required
+		ADDED from [com.google.android.gms:play-services-maps:18.1.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\e7c622b30b3a45f769449f5a79edff8b\transformed\jetified-play-services-maps-18.1.0\AndroidManifest.xml:41:13-37
+	android:name
+		ADDED from [com.google.android.gms:play-services-maps:18.1.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\e7c622b30b3a45f769449f5a79edff8b\transformed\jetified-play-services-maps-18.1.0\AndroidManifest.xml:40:13-50
 activity#com.google.android.gms.common.api.GoogleApiActivity
 ADDED from [com.google.android.gms:play-services-base:18.1.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\13390995c7dcccc58fec9c17689ae93b\transformed\jetified-play-services-base-18.1.0\AndroidManifest.xml:20:9-22:45
 	android:exported

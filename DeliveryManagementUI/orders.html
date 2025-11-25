@@ -25,43 +25,49 @@
             <li>
                 <a href="index.html">
                     <i class="fas fa-home"></i>
-                    <span>Dashboard</span>
+                    <span data-i18n="dashboard">Dashboard</span>
                 </a>
             </li>
             <li class="active">
                 <a href="orders.html">
                     <i class="fas fa-box"></i>
-                    <span>Đơn Hàng</span>
+                    <span data-i18n="orders">Đơn Hàng</span>
                 </a>
             </li>
             <li>
                 <a href="staff.html">
                     <i class="fas fa-users"></i>
-                    <span>Nhân Viên</span>
+                    <span data-i18n="staff">Nhân Viên</span>
                 </a>
             </li>
             <li>
                 <a href="customers.html">
                     <i class="fas fa-address-book"></i>
-                    <span>Khách Hàng</span>
+                    <span data-i18n="customers">Khách Hàng</span>
                 </a>
             </li>
             <li>
                 <a href="accounts.html">
                     <i class="fas fa-user-shield"></i>
-                    <span>Quản Lý Tài Khoản</span>
+                    <span data-i18n="accounts">Quản Lý Tài Khoản</span>
                 </a>
             </li>
             <li>
                 <a href="reports.html">
                     <i class="fas fa-chart-line"></i>
-                    <span>Báo Cáo Doanh Thu</span>
+                    <span data-i18n="reports">Báo Cáo Doanh Thu</span>
+                </a>
+            </li>
+            <li>
+                <a href="messages.html">
+                    <i class="fas fa-comments"></i>
+                    <span>Tin Nhắn</span>
                 </a>
             </li>
             <li>
                 <a href="#" onclick="alert('Tính năng đang phát triển')">
                     <i class="fas fa-cog"></i>
-                    <span>Cài Đặt</span>
+                    <span data-i18n="settings">Cài Đặt</span>
                 </a>
             </li>
         </ul>
@@ -76,6 +82,10 @@
                     <i class="fas fa-bars"></i>
                 </button>
                 <div class="ms-auto d-flex align-items-center">
+                    <div class="d-flex align-items-center gap-2 me-3">
+                        <button id="themeToggleBtn" type="button" class="btn btn-sm btn-outline-secondary" onclick="uiCustomization.toggleTheme()"></button>
+                        <div id="langSwitcher"></div>
+                    </div>
                     <div class="dropdown">
                         <button class="btn btn-link dropdown-toggle text-decoration-none" type="button" data-bs-toggle="dropdown">
                             <i class="fas fa-user-circle fa-lg me-2"></i>
@@ -85,10 +95,10 @@
                         <ul class="dropdown-menu dropdown-menu-end">
                             <li><h6 class="dropdown-header"><span class="user-name">User</span></h6></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="profile.html"><i class="fas fa-user me-2"></i>Thông tin tài khoản</a></li>
-                            <li><a class="dropdown-item" href="#" onclick="alert('Tính năng đang phát triển')"><i class="fas fa-cog me-2"></i>Cài đặt</a></li>
+                            <li><a class="dropdown-item" href="profile.html"><i class="fas fa-user me-2"></i><span data-i18n="profile">Thông tin tài khoản</span></a></li>
+                            <li><a class="dropdown-item" href="#" onclick="alert('Tính năng đang phát triển')"><i class="fas fa-cog me-2"></i><span data-i18n="settings">Cài đặt</span></a></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item text-danger" href="#" onclick="auth.logout()"><i class="fas fa-sign-out-alt me-2"></i>Đăng xuất</a></li>
+                            <li><a class="dropdown-item text-danger" href="#" onclick="auth.logout()"><i class="fas fa-sign-out-alt me-2"></i><span data-i18n="logout">Đăng xuất</span></a></li>
                         </ul>
                     </div>
                 </div>
@@ -425,6 +435,7 @@
     
     <!-- Custom JS -->
     <script src="js/api-service.js"></script>
+    <script src="js/ui-customization.js"></script>
     <script src="js/orders.js"></script>
 </body>
 </html>

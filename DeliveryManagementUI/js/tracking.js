@@ -1,6 +1,9 @@
 // tracking.js - GPS Tracking Page Logic
 
 let map, routeLayer, checkpointMarkers = [];
+let shipperMarker = null; // Marker cho vị trí shipper realtime
+let trackingConnection = null; // SignalR connection
+let currentOrderId = null;
 
 // On page load
 window.addEventListener('DOMContentLoaded', () => {
@@ -19,6 +22,7 @@ window.addEventListener('DOMContentLoaded', () => {
     initializeSidebar();
     initializeMap();
     setupSearchForm();
+    initializeSignalR();
     
     // Auto-load if order code in URL
     const urlParams = new URLSearchParams(window.location.search);
@@ -59,6 +63,69 @@ function initializeMap() {
     }).addTo(map);
 }
 
+// Khởi tạo SignalR connection cho realtime tracking
+async function initializeSignalR() {
+    try {
+        const apiUrl = window.location.origin;
+        trackingConnection = new signalR.HubConnectionBuilder()
+            .withUrl(`${apiUrl}/trackingHub`)
+            .withAutomaticReconnect()
+            .build();
+
+        // Lắng nghe sự kiện cập nhật vị trí shipper
+        trackingConnection.on("ReceiveShipperLocation", (data) => {
+            updateShipperMarker(data.latitude, data.longitude, data.timestamp);
+        });
+
+        await trackingConnection.start();
+        console.log("✅ SignalR tracking connected");
+    } catch (err) {
+        console.error("❌ SignalR connection error:", err);
+    }
+}
+
+// Tham gia tracking một đơn hàng
+async function joinOrderTracking(orderId) {
+    if (trackingConnection && trackingConnection.state === signalR.HubConnectionState.Connected) {
+        currentOrderId = orderId;
+        await trackingConnection.invoke("JoinOrderTracking", orderId);
+        console.log(`📍 Joined tracking for order: ${orderId}`);
+    }
+}
+
+// Rời khỏi tracking đơn hàng
+async function leaveOrderTracking() {
+    if (trackingConnection && currentOrderId) {
+        await trackingConnection.invoke("LeaveOrderTracking", currentOrderId);
+        console.log(`🚪 Left tracking for order: ${currentOrderId}`);
+        currentOrderId = null;
+    }
+}
+
+// Cập nhật marker vị trí shipper trên bản đồ
+function updateShipperMarker(lat, lng, timestamp) {
+    if (!shipperMarker) {
+        // Tạo icon xe tải cho shipper
+        const truckIcon = L.icon({
+            iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png',
+            shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+            shadowSize: [41, 41]
+        });
+        
+        shipperMarker = L.marker([lat, lng], { icon: truckIcon }).addTo(map);
+        shipperMarker.bindPopup("<b>🚚 Shipper</b><br>Vị trí hiện tại");
+    } else {
+        // Di chuyển marker đến vị trí mới
+        shipperMarker.setLatLng([lat, lng]);
+    }
+    
+    shipperMarker.openPopup();
+    showTrackingAlert(`📍 Cập nhật vị trí shipper: ${new Date(timestamp).toLocaleTimeString('vi-VN')}`, 'info');
+}
+
 function setupSearchForm() {
     document.getElementById('searchOrderForm').addEventListener('submit', function(e) {
         e.preventDefault();
@@ -70,6 +137,10 @@ function setupSearchForm() {
 async function searchOrder(orderCode) {
     showTrackingAlert('Đang tải dữ liệu đơn hàng...', 'info');
     clearMapAndTimeline();
+    
+    // Rời khỏi tracking đơn cũ (nếu có)
+    await leaveOrderTracking();
+    
     try {
         // Use trackByOrderCode which returns { Order, Checkpoints }
         const tracking = await ApiService.trackByOrderCode(orderCode);
@@ -79,14 +150,19 @@ async function searchOrder(orderCode) {
         }
         const order = tracking.order || tracking.Order || tracking.Order;
         const checkpoints = tracking.checkpoints || tracking.Checkpoints || [];
+        
         renderOrderInfo(order);
+        
+        // Tham gia tracking realtime cho đơn hàng này
+        await joinOrderTracking(order.orderId);
+        
         if (!checkpoints || checkpoints.length === 0) {
-            showTrackingAlert('Chưa có dữ liệu checkpoint cho đơn hàng này.', 'warning');
+            showTrackingAlert('Chưa có dữ liệu checkpoint. Đang theo dõi vị trí shipper realtime...', 'warning');
             return;
         }
         renderRouteOnMap(checkpoints);
         renderTimeline(checkpoints);
-        showTrackingAlert('Đã tải xong lộ trình đơn hàng.', 'success');
+        showTrackingAlert('✅ Đã tải xong lộ trình. Đang theo dõi vị trí shipper realtime...', 'success');
     } catch (err) {
         showTrackingAlert('Lỗi khi tải dữ liệu: ' + err, 'danger');
     }
@@ -135,6 +211,10 @@ function clearMapAndTimeline() {
     if (routeLayer) map.removeLayer(routeLayer);
     checkpointMarkers.forEach(m => map.removeLayer(m));
     checkpointMarkers = [];
+    if (shipperMarker) {
+        map.removeLayer(shipperMarker);
+        shipperMarker = null;
+    }
     document.getElementById('timeline').innerHTML = '';
     document.getElementById('orderInfo').innerHTML = '';
 }

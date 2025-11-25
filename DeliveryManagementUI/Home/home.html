@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Giao Hàng Tốc Độ | Giao siêu nhanh - Giá siêu tốt</title>
+  <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="../Home/home.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
@@ -26,29 +27,29 @@
         <a href="#">Trang chủ</a>
          <a href="#dichvu">Dịch vụ</a>
         <div class="dropdown">
-    <a href="#gioithieu" class="dropdown-toggle" data-bs-toggle="dropdown">Giới thiệu</a>
+    <a href="#gioithieu" class="dropdown-toggle" data-bs-toggle="dropdown" data-i18n="about">Giới thiệu</a>
     <ul class="dropdown-menu">
-      <li><a class="dropdown-item" href="#veghn">Về GHTD</a></li>
+      <li><a class="dropdown-item" href="#veghtd">Về GHTD</a></li>
       <li><a class="dropdown-item" href="#congnghe">Công nghệ</a></li>
       <li><a class="dropdown-item" href="#ghnxu">GHTD Xu</a></li>
-      <li><a class="dropdown-item" href="#buucuc">Bưu cục</a></li>
+      <li><a class="dropdown-item" href="../buucuc.html">Bưu cục</a></li>
       <li><a class="dropdown-item" href="#vieclam">Cơ hội việc làm</a></li>
       <li><a class="dropdown-item" href="#lienhe">Liên hệ</a></li>
     </ul>
   </div>
   <div class="dropdown">
-    <a href="#Hỗ trợ" class="dropdown-toggle" data-bs-toggle="dropdown">Hỗ trợ</a>
+    <a href="#Hỗ trợ" class="dropdown-toggle" data-bs-toggle="dropdown" data-i18n="support">Hỗ trợ</a>
     <ul class="dropdown-menu">
       <li><a class="dropdown-item" href="#Cauhoi">Câu hỏi thường gặp</a></li>
       <li><a class="dropdown-item" href="#khieunai">Quy định khiếu nại</a></li>
       <li><a class="dropdown-item" href="#tructrac">Hàng hóa không vận chuyển</a></li>
-      <li><a class="dropdown-item" href="#chinhsachboithuong">Chính sách bồi thường</a></li>
+      <li><a class="dropdown-item" href="../chinh-sach-boi-thuong.html">Chính sách bồi thường</a></li>
       <li><a class="dropdown-item" href="#dieukhoan">Điều khoản sử dụng</a></li>
       <li><a class="dropdown-item" href="#csbaomat">Chính sách bảo mật</a></li>
     </ul>
   </div>
         <div class="dropdown">
-    <a href="#Thông tin" class="dropdown-toggle" data-bs-toggle="dropdown">Thông tin</a>
+    <a href="#Thông tin" class="dropdown-toggle" data-bs-toggle="dropdown" data-i18n="info">Thông tin</a>
     <ul class="dropdown-menu">
       <li><a class="dropdown-item" href="#tintuc">Tin tức</a></li>
       <li><a class="dropdown-item" href="#bangia">Bảng giá</a></li>
@@ -59,9 +60,13 @@
       </nav>
 
       <div class="actions d-flex align-items-center">
-        <input id="orderSearchInput" type="text" class="form-control me-2" placeholder="Nhập mã đơn hàng bạn cần tra cứu...">
-        <button id="orderSearchBtn" class="btn btn-outline-primary me-2">Tra cứu</button>
-        <a href="../login.html" class="login-btn btn btn-warning">Đăng ký / Đăng nhập</a>
+        <div class="d-flex align-items-center gap-2 me-3">
+          <button id="themeToggleBtn" type="button" class="btn btn-sm btn-outline-secondary" onclick="uiCustomization.toggleTheme()"></button>
+          <div id="langSwitcher"></div>
+        </div>
+        <input id="orderSearchInput" type="text" class="form-control me-2" placeholder="Nhập mã đơn hàng bạn cần tra cứu..." data-i18n="orderSearchPlaceholder">
+        <button id="orderSearchBtn" class="btn btn-outline-primary me-2" data-i18n="trackOrder">Tra cứu</button>
+        <a href="../login.html" class="login-btn btn btn-warning" data-i18n="loginRegister">Đăng ký / Đăng nhập</a>
       </div>
     </div>
   </header>
@@ -69,13 +74,284 @@
   <!-- Banner -->
   <section class="banner">
     <div class="banner-content">
-      <h1>CHỌN <span class="highlight">GiaoHangTocDo</span></h1>
+      <h1>CHỌN <span class="highlight" data-i18n="companyName">GiaoHangTocDo</span></h1>
       <h2>GIAO HÀNG KÝ GỬI <br> GIÁ NHẸ VÍ – SHOP NHẸ LÒNG</h2>
       <p>Lên đơn dễ dàng ngay trên App GiaoHangNhanh</p>
       <button class="app-btn">Tải App ngay</button>
     </div>
   </section>
 
+
+  <!-- Về GHTD -->
+  <section id="veghtd" class="about-section py-5" style="background: #fff5e6;">
+    <div class="container">
+      <div class="text-center mb-5">
+        <h2 class="fw-bold" style="color: #ff9800;">5 năm đồng hành cùng E-Commerce Việt Nam</h2>
+        <div class="mx-auto mt-3" style="width: 80px; height: 3px; background: #ffc107;"></div>
+      </div>
+
+      <div class="row align-items-center mb-5">
+        <div class="col-lg-6">
+          <p class="lead mb-4" style="color: #333;">
+            <strong style="color: #ff9800;">GHTD (Giao Hàng Tốc Độ)</strong> - Công ty giao nhận được thành lập năm 2020, 
+            với sứ mệnh phục vụ nhu cầu vận chuyển chuyên nghiệp của các đối tác Thương mại điện tử 
+            trên toàn quốc.
+          </p>
+          <p class="mb-4" style="color: #555;">
+            GHTD cam kết mang đến cho khách hàng những trải nghiệm dịch vụ giao nhận <strong style="color: #ff9800;">nhanh, an toàn, 
+            hiệu quả</strong> giúp người bán hàng bán được nhiều hơn, người mua hàng hài lòng hơn.
+          </p>
+        </div>
+        <div class="col-lg-6">
+          <div class="row g-3">
+            <div class="col-6">
+              <div class="card border-0 shadow-sm text-center p-4" style="background: linear-gradient(135deg, #fff 0%, #fffbf0 100%); border-left: 4px solid #ffc107 !important;">
+                <i class="fas fa-box fa-3x mb-3" style="color: #ff9800;"></i>
+                <h3 class="fw-bold" style="color: #ff9800;">500K+</h3>
+                <p class="mb-0" style="color: #666;">Đơn hàng/tháng</p>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="card border-0 shadow-sm text-center p-4" style="background: linear-gradient(135deg, #fff 0%, #fffbf0 100%); border-left: 4px solid #ffc107 !important;">
+                <i class="fas fa-shipping-fast fa-3x mb-3" style="color: #ff9800;"></i>
+                <h3 class="fw-bold" style="color: #ff9800;">50K+</h3>
+                <p class="mb-0" style="color: #666;">Đơn/ngày</p>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="card border-0 shadow-sm text-center p-4" style="background: linear-gradient(135deg, #fff 0%, #fffbf0 100%); border-left: 4px solid #ffc107 !important;">
+                <i class="fas fa-users fa-3x mb-3" style="color: #ff9800;"></i>
+                <h3 class="fw-bold" style="color: #ff9800;">10K+</h3>
+                <p class="mb-0" style="color: #666;">Khách hàng</p>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="card border-0 shadow-sm text-center p-4" style="background: linear-gradient(135deg, #fff 0%, #fffbf0 100%); border-left: 4px solid #ffc107 !important;">
+                <i class="fas fa-map-marked-alt fa-3x mb-3" style="color: #ff9800;"></i>
+                <h3 class="fw-bold" style="color: #ff9800;">63</h3>
+                <p class="mb-0" style="color: #666;">Tỉnh/Thành phố</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Thành tích nổi bật -->
+      <div class="row mt-5">
+        <div class="col-12 text-center mb-4">
+          <h3 class="fw-bold" style="color: #ff9800;">THÀNH TÍCH NỔI BẬT</h3>
+          <div class="mx-auto mt-2" style="width: 60px; height: 3px; background: #ffc107;"></div>
+        </div>
+        <div class="col-md-3 mb-3">
+          <div class="card border-0 shadow-sm text-center p-4 h-100 hover-card" style="transition: all 0.3s; cursor: pointer;">
+            <i class="fas fa-check-circle fa-2x mb-3" style="color: #ffc107;"></i>
+            <h6 style="color: #333;">Tỷ lệ giao hàng thành công</h6>
+            <h4 class="fw-bold" style="color: #ff9800;">98%</h4>
+          </div>
+        </div>
+        <div class="col-md-3 mb-3">
+          <div class="card border-0 shadow-sm text-center p-4 h-100 hover-card" style="transition: all 0.3s; cursor: pointer;">
+            <i class="fas fa-clock fa-2x mb-3" style="color: #ffc107;"></i>
+            <h6 style="color: #333;">Thời gian giao hàng</h6>
+            <h4 class="fw-bold" style="color: #ff9800;">24-48h</h4>
+          </div>
+        </div>
+        <div class="col-md-3 mb-3">
+          <div class="card border-0 shadow-sm text-center p-4 h-100 hover-card" style="transition: all 0.3s; cursor: pointer;">
+            <i class="fas fa-shield-alt fa-2x mb-3" style="color: #ffc107;"></i>
+            <h6 style="color: #333;">Bảo hiểm hàng hóa</h6>
+            <h4 class="fw-bold" style="color: #ff9800;">100%</h4>
+          </div>
+        </div>
+        <div class="col-md-3 mb-3">
+          <div class="card border-0 shadow-sm text-center p-4 h-100 hover-card" style="transition: all 0.3s; cursor: pointer;">
+            <i class="fas fa-headset fa-2x mb-3" style="color: #ffc107;"></i>
+            <h6 style="color: #333;">Hỗ trợ khách hàng</h6>
+            <h4 class="fw-bold" style="color: #ff9800;">24/7</h4>
+          </div>
+        </div>
+      </div>
+
+      <!-- Đối tác -->
+      <div class="row mt-5">
+        <div class="col-12 text-center">
+          <h3 class="fw-bold mb-4" style="color: #ff9800;">ĐỐI TÁC CHIẾN LƯỢC</h3>
+          <div class="mx-auto mb-4" style="width: 60px; height: 3px; background: #ffc107;"></div>
+          <div class="d-flex justify-content-center align-items-center flex-wrap gap-4">
+            <div class="rounded px-4 py-3 shadow-sm" style="background: white; border: 2px solid #ffc107; transition: all 0.3s; cursor: pointer;">
+              <h5 class="mb-0" style="color: #ff9800;">🛒 Shopee</h5>
+            </div>
+            <div class="rounded px-4 py-3 shadow-sm" style="background: white; border: 2px solid #ffc107; transition: all 0.3s; cursor: pointer;">
+              <h5 class="mb-0" style="color: #ff9800;">🛍️ Lazada</h5>
+            </div>
+            <div class="rounded px-4 py-3 shadow-sm" style="background: white; border: 2px solid #ffc107; transition: all 0.3s; cursor: pointer;">
+              <h5 class="mb-0" style="color: #ff9800;">📦 Tiki</h5>
+            </div>
+            <div class="rounded px-4 py-3 shadow-sm" style="background: white; border: 2px solid #ffc107; transition: all 0.3s; cursor: pointer;">
+              <h5 class="mb-0" style="color: #ff9800;">🏪 Sendo</h5>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    .hover-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(255, 152, 0, 0.2) !important;
+    }
+    .tech-card {
+      transition: all 0.3s ease;
+      border: 1px solid #ffc107;
+    }
+    .tech-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 40px rgba(255, 152, 0, 0.3);
+      border-color: #ff9800;
+    }
+    .tech-badge {
+      display: inline-block;
+      padding: 5px 15px;
+      background: linear-gradient(135deg, #ffc107, #ff9800);
+      color: white;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: bold;
+    }
+  </style>
+
+  <!-- Công nghệ -->
+  <section id="congnghe" class="py-5" style="background: linear-gradient(180deg, #fff 0%, #fff5e6 100%);">
+    <div class="container">
+      <div class="text-center mb-5">
+        <span class="tech-badge">CÔNG NGHỆ 4.0</span>
+        <h2 class="fw-bold mt-3" style="color: #ff9800;">NHANH HƠN VỚI GHTD</h2>
+        <div class="mx-auto mt-3" style="width: 80px; height: 3px; background: #ffc107;"></div>
+        <p class="mt-4 text-muted" style="max-width: 800px; margin: 20px auto;">
+          Sở hữu hệ thống băng tải phân loại hàng tự động 100% đầu tiên tại Việt Nam với năng suất 
+          <strong style="color: #ff9800;">30.000 đơn/giờ</strong>, cùng hệ thống ứng dụng lên đơn trực tuyến thông minh, 
+          thao tác dễ dàng và nhanh chóng.
+        </p>
+      </div>
+
+      <!-- Các giải pháp công nghệ -->
+      <div class="row g-4">
+        <!-- KHACHHANG.GHTD.VN -->
+        <div class="col-md-6 col-lg-3">
+          <div class="card tech-card h-100 text-center p-4">
+            <div class="mb-3">
+              <i class="fas fa-laptop-code fa-4x" style="color: #ff9800;"></i>
+            </div>
+            <h5 class="fw-bold mb-3" style="color: #ff9800;">KHACHHANG.GHTD.VN</h5>
+            <p class="text-muted mb-3">
+              Đặt đơn giao hàng nhanh chóng, tiết kiệm thời gian tối đa, theo dõi tình trạng đơn hàng và quản lý dòng tiền COD trong tầm tay với hệ thống quản lý trực tuyến 24/7.
+            </p>
+            <a href="#" class="btn btn-outline-warning btn-sm mt-auto">KHÁM PHÁ NGAY</a>
+          </div>
+        </div>
+
+        <!-- APP GHTD -->
+        <div class="col-md-6 col-lg-3">
+          <div class="card tech-card h-100 text-center p-4">
+            <div class="mb-3">
+              <i class="fas fa-mobile-alt fa-4x" style="color: #ff9800;"></i>
+            </div>
+            <h5 class="fw-bold mb-3" style="color: #ff9800;">APP GHTD</h5>
+            <p class="text-muted mb-3">
+              Giao hàng dễ dàng, nhanh chóng, mọi lúc mọi nơi với App GHTD. Tận hưởng những trải nghiệm tiện ích mượt mà cùng những ưu đãi hấp dẫn chỉ có riêng cho App GHTD.
+            </p>
+            <div class="d-flex justify-content-center gap-2 mt-auto">
+              <a href="#" class="btn btn-sm" style="background: #000; color: #fff;">
+                <i class="fab fa-apple"></i> iOS
+              </a>
+              <a href="#" class="btn btn-sm" style="background: #3DDC84; color: #fff;">
+                <i class="fab fa-google-play"></i> Android
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- CỔNG KẾT NỐI API -->
+        <div class="col-md-6 col-lg-3">
+          <div class="card tech-card h-100 text-center p-4">
+            <div class="mb-3">
+              <i class="fas fa-plug fa-4x" style="color: #ff9800;"></i>
+            </div>
+            <h5 class="fw-bold mb-3" style="color: #ff9800;">CỔNG KẾT NỐI API</h5>
+            <p class="text-muted mb-3">
+              Tích hợp công nghệ API có khả năng kết nối với hệ thống đơn hàng của các sàn thương mại điện tử và website bán hàng giúp tối ưu việc quản lý và kiểm soát các vấn đề trong quá trình giao nhận.
+            </p>
+            <a href="#" class="btn btn-outline-warning btn-sm mt-auto">TÌM HIỂU THÊM</a>
+          </div>
+        </div>
+
+        <!-- HỆ THỐNG TỰ ĐỘNG -->
+        <div class="col-md-6 col-lg-3">
+          <div class="card tech-card h-100 text-center p-4">
+            <div class="mb-3">
+              <i class="fas fa-robot fa-4x" style="color: #ff9800;"></i>
+            </div>
+            <h5 class="fw-bold mb-3" style="color: #ff9800;">TỰ ĐỘNG HÓA</h5>
+            <p class="text-muted mb-3">
+              Hệ thống băng tải phân loại hàng tự động 100% với công suất 30.000 đơn/giờ, giúp xử lý đơn hàng nhanh chóng và chính xác hơn bao giờ hết.
+            </p>
+            <div class="mt-auto">
+              <span class="badge bg-warning text-dark">30K đơn/giờ</span>
+              <span class="badge bg-success">100% tự động</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ưu điểm công nghệ -->
+      <div class="row mt-5">
+        <div class="col-12">
+          <div class="card border-0 shadow-sm" style="background: linear-gradient(135deg, #fff5e6 0%, #fff 100%);">
+            <div class="card-body p-5">
+              <h4 class="text-center fw-bold mb-4" style="color: #ff9800;">
+                <i class="fas fa-star"></i> ƯU ĐIỂM VƯỢT TRỘI CỦA CÔNG NGHỆ GHTD
+              </h4>
+              <div class="row g-4 mt-3">
+                <div class="col-md-4 text-center">
+                  <div class="mb-3">
+                    <i class="fas fa-chart-line fa-3x" style="color: #ffc107;"></i>
+                  </div>
+                  <h6 class="fw-bold" style="color: #333;">Tối ưu hiệu suất</h6>
+                  <p class="text-muted small">Xử lý hàng nghìn đơn hàng đồng thời với độ chính xác cao</p>
+                </div>
+                <div class="col-md-4 text-center">
+                  <div class="mb-3">
+                    <i class="fas fa-shield-alt fa-3x" style="color: #ffc107;"></i>
+                  </div>
+                  <h6 class="fw-bold" style="color: #333;">An toàn & Bảo mật</h6>
+                  <p class="text-muted small">Hệ thống bảo mật đa lớp, đảm bảo thông tin khách hàng tuyệt đối an toàn</p>
+                </div>
+                <div class="col-md-4 text-center">
+                  <div class="mb-3">
+                    <i class="fas fa-sync-alt fa-3x" style="color: #ffc107;"></i>
+                  </div>
+                  <h6 class="fw-bold" style="color: #333;">Cập nhật Real-time</h6>
+                  <p class="text-muted small">Theo dõi vị trí đơn hàng chính xác mọi lúc mọi nơi</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Call to action -->
+      <div class="text-center mt-5">
+        <p class="lead mb-4" style="color: #333;">
+          GHTD đang là đơn vị tiên phong trong việc ứng dụng công nghệ vào các hoạt động vận hành và quản lý 
+          giúp cho việc giao nhận trở nên hiệu quả và nhanh chóng hơn, tạo sự gắn kết chặt chẽ giữa người gửi và người nhận.
+        </p>
+        <a href="../register.html" class="btn btn-warning btn-lg px-5 py-3 shadow">
+          <i class="fas fa-rocket"></i> ĐĂNG KÝ TRẢI NGHIỆM NGAY
+        </a>
+      </div>
+    </div>
+  </section>
 
   <!-- Dịch vụ -->
 <section id="dichvu" class="services">
@@ -105,8 +381,8 @@
 
   <!-- Sidebar -->
  <aside class="sidebar">
-  <a href="#"><i class="fa-solid fa-store"></i> Hệ thống bưu cục</a>
-  <a href="#"><i class="fa-solid fa-money-bill-wave"></i> Chính sách bồi thường</a>
+  <a href="../buucuc.html"><i class="fa-solid fa-store"></i> Hệ thống bưu cục</a>
+  <a href="../chinh-sach-boi-thuong.html"><i class="fa-solid fa-money-bill-wave"></i> Chính sách bồi thường</a>
   <a href="#"><i class="fa-solid fa-box"></i> Hàng hoá không vận chuyển</a>
   <a href="#"><i class="fa-solid fa-comment-dots"></i> Quy định về khiếu nại</a>
 </aside>
@@ -115,8 +391,29 @@
   <footer>
     <p>© 2025 GiaoHangTocDo. All rights reserved.</p>
   </footer>
+  <!-- Dialogflow Messenger Chatbot -->
+  <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+  <df-messenger
+    chat-title="HTQLGH"
+    agent-id="bdc55ff6-110d-4ef5-8a6b-be0d655b8d0c"
+    language-code="vi"
+  ></df-messenger>
+  
+  <style>
+    df-messenger {
+      --df-messenger-bot-message: #4285f4;
+      --df-messenger-button-titlebar-color: #ffc107;
+      --df-messenger-chat-background-color: #fafafa;
+      --df-messenger-font-color: white;
+      --df-messenger-send-icon: #ffc107;
+      --df-messenger-user-message: #ffc107;
+      z-index: 999;
+    }
+  </style>
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="../js/api-service.js"></script>
+  <script src="../js/ui-customization.js"></script>
   <script>
     // Order search (tracking by order code) - uses apiService.trackByOrderCode
     (function(){

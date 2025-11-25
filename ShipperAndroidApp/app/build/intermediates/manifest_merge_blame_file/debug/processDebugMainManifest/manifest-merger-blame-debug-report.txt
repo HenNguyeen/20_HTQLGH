@@ -18,99 +18,142 @@
 13-->C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:5:5-81
 13-->C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:5:22-78
 14
-15    <permission
-15-->[androidx.core:core:1.9.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\01374442020e521891cd0a87782021a2\transformed\core-1.9.0\AndroidManifest.xml:22:5-24:47
-16        android:name="com.example.shipperapp.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
-16-->[androidx.core:core:1.9.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\01374442020e521891cd0a87782021a2\transformed\core-1.9.0\AndroidManifest.xml:23:9-81
-17        android:protectionLevel="signature" />
-17-->[androidx.core:core:1.9.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\01374442020e521891cd0a87782021a2\transformed\core-1.9.0\AndroidManifest.xml:24:9-44
-18
-19    <uses-permission android:name="com.example.shipperapp.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
-19-->[androidx.core:core:1.9.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\01374442020e521891cd0a87782021a2\transformed\core-1.9.0\AndroidManifest.xml:26:5-97
-19-->[androidx.core:core:1.9.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\01374442020e521891cd0a87782021a2\transformed\core-1.9.0\AndroidManifest.xml:26:22-94
-20
-21    <application
-21-->C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:7:5-23:19
-22        android:allowBackup="true"
-22-->C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:8:9-35
-23        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
-23-->[androidx.core:core:1.9.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\01374442020e521891cd0a87782021a2\transformed\core-1.9.0\AndroidManifest.xml:28:18-86
-24        android:debuggable="true"
-25        android:extractNativeLibs="true"
-26        android:label="ShipperApp"
-26-->C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:9:9-35
-27        android:networkSecurityConfig="@xml/network_security_config"
-27-->C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:13:9-69
-28        android:supportsRtl="true"
-28-->C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:10:9-35
-29        android:testOnly="true"
-30        android:theme="@style/AppTheme"
-30-->C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:11:9-40
-31        android:usesCleartextTraffic="true" >
-31-->C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:12:9-44
-32        <activity
-32-->C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:14:9-19:20
-33            android:name="com.example.shipperapp.LoginActivity"
-33-->C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:14:19-48
-34            android:exported="true" >
-34-->C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:14:49-72
-35            <intent-filter>
-35-->C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:15:13-18:29
-36                <action android:name="android.intent.action.MAIN" />
-36-->C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:16:17-69
-36-->C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:16:25-66
-37
-38                <category android:name="android.intent.category.LAUNCHER" />
-38-->C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:17:17-77
-38-->C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:17:27-74
-39            </intent-filter>
-40        </activity>
-41        <activity android:name="com.example.shipperapp.OrderListActivity" />
-41-->C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:20:9-55
-41-->C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:20:19-52
-42        <activity android:name="com.example.shipperapp.OrderDetailActivity" />
-42-->C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:21:9-57
-42-->C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:21:19-54
-43        <activity android:name="com.example.shipperapp.MainActivity" />
-43-->C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:22:9-50
-43-->C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:22:19-47
-44        <activity
-44-->[com.google.android.gms:play-services-base:18.1.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\13390995c7dcccc58fec9c17689ae93b\transformed\jetified-play-services-base-18.1.0\AndroidManifest.xml:20:9-22:45
-45            android:name="com.google.android.gms.common.api.GoogleApiActivity"
-45-->[com.google.android.gms:play-services-base:18.1.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\13390995c7dcccc58fec9c17689ae93b\transformed\jetified-play-services-base-18.1.0\AndroidManifest.xml:20:19-85
-46            android:exported="false"
-46-->[com.google.android.gms:play-services-base:18.1.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\13390995c7dcccc58fec9c17689ae93b\transformed\jetified-play-services-base-18.1.0\AndroidManifest.xml:22:19-43
-47            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-47-->[com.google.android.gms:play-services-base:18.1.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\13390995c7dcccc58fec9c17689ae93b\transformed\jetified-play-services-base-18.1.0\AndroidManifest.xml:21:19-78
-48
-49        <meta-data
-49-->[com.google.android.gms:play-services-basement:18.1.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\27e69980450813336e20339dd9b63b9e\transformed\jetified-play-services-basement-18.1.0\AndroidManifest.xml:21:9-23:69
-50            android:name="com.google.android.gms.version"
-50-->[com.google.android.gms:play-services-basement:18.1.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\27e69980450813336e20339dd9b63b9e\transformed\jetified-play-services-basement-18.1.0\AndroidManifest.xml:22:13-58
-51            android:value="@integer/google_play_services_version" />
-51-->[com.google.android.gms:play-services-basement:18.1.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\27e69980450813336e20339dd9b63b9e\transformed\jetified-play-services-basement-18.1.0\AndroidManifest.xml:23:13-66
-52
-53        <provider
-53-->[androidx.emoji2:emoji2:1.2.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\7bfdb105a4379d5071fd10939fdab6e1\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:24:9-32:20
-54            android:name="androidx.startup.InitializationProvider"
-54-->[androidx.emoji2:emoji2:1.2.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\7bfdb105a4379d5071fd10939fdab6e1\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:25:13-67
-55            android:authorities="com.example.shipperapp.androidx-startup"
-55-->[androidx.emoji2:emoji2:1.2.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\7bfdb105a4379d5071fd10939fdab6e1\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:26:13-68
-56            android:exported="false" >
-56-->[androidx.emoji2:emoji2:1.2.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\7bfdb105a4379d5071fd10939fdab6e1\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:27:13-37
-57            <meta-data
-57-->[androidx.emoji2:emoji2:1.2.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\7bfdb105a4379d5071fd10939fdab6e1\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:29:13-31:52
-58                android:name="androidx.emoji2.text.EmojiCompatInitializer"
-58-->[androidx.emoji2:emoji2:1.2.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\7bfdb105a4379d5071fd10939fdab6e1\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:30:17-75
-59                android:value="androidx.startup" />
-59-->[androidx.emoji2:emoji2:1.2.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\7bfdb105a4379d5071fd10939fdab6e1\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:31:17-49
-60            <meta-data
-60-->[androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\DELL\.gradle\caches\8.10.2\transforms\a6ef7f3d288e86e692030c60a4a9cdae\transformed\jetified-lifecycle-process-2.4.1\AndroidManifest.xml:31:13-33:52
-61                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
-61-->[androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\DELL\.gradle\caches\8.10.2\transforms\a6ef7f3d288e86e692030c60a4a9cdae\transformed\jetified-lifecycle-process-2.4.1\AndroidManifest.xml:32:17-78
-62                android:value="androidx.startup" />
-62-->[androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\DELL\.gradle\caches\8.10.2\transforms\a6ef7f3d288e86e692030c60a4a9cdae\transformed\jetified-lifecycle-process-2.4.1\AndroidManifest.xml:33:17-49
-63        </provider>
-64    </application>
-65
-66</manifest>
+15    <!-- Include required permissions for Google Maps API to run. -->
+16    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+16-->[com.google.android.gms:play-services-maps:18.1.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\e7c622b30b3a45f769449f5a79edff8b\transformed\jetified-play-services-maps-18.1.0\AndroidManifest.xml:23:5-79
+16-->[com.google.android.gms:play-services-maps:18.1.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\e7c622b30b3a45f769449f5a79edff8b\transformed\jetified-play-services-maps-18.1.0\AndroidManifest.xml:23:22-76
+17
+18    <uses-feature
+18-->[com.google.android.gms:play-services-maps:18.1.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\e7c622b30b3a45f769449f5a79edff8b\transformed\jetified-play-services-maps-18.1.0\AndroidManifest.xml:26:5-28:35
+19        android:glEsVersion="0x00020000"
+19-->[com.google.android.gms:play-services-maps:18.1.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\e7c622b30b3a45f769449f5a79edff8b\transformed\jetified-play-services-maps-18.1.0\AndroidManifest.xml:27:9-41
+20        android:required="true" />
+20-->[com.google.android.gms:play-services-maps:18.1.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\e7c622b30b3a45f769449f5a79edff8b\transformed\jetified-play-services-maps-18.1.0\AndroidManifest.xml:28:9-32
+21
+22    <queries>
+22-->[com.google.android.gms:play-services-maps:18.1.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\e7c622b30b3a45f769449f5a79edff8b\transformed\jetified-play-services-maps-18.1.0\AndroidManifest.xml:30:5-34:15
+23
+24        <!-- Needs to be explicitly declared on Android R+ -->
+25        <package android:name="com.google.android.apps.maps" />
+25-->[com.google.android.gms:play-services-maps:18.1.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\e7c622b30b3a45f769449f5a79edff8b\transformed\jetified-play-services-maps-18.1.0\AndroidManifest.xml:33:9-64
+25-->[com.google.android.gms:play-services-maps:18.1.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\e7c622b30b3a45f769449f5a79edff8b\transformed\jetified-play-services-maps-18.1.0\AndroidManifest.xml:33:18-61
+26    </queries>
+27
+28    <permission
+28-->[androidx.core:core:1.9.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\01374442020e521891cd0a87782021a2\transformed\core-1.9.0\AndroidManifest.xml:22:5-24:47
+29        android:name="com.example.shipperapp.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+29-->[androidx.core:core:1.9.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\01374442020e521891cd0a87782021a2\transformed\core-1.9.0\AndroidManifest.xml:23:9-81
+30        android:protectionLevel="signature" />
+30-->[androidx.core:core:1.9.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\01374442020e521891cd0a87782021a2\transformed\core-1.9.0\AndroidManifest.xml:24:9-44
+31
+32    <uses-permission android:name="com.example.shipperapp.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+32-->[androidx.core:core:1.9.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\01374442020e521891cd0a87782021a2\transformed\core-1.9.0\AndroidManifest.xml:26:5-97
+32-->[androidx.core:core:1.9.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\01374442020e521891cd0a87782021a2\transformed\core-1.9.0\AndroidManifest.xml:26:22-94
+33
+34    <application
+34-->C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:7:5-29:19
+35        android:allowBackup="true"
+35-->C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:8:9-35
+36        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+36-->[androidx.core:core:1.9.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\01374442020e521891cd0a87782021a2\transformed\core-1.9.0\AndroidManifest.xml:28:18-86
+37        android:debuggable="true"
+38        android:extractNativeLibs="true"
+39        android:label="ShipperApp"
+39-->C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:9:9-35
+40        android:networkSecurityConfig="@xml/network_security_config"
+40-->C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:13:9-69
+41        android:supportsRtl="true"
+41-->C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:10:9-35
+42        android:testOnly="true"
+43        android:theme="@style/AppTheme"
+43-->C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:11:9-40
+44        android:usesCleartextTraffic="true" >
+44-->C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:12:9-44
+45        <activity
+45-->C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:14:9-19:20
+46            android:name="com.example.shipperapp.LoginActivity"
+46-->C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:14:19-48
+47            android:exported="true" >
+47-->C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:14:49-72
+48            <intent-filter>
+48-->C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:15:13-18:29
+49                <action android:name="android.intent.action.MAIN" />
+49-->C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:16:17-69
+49-->C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:16:25-66
+50
+51                <category android:name="android.intent.category.LAUNCHER" />
+51-->C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:17:17-77
+51-->C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:17:27-74
+52            </intent-filter>
+53        </activity>
+54        <activity android:name="com.example.shipperapp.OrderListActivity" />
+54-->C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:20:9-55
+54-->C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:20:19-52
+55        <activity android:name="com.example.shipperapp.OrderDetailActivity" />
+55-->C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:21:9-57
+55-->C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:21:19-54
+56        <activity
+56-->C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:22:9-79
+57            android:name="com.example.shipperapp.OrderMapActivity"
+57-->C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:22:19-51
+58            android:exported="false" />
+58-->C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:22:52-76
+59        <activity android:name="com.example.shipperapp.MainActivity" />
+59-->C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:23:9-50
+59-->C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:23:19-47
+60
+61        <!-- Google Maps API Key -->
+62        <meta-data
+62-->C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:26:9-28:61
+63            android:name="com.google.android.geo.API_KEY"
+63-->C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:27:13-58
+64            android:value="YOUR_GOOGLE_MAPS_API_KEY_HERE" />
+64-->C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:28:13-58
+65        <!-- Needs to be explicitly declared on P+ -->
+66        <uses-library
+66-->[com.google.android.gms:play-services-maps:18.1.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\e7c622b30b3a45f769449f5a79edff8b\transformed\jetified-play-services-maps-18.1.0\AndroidManifest.xml:39:9-41:40
+67            android:name="org.apache.http.legacy"
+67-->[com.google.android.gms:play-services-maps:18.1.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\e7c622b30b3a45f769449f5a79edff8b\transformed\jetified-play-services-maps-18.1.0\AndroidManifest.xml:40:13-50
+68            android:required="false" />
+68-->[com.google.android.gms:play-services-maps:18.1.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\e7c622b30b3a45f769449f5a79edff8b\transformed\jetified-play-services-maps-18.1.0\AndroidManifest.xml:41:13-37
+69
+70        <activity
+70-->[com.google.android.gms:play-services-base:18.1.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\13390995c7dcccc58fec9c17689ae93b\transformed\jetified-play-services-base-18.1.0\AndroidManifest.xml:20:9-22:45
+71            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+71-->[com.google.android.gms:play-services-base:18.1.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\13390995c7dcccc58fec9c17689ae93b\transformed\jetified-play-services-base-18.1.0\AndroidManifest.xml:20:19-85
+72            android:exported="false"
+72-->[com.google.android.gms:play-services-base:18.1.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\13390995c7dcccc58fec9c17689ae93b\transformed\jetified-play-services-base-18.1.0\AndroidManifest.xml:22:19-43
+73            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+73-->[com.google.android.gms:play-services-base:18.1.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\13390995c7dcccc58fec9c17689ae93b\transformed\jetified-play-services-base-18.1.0\AndroidManifest.xml:21:19-78
+74
+75        <meta-data
+75-->[com.google.android.gms:play-services-basement:18.1.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\27e69980450813336e20339dd9b63b9e\transformed\jetified-play-services-basement-18.1.0\AndroidManifest.xml:21:9-23:69
+76            android:name="com.google.android.gms.version"
+76-->[com.google.android.gms:play-services-basement:18.1.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\27e69980450813336e20339dd9b63b9e\transformed\jetified-play-services-basement-18.1.0\AndroidManifest.xml:22:13-58
+77            android:value="@integer/google_play_services_version" />
+77-->[com.google.android.gms:play-services-basement:18.1.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\27e69980450813336e20339dd9b63b9e\transformed\jetified-play-services-basement-18.1.0\AndroidManifest.xml:23:13-66
+78
+79        <provider
+79-->[androidx.emoji2:emoji2:1.2.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\7bfdb105a4379d5071fd10939fdab6e1\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:24:9-32:20
+80            android:name="androidx.startup.InitializationProvider"
+80-->[androidx.emoji2:emoji2:1.2.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\7bfdb105a4379d5071fd10939fdab6e1\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:25:13-67
+81            android:authorities="com.example.shipperapp.androidx-startup"
+81-->[androidx.emoji2:emoji2:1.2.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\7bfdb105a4379d5071fd10939fdab6e1\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:26:13-68
+82            android:exported="false" >
+82-->[androidx.emoji2:emoji2:1.2.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\7bfdb105a4379d5071fd10939fdab6e1\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:27:13-37
+83            <meta-data
+83-->[androidx.emoji2:emoji2:1.2.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\7bfdb105a4379d5071fd10939fdab6e1\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:29:13-31:52
+84                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+84-->[androidx.emoji2:emoji2:1.2.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\7bfdb105a4379d5071fd10939fdab6e1\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:30:17-75
+85                android:value="androidx.startup" />
+85-->[androidx.emoji2:emoji2:1.2.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\7bfdb105a4379d5071fd10939fdab6e1\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:31:17-49
+86            <meta-data
+86-->[androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\DELL\.gradle\caches\8.10.2\transforms\a6ef7f3d288e86e692030c60a4a9cdae\transformed\jetified-lifecycle-process-2.4.1\AndroidManifest.xml:31:13-33:52
+87                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+87-->[androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\DELL\.gradle\caches\8.10.2\transforms\a6ef7f3d288e86e692030c60a4a9cdae\transformed\jetified-lifecycle-process-2.4.1\AndroidManifest.xml:32:17-78
+88                android:value="androidx.startup" />
+88-->[androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\DELL\.gradle\caches\8.10.2\transforms\a6ef7f3d288e86e692030c60a4a9cdae\transformed\jetified-lifecycle-process-2.4.1\AndroidManifest.xml:33:17-49
+89        </provider>
+90    </application>
+91
+92</manifest>

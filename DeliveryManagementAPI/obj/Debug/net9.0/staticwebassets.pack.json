@@ -1,0 +1,41 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Users\\DELL\\Documents\\GitHub\\20_HTQLGH\\DeliveryManagementAPI\\wwwroot\\uploads\\chat\\8a01ca03-f46e-4603-81fa-874813821647.jpg",
+      "PackagePath": "staticwebassets\\uploads\\chat\\8a01ca03-f46e-4603-81fa-874813821647.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DELL\\Documents\\GitHub\\20_HTQLGH\\DeliveryManagementAPI\\wwwroot\\uploads\\chat\\a831bb56-cd8b-4cc0-8bc0-26859e3ae789.jpg",
+      "PackagePath": "staticwebassets\\uploads\\chat\\a831bb56-cd8b-4cc0-8bc0-26859e3ae789.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DELL\\Documents\\GitHub\\20_HTQLGH\\DeliveryManagementAPI\\wwwroot\\uploads\\chat\\e88bbfd7-6a7c-4b7f-a5a3-38287a20e37f.jpg",
+      "PackagePath": "staticwebassets\\uploads\\chat\\e88bbfd7-6a7c-4b7f-a5a3-38287a20e37f.jpg"
+    },
+    {
+      "Id": "C:\\Users\\DELL\\Documents\\GitHub\\20_HTQLGH\\DeliveryManagementAPI\\wwwroot\\uploads\\chat\\f8f827d1-5e99-438c-b436-be1c295cfbb1.jpg",
+      "PackagePath": "staticwebassets\\uploads\\chat\\f8f827d1-5e99-438c-b436-be1c295cfbb1.jpg"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.DeliveryManagementAPI.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssetEndpoints.props"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.DeliveryManagementAPI.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.build.DeliveryManagementAPI.props",
+      "PackagePath": "build\\DeliveryManagementAPI.props"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.buildMultiTargeting.DeliveryManagementAPI.props",
+      "PackagePath": "buildMultiTargeting\\DeliveryManagementAPI.props"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.buildTransitive.DeliveryManagementAPI.props",
+      "PackagePath": "buildTransitive\\DeliveryManagementAPI.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

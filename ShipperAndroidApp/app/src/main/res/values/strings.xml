@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App Name -->
+    <string name="app_name">GHTD Shipper</string>
+    
+    <!-- Login Screen -->
+    <string name="login_welcome">Chào mừng Shipper</string>
+    <string name="login_subtitle">Đăng nhập để bắt đầu giao hàng</string>
+    <string name="username_hint">Tên đăng nhập</string>
+    <string name="password_hint">Mật khẩu</string>
+    <string name="login_button">Đăng nhập</string>
+    <string name="login_error">Đăng nhập thất bại. Vui lòng thử lại.</string>
+    
+    <!-- Order List Screen -->
+    <string name="orders_title">Đơn hàng của tôi</string>
+    <string name="orders_empty">Không có đơn hàng</string>
+    <string name="orders_empty_subtitle">Các đơn hàng của bạn sẽ hiển thị tại đây</string>
+    <string name="refresh">Làm mới</string>
+    
+    <!-- Order Detail Screen -->
+    <string name="order_detail_title">Chi tiết đơn hàng</string>
+    <string name="order_code">Mã đơn: %1$s</string>
+    <string name="order_status">Trạng thái: %1$s</string>
+    <string name="update_status">Cập nhật trạng thái</string>
+    <string name="update_status_button">Cập nhật trạng thái</string>
+    
+    <!-- Tracking -->
+    <string name="tracking_title">Theo dõi vị trí Real-time</string>
+    <string name="tracking_enabled">Bật chia sẻ vị trí\n(cập nhật mỗi 30 giây)</string>
+    <string name="tracking_manual">Hoặc check-in thủ công:</string>
+    <string name="latitude_hint">Latitude</string>
+    <string name="longitude_hint">Longitude</string>
+    <string name="note_hint">Ghi chú (tùy chọn)</string>
+    <string name="checkin_button">Check-in vị trí</string>
+    
+    <!-- Map Screen -->
+    <string name="map_title">Bản đồ lộ trình</string>
+    <string name="map_button">🗺️ Xem Bản Đồ Lộ Trình</string>
+    <string name="distance_label">Khoảng cách: %1$s</string>
+    <string name="loading_info">Đang tải thông tin...</string>
+    <string name="route_info">Thông tin lộ trình</string>
+    <string name="tracking_status">Đang theo dõi real-time</string>
+    <string name="call_customer">Gọi KH</string>
+    <string name="navigate">Chỉ đường</string>
+    
+    <!-- Common -->
+    <string name="loading">Đang tải...</string>
+    <string name="error">Đã xảy ra lỗi</string>
+    <string name="retry">Thử lại</string>
+    <string name="cancel">Hủy</string>
+    <string name="ok">OK</string>
+    <string name="today">Hôm nay</string>
+    <string name="view_details">Xem chi tiết ></string>
+    
+    <!-- Footer -->
+    <string name="footer_copyright">© 2025 GHTD - Giao Hàng Tốc Độ</string>
+</resources>

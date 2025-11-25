@@ -1,0 +1,20 @@
+{
+  "name": "ChinhSachGiaoHang",
+  "auto": true,
+  "webhookUsed": false,
+  "fallbackIntent": false,
+  "responses": [
+    {
+      "resetContexts": false,
+      "messages": [
+        {
+          "type": 0,
+          "lang": "vi",
+          "speech": [
+            "📦 Chính sách giao hàng của chúng tôi:\n\n✅ Giao hàng nhanh trong nội thành 1-2 ngày\n✅ Giao hàng toàn quốc 3-5 ngày\n✅ Miễn phí giao hàng đơn từ 500,000đ\n✅ Kiểm tra hàng trước khi thanh toán\n✅ Hỗ trợ đổi trả trong 7 ngày nếu hàng lỗi\n\nBạn có cần thêm thông tin gì không?"
+          ]
+        }
+      ]
+    }
+  ]
+}

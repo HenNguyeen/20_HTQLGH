@@ -14,6 +14,8 @@ namespace DeliveryManagementAPI
         public DbSet<Customer> Customers { get; set; }
 
     public DbSet<Feedback> Feedbacks { get; set; }
+        
+        public DbSet<ChatMessage> ChatMessages { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

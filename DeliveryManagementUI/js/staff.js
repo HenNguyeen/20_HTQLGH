@@ -71,8 +71,27 @@ async function loadStaff() {
     try {
         showLoading();
         const data = await apiService.getDeliveryStaff();
-        allStaff = data;
-        filteredStaff = data;
+        
+        // Lấy rating cho từng nhân viên
+        const staffWithRatings = await Promise.all(data.map(async (staff) => {
+            try {
+                const ratingData = await apiService.getStaffRating(staff.staffId);
+                return {
+                    ...staff,
+                    averageRating: ratingData.averageRating || 0,
+                    totalFeedbacks: ratingData.totalFeedbacks || 0
+                };
+            } catch {
+                return {
+                    ...staff,
+                    averageRating: 0,
+                    totalFeedbacks: 0
+                };
+            }
+        }));
+        
+        allStaff = staffWithRatings;
+        filteredStaff = staffWithRatings;
         updateStats();
         renderStaffCards();
     } catch (error) {
@@ -177,6 +196,14 @@ function renderStaffCards() {
                         <p class="mb-2">
                             <i class="fas fa-id-card text-warning"></i>
                             <strong>Biển số:</strong> ${staff.vehiclePlate}
+                        </p>
+                        <p class="mb-2">
+                            <i class="fas fa-star text-warning"></i>
+                            <strong>Đánh giá:</strong> 
+                            ${staff.averageRating > 0 ? `
+                                <span class="text-warning">${staff.averageRating.toFixed(1)}/5</span>
+                                <small class="text-muted">(${staff.totalFeedbacks} đánh giá)</small>
+                            ` : '<span class="text-muted">Chưa có đánh giá</span>'}
                         </p>
                         <p class="mb-0">
                             <i class="fas fa-box text-secondary"></i>

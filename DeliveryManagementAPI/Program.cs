@@ -17,6 +17,9 @@ builder.Services.AddDbContext<DeliveryManagementAPI.DeliveryDbContext>(options =
 // Add services to the container
 builder.Services.AddControllers();
 
+// Add SignalR
+builder.Services.AddSignalR();
+
 // Đăng ký các services
 builder.Services.AddScoped<OrderService>();
 builder.Services.AddScoped<DeliveryStaffService>();
@@ -184,6 +187,9 @@ if (Directory.Exists(uiPath))
         await next();
     });
 
+    // Enable default wwwroot static files (for uploaded images)
+    app.UseStaticFiles();
+
     // Serve default files: prefer Home/home.html as the default root document, then index.html
     app.UseDefaultFiles(new DefaultFilesOptions
     {
@@ -207,5 +213,9 @@ if (Directory.Exists(uiPath))
 }
 
 app.MapControllers();
+
+// Map SignalR Hubs
+app.MapHub<DeliveryManagementAPI.Hubs.ChatHub>("/chatHub");
+app.MapHub<DeliveryManagementAPI.Hubs.TrackingHub>("/trackingHub");
 
 app.Run();
