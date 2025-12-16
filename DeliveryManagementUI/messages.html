@@ -16,7 +16,6 @@
     <link rel="stylesheet" href="css/messages.css">
 </head>
 <body>
-    <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
         <div class="sidebar-header">
             <i class="fas fa-shipping-fast"></i>
@@ -26,52 +25,52 @@
             <li>
                 <a href="index.html">
                     <i class="fas fa-home"></i>
-                    <span>Dashboard</span>
+                    <span data-i18n="dashboard">Dashboard</span>
                 </a>
             </li>
-            <li>
+            <li class="active">
                 <a href="orders.html">
                     <i class="fas fa-box"></i>
-                    <span>Đơn Hàng</span>
-                </a>
-            </li>
-            <li>
-                <a href="customers.html">
-                    <i class="fas fa-users"></i>
-                    <span>Khách Hàng</span>
+                    <span data-i18n="orders">Đơn Hàng</span>
                 </a>
             </li>
             <li>
                 <a href="staff.html">
-                    <i class="fas fa-user-tie"></i>
-                    <span>Nhân Viên</span>
+                    <i class="fas fa-users"></i>
+                    <span data-i18n="staff">Nhân Viên</span>
+                </a>
+            </li>
+            <li>
+                <a href="customers.html">
+                    <i class="fas fa-address-book"></i>
+                    <span data-i18n="customers">Khách Hàng</span>
+                </a>
+            </li>
+            <li>
+                <a href="accounts.html">
+                    <i class="fas fa-user-shield"></i>
+                    <span data-i18n="accounts">Quản Lý Tài Khoản</span>
                 </a>
             </li>
             <li>
                 <a href="reports.html">
-                    <i class="fas fa-chart-bar"></i>
-                    <span>Báo Cáo</span>
+                    <i class="fas fa-chart-line"></i>
+                    <span data-i18n="reports">Báo Cáo Doanh Thu</span>
                 </a>
             </li>
-            <li class="active">
+            <li>
                 <a href="messages.html">
                     <i class="fas fa-comments"></i>
                     <span>Tin Nhắn</span>
                 </a>
             </li>
             <li>
-                <a href="accounts.html">
-                    <i class="fas fa-user-cog"></i>
-                    <span>Tài Khoản</span>
+                <a href="#" onclick="alert('Tính năng đang phát triển')">
+                    <i class="fas fa-cog"></i>
+                    <span data-i18n="settings">Cài Đặt</span>
                 </a>
             </li>
         </ul>
-        <div class="sidebar-footer">
-            <a href="#" onclick="auth.logout()">
-                <i class="fas fa-sign-out-alt"></i>
-                <span>Đăng Xuất</span>
-            </a>
-        </div>
     </div>
 
     <!-- Main Content -->

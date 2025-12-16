@@ -104,11 +104,11 @@
 60
 61        <!-- Google Maps API Key -->
 62        <meta-data
-62-->C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:26:9-28:61
+62-->C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:26:9-28:71
 63            android:name="com.google.android.geo.API_KEY"
 63-->C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:27:13-58
-64            android:value="YOUR_GOOGLE_MAPS_API_KEY_HERE" />
-64-->C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:28:13-58
+64            android:value="AIzaSyBqY36RD-MorEfehTtZikm7iQ4M0r8igxQ" />
+64-->C:\Users\DELL\Documents\GitHub\20_HTQLGH\ShipperAndroidApp\app\src\main\AndroidManifest.xml:28:13-68
 65        <!-- Needs to be explicitly declared on P+ -->
 66        <uses-library
 66-->[com.google.android.gms:play-services-maps:18.1.0] C:\Users\DELL\.gradle\caches\8.10.2\transforms\e7c622b30b3a45f769449f5a79edff8b\transformed\jetified-play-services-maps-18.1.0\AndroidManifest.xml:39:9-41:40

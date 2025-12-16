@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "YMtxaw0UWUAIzVwkMp5cHlyX68rtytTOHAOS+5nHOC4=",
+  "Hash": "gGEc6TEFhONvrPX9WzXPuCnC9WWN7dRXi30Ppg5GOO0=",
   "Source": "DeliveryManagementAPI",
   "BasePath": "_content/DeliveryManagementAPI",
   "Mode": "Default",
@@ -16,6 +16,48 @@
     }
   ],
   "Assets": [
+    {
+      "Identity": "C:\\Users\\DELL\\Documents\\GitHub\\20_HTQLGH\\DeliveryManagementAPI\\wwwroot\\uploads\\chat\\1a3585a3-1cb9-43c8-96f0-3cf46b912041.jpg",
+      "SourceId": "DeliveryManagementAPI",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\DELL\\Documents\\GitHub\\20_HTQLGH\\DeliveryManagementAPI\\wwwroot\\",
+      "BasePath": "_content/DeliveryManagementAPI",
+      "RelativePath": "uploads/chat/1a3585a3-1cb9-43c8-96f0-3cf46b912041#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "lf6r41rxc7",
+      "Integrity": "UXHpIGF72fI7pXkp+2q9mLtJqcx4oO8tpt+gD55P73g=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\chat\\1a3585a3-1cb9-43c8-96f0-3cf46b912041.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\DELL\\Documents\\GitHub\\20_HTQLGH\\DeliveryManagementAPI\\wwwroot\\uploads\\chat\\483264ba-b599-46ef-880f-6696bd866630.jpg",
+      "SourceId": "DeliveryManagementAPI",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\DELL\\Documents\\GitHub\\20_HTQLGH\\DeliveryManagementAPI\\wwwroot\\",
+      "BasePath": "_content/DeliveryManagementAPI",
+      "RelativePath": "uploads/chat/483264ba-b599-46ef-880f-6696bd866630#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "ce5t7l00oe",
+      "Integrity": "bGQotGdM+hvaVQ0m8AMv+rtnhm+1kZEyBsAf+j8ogkQ=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\chat\\483264ba-b599-46ef-880f-6696bd866630.jpg"
+    },
     {
       "Identity": "C:\\Users\\DELL\\Documents\\GitHub\\20_HTQLGH\\DeliveryManagementAPI\\wwwroot\\uploads\\chat\\8a01ca03-f46e-4603-81fa-874813821647.jpg",
       "SourceId": "DeliveryManagementAPI",
@@ -102,6 +144,170 @@
     }
   ],
   "Endpoints": [
+    {
+      "Route": "uploads/chat/1a3585a3-1cb9-43c8-96f0-3cf46b912041.jpg",
+      "AssetFile": "C:\\Users\\DELL\\Documents\\GitHub\\20_HTQLGH\\DeliveryManagementAPI\\wwwroot\\uploads\\chat\\1a3585a3-1cb9-43c8-96f0-3cf46b912041.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "131626"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"UXHpIGF72fI7pXkp+2q9mLtJqcx4oO8tpt+gD55P73g=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 25 Nov 2025 19:23:21 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-UXHpIGF72fI7pXkp+2q9mLtJqcx4oO8tpt+gD55P73g="
+        }
+      ]
+    },
+    {
+      "Route": "uploads/chat/1a3585a3-1cb9-43c8-96f0-3cf46b912041.lf6r41rxc7.jpg",
+      "AssetFile": "C:\\Users\\DELL\\Documents\\GitHub\\20_HTQLGH\\DeliveryManagementAPI\\wwwroot\\uploads\\chat\\1a3585a3-1cb9-43c8-96f0-3cf46b912041.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "131626"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"UXHpIGF72fI7pXkp+2q9mLtJqcx4oO8tpt+gD55P73g=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 25 Nov 2025 19:23:21 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "lf6r41rxc7"
+        },
+        {
+          "Name": "label",
+          "Value": "uploads/chat/1a3585a3-1cb9-43c8-96f0-3cf46b912041.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-UXHpIGF72fI7pXkp+2q9mLtJqcx4oO8tpt+gD55P73g="
+        }
+      ]
+    },
+    {
+      "Route": "uploads/chat/483264ba-b599-46ef-880f-6696bd866630.ce5t7l00oe.jpg",
+      "AssetFile": "C:\\Users\\DELL\\Documents\\GitHub\\20_HTQLGH\\DeliveryManagementAPI\\wwwroot\\uploads\\chat\\483264ba-b599-46ef-880f-6696bd866630.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "91590"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"bGQotGdM+hvaVQ0m8AMv+rtnhm+1kZEyBsAf+j8ogkQ=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 25 Nov 2025 19:23:37 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "ce5t7l00oe"
+        },
+        {
+          "Name": "label",
+          "Value": "uploads/chat/483264ba-b599-46ef-880f-6696bd866630.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-bGQotGdM+hvaVQ0m8AMv+rtnhm+1kZEyBsAf+j8ogkQ="
+        }
+      ]
+    },
+    {
+      "Route": "uploads/chat/483264ba-b599-46ef-880f-6696bd866630.jpg",
+      "AssetFile": "C:\\Users\\DELL\\Documents\\GitHub\\20_HTQLGH\\DeliveryManagementAPI\\wwwroot\\uploads\\chat\\483264ba-b599-46ef-880f-6696bd866630.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "91590"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"bGQotGdM+hvaVQ0m8AMv+rtnhm+1kZEyBsAf+j8ogkQ=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 25 Nov 2025 19:23:37 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-bGQotGdM+hvaVQ0m8AMv+rtnhm+1kZEyBsAf+j8ogkQ="
+        }
+      ]
+    },
     {
       "Route": "uploads/chat/8a01ca03-f46e-4603-81fa-874813821647.ce5t7l00oe.jpg",
       "AssetFile": "C:\\Users\\DELL\\Documents\\GitHub\\20_HTQLGH\\DeliveryManagementAPI\\wwwroot\\uploads\\chat\\8a01ca03-f46e-4603-81fa-874813821647.jpg",

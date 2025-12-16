@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lên đơn Excel - GHTD</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/customer-dashboard.css" />
+  <style>
+    .upload-zone {
+      border: 3px dashed #dee2e6;
+      border-radius: 12px;
+      padding: 60px 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s;
+      background: #f8f9fa;
+    }
+    .upload-zone:hover {
+      border-color: #FF9800;
+      background: #fff3e0;
+    }
+    .upload-zone.dragover {
+      border-color: #FF9800;
+      background: #fff3e0;
+      transform: scale(1.02);
+    }
+    .upload-icon {
+      font-size: 4rem;
+      color: #FF9800;
+      margin-bottom: 20px;
+    }
+    .template-card {
+      border: 2px solid #e0e0e0;
+      border-radius: 10px;
+      padding: 20px;
+      transition: all 0.3s;
+    }
+    .template-card:hover {
+      border-color: #FF9800;
+      box-shadow: 0 4px 12px rgba(255, 152, 0, 0.2);
+    }
+    .step-number {
+      width: 40px;
+      height: 40px;
+      background: #FF9800;
+      color: white;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+    .preview-table {
+      max-height: 400px;
+      overflow-y: auto;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="sidebar-top text-center py-4">
+        <img src="../assets/logo.png" alt="Logo" class="brand-logo mb-2" onerror="this.style.display='none'" />
+      </div>
+      <div class="user-panel px-3 py-3">
+        <div class="d-flex align-items-center mb-3">
+          <div class="avatar me-2"><i class="fas fa-user-circle fa-2x"></i></div>
+          <div>
+            <div class="user-name">Sanghen</div>
+            <div class="user-role text-success small">Chủ cửa hàng</div>
+          </div>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav px-2">
+        <a href="./index.html" class="nav-link"><i class="fas fa-store me-2"></i> Tổng quan</a>
+        <a href="./orders.html" class="nav-link"><i class="fas fa-box me-2"></i> Quản lý đơn hàng</a>
+        <a href="./reports-live.html" class="nav-link"><i class="fas fa-chart-line me-2"></i> Báo cáo - Live</a>
+        <a href="./import-excel.html" class="nav-link active"><i class="fas fa-file-excel me-2"></i> Lên đơn Excel</a>
+        <a href="#" class="nav-link text-danger" onclick="auth.logout()"><i class="fas fa-sign-out-alt me-2"></i> Đăng xuất</a>
+      </nav>
+    </aside>
+
+    <main class="main-content">
+      <header class="main-header d-flex align-items-center justify-content-between px-4 py-2 border-bottom bg-white">
+        <div class="d-flex align-items-center gap-3 w-100">
+          <h4 class="mb-0"><i class="fas fa-file-excel text-success me-2"></i>Lên đơn hàng bằng Excel</h4>
+          <span class="badge bg-info ms-auto">Tải lên nhiều đơn cùng lúc</span>
+        </div>
+      </header>
+
+      <div class="main-body p-4">
+        
+        <!-- Instructions -->
+        <div class="row mb-4">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title"><i class="fas fa-info-circle text-primary me-2"></i>Hướng dẫn lên đơn Excel</h5>
+                <div class="row mt-3">
+                  <div class="col-md-4">
+                    <div class="text-center">
+                      <span class="step-number">1</span>
+                      <h6 class="mt-3">Tải file mẫu</h6>
+                      <p class="text-muted small">Tải file Excel mẫu để điền thông tin đơn hàng</p>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="text-center">
+                      <span class="step-number">2</span>
+                      <h6 class="mt-3">Điền thông tin</h6>
+                      <p class="text-muted small">Điền đầy đủ thông tin người gửi, người nhận, hàng hóa</p>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="text-center">
+                      <span class="step-number">3</span>
+                      <h6 class="mt-3">Tải lên & Xác nhận</h6>
+                      <p class="text-muted small">Tải file đã điền lên và xác nhận tạo đơn</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Templates -->
+        <div class="row mb-4">
+          <div class="col-md-6">
+            <div class="template-card">
+              <div class="d-flex align-items-center mb-3">
+                <i class="fas fa-file-excel text-success fa-3x me-3"></i>
+                <div>
+                  <h5 class="mb-1">File mẫu - Hàng nhẹ (&lt;20kg)</h5>
+                  <p class="text-muted small mb-0">Dành cho hàng nhẹ, giao nhanh trong ngày</p>
+                </div>
+              </div>
+              <button class="btn btn-success w-100" onclick="downloadTemplate('light')">
+                <i class="fas fa-download me-2"></i>Tải file mẫu hàng nhẹ
+              </button>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="template-card">
+              <div class="d-flex align-items-center mb-3">
+                <i class="fas fa-file-excel text-warning fa-3x me-3"></i>
+                <div>
+                  <h5 class="mb-1">File mẫu - Hàng nặng (≥20kg)</h5>
+                  <p class="text-muted small mb-0">Dành cho hàng nặng, cồng kềnh, yêu cầu xe tải</p>
+                </div>
+              </div>
+              <button class="btn btn-warning w-100" onclick="downloadTemplate('heavy')">
+                <i class="fas fa-download me-2"></i>Tải file mẫu hàng nặng
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Upload Zone -->
+        <div class="row mb-4">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title mb-4"><i class="fas fa-upload text-primary me-2"></i>Tải file Excel lên</h5>
+                
+                <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()">
+                  <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                  <h5>Kéo thả file Excel vào đây hoặc click để chọn file</h5>
+                  <p class="text-muted">Hỗ trợ định dạng: .xlsx, .xls (Tối đa 500 đơn/file)</p>
+                  <input type="file" id="fileInput" accept=".xlsx,.xls" style="display:none" onchange="handleFileSelect(event)">
+                </div>
+
+                <div id="fileInfo" class="mt-3" style="display:none">
+                  <div class="alert alert-info d-flex align-items-center">
+                    <i class="fas fa-file-excel fa-2x me-3"></i>
+                    <div class="flex-grow-1">
+                      <strong id="fileName"></strong>
+                      <div class="text-muted small" id="fileSize"></div>
+                    </div>
+                    <button class="btn btn-sm btn-outline-danger" onclick="clearFile()">
+                      <i class="fas fa-times"></i> Xóa
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Preview Table -->
+        <div class="row" id="previewSection" style="display:none">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                <h5 class="mb-0"><i class="fas fa-table text-info me-2"></i>Xem trước dữ liệu (<span id="rowCount">0</span> đơn)</h5>
+                <button class="btn btn-primary" onclick="confirmImport()">
+                  <i class="fas fa-check me-2"></i>Xác nhận tạo đơn
+                </button>
+              </div>
+              <div class="card-body">
+                <div class="preview-table">
+                  <table class="table table-bordered table-hover" id="previewTable">
+                    <thead class="table-light">
+                      <tr>
+                        <th>STT</th>
+                        <th>Người gửi</th>
+                        <th>SĐT gửi</th>
+                        <th>Người nhận</th>
+                        <th>SĐT nhận</th>
+                        <th>Địa chỉ nhận</th>
+                        <th>Khối lượng (kg)</th>
+                        <th>Phí (VNĐ)</th>
+                      </tr>
+                    </thead>
+                    <tbody id="previewBody">
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <script src="../js/api-service.js"></script>
+  <script src="./js/customer-common.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
+  <script>
+    const uploadZone = document.getElementById('uploadZone');
+    const fileInput = document.getElementById('fileInput');
+    let currentFile = null;
+    let parsedData = [];
+
+    // Drag and drop handlers
+    uploadZone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      uploadZone.classList.add('dragover');
+    });
+
+    uploadZone.addEventListener('dragleave', () => {
+      uploadZone.classList.remove('dragover');
+    });
+
+    uploadZone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      uploadZone.classList.remove('dragover');
+      const files = e.dataTransfer.files;
+      if (files.length > 0) {
+        handleFile(files[0]);
+      }
+    });
+
+    function handleFileSelect(event) {
+      const file = event.target.files[0];
+      if (file) {
+        handleFile(file);
+      }
+    }
+
+    function handleFile(file) {
+      if (!file.name.match(/\.(xlsx|xls)$/)) {
+        alert('Vui lòng chọn file Excel (.xlsx hoặc .xls)');
+        return;
+      }
+
+      currentFile = file;
+      document.getElementById('fileName').textContent = file.name;
+      document.getElementById('fileSize').textContent = `Kích thước: ${(file.size / 1024).toFixed(2)} KB`;
+      document.getElementById('fileInfo').style.display = 'block';
+
+      // Parse Excel file
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const data = new Uint8Array(e.target.result);
+        const workbook = XLSX.read(data, {type: 'array'});
+        const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+        const jsonData = XLSX.utils.sheet_to_json(firstSheet, {header: 1});
+        
+        parseAndPreview(jsonData);
+      };
+      reader.readAsArrayBuffer(file);
+    }
+
+    function parseAndPreview(data) {
+      // Skip header row
+      const rows = data.slice(1).filter(row => row.length > 0);
+      
+      parsedData = rows.map((row, idx) => ({
+        senderName: row[0] || '',
+        senderPhone: row[1] || '',
+        receiverName: row[2] || '',
+        receiverPhone: row[3] || '',
+        deliveryAddress: row[4] || '',
+        weight: row[5] || 0,
+        shippingFee: row[6] || 0
+      }));
+
+      document.getElementById('rowCount').textContent = parsedData.length;
+      
+      const tbody = document.getElementById('previewBody');
+      tbody.innerHTML = parsedData.map((item, idx) => `
+        <tr>
+          <td>${idx + 1}</td>
+          <td>${item.senderName}</td>
+          <td>${item.senderPhone}</td>
+          <td>${item.receiverName}</td>
+          <td>${item.receiverPhone}</td>
+          <td>${item.deliveryAddress}</td>
+          <td>${item.weight}</td>
+          <td>${item.shippingFee.toLocaleString()}</td>
+        </tr>
+      `).join('');
+
+      document.getElementById('previewSection').style.display = 'block';
+    }
+
+    function clearFile() {
+      currentFile = null;
+      parsedData = [];
+      fileInput.value = '';
+      document.getElementById('fileInfo').style.display = 'none';
+      document.getElementById('previewSection').style.display = 'none';
+    }
+
+    function downloadTemplate(type) {
+      // Create sample data
+      const data = [
+        ['Người gửi', 'SĐT gửi', 'Người nhận', 'SĐT nhận', 'Địa chỉ nhận', 'Khối lượng (kg)', 'Phí ship (VNĐ)'],
+        ['Nguyễn Văn A', '0901234567', 'Trần Thị B', '0912345678', '123 Nguyễn Huệ, Q1, TP.HCM', type === 'heavy' ? 25 : 5, type === 'heavy' ? 150000 : 30000],
+        ['Shop ABC', '0923456789', 'Lê Văn C', '0934567890', '456 Lê Lợi, Q3, TP.HCM', type === 'heavy' ? 30 : 3, type === 'heavy' ? 200000 : 25000]
+      ];
+
+      const ws = XLSX.utils.aoa_to_sheet(data);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, 'Orders');
+      
+      const fileName = type === 'heavy' ? 'mau_don_hang_nang.xlsx' : 'mau_don_hang_nhe.xlsx';
+      XLSX.writeFile(wb, fileName);
+    }
+
+    async function confirmImport() {
+      if (parsedData.length === 0) {
+        alert('Không có dữ liệu để import');
+        return;
+      }
+
+      if (!confirm(`Xác nhận tạo ${parsedData.length} đơn hàng?`)) {
+        return;
+      }
+
+      const user = JSON.parse(localStorage.getItem('user') || '{}');
+      const orders = parsedData.map(item => ({
+        senderName: item.senderName,
+        senderPhone: item.senderPhone,
+        receiverName: item.receiverName,
+        receiverPhone: item.receiverPhone,
+        deliveryAddress: item.deliveryAddress,
+        weight: parseFloat(item.weight),
+        shippingFee: parseFloat(item.shippingFee),
+        status: 0, // ChuaNhan
+        createdByUserId: user.userId,
+        pickupAddress: user.address || '',
+        orderDate: new Date().toISOString()
+      }));
+
+      try {
+        const response = await fetch('http://localhost:5221/api/Orders/bulk', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(orders)
+        });
+
+        if (response.ok) {
+          alert(`Tạo thành công ${parsedData.length} đơn hàng!`);
+          window.location.href = './orders.html';
+        } else {
+          alert('Có lỗi xảy ra khi tạo đơn hàng');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert('Có lỗi xảy ra: ' + error.message);
+      }
+    }
+  </script>
+</body>
+</html>

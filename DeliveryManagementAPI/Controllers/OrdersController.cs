@@ -373,5 +373,64 @@ namespace DeliveryManagementAPI.Controllers
                 return StatusCode(500, "Lỗi khi xóa đơn hàng");
             }
         }
+
+        /// <summary>
+        /// Tạo nhiều đơn hàng từ Excel import
+        /// </summary>
+        [HttpPost("bulk")]
+        [Authorize(Roles = "customer,admin")]
+        public async Task<ActionResult> CreateBulkOrders([FromBody] List<Order> orders)
+        {
+            try
+            {
+                if (orders == null || orders.Count == 0)
+                {
+                    return BadRequest(new { message = "Danh sách đơn hàng trống" });
+                }
+
+                var createdOrders = new List<Order>();
+                var errors = new List<string>();
+
+                foreach (var order in orders)
+                {
+                    try
+                    {
+                        // Validate basic fields
+                        if (order.Customer == null || 
+                            string.IsNullOrEmpty(order.Customer.FullName) ||
+                            string.IsNullOrEmpty(order.Customer.Address))
+                        {
+                            errors.Add($"Đơn hàng thiếu thông tin bắt buộc (khách hàng: {order.Customer?.FullName})");
+                            continue;
+                        }
+
+                        order.CreatedDate = DateTime.Now;
+                        order.Status = OrderStatus.ChuaNhan;
+                        
+                        _context.Orders.Add(order);
+                        createdOrders.Add(order);
+                    }
+                    catch (Exception ex)
+                    {
+                        errors.Add($"Lỗi tạo đơn {order.Customer?.FullName}: {ex.Message}");
+                    }
+                }
+
+                await _context.SaveChangesAsync();
+
+                return Ok(new 
+                { 
+                    success = createdOrders.Count,
+                    failed = errors.Count,
+                    errors = errors,
+                    orders = createdOrders
+                });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error creating bulk orders");
+                return StatusCode(500, "Lỗi khi tạo đơn hàng hàng loạt: " + ex.Message);
+            }
+        }
     }
 }

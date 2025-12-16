@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Báo cáo Live - GHTD</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/customer-dashboard.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .stat-card {
+            text-align: center;
+            padding: 20px;
+            border-radius: 10px;
+            color: white;
+            height: 100%;
+        }
+        .stat-card h3 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .stat-card p {
+            margin: 0;
+            opacity: 0.9;
+        }
+        .bg-gradient-orange { background: linear-gradient(135deg, #FF9800, #FF5722); }
+        .bg-gradient-blue { background: linear-gradient(135deg, #2196F3, #1976D2); }
+        .bg-gradient-green { background: linear-gradient(135deg, #4CAF50, #388E3C); }
+        .bg-gradient-purple { background: linear-gradient(135deg, #9C27B0, #7B1FA2); }
+        .live-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background: #4CAF50;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+            margin-right: 8px;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        .export-btn {
+            background: #FF9800;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .export-btn:hover {
+            background: #FFC107;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="sidebar-top text-center py-4">
+        <img src="../assets/logo.png" alt="Logo" class="brand-logo mb-2" onerror="this.style.display='none'" />
+      </div>
+      <div class="user-panel px-3 py-3">
+        <div class="d-flex align-items-center mb-3">
+          <div class="avatar me-2"><i class="fas fa-user-circle fa-2x"></i></div>
+          <div>
+            <div class="user-name">Sanghen</div>
+            <div class="user-role text-success small">Chủ cửa hàng</div>
+          </div>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav px-2">
+        <a href="./index.html" class="nav-link"><i class="fas fa-store me-2"></i> Tổng quan</a>
+        <a href="./orders.html" class="nav-link"><i class="fas fa-box me-2"></i> Quản lý đơn hàng</a>
+        <a href="./reports-live.html" class="nav-link active"><i class="fas fa-chart-line me-2"></i> Báo cáo - Live</a>
+        <a href="./import-excel.html" class="nav-link"><i class="fas fa-file-excel me-2"></i> Lên đơn Excel</a>
+        <a href="#" class="nav-link text-danger" onclick="auth.logout()"><i class="fas fa-sign-out-alt me-2"></i> Đăng xuất</a>
+      </nav>
+    </aside>
+
+    <main class="main-content">
+      <header class="main-header d-flex align-items-center justify-content-between px-4 py-2 border-bottom bg-white">
+        <div class="d-flex align-items-center gap-3 w-100">
+          <h4 class="mb-0"><span class="live-indicator"></span>Báo cáo Live - Dashboard</h4>
+          <span class="badge bg-success ms-auto">Cập nhật thời gian thực</span>
+        </div>
+      </header>
+
+      <div class="main-body p-4">
+
+        <!-- Stats Cards -->
+        <div class="row mb-4">
+            <div class="col-md-3 mb-3">
+                <div class="stat-card bg-gradient-orange">
+                    <i class="fas fa-box fa-2x mb-2"></i>
+                    <h3 id="totalOrders">0</h3>
+                    <p>Tổng đơn hàng</p>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="stat-card bg-gradient-blue">
+                    <i class="fas fa-shipping-fast fa-2x mb-2"></i>
+                    <h3 id="deliveringOrders">0</h3>
+                    <p>Đang giao</p>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="stat-card bg-gradient-green">
+                    <i class="fas fa-check-circle fa-2x mb-2"></i>
+                    <h3 id="deliveredToday">0</h3>
+                    <p>Đã giao hôm nay</p>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="stat-card bg-gradient-purple">
+                    <i class="fas fa-percentage fa-2x mb-2"></i>
+                    <h3 id="successRate">0%</h3>
+                    <p>Tỷ lệ thành công</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Row -->
+        <div class="row mb-4">
+            <div class="col-md-6 mb-3">
+                <div class="dashboard-card">
+                    <h5><i class="fas fa-chart-pie text-primary"></i> Đơn hàng theo trạng thái</h5>
+                    <canvas id="statusChart" height="250"></canvas>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="dashboard-card">
+                    <h5><i class="fas fa-chart-line text-success"></i> Xu hướng 7 ngày</h5>
+                    <canvas id="trendChart" height="250"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Top Locations & Export -->
+        <div class="row mb-4">
+            <div class="col-md-6 mb-3">
+                <div class="dashboard-card">
+                    <h5><i class="fas fa-map-marker-alt text-danger"></i> Top địa chỉ giao hàng</h5>
+                    <div id="topLocations" class="mt-3"></div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="dashboard-card">
+                    <h5><i class="fas fa-file-excel text-success"></i> Xuất báo cáo Excel</h5>
+                    <div class="mt-3">
+                        <div class="row g-2">
+                            <div class="col-md-6">
+                                <label class="form-label">Từ ngày</label>
+                                <input type="date" class="form-control" id="fromDate">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Đến ngày</label>
+                                <input type="date" class="form-control" id="toDate">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Trạng thái</label>
+                                <select class="form-select" id="statusFilter">
+                                    <option value="">Tất cả</option>
+                                    <option value="ChuaNhan">Chưa nhận</option>
+                                    <option value="DaNhanChuaGiao">Đã nhận - Chưa giao</option>
+                                    <option value="DaNhanDangGiao">Đang giao</option>
+                                    <option value="DaGiao">Đã giao</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 d-flex align-items-end">
+                                <button class="btn export-btn w-100" onclick="exportExcel()">
+                                    <i class="fas fa-download"></i> Tải xuống CSV
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+    <script src="../js/api-service.js"></script>
+    <script src="./js/customer-common.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const BASE_URL = 'http://localhost:5221/api';
+        let statusChart, trendChart;
+
+        // Get user info
+        const user = JSON.parse(localStorage.getItem('user') || '{}');
+        const customerId = user.userId;
+
+        async function loadDashboard() {
+            try {
+                // Load stats
+                const statsRes = await fetch(`${BASE_URL}/Report/dashboard-stats?customerId=${customerId}`);
+                const stats = await statsRes.json();
+                
+                document.getElementById('totalOrders').textContent = stats.totalOrders;
+                document.getElementById('deliveringOrders').textContent = stats.deliveringOrders;
+                document.getElementById('deliveredToday').textContent = stats.deliveredToday;
+                document.getElementById('successRate').textContent = stats.successRate + '%';
+
+                // Load status chart
+                const statusRes = await fetch(`${BASE_URL}/Report/order-by-status?customerId=${customerId}`);
+                const statusData = await statusRes.json();
+                updateStatusChart(statusData);
+
+                // Load trend chart
+                const trendRes = await fetch(`${BASE_URL}/Report/orders-trend?days=7&customerId=${customerId}`);
+                const trendData = await trendRes.json();
+                updateTrendChart(trendData);
+
+                // Load top locations
+                const locRes = await fetch(`${BASE_URL}/Report/top-locations?limit=5&customerId=${customerId}`);
+                const locations = await locRes.json();
+                updateTopLocations(locations);
+
+            } catch (error) {
+                console.error('Error loading dashboard:', error);
+            }
+        }
+
+        function updateStatusChart(data) {
+            const ctx = document.getElementById('statusChart').getContext('2d');
+            
+            if (statusChart) statusChart.destroy();
+            
+            statusChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: data.map(d => d.label),
+                    datasets: [{
+                        data: data.map(d => d.count),
+                        backgroundColor: ['#FF9800', '#2196F3', '#FFC107', '#4CAF50']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+        }
+
+        function updateTrendChart(data) {
+            const ctx = document.getElementById('trendChart').getContext('2d');
+            
+            if (trendChart) trendChart.destroy();
+            
+            trendChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: data.map(d => new Date(d.date).toLocaleDateString('vi-VN')),
+                    datasets: [{
+                        label: 'Tổng đơn',
+                        data: data.map(d => d.count),
+                        borderColor: '#2196F3',
+                        backgroundColor: 'rgba(33, 150, 243, 0.1)',
+                        tension: 0.4
+                    }, {
+                        label: 'Đã giao',
+                        data: data.map(d => d.delivered),
+                        borderColor: '#4CAF50',
+                        backgroundColor: 'rgba(76, 175, 80, 0.1)',
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+        }
+
+        function updateTopLocations(locations) {
+            const html = locations.map((loc, idx) => `
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <div>
+                        <span class="badge bg-primary">${idx + 1}</span>
+                        <span class="ms-2">${loc.address}</span>
+                    </div>
+                    <span class="badge bg-success">${loc.count} đơn</span>
+                </div>
+            `).join('');
+            document.getElementById('topLocations').innerHTML = html || '<p class="text-muted">Chưa có dữ liệu</p>';
+        }
+
+        function exportExcel() {
+            const fromDate = document.getElementById('fromDate').value;
+            const toDate = document.getElementById('toDate').value;
+            const status = document.getElementById('statusFilter').value;
+
+            let url = `${BASE_URL}/Report/export-excel?customerId=${customerId}`;
+            if (status) url += `&status=${status}`;
+            if (fromDate) url += `&fromDate=${fromDate}`;
+            if (toDate) url += `&toDate=${toDate}`;
+
+            window.open(url, '_blank');
+        }
+
+        // Auto refresh every 30 seconds
+        loadDashboard();
+        setInterval(loadDashboard, 30000);
+
+        // Set default dates
+        document.getElementById('toDate').valueAsDate = new Date();
+        const fromDate = new Date();
+        fromDate.setDate(fromDate.getDate() - 30);
+        document.getElementById('fromDate').valueAsDate = fromDate;
+    </script>
+</body>
+</html>
