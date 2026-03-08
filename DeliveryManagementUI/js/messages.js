@@ -28,7 +28,12 @@
         }
 
         // Update user info
-        document.getElementById('userName').textContent = currentUser.fullName || 'Admin';
+        const userNameEl = document.getElementById('userName');
+        if (userNameEl) {
+            userNameEl.textContent = currentUser.fullName || 'Admin';
+        }
+        document.querySelectorAll('.user-name').forEach(el => el.textContent = currentUser.fullName || currentUser.username || 'User');
+        document.querySelectorAll('.user-role').forEach(el => el.textContent = currentUser.role || '');
 
         // Setup event listeners
         setupEventListeners();
@@ -42,28 +47,34 @@
 
     function setupEventListeners() {
         // Search conversations
-        document.getElementById('searchConversations').addEventListener('input', filterConversations);
+        const searchInput = document.getElementById('searchConversations');
+        if (searchInput) {
+            searchInput.addEventListener('input', filterConversations);
+        }
     }
 
     async function loadConversations() {
         try {
             console.log('Loading conversations...');
-            const response = await apiService.get('/chat/conversations');
+            const response = await apiService.getConversations();
             console.log('Conversations response:', response);
-            conversations = response;
+            conversations = response || [];
             renderConversations();
         } catch (error) {
             console.error('Error loading conversations:', error);
-            document.getElementById('conversationsList').innerHTML = `
-                <div class="text-center py-5">
-                    <i class="fas fa-exclamation-circle fa-2x text-danger"></i>
-                    <p class="text-muted mt-2">Không thể tải danh sách tin nhắn</p>
-                    <p class="text-muted small">${error.message || 'Unknown error'}</p>
-                    <button class="btn btn-sm btn-primary" onclick="location.reload()">
-                        <i class="fas fa-redo"></i> Thử lại
-                    </button>
-                </div>
-            `;
+            const listEl = document.getElementById('conversationsList');
+            if (listEl) {
+                listEl.innerHTML = `
+                    <div class="text-center py-5">
+                        <i class="fas fa-exclamation-circle fa-2x text-danger"></i>
+                        <p class="text-muted mt-2">Không thể tải danh sách tin nhắn</p>
+                        <p class="text-muted small">${error.message || 'Unknown error'}</p>
+                        <button class="btn btn-sm btn-primary" onclick="location.reload()">
+                            <i class="fas fa-redo"></i> Thử lại
+                        </button>
+                    </div>
+                `;
+            }
         }
     }
 
@@ -147,6 +158,8 @@
 
     function showChatPanel() {
         const chatPanel = document.getElementById('chatPanel');
+        if (!chatPanel) return;
+        
         chatPanel.innerHTML = `
             <!-- Chat Header -->
             <div class="chat-header">
@@ -188,34 +201,43 @@
 
         // Setup input listeners
         const input = document.getElementById('chatInputField');
-        input.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                sendMessage();
-            }
-        });
+        if (input) {
+            input.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    sendMessage();
+                }
+            });
 
-        input.addEventListener('input', function() {
-            this.style.height = 'auto';
-            this.style.height = Math.min(this.scrollHeight, 100) + 'px';
-        });
+            input.addEventListener('input', function() {
+                this.style.height = 'auto';
+                this.style.height = Math.min(this.scrollHeight, 100) + 'px';
+            });
+        }
 
-        document.getElementById('chatImageInput').addEventListener('change', handleImageUpload);
+        const imageInput = document.getElementById('chatImageInput');
+        if (imageInput) {
+            imageInput.addEventListener('change', handleImageUpload);
+        }
     }
 
     async function loadMessages(userId) {
         try {
-            const msgs = await apiService.get(`/chat/user/${userId}`);
-            messages[userId] = msgs;
+            const msgs = await apiService.getUserMessages(userId);
+            messages[userId] = msgs || [];
             renderMessages(msgs);
         } catch (error) {
             console.error('Error loading messages:', error);
-            document.getElementById('chatMessages').innerHTML = `
-                <div class="text-center py-5">
-                    <i class="fas fa-exclamation-circle fa-2x text-danger"></i>
-                    <p class="text-muted mt-2">Không thể tải tin nhắn</p>
-                </div>
-            `;
+            const chatEl = document.getElementById('chatMessages');
+            if (chatEl) {
+                chatEl.innerHTML = `
+                    <div class="text-center py-5">
+                        <i class="fas fa-exclamation-circle fa-2x text-danger"></i>
+                        <p class="text-muted mt-2">Không thể tải tin nhắn</p>
+                        <p class="text-muted small">${error.message || 'Unknown error'}</p>
+                    </div>
+                `;
+            }
         }
     }
 
@@ -280,6 +302,7 @@
         try {
             await apiService.sendChatMessage({
                 orderId: null,
+                receiverId: activeConversation.userId, // Thêm receiverId - ID của khách hàng đang chat
                 content: content,
                 imageUrl: null
             });
@@ -326,6 +349,7 @@
 
             await apiService.sendChatMessage({
                 orderId: null,
+                receiverId: activeConversation.userId, // Thêm receiverId
                 content: '',
                 imageUrl: uploadResult.url
             });
@@ -356,18 +380,21 @@
             
             const orderId = message.orderId;
             const senderId = message.senderId;
+            const receiverId = message.receiverId;
             
             if (orderId === null || orderId == 0) {
                 // Tin nhắn general support
                 if (activeConversation) {
-                    console.log('[Messages] Checking: senderId =', senderId, '(type:', typeof senderId + '), currentUserId =', currentUser.userId, '(type:', typeof currentUser.userId + '), activeConvUserId =', activeConversation.userId, '(type:', typeof activeConversation.userId + ')');
-                    // Đang mở chat với ai đó
-                    if (senderId == currentUser.userId || senderId == activeConversation.userId) {
-                        // Tin nhắn từ chính admin hoặc từ người đang chat
+                    console.log('[Messages] Checking: senderId =', senderId, 'receiverId =', receiverId, 'currentUserId =', currentUser.userId, 'activeConvUserId =', activeConversation.userId);
+                    // Kiểm tra nếu tin nhắn này thuộc conversation đang mở
+                    const isMyMessage = senderId == currentUser.userId && receiverId == activeConversation.userId;
+                    const isTheirMessage = senderId == activeConversation.userId && (receiverId == currentUser.userId || receiverId == null);
+                    
+                    if (isMyMessage || isTheirMessage) {
                         console.log('[Messages] Appending message');
                         appendMessage(message);
                     } else {
-                        console.log('[Messages] Message filtered out - senderId does not match');
+                        console.log('[Messages] Message filtered out - not for this conversation');
                     }
                 } else {
                     console.log('[Messages] No active conversation - updating list');

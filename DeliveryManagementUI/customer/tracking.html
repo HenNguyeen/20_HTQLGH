@@ -8,76 +8,141 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/notifications.css" />
   <style>#map{height:420px;border-radius:8px;}</style>
+  <!-- Customer Sidebar Loader -->
+  <script src="../js/customer-sidebar-loader.js"></script>
 </head>
 <body>
-  <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="./index.html"><i class="fas fa-user"></i> Khu vực Khách hàng</a>
-      <div class="ms-auto d-flex align-items-center">
-        <div class="dropdown">
-          <button class="btn btn-link dropdown-toggle text-decoration-none" type="button" data-bs-toggle="dropdown">
-            <i class="fas fa-user-circle fa-lg me-2"></i>
-            <span class="user-name">User</span>
-            <span class="user-role badge bg-success ms-2">Khách hàng</span>
-          </button>
-          <ul class="dropdown-menu dropdown-menu-end">
-            <li><h6 class="dropdown-header"><span class="user-name">User</span></h6></li>
-            <li><a class="dropdown-item" href="./orders.html"><i class="fas fa-box me-2"></i>Đơn của tôi</a></li>
-            <li><a class="dropdown-item" href="./tracking.html"><i class="fas fa-map-marked-alt me-2"></i>Theo dõi đơn</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item text-danger" href="#" onclick="auth.logout()"><i class="fas fa-sign-out-alt me-2"></i>Đăng xuất</a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </nav>
+  <div class="app-shell">
+    <!-- Sidebar will be loaded here by customer-sidebar-loader.js -->
 
-  <div class="container py-4">
-    <div class="card mb-3">
-      <div class="card-body">
-        <form id="searchOrderForm" class="row g-2 align-items-end">
-          <div class="col-sm-6 col-md-4">
-            <label class="form-label">Mã đơn hàng</label>
-            <input id="orderCodeInput" class="form-control" placeholder="VD: DH001" />
-          </div>
-          <div class="col-auto">
-            <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i> Tìm kiếm</button>
-          </div>
-        </form>
-      </div>
-    </div>
-
-    <div class="row mb-4">
-      <div class="col-lg-7 mb-3 mb-lg-0">
-        <div class="card">
-          <div class="card-header bg-primary text-white">
-            <i class="fas fa-map"></i> Bản đồ đơn hàng
-          </div>
-          <div class="card-body p-0">
-            <div id="map"></div>
+    <main class="main-content">
+      <header class="main-header d-flex align-items-center justify-content-between px-4 py-2 border-bottom bg-white">
+        <div class="d-flex align-items-center gap-3 w-100">
+          <h5 class="mb-0"><i class="fas fa-map-marked-alt me-2"></i>Theo dõi đơn hàng</h5>
+          <div class="ms-auto d-flex align-items-center">
+            <!-- Theme Toggle -->
+            <button class="btn btn-link text-secondary me-2" id="themeToggle" title="Chuyển chế độ sáng/tối">
+              <i class="fas fa-moon" id="themeIcon"></i>
+            </button>
+            
+            <!-- Language Switcher -->
+            <div class="dropdown me-3">
+              <button class="btn btn-link text-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                <i class="fas fa-language me-1"></i><span id="currentLanguage">VI</span>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li><a class="dropdown-item" href="#" data-lang="vi">🇻🇳 Tiếng Việt</a></li>
+                <li><a class="dropdown-item" href="#" data-lang="en">🇺🇸 English</a></li>
+              </ul>
+            </div>
+            
+            <!-- Notification Bell -->
+            <div class="notification-wrapper" style="position: relative; display: inline-block;">
+              <div class="notification-bell" id="notification-bell" style="cursor: pointer; padding: 8px 12px; font-size: 20px; position: relative;">
+                🔔
+                <span id="notification-badge" style="position: absolute; top: 0; right: 0; background-color: #dc3545; color: white; border-radius: 50%; padding: 2px 6px; font-size: 11px; font-weight: bold; min-width: 18px; height: 18px; display: none; text-align: center; line-height: 14px;">0</span>
+              </div>
+              <div class="notification-dropdown" id="notification-dropdown" style="display: none;">
+                <div class="notification-dropdown-header">
+                  <h6>Thông báo</h6>
+                  <a href="javascript:void(0)" class="mark-all-read" id="mark-all-read">Đánh dấu tất cả đã đọc</a>
+                </div>
+                <div id="notification-list">
+                  <div class="no-notifications">Đang tải...</div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="col-lg-5">
-        <div class="card h-100">
-          <div class="card-header bg-info text-white">
-            <i class="fas fa-route"></i> Lộ trình & Checkpoint
-          </div>
+      </header>
+
+      <div class="main-body p-4">
+        <div class="card mb-3">
           <div class="card-body">
-            <div id="orderInfo" class="mb-3"></div>
-            <ul id="checkpointList" class="list-group"></ul>
+            <form id="searchOrderForm" class="row g-2 align-items-end">
+              <div class="col-sm-8 col-md-6">
+                <label class="form-label fw-semibold">Mã đơn hàng</label>
+                <input id="orderCodeInput" class="form-control" placeholder="Nhập mã đơn hàng (VD: DH001)" />
+              </div>
+              <div class="col-auto">
+                <button class="btn btn-primary" type="submit">
+                  <i class="fas fa-search me-1"></i> Tìm kiếm
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div class="row mb-4">
+          <div class="col-lg-7 mb-3 mb-lg-0">
+            <div class="card shadow-sm">
+              <div class="card-header bg-primary text-white py-2">
+                <i class="fas fa-map me-2"></i>Bản đồ đơn hàng
+              </div>
+              <div class="card-body p-0">
+                <div id="map"></div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-5">
+            <div class="card shadow-sm h-100">
+              <div class="card-header bg-info text-white py-2">
+                <i class="fas fa-route me-2"></i>Lộ trình & Checkpoint
+              </div>
+              <div class="card-body">
+                <div id="orderInfo" class="mb-3"></div>
+                <ul id="checkpointList" class="list-group"></ul>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </main>
   </div>
 
   <script src="../js/api-service.js"></script>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@microsoft/signalr@latest/dist/browser/signalr.min.js"></script>
+  <script src="../js/theme-toggle.js"></script>
+  <script src="../js/language-switcher.js"></script>
   <script src="./js/customer-common.js"></script>
+  <script src="../js/notification-client.js"></script>
   <script src="./js/customer-tracking.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <script>
+    // Toggle notification dropdown
+    document.getElementById('notification-bell')?.addEventListener('click', function(e) {
+      e.stopPropagation();
+      const dropdown = document.getElementById('notification-dropdown');
+      dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+      const dropdown = document.getElementById('notification-dropdown');
+      const bell = document.getElementById('notification-bell');
+      if (bell && dropdown && !bell.contains(e.target) && !dropdown.contains(e.target)) {
+        dropdown.style.display = 'none';
+      }
+    });
+
+    // Mark all as read
+    document.getElementById('mark-all-read')?.addEventListener('click', async function() {
+      if (window.notificationClient) {
+        await window.notificationClient.markAllAsRead();
+      }
+    });
+
+    // Khởi tạo Notification Client
+    window.addEventListener('DOMContentLoaded', async function() {
+      if (typeof signalR !== 'undefined' && typeof NotificationClient !== 'undefined') {
+        window.notificationClient = new NotificationClient();
+        await window.notificationClient.start();
+      }
+    });
+  </script>
 </body>
 </html>

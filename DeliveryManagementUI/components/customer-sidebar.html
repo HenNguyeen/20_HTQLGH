@@ -1,0 +1,55 @@
+<!-- Customer Sidebar Component -->
+<aside class="sidebar" id="customerSidebar">
+  <div class="sidebar-header">
+    <div class="sidebar-logo">
+      <i class="fas fa-store"></i>
+      <h4 data-translate="store">Cửa Hàng</h4>
+    </div>
+    <button class="sidebar-toggle-btn" id="customerSidebarCollapseBtn" title="Thu gọn sidebar">
+      <i class="fas fa-angle-left"></i>
+    </button>
+  </div>
+  
+  <div class="user-panel px-3 py-3">
+    <a href="../profile.html" class="d-flex align-items-center text-decoration-none text-white user-panel-link">
+      <div class="avatar me-2">
+        <i class="fas fa-user-circle fa-2x"></i>
+      </div>
+      <div class="user-info flex-fill">
+        <div class="user-name">User</div>
+        <div class="user-role text-success small" data-translate="store_owner">Chủ cửa hàng</div>
+      </div>
+    </a>
+  </div>
+
+  <nav class="sidebar-nav px-2">
+    <a href="index.html" class="nav-link" data-page="index.html" title="Tổng quan">
+      <i class="fas fa-store"></i>
+      <span data-translate="overview">Tổng quan</span>
+    </a>
+    <a href="orders.html" class="nav-link" data-page="orders.html" title="Quản lý đơn hàng">
+      <i class="fas fa-box"></i>
+      <span data-translate="manage_orders">Quản lý đơn hàng</span>
+    </a>
+    <a href="reports-live.html" class="nav-link" data-page="reports-live.html" title="Báo cáo - Live">
+      <i class="fas fa-chart-line"></i>
+      <span data-translate="reports_live">Báo cáo - Live</span>
+    </a>
+    <a href="import-excel.html" class="nav-link" data-page="import-excel.html" title="Lên đơn Excel">
+      <i class="fas fa-file-excel"></i>
+      <span data-translate="import_excel">Lên đơn Excel</span>
+    </a>
+    <a href="tracking.html" class="nav-link" data-page="tracking.html" title="Theo dõi đơn hàng">
+      <i class="fas fa-map-marked-alt"></i>
+      <span data-translate="tracking">Theo dõi</span>
+    </a>
+    <a href="../profile.html" class="nav-link" title="Hồ sơ">
+      <i class="fas fa-user"></i>
+      <span data-translate="profile">Hồ sơ</span>
+    </a>
+    <a href="#" class="nav-link text-danger" id="customerLogoutLink" title="Đăng xuất">
+      <i class="fas fa-sign-out-alt"></i>
+      <span data-translate="logout">Đăng xuất</span>
+    </a>
+  </nav>
+</aside>

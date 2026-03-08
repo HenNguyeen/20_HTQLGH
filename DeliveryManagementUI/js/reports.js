@@ -3,6 +3,13 @@ if (!auth.requireAuth() || !auth.isAdmin()) {
   window.location.href = 'login.html';
 }
 
+// Setup user info
+const currentUser = auth.getCurrentUser();
+if (currentUser) {
+  document.querySelectorAll('.user-name').forEach(el => el.textContent = currentUser.fullName || currentUser.username || 'User');
+  document.querySelectorAll('.user-role').forEach(el => el.textContent = currentUser.role || '');
+}
+
 let statusPieChart, ordersLineChart, staffBarChart;
 
 async function loadReports() {

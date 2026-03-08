@@ -413,6 +413,88 @@
       ]
     },
     {
+      "Route": "uploads/chat/aeef0c44-32d0-46fb-bed8-e2a3a38e2aee.jpg",
+      "AssetFile": "uploads/chat/aeef0c44-32d0-46fb-bed8-e2a3a38e2aee.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "104727"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"Tg0nrW1+xqHDQkZsntfwmGGsLZShh5jk7QUA8EC6hAs=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 08 Jan 2026 04:48:06 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-Tg0nrW1+xqHDQkZsntfwmGGsLZShh5jk7QUA8EC6hAs="
+        }
+      ]
+    },
+    {
+      "Route": "uploads/chat/aeef0c44-32d0-46fb-bed8-e2a3a38e2aee.mblb6jc8ue.jpg",
+      "AssetFile": "uploads/chat/aeef0c44-32d0-46fb-bed8-e2a3a38e2aee.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "104727"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"Tg0nrW1+xqHDQkZsntfwmGGsLZShh5jk7QUA8EC6hAs=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 08 Jan 2026 04:48:06 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "mblb6jc8ue"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-Tg0nrW1+xqHDQkZsntfwmGGsLZShh5jk7QUA8EC6hAs="
+        },
+        {
+          "Name": "label",
+          "Value": "uploads/chat/aeef0c44-32d0-46fb-bed8-e2a3a38e2aee.jpg"
+        }
+      ]
+    },
+    {
       "Route": "uploads/chat/e88bbfd7-6a7c-4b7f-a5a3-38287a20e37f.jpg",
       "AssetFile": "uploads/chat/e88bbfd7-6a7c-4b7f-a5a3-38287a20e37f.jpg",
       "Selectors": [],

@@ -19,6 +19,21 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
     try {
         const result = await apiService.login({ username, password });
         
+        // Check if 2FA is required
+        if (result && result.requiresTwoFactor) {
+            alertDiv.innerHTML = `
+                <div class="alert alert-info">
+                    <i class="fas fa-shield-alt me-2"></i>
+                    ${result.message}
+                </div>
+            `;
+            // Redirect to 2FA verification page
+            setTimeout(() => {
+                window.location.href = `verify-2fa.html?userId=${result.userId}`;
+            }, 1500);
+            return;
+        }
+        
         if (result && result.token) {
             // Save token and user info
             auth.setToken(result.token, remember);

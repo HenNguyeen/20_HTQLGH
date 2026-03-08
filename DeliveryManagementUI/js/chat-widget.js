@@ -307,19 +307,25 @@
 
         connection.on("ReceiveMessage", (message) => {
             console.log('[Chat Widget] Received SignalR message:', message);
-            // Nhận tin nhắn general support: từ chính mình hoặc từ admin
+            // Nhận tin nhắn general support: từ chính mình hoặc từ admin gửi cho mình
             const orderId = message.orderId;
             const senderId = message.senderId;
+            const receiverId = message.receiverId;
             const senderRole = message.senderRole;
             
-            console.log('[Chat Widget] Checking: orderId =', orderId, ', senderId =', senderId, ', currentUserId =', currentUser.userId, ', senderRole =', senderRole);
+            console.log('[Chat Widget] Checking: orderId =', orderId, ', senderId =', senderId, ', receiverId =', receiverId, ', currentUserId =', currentUser.userId, ', senderRole =', senderRole);
             
+            // Chỉ nhận tin nhắn nếu:
+            // 1. Từ chính mình (senderId == currentUser.userId)
+            // 2. Từ admin gửi cho mình (senderRole == "admin" && receiverId == currentUser.userId)
+            // 3. Từ admin khi receiverId null (backward compatibility với tin nhắn cũ)
             if ((orderId === null || orderId == 0) && 
-                (senderId == currentUser.userId || senderRole === "admin")) {
+                (senderId == currentUser.userId || 
+                 (senderRole === "admin" && (receiverId == currentUser.userId || receiverId == null)))) {
                 console.log('[Chat Widget] ✅ Appending message');
                 appendMessage(message);
             } else {
-                console.log('[Chat Widget] ❌ Message filtered out');
+                console.log('[Chat Widget] ❌ Message filtered out - not for this user');
             }
         });
 

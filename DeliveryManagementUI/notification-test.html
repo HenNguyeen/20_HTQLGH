@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notification System Example</title>
+    <link rel="stylesheet" href="css/notifications.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background: #fff;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 30px;
+        }
+        .navbar-brand {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+        .navbar-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .notification-wrapper {
+            position: relative;
+        }
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        .btn-primary {
+            background: #007bff;
+            color: white;
+        }
+        .btn-primary:hover {
+            background: #0056b3;
+        }
+        .test-section {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+        .test-section h3 {
+            margin-top: 0;
+        }
+        .status {
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            background: #e7f3ff;
+        }
+        .status.connected {
+            background: #d4edda;
+            color: #155724;
+        }
+        .status.disconnected {
+            background: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar với notification bell -->
+    <div class="navbar">
+        <div class="navbar-brand">🚚 Delivery Management</div>
+        <div class="navbar-right">
+            <div class="notification-wrapper">
+                <!-- Notification Bell -->
+                <div class="notification-bell" id="notification-bell">
+                    🔔
+                    <span id="notification-badge">0</span>
+                </div>
+                
+                <!-- Notification Dropdown -->
+                <div class="notification-dropdown" id="notification-dropdown">
+                    <div class="notification-dropdown-header">
+                        <h6>Thông báo</h6>
+                        <a href="javascript:void(0)" class="mark-all-read" id="mark-all-read">
+                            Đánh dấu tất cả đã đọc
+                        </a>
+                    </div>
+                    <div id="notification-list">
+                        <div class="no-notifications">Đang tải...</div>
+                    </div>
+                    <div class="notification-dropdown-footer">
+                        <a href="notifications.html" class="view-all-notifications">Xem tất cả</a>
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-primary" id="logout-btn">Đăng xuất</button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <h1>🔔 Hệ thống Thông báo Real-time</h1>
+        
+        <div class="status" id="connection-status">
+            <strong>Trạng thái:</strong> <span id="status-text">Chưa kết nối</span>
+        </div>
+
+        <div class="test-section">
+            <h3>📊 Thông tin</h3>
+            <p><strong>Số thông báo chưa đọc:</strong> <span id="unread-count-display">0</span></p>
+            <p><strong>Connection ID:</strong> <span id="connection-id">-</span></p>
+            <p><strong>User ID:</strong> <span id="user-id">-</span></p>
+        </div>
+
+        <div class="test-section">
+            <h3>🧪 Test Functions</h3>
+            <button class="btn btn-primary" onclick="testPing()">Test Ping</button>
+            <button class="btn btn-primary" onclick="loadNotifications()">Reload Notifications</button>
+            <button class="btn btn-primary" onclick="loadUnreadCount()">Reload Unread Count</button>
+            <button class="btn btn-primary" onclick="requestPermission()">Request Browser Permission</button>
+        </div>
+
+        <div class="test-section">
+            <h3>📖 Hướng dẫn tích hợp</h3>
+            <ol>
+                <li>
+                    <strong>Include SignalR library:</strong>
+                    <pre>&lt;script src="https://cdn.jsdelivr.net/npm/@microsoft/signalr@latest/dist/browser/signalr.min.js"&gt;&lt;/script&gt;</pre>
+                </li>
+                <li>
+                    <strong>Include CSS:</strong>
+                    <pre>&lt;link rel="stylesheet" href="css/notifications.css"&gt;</pre>
+                </li>
+                <li>
+                    <strong>Include JS client:</strong>
+                    <pre>&lt;script src="js/notification-client.js"&gt;&lt;/script&gt;</pre>
+                </li>
+                <li>
+                    <strong>Add HTML for notification bell:</strong>
+                    <pre>&lt;div class="notification-bell" id="notification-bell"&gt;
+    🔔
+    &lt;span id="notification-badge"&gt;0&lt;/span&gt;
+&lt;/div&gt;
+&lt;div class="notification-dropdown" id="notification-dropdown"&gt;
+    &lt;div id="notification-list"&gt;&lt;/div&gt;
+&lt;/div&gt;</pre>
+                </li>
+            </ol>
+        </div>
+
+        <div class="test-section">
+            <h3>🎯 API Endpoints</h3>
+            <ul>
+                <li><code>GET /api/notifications</code> - Lấy danh sách thông báo</li>
+                <li><code>GET /api/notifications/unread-count</code> - Số thông báo chưa đọc</li>
+                <li><code>PUT /api/notifications/{id}/read</code> - Đánh dấu đã đọc</li>
+                <li><code>PUT /api/notifications/read-all</code> - Đánh dấu tất cả đã đọc</li>
+                <li><code>DELETE /api/notifications/{id}</code> - Xóa thông báo</li>
+                <li><code>GET /api/notifications/settings</code> - Lấy cài đặt</li>
+                <li><code>PUT /api/notifications/settings</code> - Cập nhật cài đặt</li>
+            </ul>
+        </div>
+
+        <div class="test-section">
+            <h3>⚙️ SignalR Events</h3>
+            <ul>
+                <li><code>ReceiveNotification</code> - Nhận thông báo mới</li>
+                <li><code>UpdateUnreadCount</code> - Cập nhật số chưa đọc</li>
+                <li><code>NotificationRead</code> - Thông báo đã đọc</li>
+                <li><code>AllNotificationsRead</code> - Tất cả đã đọc</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@microsoft/signalr@latest/dist/browser/signalr.min.js"></script>
+    <script src="js/notification-client.js"></script>
+    <script>
+        // Toggle notification dropdown
+        document.getElementById('notification-bell').addEventListener('click', function(e) {
+            e.stopPropagation();
+            const dropdown = document.getElementById('notification-dropdown');
+            dropdown.classList.toggle('show');
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            const dropdown = document.getElementById('notification-dropdown');
+            const bell = document.getElementById('notification-bell');
+            if (!bell.contains(e.target) && !dropdown.contains(e.target)) {
+                dropdown.classList.remove('show');
+            }
+        });
+
+        // Mark all as read
+        document.getElementById('mark-all-read').addEventListener('click', async function() {
+            if (window.notificationClient) {
+                await window.notificationClient.markAllAsRead();
+            }
+        });
+
+        // Logout
+        document.getElementById('logout-btn').addEventListener('click', function() {
+            localStorage.removeItem('token');
+            window.location.href = 'login.html';
+        });
+
+        // Test functions
+        async function testPing() {
+            if (window.notificationClient) {
+                await window.notificationClient.ping();
+                alert('Ping sent! Check console for Pong response.');
+            }
+        }
+
+        async function loadNotifications() {
+            if (window.notificationClient) {
+                await window.notificationClient.loadNotifications();
+            }
+        }
+
+        async function loadUnreadCount() {
+            if (window.notificationClient) {
+                await window.notificationClient.loadUnreadCount();
+            }
+        }
+
+        async function requestPermission() {
+            const granted = await NotificationClient.requestPermission();
+            alert(granted ? 'Permission granted!' : 'Permission denied');
+        }
+
+        // Update connection status
+        document.addEventListener('DOMContentLoaded', function() {
+            // Wait for notification client to initialize
+            setTimeout(() => {
+                if (window.notificationClient && window.notificationClient.connection) {
+                    const connection = window.notificationClient.connection;
+                    
+                    // Update status
+                    function updateStatus() {
+                        const statusEl = document.getElementById('connection-status');
+                        const statusTextEl = document.getElementById('status-text');
+                        const connectionIdEl = document.getElementById('connection-id');
+                        
+                        if (connection.state === signalR.HubConnectionState.Connected) {
+                            statusEl.className = 'status connected';
+                            statusTextEl.textContent = 'Đã kết nối ✓';
+                            connectionIdEl.textContent = connection.connectionId || '-';
+                        } else {
+                            statusEl.className = 'status disconnected';
+                            statusTextEl.textContent = 'Chưa kết nối';
+                            connectionIdEl.textContent = '-';
+                        }
+                    }
+                    
+                    updateStatus();
+                    
+                    connection.onreconnected(updateStatus);
+                    connection.onclose(updateStatus);
+                    
+                    // Update unread count display
+                    setInterval(() => {
+                        if (window.notificationClient) {
+                            document.getElementById('unread-count-display').textContent = 
+                                window.notificationClient.unreadCount;
+                        }
+                    }, 500);
+                    
+                    // Get user ID from token
+                    const token = localStorage.getItem('token');
+                    if (token) {
+                        try {
+                            const payload = JSON.parse(atob(token.split('.')[1]));
+                            document.getElementById('user-id').textContent = 
+                                payload['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'] || '-';
+                        } catch (e) {
+                            console.error('Error parsing token:', e);
+                        }
+                    }
+                }
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

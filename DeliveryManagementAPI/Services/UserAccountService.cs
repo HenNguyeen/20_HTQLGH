@@ -138,5 +138,61 @@ namespace DeliveryManagementAPI.Services
             user.ResetTokenExpiry = null;
             await _context.SaveChangesAsync();
         }
+
+        // Two-Factor Authentication Methods
+
+        // Enable 2FA for a user
+        public async Task<bool> EnableTwoFactorAsync(int userId)
+        {
+            var user = await GetByIdAsync(userId);
+            if (user == null) return false;
+
+            user.TwoFactorEnabled = true;
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+        // Disable 2FA for a user
+        public async Task<bool> DisableTwoFactorAsync(int userId)
+        {
+            var user = await GetByIdAsync(userId);
+            if (user == null) return false;
+
+            user.TwoFactorEnabled = false;
+            user.TwoFactorCode = null;
+            user.TwoFactorCodeExpiry = null;
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+        // Set 2FA code for a user
+        public async Task SetTwoFactorCodeAsync(int userId, string code, DateTime expiry)
+        {
+            var user = await GetByIdAsync(userId);
+            if (user != null)
+            {
+                user.TwoFactorCode = code;
+                user.TwoFactorCodeExpiry = expiry;
+                await _context.SaveChangesAsync();
+            }
+        }
+
+        // Verify 2FA code
+        public async Task<bool> VerifyTwoFactorCodeAsync(int userId, string code)
+        {
+            var user = await GetByIdAsync(userId);
+            if (user == null) return false;
+
+            if (user.TwoFactorCode == code && user.TwoFactorCodeExpiry > DateTime.UtcNow)
+            {
+                // Clear the code after successful verification
+                user.TwoFactorCode = null;
+                user.TwoFactorCodeExpiry = null;
+                await _context.SaveChangesAsync();
+                return true;
+            }
+
+            return false;
+        }
     }
 }

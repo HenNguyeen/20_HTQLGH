@@ -24,6 +24,10 @@ function displayUserInfo() {
         return;
     }
     
+    // Update user name and role in navbar
+    document.querySelectorAll('.user-name').forEach(el => el.textContent = user.fullName || user.username || 'User');
+    document.querySelectorAll('.user-role').forEach(el => el.textContent = user.role || '');
+    
     // Update UI based on user role
     if (auth.isCustomer()) {
         // Hide admin-only features for customers

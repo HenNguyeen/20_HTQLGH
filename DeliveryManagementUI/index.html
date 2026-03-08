@@ -30,65 +30,16 @@
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/notifications.css">
+    
+    <!-- SignalR -->
+    <script src="https://cdn.jsdelivr.net/npm/@microsoft/signalr@latest/dist/browser/signalr.min.js"></script>
+    
+    <!-- Sidebar Loader -->
+    <script src="js/sidebar-loader.js"></script>
 </head>
 <body>
-    <!-- Sidebar -->
-    <div class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <i class="fas fa-shipping-fast"></i>
-            <h4>Quản Lý Giao Hàng</h4>
-        </div>
-        <ul class="sidebar-menu">
-            <li class="active">
-                <a href="index.html">
-                    <i class="fas fa-home"></i>
-                    <span data-i18n="dashboard">Dashboard</span>
-                </a>
-            </li>
-            <li>
-                <a href="orders.html">
-                    <i class="fas fa-box"></i>
-                    <span data-i18n="orders">Đơn Hàng</span>
-                </a>
-            </li>
-            <li>
-                <a href="staff.html">
-                    <i class="fas fa-users"></i>
-                    <span data-i18n="staff">Nhân Viên</span>
-                </a>
-            </li>
-            <li>
-                <a href="customers.html">
-                    <i class="fas fa-address-book"></i>
-                    <span data-i18n="customers">Khách Hàng</span>
-                </a>
-            </li>
-            <li>
-                <a href="accounts.html">
-                    <i class="fas fa-user-shield"></i>
-                    <span data-i18n="accounts">Quản Lý Tài Khoản</span>
-                </a>
-            </li>
-            <li>
-                <a href="reports.html">
-                    <i class="fas fa-chart-line"></i>
-                    <span data-i18n="reports">Báo Cáo Doanh Thu</span>
-                </a>
-            </li>
-            <li>
-                <a href="messages.html">
-                    <i class="fas fa-comments"></i>
-                    <span>Tin Nhắn</span>
-                </a>
-            </li>
-            <li>
-                <a href="#" onclick="alert('Tính năng đang phát triển')">
-                    <i class="fas fa-cog"></i>
-                    <span data-i18n="settings">Cài Đặt</span>
-                </a>
-            </li>
-        </ul>
-    </div>
+    <!-- Sidebar sẽ được load tự động bởi sidebar-loader.js -->
 
     <!-- Main Content -->
     <div class="main-content">
@@ -103,6 +54,26 @@
                         <button id="themeToggleBtn" type="button" class="btn btn-sm btn-outline-secondary" onclick="uiCustomization.toggleTheme()"></button>
                         <div id="langSwitcher"></div>
                     </div>
+                    
+                    <!-- Notification Bell -->
+                    <div class="notification-wrapper me-3" style="position: relative;">
+                        <div class="notification-bell" id="notification-bell" style="cursor: pointer; padding: 8px 12px; font-size: 20px; position: relative;">
+                            🔔
+                            <span id="notification-badge" style="position: absolute; top: 0; right: 0; background-color: #dc3545; color: white; border-radius: 50%; padding: 2px 6px; font-size: 11px; font-weight: bold; min-width: 18px; height: 18px; display: none; text-align: center; line-height: 14px;">0</span>
+                        </div>
+                        
+                        <!-- Notification Dropdown -->
+                        <div class="notification-dropdown" id="notification-dropdown" style="display: none;">
+                            <div class="notification-dropdown-header">
+                                <h6>Thông báo</h6>
+                                <a href="javascript:void(0)" class="mark-all-read" id="mark-all-read">Đánh dấu tất cả đã đọc</a>
+                            </div>
+                            <div id="notification-list">
+                                <div class="no-notifications">Đang tải...</div>
+                            </div>
+                        </div>
+                    </div>
+                    
                     <div class="dropdown">
                         <button class="btn btn-link dropdown-toggle text-decoration-none" type="button" data-bs-toggle="dropdown">
                             <i class="fas fa-user-circle fa-lg me-2"></i>
@@ -113,7 +84,7 @@
                             <li><h6 class="dropdown-header"><span class="user-name">User</span></h6></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="profile.html"><i class="fas fa-user me-2"></i><span data-i18n="profile">Thông tin tài khoản</span></a></li>
-                            <li><a class="dropdown-item" href="#" onclick="alert('Tính năng đang phát triển')"><i class="fas fa-cog me-2"></i><span data-i18n="settings">Cài đặt</span></a></li>
+                            <li><a class="dropdown-item" href="settings.html"><i class="fas fa-cog me-2"></i><span data-i18n="settings">Cài đặt</span></a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item text-danger" href="#" onclick="auth.logout()"><i class="fas fa-sign-out-alt me-2"></i><span data-i18n="logout">Đăng xuất</span></a></li>
                         </ul>
@@ -246,7 +217,42 @@
     <!-- Custom JS -->
     <script src="js/api-service.js"></script>
     <script src="js/ui-customization.js"></script>
+    <script src="js/notification-client.js"></script>
     <script src="js/dashboard.js"></script>
+    
+    <script>
+        // Toggle notification dropdown
+        document.getElementById('notification-bell').addEventListener('click', function(e) {
+            e.stopPropagation();
+            const dropdown = document.getElementById('notification-dropdown');
+            dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            const dropdown = document.getElementById('notification-dropdown');
+            const bell = document.getElementById('notification-bell');
+            if (!bell.contains(e.target) && !dropdown.contains(e.target)) {
+                dropdown.style.display = 'none';
+            }
+        });
+
+        // Mark all as read
+        document.getElementById('mark-all-read').addEventListener('click', async function() {
+            if (window.notificationClient) {
+                await window.notificationClient.markAllAsRead();
+            }
+        });
+
+        // Khởi tạo Notification Client
+        window.addEventListener('DOMContentLoaded', async function() {
+            if (typeof signalR !== 'undefined' && typeof NotificationClient !== 'undefined') {
+                window.notificationClient = new NotificationClient();
+                await window.notificationClient.start();
+            }
+        });
+    </script>
+    
         <script>
             // Render a small landing chooser overlay when flagged by the head script
             document.addEventListener('DOMContentLoaded', function(){

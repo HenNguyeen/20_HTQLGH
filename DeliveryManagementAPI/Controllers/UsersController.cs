@@ -35,18 +35,30 @@ namespace DeliveryManagementAPI.Controllers
         }
 
         [HttpGet("{id}")]
+        [AllowAnonymous] // Allow users to get their own info
         public async Task<ActionResult<UserAccount>> GetById(int id)
         {
             var user = await _userService.GetByIdAsync(id);
             if (user == null) return NotFound();
-            return Ok(new UserAccount
+            
+            // Check if user is requesting their own info or is admin
+            var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            var isAdmin = User.IsInRole("admin");
+            
+            if (!isAdmin && (string.IsNullOrEmpty(userIdClaim) || int.Parse(userIdClaim) != id))
             {
-                UserId = user.UserId,
-                Username = user.Username,
-                FullName = user.FullName,
-                Email = user.Email,
-                PhoneNumber = user.PhoneNumber,
-                Role = user.Role
+                return Forbid();
+            }
+            
+            return Ok(new 
+            {
+                userId = user.UserId,
+                username = user.Username,
+                fullName = user.FullName,
+                email = user.Email,
+                phoneNumber = user.PhoneNumber,
+                role = user.Role,
+                twoFactorEnabled = user.TwoFactorEnabled
             });
         }
 

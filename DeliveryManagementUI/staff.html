@@ -13,65 +13,16 @@
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/notifications.css">
+    
+    <!-- SignalR -->
+    <script src="https://cdn.jsdelivr.net/npm/@microsoft/signalr@latest/dist/browser/signalr.min.js"></script>
+    
+    <!-- Sidebar Loader - Load trước để sidebar hiện sớm -->
+    <script src="js/sidebar-loader.js"></script>
 </head>
 <body>
-    <!-- Sidebar -->
-    <div class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <i class="fas fa-shipping-fast"></i>
-            <h4>Quản Lý Giao Hàng</h4>
-        </div>
-        <ul class="sidebar-menu">
-            <li>
-                <a href="index.html">
-                    <i class="fas fa-home"></i>
-                    <span data-i18n="dashboard">Dashboard</span>
-                </a>
-            </li>
-            <li>
-                <a href="orders.html">
-                    <i class="fas fa-box"></i>
-                    <span data-i18n="orders">Đơn Hàng</span>
-                </a>
-            </li>
-            <li class="active">
-                <a href="staff.html">
-                    <i class="fas fa-users"></i>
-                    <span data-i18n="staff">Nhân Viên</span>
-                </a>
-            </li>
-            <li>
-                <a href="customers.html">
-                    <i class="fas fa-address-book"></i>
-                    <span data-i18n="customers">Khách Hàng</span>
-                </a>
-            </li>
-            <li>
-                <a href="accounts.html">
-                    <i class="fas fa-user-shield"></i>
-                    <span data-i18n="accounts">Quản Lý Tài Khoản</span>
-                </a>
-            </li>
-            <li>
-                <a href="reports.html">
-                    <i class="fas fa-chart-line"></i>
-                    <span data-i18n="reports">Báo Cáo Doanh Thu</span>
-                </a>
-            </li>
-            <li>
-                <a href="messages.html">
-                    <i class="fas fa-comments"></i>
-                    <span>Tin Nhắn</span>
-                </a>
-            </li>
-            <li>
-                <a href="#" onclick="alert('Tính năng đang phát triển')">
-                    <i class="fas fa-cog"></i>
-                    <span data-i18n="settings">Cài Đặt</span>
-                </a>
-            </li>
-        </ul>
-    </div>
+    <!-- Sidebar sẽ được load tự động bởi sidebar-loader.js -->
 
     <!-- Main Content -->
     <div class="main-content">
@@ -86,6 +37,24 @@
                         <button id="themeToggleBtn" type="button" class="btn btn-sm btn-outline-secondary" onclick="uiCustomization.toggleTheme()"></button>
                         <div id="langSwitcher"></div>
                     </div>
+                    
+                    <!-- Notification Bell -->
+                    <div class="notification-wrapper me-3" style="position: relative;">
+                        <div class="notification-bell" id="notification-bell" style="cursor: pointer; padding: 8px 12px; font-size: 20px; position: relative;">
+                            🔔
+                            <span id="notification-badge" style="position: absolute; top: 0; right: 0; background-color: #dc3545; color: white; border-radius: 50%; padding: 2px 6px; font-size: 11px; font-weight: bold; min-width: 18px; height: 18px; display: none; text-align: center; line-height: 14px;">0</span>
+                        </div>
+                        <div class="notification-dropdown" id="notification-dropdown" style="display: none;">
+                            <div class="notification-dropdown-header">
+                                <h6>Thông báo</h6>
+                                <a href="javascript:void(0)" class="mark-all-read" id="mark-all-read">Đánh dấu tất cả đã đọc</a>
+                            </div>
+                            <div id="notification-list">
+                                <div class="no-notifications">Đang tải...</div>
+                            </div>
+                        </div>
+                    </div>
+                    
                     <div class="dropdown">
                         <button class="btn btn-link dropdown-toggle text-decoration-none" type="button" data-bs-toggle="dropdown">
                             <i class="fas fa-user-circle fa-lg me-2"></i>
@@ -96,7 +65,7 @@
                             <li><h6 class="dropdown-header"><span class="user-name">User</span></h6></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="profile.html"><i class="fas fa-user me-2"></i><span data-i18n="profile">Thông tin tài khoản</span></a></li>
-                            <li><a class="dropdown-item" href="#" onclick="alert('Tính năng đang phát triển')"><i class="fas fa-cog me-2"></i><span data-i18n="settings">Cài đặt</span></a></li>
+                            <li><a class="dropdown-item" href="settings.html"><i class="fas fa-cog me-2"></i><span data-i18n="settings">Cài đặt</span></a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item text-danger" href="#" onclick="auth.logout()"><i class="fas fa-sign-out-alt me-2"></i><span data-i18n="logout">Đăng xuất</span></a></li>
                         </ul>
@@ -109,10 +78,10 @@
         <div class="container-fluid p-4">
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h2>
-                    <i class="fas fa-users"></i> Quản Lý Nhân Viên Giao Hàng
+                    <i class="fas fa-users"></i> <span data-i18n="staffManagement">Quản Lý Nhân Viên Giao Hàng</span>
                 </h2>
                 <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addStaffModal">
-                    <i class="fas fa-user-plus"></i> Thêm Nhân Viên
+                    <i class="fas fa-user-plus"></i> <span data-i18n="addStaff">Thêm Nhân Viên</span>
                 </button>
             </div>
 
@@ -123,7 +92,7 @@
                         <div class="card-body text-center">
                             <i class="fas fa-users fa-3x text-primary mb-2"></i>
                             <h3 id="totalStaff" class="mb-0">0</h3>
-                            <p class="text-muted mb-0">Tổng Nhân Viên</p>
+                            <p class="text-muted mb-0" data-i18n="totalStaff">Tổng Nhân Viên</p>
                         </div>
                     </div>
                 </div>
@@ -132,7 +101,7 @@
                         <div class="card-body text-center">
                             <i class="fas fa-user-check fa-3x text-success mb-2"></i>
                             <h3 id="availableStaff" class="mb-0">0</h3>
-                            <p class="text-muted mb-0">Đang Rảnh</p>
+                            <p class="text-muted mb-0" data-i18n="availableStatus">Đang Rảnh</p>
                         </div>
                     </div>
                 </div>
@@ -141,7 +110,7 @@
                         <div class="card-body text-center">
                             <i class="fas fa-truck fa-3x text-warning mb-2"></i>
                             <h3 id="busyStaff" class="mb-0">0</h3>
-                            <p class="text-muted mb-0">Đang Giao Hàng</p>
+                            <p class="text-muted mb-0" data-i18n="deliveringStatus">Đang Giao Hàng</p>
                         </div>
                     </div>
                 </div>
@@ -150,7 +119,7 @@
                         <div class="card-body text-center">
                             <i class="fas fa-motorcycle fa-3x text-info mb-2"></i>
                             <h3 id="totalVehicles" class="mb-0">0</h3>
-                            <p class="text-muted mb-0">Phương Tiện</p>
+                            <p class="text-muted mb-0" data-i18n="totalVehicles">Phương Tiện</p>
                         </div>
                     </div>
                 </div>
@@ -161,29 +130,29 @@
                 <div class="card-body">
                     <div class="row g-3">
                         <div class="col-md-4">
-                            <label class="form-label">Tìm kiếm</label>
-                            <input type="text" class="form-control" id="searchStaff" placeholder="Tên, SĐT, biển số...">
+                            <label class="form-label" data-i18n="search">Tìm kiếm</label>
+                            <input type="text" class="form-control" id="searchStaff" placeholder="Tên, SĐT, biển số..." data-i18n="searchPlaceholder">
                         </div>
                         <div class="col-md-3">
-                            <label class="form-label">Trạng thái</label>
+                            <label class="form-label" data-i18n="status">Trạng thái</label>
                             <select class="form-select" id="statusFilter">
-                                <option value="">Tất cả</option>
-                                <option value="true">Đang rảnh</option>
-                                <option value="false">Đang bận</option>
+                                <option value="" data-i18n="all">Tất cả</option>
+                                <option value="true" data-i18n="available">Đang rảnh</option>
+                                <option value="false" data-i18n="busy">Đang bận</option>
                             </select>
                         </div>
                         <div class="col-md-3">
-                            <label class="form-label">Loại xe</label>
+                            <label class="form-label" data-i18n="vehicleType">Loại xe</label>
                             <select class="form-select" id="vehicleFilter">
-                                <option value="">Tất cả</option>
-                                <option value="Xe máy">Xe máy</option>
-                                <option value="Xe tải nhỏ">Xe tải nhỏ</option>
-                                <option value="Xe tải">Xe tải</option>
+                                <option value="" data-i18n="all">Tất cả</option>
+                                <option value="Xe máy" data-i18n="motorcycle">Xe máy</option>
+                                <option value="Xe tải nhỏ" data-i18n="smallTruck">Xe tải nhỏ</option>
+                                <option value="Xe tải" data-i18n="truck">Xe tải</option>
                             </select>
                         </div>
                         <div class="col-md-2 d-flex align-items-end">
                             <button class="btn btn-secondary w-100" onclick="resetFilters()">
-                                <i class="fas fa-redo"></i> Đặt lại
+                                <i class="fas fa-redo"></i> <span data-i18n="reset">Đặt lại</span>
                             </button>
                         </div>
                     </div>
@@ -194,7 +163,7 @@
             <div class="row" id="staffContainer">
                 <div class="col-12 text-center py-5">
                     <div class="spinner-border text-primary" role="status">
-                        <span class="visually-hidden">Đang tải...</span>
+                        <span class="visually-hidden" data-i18n="loading">Đang tải...</span>
                     </div>
                 </div>
             </div>
@@ -207,61 +176,61 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">
-                        <i class="fas fa-user-plus"></i> Thêm Nhân Viên Mới
+                        <i class="fas fa-user-plus"></i> <span data-i18n="addNewStaff">Thêm Nhân Viên Mới</span>
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
                     <form id="addStaffForm">
                         <div class="mb-3">
-                            <label class="form-label">Họ Tên *</label>
+                            <label class="form-label" data-i18n="fullName">Họ Tên *</label>
                             <input type="text" class="form-control" name="fullName" required>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Số Điện Thoại *</label>
+                            <label class="form-label" data-i18n="phoneNumber">Số Điện Thoại *</label>
                             <input type="tel" class="form-control" name="phoneNumber" required>
                         </div>
                         <hr>
-                        <h6 class="text-muted mb-3"><i class="fas fa-user-lock"></i> Thông tin tài khoản đăng nhập</h6>
+                        <h6 class="text-muted mb-3"><i class="fas fa-user-lock"></i> <span data-i18n="accountInfo">Thông tin tài khoản đăng nhập</span></h6>
                         <div class="mb-3">
-                            <label class="form-label">Tên đăng nhập (Username) *</label>
-                            <input type="text" class="form-control" name="username" placeholder="Ví dụ: shipper01" required>
-                            <small class="text-muted">Tài khoản shipper sẽ dùng để đăng nhập hệ thống</small>
+                            <label class="form-label" data-i18n="username">Tên đăng nhập (Username) *</label>
+                            <input type="text" class="form-control" name="username" placeholder="Ví dụ: shipper01" data-i18n="usernamePlaceholder" required>
+                            <small class="text-muted" data-i18n="usernameHint">Tài khoản shipper sẽ dùng để đăng nhập hệ thống</small>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Email *</label>
-                            <input type="email" class="form-control" name="email" placeholder="Ví dụ: shipper01@company.com" required>
+                            <label class="form-label" data-i18n="email">Email *</label>
+                            <input type="email" class="form-control" name="email" placeholder="Ví dụ: shipper01@company.com" data-i18n="emailPlaceholder" required>
                         </div>
                         <div class="alert alert-info mb-3">
-                            <i class="fas fa-info-circle"></i> Mật khẩu mặc định: <strong>123456</strong> (shipper có thể đổi sau khi đăng nhập)
+                            <i class="fas fa-info-circle"></i> <span data-i18n="defaultPasswordInfo">Mật khẩu mặc định: <strong>123456</strong> (shipper có thể đổi sau khi đăng nhập)</span>
                         </div>
                         <hr>
-                        <h6 class="text-muted mb-3"><i class="fas fa-motorcycle"></i> Thông tin phương tiện</h6>
+                        <h6 class="text-muted mb-3"><i class="fas fa-motorcycle"></i> <span data-i18n="vehicleInfo">Thông tin phương tiện</span></h6>
                         <div class="mb-3">
-                            <label class="form-label">Loại Phương Tiện *</label>
+                            <label class="form-label" data-i18n="vehicleType">Loại Phương Tiện *</label>
                             <select class="form-select" name="vehicleType" required>
-                                <option value="">-- Chọn loại xe --</option>
-                                <option value="Xe máy">Xe máy</option>
-                                <option value="Xe tải nhỏ">Xe tải nhỏ</option>
-                                <option value="Xe tải">Xe tải</option>
+                                <option value="" data-i18n="vehicleTypePlaceholder">-- Chọn loại xe --</option>
+                                <option value="Xe máy" data-i18n="motorcycle">Xe máy</option>
+                                <option value="Xe tải nhỏ" data-i18n="smallTruck">Xe tải nhỏ</option>
+                                <option value="Xe tải" data-i18n="truck">Xe tải</option>
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Biển Số Xe *</label>
-                            <input type="text" class="form-control" name="vehiclePlate" placeholder="Ví dụ: 59A1-12345" required>
+                            <label class="form-label" data-i18n="vehiclePlate">Biển Số Xe *</label>
+                            <input type="text" class="form-control" name="vehiclePlate" placeholder="Ví dụ: 59A1-12345" data-i18n="vehiclePlatePlaceholder" required>
                         </div>
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" name="isAvailable" id="isAvailable" checked>
-                            <label class="form-check-label" for="isAvailable">
+                            <label class="form-check-label" for="isAvailable" data-i18n="readyToWork">
                                 Sẵn sàng làm việc
                             </label>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-i18n="cancel">Hủy</button>
                     <button type="button" class="btn btn-primary" onclick="addStaff()">
-                        <i class="fas fa-save"></i> Thêm Nhân Viên
+                        <i class="fas fa-save"></i> <span data-i18n="addButton">Thêm Nhân Viên</span>
                     </button>
                 </div>
             </div>
@@ -274,7 +243,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">
-                        <i class="fas fa-box"></i> Đơn Hàng Của Nhân Viên
+                        <i class="fas fa-box"></i> <span data-i18n="staffOrders">Đơn Hàng Của Nhân Viên</span>
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
@@ -288,7 +257,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-i18n="close">Đóng</button>
                 </div>
             </div>
         </div>
@@ -358,6 +327,38 @@
     <!-- Custom JS -->
     <script src="js/api-service.js"></script>
     <script src="js/ui-customization.js"></script>
+    <script src="js/notification-client.js"></script>
     <script src="js/staff.js"></script>
+    
+    <script>
+        // Toggle notification dropdown
+        document.getElementById('notification-bell').addEventListener('click', function(e) {
+            e.stopPropagation();
+            const dropdown = document.getElementById('notification-dropdown');
+            dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            const dropdown = document.getElementById('notification-dropdown');
+            const bell = document.getElementById('notification-bell');
+            if (!bell.contains(e.target) && !dropdown.contains(e.target)) {
+                dropdown.style.display = 'none';
+            }
+        });
+
+        // Mark all as read
+        document.getElementById('mark-all-read').addEventListener('click', async function() {
+            if (window.notificationClient) {
+                await window.notificationClient.markAllAsRead();
+            }
+        });
+        // Khởi tạo Notification Client
+        window.addEventListener('DOMContentLoaded', async function() {
+            if (typeof signalR !== 'undefined' && typeof NotificationClient !== 'undefined') {
+                window.notificationClient = new NotificationClient();
+                await window.notificationClient.start();
+            }
+        });    </script>
 </body>
 </html>

@@ -16,6 +16,10 @@ namespace DeliveryManagementAPI
     public DbSet<Feedback> Feedbacks { get; set; }
         
         public DbSet<ChatMessage> ChatMessages { get; set; }
+        
+        public DbSet<Notification> Notifications { get; set; }
+        
+        public DbSet<NotificationSetting> NotificationSettings { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

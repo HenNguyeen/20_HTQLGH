@@ -363,7 +363,7 @@
         try {
             const result = await apiService.sendChatMessage({
                 orderId: null,
-                recipientId: activeConversation.userId, // Gửi cho user cụ thể
+                receiverId: activeConversation.userId, // Gửi cho user cụ thể
                 content: content,
                 imageUrl: null
             });
@@ -425,7 +425,7 @@
 
             const messageResult = await apiService.sendChatMessage({
                 orderId: null,
-                recipientId: activeConversation.userId,
+                receiverId: activeConversation.userId,
                 content: '',
                 imageUrl: uploadResult.url
             });
@@ -475,9 +475,22 @@
         connection.on("ReceiveMessage", (message) => {
             if (message.orderId === null || message.orderId === 0) {
                 // Tin nhắn general support
-                if (message.senderId !== currentUser.userId) {
+                const senderId = message.senderId;
+                const receiverId = message.receiverId;
+                
+                // Kiểm tra nếu tin nhắn từ khách hàng hoặc từ chính admin này
+                const isFromCustomer = message.senderRole !== 'admin';
+                const isMyMessage = senderId === currentUser.userId;
+                
+                if (isMyMessage) {
+                    // Tin nhắn từ chính admin này
+                    if (activeConversation && activeConversation.userId === receiverId) {
+                        // Đang chat với người nhận
+                        appendMessage(message);
+                    }
+                } else if (isFromCustomer) {
                     // Tin nhắn từ khách hàng
-                    if (activeConversation && activeConversation.userId === message.senderId) {
+                    if (activeConversation && activeConversation.userId === senderId) {
                         // Đang chat với người này
                         appendMessage(message);
                     } else {

@@ -18,5 +18,12 @@ namespace DeliveryManagementAPI.Models
         public string? PasswordResetToken { get; set; }
         [JsonIgnore]
         public DateTime? ResetTokenExpiry { get; set; }
+        
+        // Two-Factor Authentication
+        public bool TwoFactorEnabled { get; set; } = false;
+        [JsonIgnore]
+        public string? TwoFactorCode { get; set; }
+        [JsonIgnore]
+        public DateTime? TwoFactorCodeExpiry { get; set; }
     }
 }

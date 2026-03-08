@@ -12,6 +12,12 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/notifications.css">
+    <!-- Sidebar Loader -->
+    <script src="js/sidebar-loader.js"></script>
+    
+    <!-- SignalR -->
+    <script src="https://cdn.jsdelivr.net/npm/@microsoft/signalr@latest/dist/browser/signalr.min.js"></script>
     <style>
         #map { height: 400px; min-height: 300px; border-radius: 12px; }
         .timeline { border-left: 3px solid #0d6efd; margin-left: 1.5rem; padding-left: 1.5rem; }
@@ -21,22 +27,7 @@
     </style>
 </head>
 <body>
-    <!-- Sidebar -->
-    <div class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <i class="fas fa-shipping-fast"></i>
-            <h4>Quản Lý Giao Hàng</h4>
-        </div>
-        <ul class="sidebar-menu">
-            <li><a href="index.html"><i class="fas fa-home"></i><span>Dashboard</span></a></li>
-            <li><a href="orders.html"><i class="fas fa-box"></i><span>Đơn Hàng</span></a></li>
-            <li><a href="staff.html"><i class="fas fa-users"></i><span>Nhân Viên</span></a></li>
-            <li><a href="customers.html"><i class="fas fa-address-book"></i><span>Khách Hàng</span></a></li>
-            <li><a href="accounts.html"><i class="fas fa-user-shield"></i><span>Quản Lý Tài Khoản</span></a></li>
-            <li><a href="reports.html"><i class="fas fa-chart-line"></i><span>Báo Cáo Doanh Thu</span></a></li>
-            <li><a href="#" onclick="alert('Tính năng đang phát triển')"><i class="fas fa-cog"></i><span>Cài Đặt</span></a></li>
-        </ul>
-    </div>
+    <!-- Sidebar loaded by sidebar-loader.js -->
     <!-- Main Content -->
     <div class="main-content">
         <!-- Top Navbar -->
@@ -44,7 +35,29 @@
             <div class="container-fluid">
                 <button class="btn btn-link" id="sidebarToggle"><i class="fas fa-bars"></i></button>
                 <div class="ms-auto d-flex align-items-center">
-                    <div class="dropdown auth-only">
+                    <div class="d-flex align-items-center gap-2 me-3">
+                        <button id="themeToggleBtn" type="button" class="btn btn-sm btn-outline-secondary" onclick="uiCustomization.toggleTheme()"></button>
+                        <div id="langSwitcher"></div>
+                    </div>
+                    
+                    <!-- Notification Bell -->
+                    <div class="notification-wrapper me-3" style="position: relative;">
+                        <div class="notification-bell" id="notification-bell" style="cursor: pointer; padding: 8px 12px; font-size: 20px; position: relative;">
+                            🔔
+                            <span id="notification-badge" style="position: absolute; top: 0; right: 0; background-color: #dc3545; color: white; border-radius: 50%; padding: 2px 6px; font-size: 11px; font-weight: bold; min-width: 18px; height: 18px; display: none; text-align: center; line-height: 14px;">0</span>
+                        </div>
+                        <div class="notification-dropdown" id="notification-dropdown" style="display: none;">
+                            <div class="notification-dropdown-header">
+                                <h6>Thông báo</h6>
+                                <a href="javascript:void(0)" class="mark-all-read" id="mark-all-read">Đánh dấu tất cả đã đọc</a>
+                            </div>
+                            <div id="notification-list">
+                                <div class="no-notifications">Đang tải...</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="dropdown">
                         <button class="btn btn-link dropdown-toggle text-decoration-none" type="button" data-bs-toggle="dropdown">
                             <i class="fas fa-user-circle fa-lg me-2"></i>
                             <span class="user-name">User</span>
@@ -53,14 +66,11 @@
                         <ul class="dropdown-menu dropdown-menu-end">
                             <li><h6 class="dropdown-header"><span class="user-name">User</span></h6></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="#" onclick="alert('Tính năng đang phát triển')"><i class="fas fa-user me-2"></i>Thông tin tài khoản</a></li>
-                            <li><a class="dropdown-item" href="#" onclick="alert('Tính năng đang phát triển')"><i class="fas fa-cog me-2"></i>Cài đặt</a></li>
+                            <li><a class="dropdown-item" href="profile.html"><i class="fas fa-user me-2"></i><span data-i18n="profile">Thông tin tài khoản</span></a></li>
+                            <li><a class="dropdown-item" href="settings.html"><i class="fas fa-cog me-2"></i><span data-i18n="settings">Cài đặt</span></a></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item text-danger" href="#" onclick="auth.logout()"><i class="fas fa-sign-out-alt me-2"></i>Đăng xuất</a></li>
+                            <li><a class="dropdown-item text-danger" href="#" onclick="auth.logout()"><i class="fas fa-sign-out-alt me-2"></i><span data-i18n="logout">Đăng xuất</span></a></li>
                         </ul>
-                    </div>
-                    <div class="auth-only" style="display:none;">
-                        <a href="login.html" class="btn btn-primary btn-sm">Đăng nhập</a>
                     </div>
                 </div>
             </div>
@@ -108,6 +118,40 @@
     <script src="https://cdn.jsdelivr.net/npm/@microsoft/signalr@latest/dist/browser/signalr.min.js"></script>
     <!-- Custom JS -->
     <script src="js/api-service.js"></script>
+    <script src="js/notification-client.js"></script>
     <script src="js/tracking.js"></script>
+    
+    <script>
+        // Toggle notification dropdown
+        document.getElementById('notification-bell')?.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const dropdown = document.getElementById('notification-dropdown');
+            dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            const dropdown = document.getElementById('notification-dropdown');
+            const bell = document.getElementById('notification-bell');
+            if (bell && dropdown && !bell.contains(e.target) && !dropdown.contains(e.target)) {
+                dropdown.style.display = 'none';
+            }
+        });
+
+        // Mark all as read
+        document.getElementById('mark-all-read')?.addEventListener('click', async function() {
+            if (window.notificationClient) {
+                await window.notificationClient.markAllAsRead();
+            }
+        });
+
+        // Khởi tạo Notification Client
+        window.addEventListener('DOMContentLoaded', async function() {
+            if (typeof signalR !== 'undefined' && typeof NotificationClient !== 'undefined') {
+                window.notificationClient = new NotificationClient();
+                await window.notificationClient.start();
+            }
+        });
+    </script>
 </body>
 </html>

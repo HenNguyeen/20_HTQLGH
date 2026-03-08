@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cài Đặt - Delivery Management</title>
+    
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/notifications.css">
+    
+    <!-- SignalR -->
+    <script src="https://cdn.jsdelivr.net/npm/@microsoft/signalr@latest/dist/browser/signalr.min.js"></script>
+    
+    <!-- Sidebar Loader -->
+    <script src="js/sidebar-loader.js"></script>
+</head>
+<body>
+    <!-- Sidebar sẽ được load tự động bởi sidebar-loader.js -->
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Top Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
+            <div class="container-fluid">
+                <button class="btn btn-link" id="sidebarToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="ms-auto d-flex align-items-center">
+                    <div class="d-flex align-items-center gap-2 me-3">
+                        <button id="themeToggleBtn" type="button" class="btn btn-sm btn-outline-secondary" onclick="uiCustomization.toggleTheme()"></button>
+                        <div id="langSwitcher"></div>
+                    </div>
+                    
+                    <!-- Notification Bell -->
+                    <div class="notification-wrapper me-3" style="position: relative;">
+                        <div class="notification-bell" id="notification-bell" style="cursor: pointer; padding: 8px 12px; font-size: 20px; position: relative;">
+                            🔔
+                            <span id="notification-badge" style="position: absolute; top: 0; right: 0; background-color: #dc3545; color: white; border-radius: 50%; padding: 2px 6px; font-size: 11px; font-weight: bold; min-width: 18px; height: 18px; display: none; text-align: center; line-height: 14px;">0</span>
+                        </div>
+                        <div class="notification-dropdown" id="notification-dropdown" style="display: none;">
+                            <div class="notification-dropdown-header">
+                                <h6>Thông báo</h6>
+                                <a href="javascript:void(0)" class="mark-all-read" id="mark-all-read">Đánh dấu tất cả đã đọc</a>
+                            </div>
+                            <div id="notification-list">
+                                <div class="no-notifications">Đang tải...</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="dropdown">
+                        <button class="btn btn-link dropdown-toggle text-decoration-none" type="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-user-circle fa-lg me-2"></i>
+                            <span class="user-name">User</span>
+                            <span class="user-role badge bg-primary ms-2">Role</span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><h6 class="dropdown-header"><span class="user-name">User</span></h6></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="profile.html"><i class="fas fa-user me-2"></i><span data-i18n="profile">Thông tin tài khoản</span></a></li>
+                            <li><a class="dropdown-item active" href="settings.html"><i class="fas fa-cog me-2"></i><span data-i18n="settings">Cài đặt</span></a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-danger" href="#" onclick="auth.logout()"><i class="fas fa-sign-out-alt me-2"></i><span data-i18n="logout">Đăng xuất</span></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Settings Content -->
+        <div class="container-fluid p-4">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2><i class="fas fa-cog"></i> <span data-i18n="settings">Cài Đặt</span></h2>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-3 mb-4">
+                    <!-- Settings Navigation -->
+                    <div class="card">
+                        <div class="list-group list-group-flush">
+                            <a href="#general" class="list-group-item list-group-item-action active" data-tab="general">
+                                <i class="fas fa-sliders-h me-2"></i> Cài đặt chung
+                            </a>
+                            <a href="#appearance" class="list-group-item list-group-item-action" data-tab="appearance">
+                                <i class="fas fa-palette me-2"></i> Giao diện
+                            </a>
+                            <a href="#notifications" class="list-group-item list-group-item-action" data-tab="notifications">
+                                <i class="fas fa-bell me-2"></i> Thông báo
+                            </a>
+                            <a href="#security" class="list-group-item list-group-item-action" data-tab="security">
+                                <i class="fas fa-shield-alt me-2"></i> Bảo mật
+                            </a>
+                            <a href="#language" class="list-group-item list-group-item-action" data-tab="language">
+                                <i class="fas fa-language me-2"></i> Ngôn ngữ
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-9">
+                    <!-- General Settings -->
+                    <div class="tab-content active" id="general-tab">
+                        <div class="card mb-3">
+                            <div class="card-header">
+                                <h5 class="mb-0"><i class="fas fa-sliders-h me-2"></i>Cài đặt chung</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label">Tên hiển thị</label>
+                                        <input type="text" id="displayName" class="form-control" placeholder="Nhập tên hiển thị">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Email</label>
+                                        <input type="email" id="email" class="form-control" placeholder="email@example.com">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Số điện thoại</label>
+                                        <input type="tel" id="phone" class="form-control" placeholder="0123456789">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Múi giờ</label>
+                                        <select id="timezone" class="form-select">
+                                            <option value="Asia/Ho_Chi_Minh" selected>Việt Nam (GMT+7)</option>
+                                            <option value="Asia/Bangkok">Bangkok (GMT+7)</option>
+                                            <option value="Asia/Singapore">Singapore (GMT+8)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="mt-3">
+                                    <button class="btn btn-primary" onclick="saveGeneralSettings()">
+                                        <i class="fas fa-save me-2"></i>Lưu thay đổi
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Appearance Settings -->
+                    <div class="tab-content" id="appearance-tab">
+                        <div class="card mb-3">
+                            <div class="card-header">
+                                <h5 class="mb-0"><i class="fas fa-palette me-2"></i>Giao diện</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-4">
+                                    <label class="form-label fw-bold">Chế độ hiển thị</label>
+                                    <div class="row g-3">
+                                        <div class="col-md-4">
+                                            <div class="card theme-card" data-theme="light">
+                                                <div class="card-body text-center">
+                                                    <i class="fas fa-sun fa-3x mb-2 text-warning"></i>
+                                                    <h6>Sáng</h6>
+                                                    <input type="radio" name="theme" value="light" id="themeLight">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="card theme-card" data-theme="dark">
+                                                <div class="card-body text-center">
+                                                    <i class="fas fa-moon fa-3x mb-2 text-primary"></i>
+                                                    <h6>Tối</h6>
+                                                    <input type="radio" name="theme" value="dark" id="themeDark">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="card theme-card" data-theme="auto">
+                                                <div class="card-body text-center">
+                                                    <i class="fas fa-adjust fa-3x mb-2 text-secondary"></i>
+                                                    <h6>Tự động</h6>
+                                                    <input type="radio" name="theme" value="auto" id="themeAuto">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Kích thước chữ</label>
+                                    <select id="fontSize" class="form-select">
+                                        <option value="small">Nhỏ</option>
+                                        <option value="medium" selected>Trung bình</option>
+                                        <option value="large">Lớn</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-check form-switch mb-3">
+                                    <input class="form-check-input" type="checkbox" id="compactMode">
+                                    <label class="form-check-label" for="compactMode">
+                                        Chế độ gọn (Compact mode)
+                                    </label>
+                                </div>
+
+                                <div class="mt-3">
+                                    <button class="btn btn-primary" onclick="saveAppearanceSettings()">
+                                        <i class="fas fa-save me-2"></i>Lưu thay đổi
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Notification Settings -->
+                    <div class="tab-content" id="notifications-tab">
+                        <div class="card mb-3">
+                            <div class="card-header">
+                                <h5 class="mb-0"><i class="fas fa-bell me-2"></i>Cài đặt thông báo</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <h6>Thông báo đơn hàng</h6>
+                                    <div class="form-check form-switch mb-2">
+                                        <input class="form-check-input" type="checkbox" id="notifyNewOrder" checked>
+                                        <label class="form-check-label" for="notifyNewOrder">
+                                            Đơn hàng mới
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-switch mb-2">
+                                        <input class="form-check-input" type="checkbox" id="notifyOrderStatus" checked>
+                                        <label class="form-check-label" for="notifyOrderStatus">
+                                            Cập nhật trạng thái đơn hàng
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-switch mb-2">
+                                        <input class="form-check-input" type="checkbox" id="notifyOrderDelivered" checked>
+                                        <label class="form-check-label" for="notifyOrderDelivered">
+                                            Đơn hàng đã giao thành công
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <h6>Thông báo hệ thống</h6>
+                                    <div class="form-check form-switch mb-2">
+                                        <input class="form-check-input" type="checkbox" id="notifySystemUpdate" checked>
+                                        <label class="form-check-label" for="notifySystemUpdate">
+                                            Cập nhật hệ thống
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-switch mb-2">
+                                        <input class="form-check-input" type="checkbox" id="notifyMaintenance">
+                                        <label class="form-check-label" for="notifyMaintenance">
+                                            Bảo trì hệ thống
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <h6>Phương thức nhận thông báo</h6>
+                                    <div class="form-check mb-2">
+                                        <input class="form-check-input" type="checkbox" id="notifyInApp" checked>
+                                        <label class="form-check-label" for="notifyInApp">
+                                            Thông báo trong ứng dụng
+                                        </label>
+                                    </div>
+                                    <div class="form-check mb-2">
+                                        <input class="form-check-input" type="checkbox" id="notifyEmail">
+                                        <label class="form-check-label" for="notifyEmail">
+                                            Gửi email
+                                        </label>
+                                    </div>
+                                    <div class="form-check mb-2">
+                                        <input class="form-check-input" type="checkbox" id="notifySound" checked>
+                                        <label class="form-check-label" for="notifySound">
+                                            Âm thanh thông báo
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="mt-3">
+                                    <button class="btn btn-primary" onclick="saveNotificationSettings()">
+                                        <i class="fas fa-save me-2"></i>Lưu thay đổi
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Security Settings -->
+                    <div class="tab-content" id="security-tab">
+                        <div class="card mb-3">
+                            <div class="card-header">
+                                <h5 class="mb-0"><i class="fas fa-shield-alt me-2"></i>Bảo mật</h5>
+                            </div>
+                            <div class="card-body">
+                                <!-- Change Password -->
+                                <div class="mb-4">
+                                    <h6 class="mb-3">Đổi mật khẩu</h6>
+                                    <div class="row g-3">
+                                        <div class="col-md-12">
+                                            <label class="form-label">Mật khẩu hiện tại</label>
+                                            <input type="password" id="currentPassword" class="form-control">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label">Mật khẩu mới</label>
+                                            <input type="password" id="newPassword" class="form-control">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label">Xác nhận mật khẩu mới</label>
+                                            <input type="password" id="confirmPassword" class="form-control">
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-warning mt-3" onclick="changePassword()">
+                                        <i class="fas fa-key me-2"></i>Đổi mật khẩu
+                                    </button>
+                                </div>
+
+                                <hr>
+
+                                <!-- Two-Factor Authentication -->
+                                <div class="mb-4">
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <div>
+                                            <h6 class="mb-1">Xác thực 2 yếu tố (2FA)</h6>
+                                            <p class="text-muted mb-0 small">Tăng cường bảo mật cho tài khoản của bạn</p>
+                                        </div>
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="enable2FA">
+                                        </div>
+                                    </div>
+                                    <a href="settings-2fa.html" class="btn btn-outline-primary btn-sm">
+                                        <i class="fas fa-cog me-2"></i>Cấu hình 2FA
+                                    </a>
+                                </div>
+
+                                <hr>
+
+                                <!-- Session Management -->
+                                <div class="mb-3">
+                                    <h6 class="mb-3">Quản lý phiên đăng nhập</h6>
+                                    <div class="form-check form-switch mb-2">
+                                        <input class="form-check-input" type="checkbox" id="rememberLogin" checked>
+                                        <label class="form-check-label" for="rememberLogin">
+                                            Ghi nhớ đăng nhập
+                                        </label>
+                                    </div>
+                                    <div class="alert alert-info mt-3">
+                                        <i class="fas fa-info-circle me-2"></i>
+                                        Phiên đăng nhập hiện tại: <strong id="currentSession">Đang tải...</strong>
+                                    </div>
+                                    <button class="btn btn-outline-danger" onclick="logoutAllDevices()">
+                                        <i class="fas fa-sign-out-alt me-2"></i>Đăng xuất khỏi tất cả thiết bị
+                                    </button>
+                                </div>
+
+                                <div class="mt-3">
+                                    <button class="btn btn-primary" onclick="saveSecuritySettings()">
+                                        <i class="fas fa-save me-2"></i>Lưu thay đổi
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Language Settings -->
+                    <div class="tab-content" id="language-tab">
+                        <div class="card mb-3">
+                            <div class="card-header">
+                                <h5 class="mb-0"><i class="fas fa-language me-2"></i>Ngôn ngữ & Khu vực</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Ngôn ngữ hiển thị</label>
+                                    <select id="languageSelect" class="form-select">
+                                        <option value="vi" selected>Tiếng Việt</option>
+                                        <option value="en">English</option>
+                                    </select>
+                                    <small class="text-muted">Ngôn ngữ sẽ được áp dụng sau khi tải lại trang</small>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Định dạng ngày tháng</label>
+                                    <select id="dateFormat" class="form-select">
+                                        <option value="dd/MM/yyyy" selected>DD/MM/YYYY (31/12/2023)</option>
+                                        <option value="MM/dd/yyyy">MM/DD/YYYY (12/31/2023)</option>
+                                        <option value="yyyy-MM-dd">YYYY-MM-DD (2023-12-31)</option>
+                                    </select>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Định dạng tiền tệ</label>
+                                    <select id="currencyFormat" class="form-select">
+                                        <option value="VND" selected>VNĐ (₫)</option>
+                                        <option value="USD">USD ($)</option>
+                                    </select>
+                                </div>
+
+                                <div class="mt-3">
+                                    <button class="btn btn-primary" onclick="saveLanguageSettings()">
+                                        <i class="fas fa-save me-2"></i>Lưu thay đổi
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap Bundle JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom Scripts -->
+    <script src="js/utils.js"></script>
+    <script src="js/api-service.js"></script>
+    <script src="js/ui-customization.js"></script>
+    <script src="js/i18n.js"></script>
+    <script src="js/notification-client.js"></script>
+    <script src="js/responsive.js"></script>
+    <script src="js/settings.js"></script>
+</body>
+</html>

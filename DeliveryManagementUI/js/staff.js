@@ -36,6 +36,10 @@ function displayUserInfo() {
         auth.logout();
         return;
     }
+    
+    // Update user name and role in navbar
+    document.querySelectorAll('.user-name').forEach(el => el.textContent = user.fullName || user.username || 'User');
+    document.querySelectorAll('.user-role').forEach(el => el.textContent = user.role || '');
 }
 
 // Initialize page components

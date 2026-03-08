@@ -1,6 +1,13 @@
 // customers.js - Admin UI for managing customers
 
 document.addEventListener('DOMContentLoaded', function() {
+  // Setup user info
+  const currentUser = auth.getCurrentUser();
+  if (currentUser) {
+    document.querySelectorAll('.user-name').forEach(el => el.textContent = currentUser.fullName || currentUser.username || 'User');
+    document.querySelectorAll('.user-role').forEach(el => el.textContent = currentUser.role || '');
+  }
+  
   const tableBody = document.querySelector('#customersTable tbody');
   const alertDiv = document.getElementById('customersAlert');
   const customerModal = new bootstrap.Modal(document.getElementById('customerModal'));

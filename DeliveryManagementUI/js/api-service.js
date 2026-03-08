@@ -493,6 +493,16 @@ class ApiService {
             return await this.request('/chat/my-messages');
         }
 
+        // Admin: Get all conversations
+        async getConversations() {
+            return await this.request('/chat/conversations');
+        }
+
+        // Admin: Get messages with specific user
+        async getUserMessages(userId) {
+            return await this.request(`/chat/user/${userId}`);
+        }
+
         async sendChatMessage(messageData) {
             return await this.request('/chat/send', {
                 method: 'POST',

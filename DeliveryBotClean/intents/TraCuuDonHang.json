@@ -11,12 +11,12 @@
         {
           "name": "order-id",
           "required": true,
-          "dataType": "@sys.number-integer",
+          "dataType": "@sys.any",
           "value": "$order-id",
           "prompts": [
             {
               "lang": "vi",
-              "value": "Vui lòng cho tôi biết mã đơn hàng (ví dụ: 1, 2, 3) để tôi tra cứu cho bạn nhé!"
+              "value": "Vui lòng cho tôi biết mã đơn hàng (ví dụ: DH001, DH002 hoặc 1, 2, 3) để tôi tra cứu cho bạn nhé!"
             }
           ],
           "isList": false

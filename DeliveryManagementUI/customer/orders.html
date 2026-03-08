@@ -8,31 +8,16 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <link rel="stylesheet" href="../css/style.css" />
   <link rel="stylesheet" href="../css/customer-dashboard.css" />
+  <link rel="stylesheet" href="../css/notifications.css" />
+  
+  <!-- SignalR -->
+  <script src="https://cdn.jsdelivr.net/npm/@microsoft/signalr@latest/dist/browser/signalr.min.js"></script>
+  <!-- Customer Sidebar Loader -->
+  <script src="../js/customer-sidebar-loader.js"></script>
 </head>
 <body>
   <div class="app-shell">
-    <aside class="sidebar">
-      <div class="sidebar-top text-center py-4">
-        <img src="../assets/logo.png" alt="Logo" class="brand-logo mb-2" onerror="this.style.display='none'" />
-      </div>
-      <div class="user-panel px-3 py-3">
-        <div class="d-flex align-items-center mb-3">
-          <div class="avatar me-2"><i class="fas fa-user-circle fa-2x"></i></div>
-          <div>
-            <div class="user-name">Sanghen</div>
-            <div class="user-role text-success small">Chủ cửa hàng</div>
-          </div>
-        </div>
-
-      <nav class="sidebar-nav px-2">
-        <a href="./index.html" class="nav-link"><i class="fas fa-store me-2"></i> Tổng quan</a>
-        <a href="./orders.html" class="nav-link active"><i class="fas fa-box me-2"></i> Quản lý đơn hàng</a>
-        <a href="./reports-live.html" class="nav-link"><i class="fas fa-chart-line me-2"></i> Báo cáo - Live</a>
-        <a href="./import-excel.html" class="nav-link"><i class="fas fa-file-excel me-2"></i> Lên đơn Excel</a>
-        <a href="#" class="nav-link text-danger" onclick="auth.logout()"><i class="fas fa-sign-out-alt me-2"></i> Đăng xuất</a>
-      </nav>
-
-    </aside>
+    <!-- Sidebar will be loaded here by customer-sidebar-loader.js -->
 
     <main class="main-content">
       <header class="main-header d-flex align-items-center justify-content-between px-4 py-2 border-bottom bg-white">
@@ -41,6 +26,39 @@
             <input id="globalSearch" class="form-control" placeholder="Nhập SĐT - Mã ĐH - Tên người nhận" />
           </div>
           <div class="header-actions d-flex align-items-center">
+            <!-- Theme Toggle -->
+            <button class="btn btn-link text-secondary me-2" id="themeToggle" title="Chuyển chế độ sáng/tối">
+              <i class="fas fa-moon" id="themeIcon"></i>
+            </button>
+            
+            <!-- Language Switcher -->
+            <div class="dropdown me-3">
+              <button class="btn btn-link text-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                <i class="fas fa-language me-1"></i><span id="currentLanguage">VI</span>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li><a class="dropdown-item" href="#" data-lang="vi">🇻🇳 Tiếng Việt</a></li>
+                <li><a class="dropdown-item" href="#" data-lang="en">🇺🇸 English</a></li>
+              </ul>
+            </div>
+            
+            <!-- Notification Bell -->
+            <div class="notification-wrapper me-3" style="position: relative;">
+              <div class="notification-bell" id="notification-bell" style="cursor: pointer; padding: 8px 12px; font-size: 20px; position: relative;">
+                🔔
+                <span id="notification-badge" style="position: absolute; top: 0; right: 0; background-color: #dc3545; color: white; border-radius: 50%; padding: 2px 6px; font-size: 11px; font-weight: bold; min-width: 18px; height: 18px; display: none; text-align: center; line-height: 14px;">0</span>
+              </div>
+              <div class="notification-dropdown" id="notification-dropdown" style="display: none;">
+                <div class="notification-dropdown-header">
+                  <h6>Thông báo</h6>
+                  <a href="javascript:void(0)" class="mark-all-read" id="mark-all-read">Đánh dấu tất cả đã đọc</a>
+                </div>
+                <div id="notification-list">
+                  <div class="no-notifications">Đang tải...</div>
+                </div>
+              </div>
+            </div>
+            
             <button class="btn btn-outline-secondary me-2" onclick="createOrderWithWeight('light')"><i class="fas fa-box"></i> Hàng nhẹ &lt;20kg</button>
             <button class="btn btn-outline-dark" onclick="createOrderWithWeight('heavy')"><i class="fas fa-boxes-stacked"></i> Hàng nặng ≥20kg</button>
           </div>
@@ -74,7 +92,72 @@
                 </div>
                 <div class="col-md-6">
                   <label class="form-label">Thành phố gửi</label>
-                  <input name="senderCity" class="form-control" required />
+                  <select name="senderCity" class="form-select" required>
+                    <option value="">-- Chọn thành phố --</option>
+                    <option value="Hồ Chí Minh">Hồ Chí Minh</option>
+                    <option value="Hà Nội">Hà Nội</option>
+                    <option value="Đà Nẵng">Đà Nẵng</option>
+                    <option value="Hải Phòng">Hải Phòng</option>
+                    <option value="Cần Thơ">Cần Thơ</option>
+                    <option value="An Giang">An Giang</option>
+                    <option value="Bà Rịa - Vũng Tàu">Bà Rịa - Vũng Tàu</option>
+                    <option value="Bắc Giang">Bắc Giang</option>
+                    <option value="Bắc Kạn">Bắc Kạn</option>
+                    <option value="Bạc Liêu">Bạc Liêu</option>
+                    <option value="Bắc Ninh">Bắc Ninh</option>
+                    <option value="Bến Tre">Bến Tre</option>
+                    <option value="Bình Định">Bình Định</option>
+                    <option value="Bình Dương">Bình Dương</option>
+                    <option value="Bình Phước">Bình Phước</option>
+                    <option value="Bình Thuận">Bình Thuận</option>
+                    <option value="Cà Mau">Cà Mau</option>
+                    <option value="Cao Bằng">Cao Bằng</option>
+                    <option value="Đắk Lắk">Đắk Lắk</option>
+                    <option value="Đắk Nông">Đắk Nông</option>
+                    <option value="Điện Biên">Điện Biên</option>
+                    <option value="Đồng Nai">Đồng Nai</option>
+                    <option value="Đồng Tháp">Đồng Tháp</option>
+                    <option value="Gia Lai">Gia Lai</option>
+                    <option value="Hà Giang">Hà Giang</option>
+                    <option value="Hà Nam">Hà Nam</option>
+                    <option value="Hà Tĩnh">Hà Tĩnh</option>
+                    <option value="Hải Dương">Hải Dương</option>
+                    <option value="Hậu Giang">Hậu Giang</option>
+                    <option value="Hòa Bình">Hòa Bình</option>
+                    <option value="Hưng Yên">Hưng Yên</option>
+                    <option value="Khánh Hòa">Khánh Hòa</option>
+                    <option value="Kiên Giang">Kiên Giang</option>
+                    <option value="Kon Tum">Kon Tum</option>
+                    <option value="Lai Châu">Lai Châu</option>
+                    <option value="Lâm Đồng">Lâm Đồng</option>
+                    <option value="Lạng Sơn">Lạng Sơn</option>
+                    <option value="Lào Cai">Lào Cai</option>
+                    <option value="Long An">Long An</option>
+                    <option value="Nam Định">Nam Định</option>
+                    <option value="Nghệ An">Nghệ An</option>
+                    <option value="Ninh Bình">Ninh Bình</option>
+                    <option value="Ninh Thuận">Ninh Thuận</option>
+                    <option value="Phú Thọ">Phú Thọ</option>
+                    <option value="Phú Yên">Phú Yên</option>
+                    <option value="Quảng Bình">Quảng Bình</option>
+                    <option value="Quảng Nam">Quảng Nam</option>
+                    <option value="Quảng Ngãi">Quảng Ngãi</option>
+                    <option value="Quảng Ninh">Quảng Ninh</option>
+                    <option value="Quảng Trị">Quảng Trị</option>
+                    <option value="Sóc Trăng">Sóc Trăng</option>
+                    <option value="Sơn La">Sơn La</option>
+                    <option value="Tây Ninh">Tây Ninh</option>
+                    <option value="Thái Bình">Thái Bình</option>
+                    <option value="Thái Nguyên">Thái Nguyên</option>
+                    <option value="Thanh Hóa">Thanh Hóa</option>
+                    <option value="Thừa Thiên Huế">Thừa Thiên Huế</option>
+                    <option value="Tiền Giang">Tiền Giang</option>
+                    <option value="Trà Vinh">Trà Vinh</option>
+                    <option value="Tuyên Quang">Tuyên Quang</option>
+                    <option value="Vĩnh Long">Vĩnh Long</option>
+                    <option value="Vĩnh Phúc">Vĩnh Phúc</option>
+                    <option value="Yên Bái">Yên Bái</option>
+                  </select>
                 </div>
                 <div class="col-md-6">
                   <label class="form-label">Tên người nhận</label>
@@ -90,7 +173,72 @@
                 </div>
                 <div class="col-md-6">
                   <label class="form-label">Thành phố nhận</label>
-                  <input name="receiverCity" class="form-control" required />
+                  <select name="receiverCity" class="form-select" required>
+                    <option value="">-- Chọn thành phố --</option>
+                    <option value="Hồ Chí Minh">Hồ Chí Minh</option>
+                    <option value="Hà Nội">Hà Nội</option>
+                    <option value="Đà Nẵng">Đà Nẵng</option>
+                    <option value="Hải Phòng">Hải Phòng</option>
+                    <option value="Cần Thơ">Cần Thơ</option>
+                    <option value="An Giang">An Giang</option>
+                    <option value="Bà Rịa - Vũng Tàu">Bà Rịa - Vũng Tàu</option>
+                    <option value="Bắc Giang">Bắc Giang</option>
+                    <option value="Bắc Kạn">Bắc Kạn</option>
+                    <option value="Bạc Liêu">Bạc Liêu</option>
+                    <option value="Bắc Ninh">Bắc Ninh</option>
+                    <option value="Bến Tre">Bến Tre</option>
+                    <option value="Bình Định">Bình Định</option>
+                    <option value="Bình Dương">Bình Dương</option>
+                    <option value="Bình Phước">Bình Phước</option>
+                    <option value="Bình Thuận">Bình Thuận</option>
+                    <option value="Cà Mau">Cà Mau</option>
+                    <option value="Cao Bằng">Cao Bằng</option>
+                    <option value="Đắk Lắk">Đắk Lắk</option>
+                    <option value="Đắk Nông">Đắk Nông</option>
+                    <option value="Điện Biên">Điện Biên</option>
+                    <option value="Đồng Nai">Đồng Nai</option>
+                    <option value="Đồng Tháp">Đồng Tháp</option>
+                    <option value="Gia Lai">Gia Lai</option>
+                    <option value="Hà Giang">Hà Giang</option>
+                    <option value="Hà Nam">Hà Nam</option>
+                    <option value="Hà Tĩnh">Hà Tĩnh</option>
+                    <option value="Hải Dương">Hải Dương</option>
+                    <option value="Hậu Giang">Hậu Giang</option>
+                    <option value="Hòa Bình">Hòa Bình</option>
+                    <option value="Hưng Yên">Hưng Yên</option>
+                    <option value="Khánh Hòa">Khánh Hòa</option>
+                    <option value="Kiên Giang">Kiên Giang</option>
+                    <option value="Kon Tum">Kon Tum</option>
+                    <option value="Lai Châu">Lai Châu</option>
+                    <option value="Lâm Đồng">Lâm Đồng</option>
+                    <option value="Lạng Sơn">Lạng Sơn</option>
+                    <option value="Lào Cai">Lào Cai</option>
+                    <option value="Long An">Long An</option>
+                    <option value="Nam Định">Nam Định</option>
+                    <option value="Nghệ An">Nghệ An</option>
+                    <option value="Ninh Bình">Ninh Bình</option>
+                    <option value="Ninh Thuận">Ninh Thuận</option>
+                    <option value="Phú Thọ">Phú Thọ</option>
+                    <option value="Phú Yên">Phú Yên</option>
+                    <option value="Quảng Bình">Quảng Bình</option>
+                    <option value="Quảng Nam">Quảng Nam</option>
+                    <option value="Quảng Ngãi">Quảng Ngãi</option>
+                    <option value="Quảng Ninh">Quảng Ninh</option>
+                    <option value="Quảng Trị">Quảng Trị</option>
+                    <option value="Sóc Trăng">Sóc Trăng</option>
+                    <option value="Sơn La">Sơn La</option>
+                    <option value="Tây Ninh">Tây Ninh</option>
+                    <option value="Thái Bình">Thái Bình</option>
+                    <option value="Thái Nguyên">Thái Nguyên</option>
+                    <option value="Thanh Hóa">Thanh Hóa</option>
+                    <option value="Thừa Thiên Huế">Thừa Thiên Huế</option>
+                    <option value="Tiền Giang">Tiền Giang</option>
+                    <option value="Trà Vinh">Trà Vinh</option>
+                    <option value="Tuyên Quang">Tuyên Quang</option>
+                    <option value="Vĩnh Long">Vĩnh Long</option>
+                    <option value="Vĩnh Phúc">Vĩnh Phúc</option>
+                    <option value="Yên Bái">Yên Bái</option>
+                  </select>
                 </div>
                 <div class="col-md-3">
                   <label class="form-label">Cân nặng (kg)</label>
@@ -211,8 +359,44 @@
   </div>
 
   <script src="../js/api-service.js"></script>
+  <script src="../js/theme-toggle.js"></script>
+  <script src="../js/language-switcher.js"></script>
   <script src="./js/customer-common.js"></script>
+  <script src="../js/notification-client.js"></script>
   <script src="./js/customer-orders.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <script>
+    // Toggle notification dropdown
+    document.getElementById('notification-bell')?.addEventListener('click', function(e) {
+      e.stopPropagation();
+      const dropdown = document.getElementById('notification-dropdown');
+      dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+      const dropdown = document.getElementById('notification-dropdown');
+      const bell = document.getElementById('notification-bell');
+      if (bell && dropdown && !bell.contains(e.target) && !dropdown.contains(e.target)) {
+        dropdown.style.display = 'none';
+      }
+    });
+
+    // Mark all as read
+    document.getElementById('mark-all-read')?.addEventListener('click', async function() {
+      if (window.notificationClient) {
+        await window.notificationClient.markAllAsRead();
+      }
+    });
+
+    // Khởi tạo Notification Client
+    window.addEventListener('DOMContentLoaded', async function() {
+      if (typeof signalR !== 'undefined' && typeof NotificationClient !== 'undefined') {
+        window.notificationClient = new NotificationClient();
+        await window.notificationClient.start();
+      }
+    });
+  </script>
 </body>
 </html>

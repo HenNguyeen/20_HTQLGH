@@ -59,7 +59,7 @@
                 <div class="chat-sidebar">
                     <div class="chat-sidebar-header">
                         <h6><i class="fas fa-list"></i> Danh Sách Đơn Hàng</h6>
-                        <input type="text" id="searchOrders" class="form-control form-control-sm mt-2" placeholder="Tìm kiếm đơn hàng...">
+                        <input type="text" id="searchOrders" class="form-control form-control-sm mt-2" placeholder="Tìm kiếm đơn hàng..." data-i18n="searchOrders">
                     </div>
                     <div class="chat-orders-list" id="ordersList">
                         <!-- Danh sách đơn hàng sẽ được render ở đây -->
@@ -71,7 +71,7 @@
                     <!-- Chat Header -->
                     <div class="chat-header" id="chatHeader">
                         <div>
-                            <h6 class="mb-0" id="chatOrderInfo">Chọn đơn hàng để bắt đầu chat</h6>
+                            <h6 class="mb-0" id="chatOrderInfo" data-i18n="selectOrderToChat">Chọn đơn hàng để bắt đầu chat</h6>
                             <small class="text-muted" id="chatOrderStatus"></small>
                         </div>
                         <div class="chat-header-actions">
@@ -83,7 +83,7 @@
                     <div class="chat-messages" id="chatMessages">
                         <div class="text-center text-muted p-5">
                             <i class="fas fa-comments fa-3x mb-3"></i>
-                            <p>Chọn đơn hàng từ danh sách bên trái để bắt đầu trò chuyện</p>
+                            <p data-i18n="selectOrderPrompt">Chọn đơn hàng từ danh sách bên trái để bắt đầu trò chuyện</p>
                         </div>
                     </div>
 
@@ -98,7 +98,7 @@
                             <i class="fas fa-image"></i>
                         </button>
                         <input type="file" id="imageUpload" accept="image/*" style="display: none;" onchange="uploadImage(this)">
-                        <input type="text" id="messageInput" class="form-control" placeholder="Nhập tin nhắn..." onkeypress="handleKeyPress(event)">
+                        <input type="text" id="messageInput" class="form-control" placeholder="Nhập tin nhắn..." data-i18n="enterMessage" onkeypress="handleKeyPress(event)">
                         <button class="btn btn-primary" onclick="sendMessage()">
                             <i class="fas fa-paper-plane"></i> Gửi
                         </button>

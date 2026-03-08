@@ -55,8 +55,8 @@ namespace DeliveryManagementAPI.Controllers
             {
                 var lastMessage = await _context.ChatMessages
                     .Where(m => m.OrderId == null && 
-                               (m.SenderId == targetUserId || 
-                                (m.SenderId == userId && m.SenderRole == "admin")))
+                               ((m.SenderId == targetUserId && (m.ReceiverId == null || m.ReceiverId == userId)) || // Tin nhắn từ khách hàng này
+                                (m.SenderId == userId && m.ReceiverId == targetUserId))) // Tin nhắn admin gửi cho khách hàng này
                     .OrderByDescending(m => m.CreatedAt)
                     .Select(m => new
                     {
@@ -98,9 +98,11 @@ namespace DeliveryManagementAPI.Controllers
                 return Unauthorized("User ID not found in token");
             }
 
-            // Lấy tất cả tin nhắn general support
-            var allMessages = await _context.ChatMessages
-                .Where(m => m.OrderId == null)
+            // Lấy tin nhắn general support của user này (sử dụng ReceiverId)
+            var messages = await _context.ChatMessages
+                .Where(m => m.OrderId == null && 
+                           (m.SenderId == userId || // Tin nhắn user gửi đi
+                            m.ReceiverId == userId)) // Tin nhắn gửi cho user (từ admin)
                 .OrderBy(m => m.CreatedAt)
                 .Select(m => new
                 {
@@ -108,20 +110,13 @@ namespace DeliveryManagementAPI.Controllers
                     m.OrderId,
                     m.SenderId,
                     m.SenderRole,
+                    m.ReceiverId,
                     SenderName = m.Sender != null ? m.Sender.FullName : "Unknown",
                     m.Content,
                     m.ImageUrl,
                     m.CreatedAt
                 })
                 .ToListAsync();
-
-            // Filter client-side: chỉ lấy tin nhắn của user này và admin reply cho user này
-            var userHasSentMessage = allMessages.Any(m => m.SenderId == userId);
-            
-            var messages = allMessages.Where(m => 
-                m.SenderId == userId || // Tin nhắn của chính user
-                (m.SenderRole == "admin" && userHasSentMessage) // Admin reply (nếu user đã gửi tin nhắn)
-            ).ToList();
 
             return Ok(messages);
         }
@@ -136,9 +131,13 @@ namespace DeliveryManagementAPI.Controllers
                 return Unauthorized("User ID not found in token");
             }
 
+            var userRole = User.FindFirst(ClaimTypes.Role)?.Value ?? "customer";
+
+            // Lấy tin nhắn giữa admin và user cụ thể (sử dụng ReceiverId)
             var messages = await _context.ChatMessages
                 .Where(m => m.OrderId == null && 
-                           (m.SenderId == userId || m.SenderId == targetUserId))
+                           ((m.SenderId == targetUserId && (m.ReceiverId == null || m.ReceiverId == userId)) || // Tin nhắn từ targetUser gửi cho admin
+                            (m.SenderId == userId && m.ReceiverId == targetUserId))) // Tin nhắn admin gửi cho targetUser
                 .OrderBy(m => m.CreatedAt)
                 .Select(m => new
                 {
@@ -146,6 +145,7 @@ namespace DeliveryManagementAPI.Controllers
                     m.OrderId,
                     m.SenderId,
                     m.SenderRole,
+                    m.ReceiverId,
                     SenderName = m.Sender != null ? m.Sender.FullName : "Unknown",
                     m.Content,
                     m.ImageUrl,
@@ -201,6 +201,7 @@ namespace DeliveryManagementAPI.Controllers
                 OrderId = dto.OrderId,
                 SenderId = userId,
                 SenderRole = userRole,
+                ReceiverId = dto.ReceiverId, // Set ReceiverId từ DTO
                 Content = dto.Content,
                 ImageUrl = dto.ImageUrl,
                 CreatedAt = DateTime.Now
@@ -217,6 +218,7 @@ namespace DeliveryManagementAPI.Controllers
                 message.OrderId,
                 message.SenderId,
                 message.SenderRole,
+                message.ReceiverId,
                 SenderName = user.FullName,
                 message.Content,
                 message.ImageUrl,
@@ -325,6 +327,7 @@ namespace DeliveryManagementAPI.Controllers
     public class SendMessageDto
     {
         public int? OrderId { get; set; }
+        public int? ReceiverId { get; set; } // ID của người nhận (chỉ dùng cho general support)
         public string? Content { get; set; }
         public string? ImageUrl { get; set; }
     }

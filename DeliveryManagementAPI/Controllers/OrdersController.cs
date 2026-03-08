@@ -14,6 +14,7 @@ namespace DeliveryManagementAPI.Controllers
         private readonly DeliveryStaffService _staffService;
         private readonly ShippingFeeService _feeService;
         private readonly DeliveryDbContext _context;
+        private readonly INotificationService _notificationService;
         private readonly ILogger<OrdersController> _logger;
 
         public OrdersController(
@@ -21,12 +22,14 @@ namespace DeliveryManagementAPI.Controllers
             DeliveryStaffService staffService,
             ShippingFeeService feeService,
             DeliveryDbContext context,
+            INotificationService notificationService,
             ILogger<OrdersController> logger)
         {
             _orderService = orderService;
             _staffService = staffService;
             _feeService = feeService;
             _context = context;
+            _notificationService = notificationService;
             _logger = logger;
         }
 
@@ -177,6 +180,17 @@ namespace DeliveryManagementAPI.Controllers
 
                 var createdOrder = await _orderService.AddOrderAsync(order);
                 
+                // Gửi thông báo đơn hàng mới
+                try
+                {
+                    await _notificationService.SendOrderNotificationAsync(createdOrder.OrderId, "created");
+                }
+                catch (Exception notifEx)
+                {
+                    _logger.LogError(notifEx, $"Error sending notification for order {createdOrder.OrderId}");
+                    // Không throw exception, vẫn trả về order thành công
+                }
+                
                 return CreatedAtAction(
                     nameof(GetOrderById), 
                     new { id = createdOrder.OrderId }, 
@@ -238,6 +252,31 @@ namespace DeliveryManagementAPI.Controllers
                 }
 
                 var updatedOrder = await _orderService.UpdateOrderAsync(order);
+                
+                // Gửi thông báo cập nhật trạng thái
+                try
+                {
+                    string eventType = statusDto.Status switch
+                    {
+                        OrderStatus.DaNhanChuaGiao => "confirmed",
+                        OrderStatus.DaNhanDangGiao => "in_transit",
+                        OrderStatus.DaGiao => "delivered",
+                        _ => "status_changed"
+                    };
+                    
+                    // Nếu là assigned staff thì gửi thêm thông báo assigned
+                    if (!string.IsNullOrEmpty(statusDto.StaffId))
+                    {
+                        await _notificationService.SendOrderNotificationAsync(id, "assigned");
+                    }
+                    
+                    await _notificationService.SendOrderNotificationAsync(id, eventType);
+                }
+                catch (Exception notifEx)
+                {
+                    _logger.LogError(notifEx, $"Error sending notification for order {id}");
+                }
+                
                 return Ok(updatedOrder);
             }
             catch (Exception ex)

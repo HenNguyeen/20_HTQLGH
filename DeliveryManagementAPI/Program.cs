@@ -25,7 +25,10 @@ builder.Services.AddScoped<OrderService>();
 builder.Services.AddScoped<DeliveryStaffService>();
 builder.Services.AddScoped<CheckpointService>();
 builder.Services.AddScoped<UserAccountService>();
+builder.Services.AddScoped<INotificationService, NotificationService>();
 builder.Services.AddSingleton<ShippingFeeService>();
+builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<ITwoFactorService, TwoFactorService>();
 
 // Giữ lại JsonDataService cho việc migration dữ liệu (có thể xóa sau)
 builder.Services.AddSingleton<JsonDataService>();
@@ -217,5 +220,6 @@ app.MapControllers();
 // Map SignalR Hubs
 app.MapHub<DeliveryManagementAPI.Hubs.ChatHub>("/chatHub");
 app.MapHub<DeliveryManagementAPI.Hubs.TrackingHub>("/trackingHub");
+app.MapHub<DeliveryManagementAPI.Hubs.NotificationHub>("/notificationHub");
 
 app.Run();

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Notification - Tạo Đơn Hàng</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { padding: 30px; background: #f5f5f5; }
+        .test-card { max-width: 800px; margin: 0 auto; }
+        .log { background: #000; color: #0f0; padding: 15px; border-radius: 5px; font-family: monospace; height: 300px; overflow-y: auto; }
+    </style>
+</head>
+<body>
+    <div class="test-card">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h4>🧪 Test Notification - Tạo Đơn Hàng</h4>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-info">
+                    <strong>Hướng dẫn:</strong>
+                    <ol>
+                        <li>Nhập token JWT của bạn (từ localStorage hoặc đăng nhập)</li>
+                        <li>Click "Tạo Đơn Hàng Test"</li>
+                        <li>Hệ thống sẽ tạo đơn hàng và gửi notification</li>
+                        <li>Refresh các trang khác để xem notification bell</li>
+                    </ol>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">JWT Token (Bearer)</label>
+                    <input type="text" id="tokenInput" class="form-control" 
+                           value="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW4iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJhZG1pbiIsImV4cCI6MTc2OTQ2Mzk2OSwiaXNzIjoieW91cl9pc3N1ZXIiLCJhdWQiOiJ5b3VyX2F1ZGllbmNlIn0.CPWXoaE-xCM3TN-YkvXVTdTQNYrCkQXzqKywH6K0H14"
+                           placeholder="Nhập JWT token...">
+                </div>
+
+                <div class="d-flex gap-2 mb-3">
+                    <button class="btn btn-success" onclick="createTestOrder()">
+                        📦 Tạo Đơn Hàng Test
+                    </button>
+                    <button class="btn btn-info" onclick="checkNotifications()">
+                        🔔 Kiểm Tra Notifications
+                    </button>
+                    <button class="btn btn-warning" onclick="clearLog()">
+                        🗑️ Xóa Log
+                    </button>
+                </div>
+
+                <div class="log" id="logArea"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:5221/api';
+        
+        function log(message, type = 'info') {
+            const logArea = document.getElementById('logArea');
+            const time = new Date().toLocaleTimeString();
+            const colors = {
+                info: '#0ff',
+                success: '#0f0',
+                error: '#f00',
+                warning: '#ff0'
+            };
+            logArea.innerHTML += `<div style="color: ${colors[type]}">[${time}] ${message}</div>`;
+            logArea.scrollTop = logArea.scrollHeight;
+        }
+
+        function clearLog() {
+            document.getElementById('logArea').innerHTML = '';
+        }
+
+        function getHeaders() {
+            const token = document.getElementById('tokenInput').value.trim();
+            if (!token) {
+                log('Chưa nhập token!', 'error');
+                return null;
+            }
+            return {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            };
+        }
+
+        async function createTestOrder() {
+            log('Đang tạo đơn hàng test...', 'info');
+            
+            const headers = getHeaders();
+            if (!headers) return;
+
+            const orderData = {
+                orderCode: `TEST-${Date.now()}`,
+                senderName: "Nguyễn Văn Test",
+                senderPhone: "0901234567",
+                senderAddress: "123 Đường Test, Quận Test",
+                receiverName: "Trần Thị Nhận",
+                receiverPhone: "0912345678",
+                receiverAddress: "456 Đường Nhận, Quận Nhận",
+                receiverDistrict: "Quận 1",
+                receiverProvince: "TP. Hồ Chí Minh",
+                packageType: "document",
+                weight: 1.5,
+                shippingFee: 50000,
+                paymentMethod: "COD",
+                notes: "Đơn hàng test để kiểm tra notification"
+            };
+
+            try {
+                const response = await fetch(`${API_BASE}/orders`, {
+                    method: 'POST',
+                    headers: headers,
+                    body: JSON.stringify(orderData)
+                });
+
+                if (response.ok) {
+                    const order = await response.json();
+                    log(`✓ Đã tạo đơn hàng: ${order.orderCode}`, 'success');
+                    log(`✓ Notification đã được gửi!`, 'success');
+                    log(`→ Refresh trang để xem notification bell!`, 'warning');
+                    
+                    // Kiểm tra notifications sau 1 giây
+                    setTimeout(checkNotifications, 1000);
+                } else {
+                    const error = await response.text();
+                    log(`✗ Lỗi: ${response.status} - ${error}`, 'error');
+                }
+            } catch (error) {
+                log(`✗ Lỗi kết nối: ${error.message}`, 'error');
+                log(`  Kiểm tra: API có đang chạy tại ${API_BASE}?`, 'warning');
+            }
+        }
+
+        async function checkNotifications() {
+            log('Đang kiểm tra notifications...', 'info');
+            
+            const headers = getHeaders();
+            if (!headers) return;
+
+            try {
+                // Kiểm tra số lượng chưa đọc
+                const countResponse = await fetch(`${API_BASE}/notifications/unread-count`, {
+                    method: 'GET',
+                    headers: headers
+                });
+
+                if (countResponse.ok) {
+                    const count = await countResponse.json();
+                    log(`📊 Số thông báo chưa đọc: ${count}`, 'success');
+                }
+
+                // Lấy danh sách notifications
+                const listResponse = await fetch(`${API_BASE}/notifications`, {
+                    method: 'GET',
+                    headers: headers
+                });
+
+                if (listResponse.ok) {
+                    const notifications = await listResponse.json();
+                    log(`📋 Tổng số thông báo: ${notifications.length}`, 'info');
+                    
+                    if (notifications.length > 0) {
+                        log('--- Danh sách thông báo ---', 'info');
+                        notifications.slice(0, 5).forEach(n => {
+                            log(`  [${n.type}] ${n.title}: ${n.message}`, 'info');
+                        });
+                    } else {
+                        log('  Chưa có thông báo nào', 'warning');
+                    }
+                }
+            } catch (error) {
+                log(`✗ Lỗi: ${error.message}`, 'error');
+            }
+        }
+
+        // Auto check khi load
+        window.onload = () => {
+            log('=== Test Notification System ===', 'success');
+            log('Sẵn sàng kiểm tra!', 'info');
+            checkNotifications();
+        };
+    </script>
+</body>
+</html>

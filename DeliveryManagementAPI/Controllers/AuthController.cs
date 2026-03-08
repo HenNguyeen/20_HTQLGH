@@ -16,11 +16,16 @@ namespace DeliveryManagementAPI.Controllers
     {
         private readonly UserAccountService _userService;
         private readonly IConfiguration _config;
+        private readonly ITwoFactorService _twoFactorService;
 
-        public AuthController(UserAccountService userService, IConfiguration config)
+        public AuthController(
+            UserAccountService userService, 
+            IConfiguration config,
+            ITwoFactorService twoFactorService)
         {
             _userService = userService;
             _config = config;
+            _twoFactorService = twoFactorService;
         }
 
         [HttpPost("login")]
@@ -29,6 +34,25 @@ namespace DeliveryManagementAPI.Controllers
             var user = await _userService.AuthenticateAsync(req.Username!, req.Password!);
             if (user == null)
                 return Unauthorized(new { message = "Sai tài khoản hoặc mật khẩu" });
+
+            // Check if 2FA is enabled for this user
+            if (user.TwoFactorEnabled)
+            {
+                // Generate and send OTP
+                var otp = _twoFactorService.GenerateOTP();
+                await _userService.SetTwoFactorCodeAsync(user.UserId, otp, DateTime.UtcNow.AddMinutes(5));
+                
+                // Send OTP via email
+                await _twoFactorService.SendOTPEmailAsync(user.Email, user.FullName, otp);
+
+                return Ok(new 
+                { 
+                    requiresTwoFactor = true, 
+                    userId = user.UserId,
+                    message = "Mã xác thực đã được gửi đến email của bạn"
+                });
+            }
+
             var token = GenerateJwtToken(user);
             return Ok(new { token, user = new { user.UserId, user.Username, user.FullName, user.Email, user.Role } });
         }
@@ -156,6 +180,73 @@ namespace DeliveryManagementAPI.Controllers
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
+
+        [HttpPost("verify-2fa")]
+        public async Task<IActionResult> VerifyTwoFactor([FromBody] VerifyTwoFactorRequest req)
+        {
+            var isValid = await _userService.VerifyTwoFactorCodeAsync(req.UserId, req.Code!);
+            if (!isValid)
+                return BadRequest(new { message = "Mã xác thực không đúng hoặc đã hết hạn" });
+
+            var user = await _userService.GetByIdAsync(req.UserId);
+            if (user == null)
+                return NotFound(new { message = "Không tìm thấy người dùng" });
+
+            var token = GenerateJwtToken(user);
+            return Ok(new { token, user = new { user.UserId, user.Username, user.FullName, user.Email, user.Role } });
+        }
+
+        [HttpPost("enable-2fa")]
+        [Authorize]
+        public async Task<IActionResult> EnableTwoFactor()
+        {
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userIdClaim))
+                return Unauthorized();
+
+            var userId = int.Parse(userIdClaim);
+            var success = await _userService.EnableTwoFactorAsync(userId);
+            
+            if (!success)
+                return NotFound(new { message = "Không tìm thấy người dùng" });
+
+            return Ok(new { success = true, message = "Đã bật xác thực 2 yếu tố" });
+        }
+
+        [HttpPost("disable-2fa")]
+        [Authorize]
+        public async Task<IActionResult> DisableTwoFactor()
+        {
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userIdClaim))
+                return Unauthorized();
+
+            var userId = int.Parse(userIdClaim);
+            var success = await _userService.DisableTwoFactorAsync(userId);
+            
+            if (!success)
+                return NotFound(new { message = "Không tìm thấy người dùng" });
+
+            return Ok(new { success = true, message = "Đã tắt xác thực 2 yếu tố" });
+        }
+
+        [HttpPost("resend-2fa")]
+        public async Task<IActionResult> ResendTwoFactorCode([FromBody] ResendTwoFactorRequest req)
+        {
+            var user = await _userService.GetByIdAsync(req.UserId);
+            if (user == null)
+                return NotFound(new { message = "Không tìm thấy người dùng" });
+
+            if (!user.TwoFactorEnabled)
+                return BadRequest(new { message = "Xác thực 2 yếu tố chưa được bật" });
+
+            // Generate and send new OTP
+            var otp = _twoFactorService.GenerateOTP();
+            await _userService.SetTwoFactorCodeAsync(user.UserId, otp, DateTime.UtcNow.AddMinutes(5));
+            await _twoFactorService.SendOTPEmailAsync(user.Email, user.FullName, otp);
+
+            return Ok(new { success = true, message = "Mã xác thực mới đã được gửi" });
+        }
     }
 
     public class LoginRequest
@@ -184,5 +275,16 @@ namespace DeliveryManagementAPI.Controllers
     public class GoogleSignInRequest
     {
         public string? IdToken { get; set; }
+    }
+
+    public class VerifyTwoFactorRequest
+    {
+        public int UserId { get; set; }
+        public string? Code { get; set; }
+    }
+
+    public class ResendTwoFactorRequest
+    {
+        public int UserId { get; set; }
     }
 }
