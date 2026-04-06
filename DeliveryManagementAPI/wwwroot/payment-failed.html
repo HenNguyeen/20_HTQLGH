@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thanh toán thất bại</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+        .error-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: #ef4444;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            animation: shake 0.5s ease-out;
+        }
+        .error-icon::after {
+            content: "✕";
+            color: white;
+            font-size: 50px;
+            font-weight: bold;
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+        h1 {
+            color: #ef4444;
+            margin: 0 0 10px;
+            font-size: 28px;
+        }
+        .subtitle {
+            color: #6b7280;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+        .error-box {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: left;
+        }
+        .error-title {
+            color: #991b1b;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        .error-message {
+            color: #dc2626;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        .reasons {
+            background: #f3f4f6;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: left;
+        }
+        .reasons h3 {
+            color: #374151;
+            font-size: 16px;
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+        .reasons ul {
+            margin: 0;
+            padding-left: 20px;
+            color: #6b7280;
+        }
+        .reasons li {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 30px;
+        }
+        button {
+            flex: 1;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn-primary {
+            background: #ef4444;
+            color: white;
+        }
+        .btn-primary:hover {
+            background: #dc2626;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(239, 68, 68, 0.4);
+        }
+        .btn-secondary {
+            background: #f3f4f6;
+            color: #374151;
+        }
+        .btn-secondary:hover {
+            background: #e5e7eb;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="error-icon"></div>
+        <h1>Thanh toán thất bại!</h1>
+        <p class="subtitle">Giao dịch không thành công</p>
+        
+        <div class="error-box">
+            <div class="error-title">Lỗi:</div>
+            <div class="error-message" id="errorMessage">Không thể hoàn tất giao dịch</div>
+        </div>
+        
+        <div class="reasons">
+            <h3>Nguyên nhân có thể:</h3>
+            <ul>
+                <li>Số dư tài khoản không đủ</li>
+                <li>Thông tin thanh toán không chính xác</li>
+                <li>Hủy giao dịch trong quá trình thanh toán</li>
+                <li>Phiên thanh toán hết hạn</li>
+                <li>Kết nối mạng bị gián đoạn</li>
+            </ul>
+        </div>
+        
+        <div class="button-group">
+            <button class="btn-primary" onclick="retry()">Thử lại</button>
+            <button class="btn-secondary" onclick="goToHome()">Về trang chủ</button>
+        </div>
+    </div>
+
+    <script>
+        // Lấy thông tin lỗi từ URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const error = urlParams.get('error');
+        
+        if (error) {
+            const errorMessages = {
+                'insufficient_balance': 'Số dư tài khoản không đủ',
+                'invalid_card': 'Thông tin thẻ không hợp lệ',
+                'transaction_cancelled': 'Giao dịch đã bị hủy',
+                'session_expired': 'Phiên thanh toán đã hết hạn',
+                'system_error': 'Lỗi hệ thống, vui lòng thử lại sau'
+            };
+            
+            document.getElementById('errorMessage').textContent = 
+                errorMessages[error] || decodeURIComponent(error) || 'Lỗi không xác định';
+        }
+        
+        function retry() {
+            // Quay lại trang đặt hàng để thử lại
+            window.location.href = document.referrer || '/orders.html';
+        }
+        
+        function goToHome() {
+            window.location.href = '/index.html';
+        }
+    </script>
+</body>
+</html>

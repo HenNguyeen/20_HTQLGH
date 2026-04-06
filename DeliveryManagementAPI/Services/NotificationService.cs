@@ -7,21 +7,25 @@ namespace DeliveryManagementAPI.Services
 {
     /// <summary>
     /// Service quản lý thông báo
+    /// Sử dụng Decorator Pattern (Pattern #11) cho notification sending
     /// </summary>
     public class NotificationService : INotificationService
     {
         private readonly DeliveryDbContext _context;
         private readonly IHubContext<NotificationHub> _hubContext;
         private readonly ILogger<NotificationService> _logger;
+        private readonly INotificationSender _notificationSender;
 
         public NotificationService(
             DeliveryDbContext context,
             IHubContext<NotificationHub> hubContext,
-            ILogger<NotificationService> logger)
+            ILogger<NotificationService> logger,
+            INotificationSender notificationSender)
         {
             _context = context;
             _hubContext = hubContext;
             _logger = logger;
+            _notificationSender = notificationSender;
         }
 
         // ========== In-App Notifications ==========
@@ -51,6 +55,18 @@ namespace DeliveryManagementAPI.Services
             await _context.SaveChangesAsync();
 
             _logger.LogInformation($"Created notification {notification.Id} for user {userId}");
+
+            // Gửi real-time notification sử dụng Decorator Pattern
+            // Tự động có logging và retry functionality
+            try
+            {
+                await _notificationSender.SendAsync(notification);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to send real-time notification after retries");
+                // Không throw exception, notification đã được lưu vào DB
+            }
 
             return notification;
         }
@@ -243,9 +259,22 @@ namespace DeliveryManagementAPI.Services
                 // Gửi thông báo cho shipper nếu đã được assign
                 if (order.AssignedStaff != null && eventType.ToLower() == "assigned")
                 {
-                    // Tìm UserAccount của shipper qua FullName
-                    var shipperUser = await _context.UserAccounts
-                        .FirstOrDefaultAsync(u => u.Role == "shipper" && u.FullName == order.AssignedStaff.FullName);
+                    // Tìm UserAccount của shipper: ưu tiên khớp SĐT (ổn định hơn), fallback theo họ tên.
+                    UserAccount? shipperUser = null;
+                    var staffPhone = order.AssignedStaff.PhoneNumber?.Trim();
+                    var staffFullName = order.AssignedStaff.FullName?.Trim();
+
+                    if (!string.IsNullOrWhiteSpace(staffPhone))
+                    {
+                        shipperUser = await _context.UserAccounts
+                            .FirstOrDefaultAsync(u => u.Role == "shipper" && u.PhoneNumber == staffPhone);
+                    }
+
+                    if (shipperUser == null && !string.IsNullOrWhiteSpace(staffFullName))
+                    {
+                        shipperUser = await _context.UserAccounts
+                            .FirstOrDefaultAsync(u => u.Role == "shipper" && u.FullName == staffFullName);
+                    }
                     
                     if (shipperUser != null)
                     {
@@ -256,6 +285,10 @@ namespace DeliveryManagementAPI.Services
                             NotificationType.Order,
                             orderId,
                             actionUrl);
+                    }
+                    else
+                    {
+                        _logger.LogWarning("Could not map assigned staff to shipper user account for order {OrderId}", orderId);
                     }
                 }
 

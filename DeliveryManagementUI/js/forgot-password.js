@@ -21,7 +21,7 @@ document.getElementById('forgotForm').addEventListener('submit', async function(
             alertDiv.innerHTML = `
                 <div class="alert alert-success">
                     <i class="fas fa-check-circle me-2"></i>
-                    Yêu cầu đặt lại mật khẩu đã được gửi! Vui lòng kiểm tra email.
+                    ${result.message || 'Yêu cầu đặt lại mật khẩu đã được gửi! Vui lòng kiểm tra email.'}
                 </div>
             `;
             
@@ -37,10 +37,17 @@ document.getElementById('forgotForm').addEventListener('submit', async function(
         }
     } catch (err) {
         console.error('Forgot password error:', err);
+        let errorMessage = 'Gửi yêu cầu thất bại! Vui lòng thử lại.';
+        
+        // Try to extract error message from response
+        if (err.message) {
+            errorMessage = err.message;
+        }
+        
         alertDiv.innerHTML = `
             <div class="alert alert-danger">
                 <i class="fas fa-exclamation-triangle me-2"></i>
-                Gửi yêu cầu thất bại! Vui lòng thử lại.
+                ${errorMessage}
             </div>
         `;
     } finally {

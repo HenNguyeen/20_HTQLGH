@@ -14,13 +14,17 @@ namespace DeliveryManagementAPI.Data
             using var context = new DeliveryDbContext(
                 serviceProvider.GetRequiredService<DbContextOptions<DeliveryDbContext>>());
 
-            // Kiểm tra nếu đã có dữ liệu thì không seed nữa
-            if (context.UserAccounts.Any())
+            // ❌ DISABLED: Seed data không được tải - database sẽ trống
+            /*
+            // FORCE: Clear ALL users and reseed fresh for development
+            var allUsers = context.UserAccounts.ToList();
+            if (allUsers.Any())
             {
-                return; // Database đã được seed
+                context.UserAccounts.RemoveRange(allUsers);
+                await context.SaveChangesAsync();
             }
 
-            // Seed User Accounts
+            // Seed User Accounts fresh
             var users = new[]
             {
                 new UserAccount
@@ -70,6 +74,10 @@ namespace DeliveryManagementAPI.Data
                 {
                     FullName = "Trần Văn B",
                     PhoneNumber = "0923456789",
+                    IdCardNumber = "001201012345",
+                    Hometown = "Hà Nam, Việt Nam",
+                    DateOfBirth = new DateTime(1990, 5, 15),
+                    WorkingArea = "Quận 1, Quận 2",
                     VehicleType = "Xe máy",
                     VehiclePlate = "29A-12345",
                     IsAvailable = true
@@ -78,6 +86,10 @@ namespace DeliveryManagementAPI.Data
                 {
                     FullName = "Lê Thị C",
                     PhoneNumber = "0934567890",
+                    IdCardNumber = "001201012346",
+                    Hometown = "Thanh Hóa, Việt Nam",
+                    DateOfBirth = new DateTime(1992, 8, 20),
+                    WorkingArea = "Quận 3, Quận 4, Quận 5",
                     VehicleType = "Xe máy",
                     VehiclePlate = "29B-67890",
                     IsAvailable = true
@@ -86,6 +98,10 @@ namespace DeliveryManagementAPI.Data
                 {
                     FullName = "Phạm Văn D",
                     PhoneNumber = "0945678901",
+                    IdCardNumber = "001201012347",
+                    Hometown = "Nghệ An, Việt Nam",
+                    DateOfBirth = new DateTime(1988, 3, 10),
+                    WorkingArea = "Quận 6, Quận 7, Quận 8",
                     VehicleType = "Xe tải nhỏ",
                     VehiclePlate = "29C-11111",
                     IsAvailable = false
@@ -119,82 +135,47 @@ namespace DeliveryManagementAPI.Data
             context.Customers.AddRange(customers);
             await context.SaveChangesAsync();
 
-            // Seed Orders
+            // Seed Orders - Sử dụng Builder Pattern để tạo test data
             var orders = new[]
             {
-                new Order
-                {
-                    OrderCode = "DH001",
-                    CreatedDate = DateTime.Now.AddDays(-3),
-                    CustomerId = customers[0].CustomerId,
-                    ProductCode = "SP001",
-                    PackageType = PackageType.Thung,
-                    Weight = 2.5,
-                    Size = "30x20x10",
-                    Distance = 15.5,
-                    IsFragile = false,
-                    IsValuable = false,
-                    IsVehicle = false,
-                    CollectMoney = true,
-                    CollectionAmount = 500000,
-                    PaymentMethod = PaymentMethod.GuiThuong,
-                    ShippingFee = 45000,
-                    IsPaid = false,
-                    DeliveryType = DeliveryType.GiaoHangThuong,
-                    Status = OrderStatus.DaNhanDangGiao,
-                    AssignedStaffId = staff[0].StaffId.ToString(),
-                    ReceivedDate = DateTime.Now.AddDays(-2),
-                    DeliveryStartDate = DateTime.Now.AddDays(-1),
-                    Notes = "Giao trong giờ hành chính"
-                },
-                new Order
-                {
-                    OrderCode = "DH002",
-                    CreatedDate = DateTime.Now.AddDays(-1),
-                    CustomerId = customers[1].CustomerId,
-                    ProductCode = "SP002",
-                    PackageType = PackageType.GoiNho,
-                    Weight = 0.5,
-                    Size = "25x15x5",
-                    Distance = 8.2,
-                    IsFragile = false,
-                    IsValuable = true,
-                    IsVehicle = false,
-                    CollectMoney = false,
-                    CollectionAmount = 0,
-                    PaymentMethod = PaymentMethod.GuiNhanh,
-                    ShippingFee = 30000,
-                    IsPaid = true,
-                    DeliveryType = DeliveryType.GiaoHangNhanh,
-                    Status = OrderStatus.ChuaNhan,
-                    Notes = "Hàng cần bảo mật"
-                },
-                new Order
-                {
-                    OrderCode = "DH003",
-                    CreatedDate = DateTime.Now.AddDays(-5),
-                    CustomerId = customers[0].CustomerId,
-                    ProductCode = "SP003",
-                    PackageType = PackageType.Thung,
-                    Weight = 5.0,
-                    Size = "40x30x20",
-                    Distance = 25.0,
-                    IsFragile = true,
-                    IsValuable = true,
-                    IsVehicle = false,
-                    CollectMoney = false,
-                    CollectionAmount = 0,
-                    PaymentMethod = PaymentMethod.ChuyenKhoan,
-                    ShippingFee = 85000,
-                    IsPaid = true,
-                    DeliveryType = DeliveryType.GiaoHangThuong,
-                    Status = OrderStatus.DaGiao,
-                    AssignedStaffId = staff[1].StaffId.ToString(),
-                    ReceivedDate = DateTime.Now.AddDays(-4),
-                    DeliveryStartDate = DateTime.Now.AddDays(-3),
-                    DeliveredDate = DateTime.Now.AddDays(-2),
-                    Notes = "Đã giao thành công"
-                }
+                new OrderBuilder()
+                    .WithOrderCode("DH001")
+                    .WithCreatedDate(DateTime.Now.AddDays(-3))
+                    .ForCustomer(customers[0].CustomerId)
+                    .WithPackageDetails("SP001", PackageType.Thung, 2.5, "30x20x10", 15.5)
+                    .WithCollectionAmount(500000)
+                    .WithPayment(PaymentMethod.COD, 45000)
+                    .WithDeliveryType(DeliveryType.GiaoHangThuong)
+                    .WithStatus(OrderStatus.DaNhanDangGiao)
+                    .AssignToStaff(staff[0].StaffId)
+                    .WithNotes("Giao trong giờ hành chính")
+                    .Build(),
+
+                new OrderBuilder()
+                    .WithOrderCode("DH002")
+                    .WithCreatedDate(DateTime.Now.AddDays(-1))
+                    .ForCustomer(customers[1].CustomerId)
+                    .WithPackageDetails("SP002", PackageType.GoiNho, 0.5, "25x15x5", 8.2)
+                    .IsValuable()
+                    .WithPayment(PaymentMethod.Momo, 30000)
+                    .WithDeliveryType(DeliveryType.GiaoHangNhanh)
+                    .WithStatus(OrderStatus.ChuaNhan)
+                    .WithNotes("Hàng cần bảo mật")
+                    .Build(),
+
+                new OrderBuilder()
+                    .WithOrderCode("DH003")
+                    .WithCreatedDate(DateTime.Now.AddDays(-5))
+                    .ForCustomer(customers[0].CustomerId)
+                    .WithPackageDetails("SP003", PackageType.Thung, 5.0, "40x30x20", 25.0)
+                    .IsFragile()
+                    .IsValuable()
+                    .WithPayment(PaymentMethod.COD, 85000)
+                    .WithDeliveryType(DeliveryType.GiaoHangThuong)
+                    .WithStatus(OrderStatus.DaGiao)
+                    .AssignToStaff(staff[1].StaffId)
+                    .WithNotes("Đã giao thành công")
+                    .Build()
             };
             context.Orders.AddRange(orders);
             await context.SaveChangesAsync();
@@ -234,6 +215,9 @@ namespace DeliveryManagementAPI.Data
             await context.SaveChangesAsync();
 
             Console.WriteLine("✅ Seed data completed successfully!");
+            */
+
+            Console.WriteLine("⚠️ Seed data bị DISABLED - database trống");
         }
     }
 }

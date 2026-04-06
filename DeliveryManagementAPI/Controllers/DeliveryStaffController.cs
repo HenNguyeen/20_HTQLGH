@@ -131,6 +131,18 @@ namespace DeliveryManagementAPI.Controllers
         {
             try
             {
+                // Kiểm tra dữ liệu bắt buộc
+                if (string.IsNullOrWhiteSpace(dto.FullName) ||
+                    string.IsNullOrWhiteSpace(dto.PhoneNumber) ||
+                    string.IsNullOrWhiteSpace(dto.IdCardNumber) ||
+                    string.IsNullOrWhiteSpace(dto.Hometown) ||
+                    string.IsNullOrWhiteSpace(dto.WorkingArea) ||
+                    string.IsNullOrWhiteSpace(dto.VehicleType) ||
+                    string.IsNullOrWhiteSpace(dto.VehiclePlate))
+                {
+                    return BadRequest(new { message = "Vui lòng cung cấp đầy đủ thông tin: Họ tên, SĐT, CCCD, Quê quán, Khu vực hoạt động, Loại xe, Biển số xe" });
+                }
+
                 // Kiểm tra username đã tồn tại chưa
                 var existingUser = await _userService.GetByUsernameAsync(dto.Username);
                 if (existingUser != null)
@@ -150,6 +162,10 @@ namespace DeliveryManagementAPI.Controllers
                 {
                     FullName = dto.FullName,
                     PhoneNumber = dto.PhoneNumber,
+                    IdCardNumber = dto.IdCardNumber,
+                    Hometown = dto.Hometown,
+                    DateOfBirth = dto.DateOfBirth,
+                    WorkingArea = dto.WorkingArea,
                     VehicleType = dto.VehicleType,
                     VehiclePlate = dto.VehiclePlate,
                     IsAvailable = dto.IsAvailable

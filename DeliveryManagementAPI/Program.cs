@@ -1,4 +1,7 @@
 using DeliveryManagementAPI.Services;
+using DeliveryManagementAPI.Services.Commands;
+using DeliveryManagementAPI.Middleware;
+using DeliveryManagementAPI.Hubs;
 using Microsoft.Extensions.FileProviders;
 using System.IO;
 using System.Collections.Generic;
@@ -7,6 +10,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.SignalR;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,13 +26,50 @@ builder.Services.AddSignalR();
 
 // Đăng ký các services
 builder.Services.AddScoped<OrderService>();
+builder.Services.AddScoped<OrderCommandHandler>(); // Command Pattern Handler (Pattern #12)
+builder.Services.AddScoped<AuditLogService>(); // Command Pattern - Audit Logging (Pattern #12)
+builder.Services.AddScoped<OrderStateService>(); // State Pattern (Pattern #15)
 builder.Services.AddScoped<DeliveryStaffService>();
 builder.Services.AddScoped<CheckpointService>();
 builder.Services.AddScoped<UserAccountService>();
+
+// Đăng ký Notification Services với Decorator Pattern (Pattern #11)
+// Stack decorators: Logging -> Retry -> Basic
+builder.Services.AddScoped<INotificationSender>(sp =>
+{
+    var hubContext = sp.GetRequiredService<IHubContext<NotificationHub>>();
+    var loggerBasic = sp.GetRequiredService<ILogger<BasicNotificationSender>>();
+    var loggerRetry = sp.GetRequiredService<ILogger<RetryNotificationDecorator>>();
+    var loggerLogging = sp.GetRequiredService<ILogger<LoggingNotificationDecorator>>();
+
+    // Tạo basic sender
+    INotificationSender sender = new BasicNotificationSender(hubContext);
+    
+    // Wrap với retry logic (3 lần thử, delay 1 giây)
+    sender = new RetryNotificationDecorator(sender, loggerRetry, maxRetries: 3, delayMs: 1000);
+    
+    // Wrap với logging
+    sender = new LoggingNotificationDecorator(sender, loggerLogging);
+    
+    return sender;
+});
+
 builder.Services.AddScoped<INotificationService, NotificationService>();
 builder.Services.AddSingleton<ShippingFeeService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<ITwoFactorService, TwoFactorService>();
+
+// Đăng ký Payment Gateway Services với Adapter Pattern (Pattern #15)
+// Adaptees: VNPayService, MomoService (các service bên thứ 3 với interface riêng)
+builder.Services.AddScoped<DeliveryManagementAPI.Services.VNPay.VNPayService>();
+builder.Services.AddScoped<DeliveryManagementAPI.Services.Momo.MomoService>();
+
+// Adapters: chuyển đổi interface của bên thứ 3 sang interface chung IPaymentGateway
+builder.Services.AddScoped<IPaymentGateway, VNPayAdapter>();
+builder.Services.AddScoped<IPaymentGateway, MomoAdapter>();
+
+// Client: sử dụng các gateways thông qua interface chung
+builder.Services.AddScoped<PaymentGatewayService>();
 
 // Giữ lại JsonDataService cho việc migration dữ liệu (có thể xóa sau)
 builder.Services.AddSingleton<JsonDataService>();
@@ -136,7 +177,9 @@ using (var scope = app.Services.CreateScope())
     var services = scope.ServiceProvider;
     try
     {
-        await DeliveryManagementAPI.Data.SeedData.Initialize(services);
+        // ❌ DISABLED: Seed data không được tải
+        // await DeliveryManagementAPI.Data.SeedData.Initialize(services);
+        Console.WriteLine("⚠️ Seed data bị DISABLED - database trống");
     }
     catch (Exception ex)
     {
@@ -159,6 +202,9 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseCors("AllowAll");
+
+// Add Rate Limiting Middleware
+app.UseRateLimiting();
 
 app.UseAuthentication();
 app.UseAuthorization();

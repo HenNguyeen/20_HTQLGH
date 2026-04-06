@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Quản Lý Khách hàng - Admin</title>
+  <!-- Google Fonts - Support Vietnamese -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <!-- Bootstrap 5 -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
   <!-- Font Awesome -->
@@ -80,6 +82,15 @@
       <div id="customersAlert"></div>
       <div class="card">
         <div class="card-body">
+          <div class="row g-2 mb-3">
+            <div class="col-md-6 col-lg-5">
+              <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-search"></i></span>
+                <input type="text" class="form-control" id="customerSearchInput" placeholder="Tìm theo tên, SĐT, địa chỉ...">
+                <button class="btn btn-outline-secondary" type="button" id="clearCustomerSearch" title="Xóa tìm kiếm">Xóa</button>
+              </div>
+            </div>
+          </div>
           <div class="table-responsive">
             <table class="table table-hover" id="customersTable">
               <thead>
@@ -115,28 +126,197 @@
         <div class="modal-body">
           <form id="customerForm">
             <input type="hidden" id="customerId">
+            
+            <!-- 1. Thông tin định danh (Bắt buộc) -->
+            <h6 class="mb-3"><i class="fas fa-user"></i> Thông tin định danh</h6>
             <div class="mb-3">
-              <label class="form-label" data-i18n="customerName">Họ tên</label>
+              <label class="form-label">Họ tên / Tên Shop *</label>
               <input id="fullName" class="form-control" required>
             </div>
             <div class="mb-3">
-              <label class="form-label" data-i18n="phone">Số điện thoại</label>
-              <input id="phoneNumber" class="form-control">
+              <label class="form-label">Số điện thoại *</label>
+              <input id="phoneNumber" class="form-control" required>
             </div>
             <div class="mb-3">
-              <label class="form-label" data-i18n="customerAddress">Địa chỉ</label>
-              <input id="address" class="form-control">
+              <label class="form-label">Email *</label>
+              <input id="email" type="email" class="form-control" required>
+            </div>
+            
+            <hr>
+            
+            <!-- 2. Thông tin địa chỉ lấy hàng (Pickup Address) -->
+            <h6 class="mb-3"><i class="fas fa-location-dot"></i> Thông tin địa chỉ lấy hàng</h6>
+            <div class="mb-3">
+              <label class="form-label">Địa chỉ chi tiết *</label>
+              <input id="address" class="form-control" placeholder="Số nhà, tên đường" required>
             </div>
             <div class="row">
-              <div class="col-md-4 mb-3"><input id="ward" class="form-control" placeholder="Phường/Xã" data-i18n="wardPlaceholder"></div>
-              <div class="col-md-4 mb-3"><input id="district" class="form-control" placeholder="Quận/Huyện" data-i18n="districtPlaceholder"></div>
-              <div class="col-md-4 mb-3"><input id="city" class="form-control" placeholder="Thành phố" data-i18n="cityPlaceholder"></div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Phường/Xã *</label>
+                <input id="ward" class="form-control" required>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Quận/Huyện *</label>
+                <input id="district" class="form-control" required>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Thành phố / Tỉnh *</label>
+                <input id="city" class="form-control" required>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Loại địa chỉ *</label>
+                <select id="addressType" class="form-select" required>
+                  <option value="">-- Chọn loại --</option>
+                  <option value="Kho hàng">Kho hàng</option>
+                  <option value="Nhà riêng">Nhà riêng</option>
+                  <option value="Văn phòng">Văn phòng</option>
+                </select>
+              </div>
+            </div>
+            
+            <hr>
+            
+            <!-- 3. Thông tin Tài chính & Đối soát (Dành cho Shop) -->
+            <h6 class="mb-3"><i class="fas fa-bank"></i> Thông tin Tài chính & Đối soát</h6>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Số tài khoản ngân hàng</label>
+                <input id="bankAccountNumber" class="form-control" placeholder="VD: 1234567890">
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Tên chủ tài khoản</label>
+                <input id="bankAccountName" class="form-control">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Tên ngân hàng</label>
+                <input id="bankName" class="form-control" placeholder="VD: Vietcombank">
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Chi nhánh</label>
+                <input id="bankBranch" class="form-control" placeholder="VD: Chi nhánh TP HCM">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Chu kỳ đối soát</label>
+                <select id="settlementCycle" class="form-select">
+                  <option value="">-- Chọn chu kỳ --</option>
+                  <option value="Daily">Hàng ngày</option>
+                  <option value="Weekly">Hàng tuần (T2, T4, T6)</option>
+                  <option value="Monthly">Hàng tháng</option>
+                  <option value="OnDemand">Theo yêu cầu</option>
+                  <option value="MinimumBalance">Khi đạt số dư tối thiểu (1 triệu đ)</option>
+                </select>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Mã số thuế</label>
+                <input id="taxCode" class="form-control" placeholder="VD: 0123456789">
+              </div>
             </div>
           </form>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-i18n="cancel">Hủy</button>
           <button type="button" class="btn btn-primary" id="saveCustomerBtn" data-i18n="saveCustomer">Lưu</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Customer Detail -->
+  <div class="modal fade" id="customerDetailModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"><i class="fas fa-id-card me-2"></i>Chi tiết khách hàng</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label text-muted mb-1">Mã khách hàng</label>
+              <div class="fw-semibold" id="detailCustomerId">-</div>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label text-muted mb-1">Họ tên</label>
+              <div class="fw-semibold" id="detailFullName">-</div>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label text-muted mb-1">Số điện thoại</label>
+              <div class="fw-semibold" id="detailPhoneNumber">-</div>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label text-muted mb-1">Email</label>
+              <div class="fw-semibold" id="detailEmail">-</div>
+            </div>
+            
+            <div class="col-12">
+              <hr>
+              <h6 class="mb-3"><i class="fas fa-location-dot"></i> Thông tin địa chỉ</h6>
+            </div>
+            
+            <div class="col-12">
+              <label class="form-label text-muted mb-1">Địa chỉ chi tiết</label>
+              <div class="fw-semibold" id="detailAddress">-</div>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label text-muted mb-1">Phường/Xã</label>
+              <div class="fw-semibold" id="detailWard">-</div>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label text-muted mb-1">Quận/Huyện</label>
+              <div class="fw-semibold" id="detailDistrict">-</div>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label text-muted mb-1">Thành phố</label>
+              <div class="fw-semibold" id="detailCity">-</div>
+            </div>
+            <div class="col-md-12">
+              <label class="form-label text-muted mb-1">Loại địa chỉ</label>
+              <div class="fw-semibold" id="detailAddressType">-</div>
+            </div>
+            
+            <div class="col-12">
+              <hr>
+              <h6 class="mb-3"><i class="fas fa-bank"></i> Thông tin Tài chính</h6>
+            </div>
+            
+            <div class="col-md-6">
+              <label class="form-label text-muted mb-1">Số tài khoản</label>
+              <div class="fw-semibold" id="detailBankAccountNumber">-</div>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label text-muted mb-1">Tên chủ tài khoản</label>
+              <div class="fw-semibold" id="detailBankAccountName">-</div>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label text-muted mb-1">Ngân hàng</label>
+              <div class="fw-semibold" id="detailBankName">-</div>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label text-muted mb-1">Chi nhánh</label>
+              <div class="fw-semibold" id="detailBankBranch">-</div>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label text-muted mb-1">Chu kỳ đối soát</label>
+              <div class="fw-semibold" id="detailSettlementCycle">-</div>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label text-muted mb-1">Mã số thuế</label>
+              <div class="fw-semibold" id="detailTaxCode">-</div>
+            </div>
+            <div class="col-12">
+              <label class="form-label text-muted mb-1">Ngày tạo</label>
+              <div class="fw-semibold" id="detailCreatedDate">-</div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
         </div>
       </div>
     </div>

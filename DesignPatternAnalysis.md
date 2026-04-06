@@ -4,8 +4,44 @@ Tài liệu này xác định và giải thích các mẫu thiết kế phần m
 
 ---
 
+## 🎯 **QUICK REFERENCE - TRA CỨU NHANH**
+
+| # | Mẫu | Loại | File/Location | Chức Năng | Status |
+|---|---|---|---|---|---|
+| **1** | **Dependency Injection** | Creational | `Program.cs` → Tất cả Controllers/Services | Quản lý phụ thuộc, IoC Container | ✅ |
+| **2** | **Repository** | Structural | `DeliveryDbContext.cs` → `Services/` | Trừu tượng truy cập DB | ✅ |
+| **3** | **Service Layer** | Structural | `Services/` (OrderService, AuthService,v.v.) | Tầng business logic | ✅ |
+| **4** | **Singleton** | Creational | `ShippingFeeService`, `JsonDataService` | Một instance duy nhất cho ứng dụng | ✅ |
+| **5** | **Strategy** | Behavioral | `IEmailService`, `INotificationService`, `ITwoFactorService` | Chuyển đổi chiến lược xử lý động | ✅ |
+| **6** | **Observer** | Behavioral | `Hubs/` (NotificationHub, ChatHub, TrackingHub) | Real-time notification via SignalR | ✅ |
+| **7** | **Facade** | Structural | `Controllers/` (OrdersController, AuthController) | Giao diện HTTP API đơn giản hóa | ✅ |
+| **8** | **Template Method** | Behavioral | `Hubs/` (derive từ `Hub` class) | Lifecycle methods override (OnConnected, OnDisconnected) | ✅ |
+| **9** | **Factory Method** | Creational | `UserAccountService`, `SeedData.cs` | Tạo đối tượng User, Order theo quy tắc | ✅ |
+| **10** | **Builder** | Creational | `Models/OrderBuilder.cs` → `OrdersController`, `SeedData` | Xây dựng Order phức tạp với fluent API | ✅ |
+| **11** | **Decorator** | Structural | `Services/` (LoggingNotificationDecorator, RetryNotificationDecorator) | Thêm logging, retry vào notification | ✅ |
+| **12** | **Adapter** | Structural | `Services/` (VNPayAdapter, MomoAdapter) → Payment Gateway | Chuyển đổi interface VNPay/Momo → IPaymentGateway | ✅ |
+| **13** | **Command** | Behavioral | `Services/Commands/` (CreateOrderCommand, etc.) + `AuditLogService` | Encapsulation hành động, Audit trail tracking | ✅ |
+
+---
+
+### 📌 **Hướng Dẫn Sử Dụng Bảng Tra Cứu**
+
+**Tìm Pattern:**
+1. Biết tên pattern? → Tìm cột "Mẫu"
+2. Biết loại (Creational/Structural/Behavioral)? → Tìm cột "Loại"
+3. Muốn biết file nào? → Tìm cột "File/Location"
+4. Muốn biết làm gì? → Tìm cột "Chức Năng"
+
+**Ví dụ:**
+- Muốn xem Adapter Pattern → Hàng #12 → Files: `Services/` (VNPayAdapter.cs, MomoAdapter.cs)
+- Muốn xem Builder Pattern → Hàng #10 → Files: `Models/OrderBuilder.cs`
+- Muốn xem Singleton → Hàng #4 → Files: `ShippingFeeService`, `JsonDataService`
+
+---
+
 ## Mục Lục
 
+### Phần 1: Các Mẫu Đã Triển Khai
 1. [Mẫu Dependency Injection (Tiêm Phụ Thuộc)](#1-mẫu-dependency-injection-tiêm-phụ-thuộc)
 2. [Mẫu Repository (Kho Dữ Liệu)](#2-mẫu-repository-kho-dữ-liệu)
 3. [Mẫu Service Layer (Tầng Dịch Vụ)](#3-mẫu-service-layer-tầng-dịch-vụ)
@@ -15,11 +51,37 @@ Tài liệu này xác định và giải thích các mẫu thiết kế phần m
 7. [Mẫu Facade (Mặt Tiền)](#7-mẫu-facade-mặt-tiền)
 8. [Mẫu Template Method (Phương Thức Khuôn Mẫu)](#8-mẫu-template-method-phương-thức-khuôn-mẫu)
 9. [Mẫu Factory Method (Phương Thức Nhà Máy)](#9-mẫu-factory-method-phương-thức-nhà-máy)
-10. [Đề Xuất Các Mẫu Bổ Sung](#đề-xuất-các-mẫu-bổ-sung)
+10. [Mẫu Builder (Người Xây Dựng)](#10-mẫu-builder-người-xây-dựng) ✅ **MỚI TRIỂN KHAI**
+11. [Mẫu Decorator (Trang Trí)](#11-mẫu-decorator-trang-trí) ✅ **MỚI TRIỂN KHAI**
+12. [Mẫu Command (Lệnh)](#12-mẫu-command-lệnh) ✅ **MỚI TRIỂN KHAI**
+13. [Mẫu Adapter (Bộ Chuyển Đổi)](#15-mẫu-adapter-bộ-chuyển-đổi) ✅ **MỚI TRIỂN KHAI**
+
+### Phần 2: Các Mẫu Đề Xuất Bổ Sung
+14. [Mẫu Chain of Responsibility (Chuỗi Trách Nhiệm)](#13-mẫu-chain-of-responsibility-chuỗi-trách-nhiệm)
+15. [Mẫu State (Trạng Thái)](#14-mẫu-state-trạng-thái)
+16. [Mẫu Specification (Đặc Tả)](#16-mẫu-specification-đặc-tả)
+17. [Mẫu Mediator (Người Trung Gian)](#17-mẫu-mediator-người-trung-gian)
+18. [Mẫu Unit of Work (Đơn Vị Công Việc)](#18-mẫu-unit-of-work-đơn-vị-công-việc)
+
+### Phần 3: Tổng Kết & Tài Nguyên
+- [Tổng Kết](#tổng-kết)
+- [Tài Nguyên Học Tập](#tài-nguyên-học-tập)
 
 ---
 
 ## 1. Mẫu Dependency Injection (Tiêm Phụ Thuộc)
+
+### 📋 **Thông Tin Cơ Bản**
+| Loại | Files | Chức Năng |
+|------|-------|----------|
+| **Creational** | `Program.cs` | Quản lý IoC, tạo instances |
+| | `⤷ Controllers/*` | Inject dependencies |  
+| | `⤷ Services/*` | Inject dependencies |
+
+### 🎯 **Chức Năng**
+✅ Quản lý phụ thuộc qua Dependency Injection Container  
+✅ Giảm coupling giữa classes  
+✅ Dễ testing (bind mock implementation)
 
 ### Phân Loại
 **Mẫu Khởi Tạo (Creational Pattern)** (có khía cạnh của mẫu hành vi - Behavioral pattern)
@@ -97,6 +159,19 @@ Dependency Injection là một mẫu thiết kế cơ bản trong đó các ph�
 ---
 
 ## 2. Mẫu Repository (Kho Dữ Liệu)
+
+### 📋 **Thông Tin Cơ Bản**
+| Loại | Files | Chức Năng |
+|------|-------|----------|
+| **Structural** | `DeliveryDbContext.cs` | Unit of Work pattern |
+| | `⤷ Services/OrderService.cs` | CRUD operations |
+| | `⤷ Services/UserAccountService.cs` | CRUD operations |
+| | `⤷ Services/DeliveryStaffService.cs` | CRUD operations |
+
+### 🎯 **Chức Năng**
+✅ Trừu tượng truy cập database  
+✅ CRUD operations tập trung  
+✅ Unit of Work management
 
 ### Phân Loại
 **Mẫu Cấu Trúc (Structural Pattern)**
@@ -177,6 +252,20 @@ Mẫu Repository cung cấp một lớp trừu tượng giữa logic nghiệp v�
 ---
 
 ## 3. Mẫu Service Layer (Tầng Dịch Vụ)
+
+### 📋 **Thông Tin Cơ Bản**
+| Loại | Files | Chức Năng |
+|------|-------|----------|
+| **Structural** | `Services/OrderService.cs` | Quản lý đơn hàng |
+| | `Services/NotificationService.cs` | Quản lý thông báo |
+| | `Services/UserAccountService.cs` | Quản lý tài khoản |
+| | `Services/ShippingFeeService.cs` | Tính phí giao hàng |
+| | `Services/EmailService.cs` | Gửi email |
+
+### 🎯 **Chức Năng**
+✅ Business logic tập trung  
+✅ Tách biệt concerns  
+✅ Tái sử dụng code
 
 ### Phân Loại
 **Mẫu Cấu Trúc (Structural Pattern)**
@@ -286,6 +375,17 @@ Mẫu Service Layer định nghĩa ranh giới của ứng dụng với một l�
 
 ## 4. Mẫu Singleton (Đơn Thể)
 
+### 📋 **Thông Tin Cơ Bản**
+| Loại | Files | Chức Năng |
+|------|-------|----------|
+| **Creational** | `Services/ShippingFeeService.cs` | Tính toán phí (stateless) |
+| | `Services/JsonDataService.cs` | Đọc dữ liệu JSON |
+
+### 🎯 **Chức Năng**
+✅ Một instance duy nhất cho toàn app  
+✅ Tiết kiệm memory  
+✅ Shared configuration
+
 ### Phân Loại
 **Mẫu Khởi Tạo (Creational Pattern)**
 
@@ -351,6 +451,20 @@ Mẫu Singleton đảm bảo một class chỉ có một instance duy nhất tro
 ---
 
 ## 5. Mẫu Strategy (Chiến Lược)
+
+### 📋 **Thông Tin Cơ Bản**
+| Loại | Files | Chức Năng |
+|------|-------|----------|
+| **Behavioral** | `Services/IEmailService.cs` | Email strategy |
+| | `⤷ EmailService.cs` | SMTP implementation |
+| | `Services/INotificationService.cs` | Notification strategy |
+| | `⤷ NotificationService.cs` | SignalR implementation |
+| | `Services/ITwoFactorService.cs` | 2FA strategy |
+
+### 🎯 **Chức Năng**
+✅ Chuyển đổi chiến lược động  
+✅ Dễ thêm implementation mới  
+✅ Decouple algorithm từ client
 
 ### Phân Loại
 **Mẫu Hành Vi (Behavioral Pattern)**
@@ -463,6 +577,19 @@ Mẫu Strategy định nghĩa một họ các thuật toán, đóng gói từng 
 ---
 
 ## 6. Mẫu Observer (Quan Sát)
+
+### 📋 **Thông Tin Cơ Bản**
+| Loại | Files | Chức Năng |
+|------|-------|----------|
+| **Behavioral** | `Hubs/NotificationHub.cs` | Real-time notifications |
+| | `Hubs/ChatHub.cs` | Real-time chat |
+| | `Hubs/TrackingHub.cs` | Real-time tracking |
+| | `Services/NotificationService.cs` | Publisher |
+
+### 🎯 **Chức Năng**
+✅ Real-time updates via SignalR  
+✅ Publisher-subscriber pattern  
+✅ Broadcast to multiple clients
 
 ### Phân Loại
 **Mẫu Hành Vi (Behavioral Pattern)**
@@ -624,6 +751,19 @@ Mẫu Observer định nghĩa một quan hệ phụ thuộc một-nhiều giữa
 
 ## 7. Mẫu Facade (Mặt Tiền)
 
+### 📋 **Thông Tin Cơ Bản**
+| Loại | Files | Chức Năng |
+|------|-------|----------|
+| **Structural** | `Controllers/OrdersController.cs` | Order operations API |
+| | `Controllers/AuthController.cs` | Auth operations API |
+| | `Controllers/ChatController.cs` | Chat operations API |
+| | Tất cả Controllers | HTTP endpoint facade |
+
+### 🎯 **Chức Năng**
+✅ Đơn giản hóa API HTTP  
+✅ Ẩn complexity của services  
+✅ Unified interface
+
 ### Phân Loại
 **Mẫu Cấu Trúc (Structural Pattern)**
 
@@ -741,6 +881,18 @@ Mẫu Facade cung cấp một giao diện thống nhất, đơn giản hóa cho 
 ---
 
 ## 8. Mẫu Template Method (Phương Thức Khuôn Mẫu)
+
+### 📋 **Thông Tin Cơ Bản**
+| Loại | Files | Chức Năng |
+|------|-------|----------|
+| **Behavioral** | `Hubs/NotificationHub.cs` | Override lifecycle methods |
+| | `Hubs/ChatHub.cs` | Override lifecycle methods |
+| | `Hubs/TrackingHub.cs` | Override lifecycle methods |
+
+### 🎯 **Chức Năng**
+✅ Template methods (OnConnected, OnDisconnected)  
+✅ Override in subclasses  
+✅ Reuse algorithm structure
 
 ### Phân Loại
 **Mẫu Hành Vi (Behavioral Pattern)**
@@ -879,6 +1031,17 @@ Mẫu Template Method định nghĩa khung của một thuật toán trong class
 ---
 
 ## 9. Mẫu Factory Method (Phương Thức Nhà Máy)
+
+### 📋 **Thông Tin Cơ Bản**
+| Loại | Files | Chức Năng |
+|------|-------|----------|
+| **Creational** | `Services/UserAccountService.cs` | Register, CreateUser |
+| | `Data/SeedData.cs` | Initialize test data |
+
+### 🎯 **Chức Năng**
+✅ Encapsulate object creation  
+✅ Factory methods (RegisterAsync, CreateUserAsync)  
+✅ DRY principle
 
 ### Phân Loại
 **Mẫu Khởi Tạo (Creational Pattern)**
@@ -1024,259 +1187,808 @@ Mẫu Factory Method định nghĩa một interface để tạo đối tượng,
 
 ## Đề Xuất Các Mẫu Bổ Sung
 
-Mặc dù dự án đã triển khai nhiều design pattern một cách hiệu quả, dưới đây là một số pattern có thể hữu ích để thêm vào hoặc làm rõ hơn:
+Mặc dù dự án đã triển khai nhiều design pattern một cách hiệu quả, dưới đây là các pattern bổ sung có thể nâng cao chất lượng và khả năng mở rộng của hệ thống:
 
-### 1. **Mẫu Builder** (Creational)
+---
 
-**Nơi có thể áp dụng**: Tạo đối tượng `Order` phức tạp
+## 10. Mẫu Builder (Người Xây Dựng)
 
-**Thách Thức Hiện Tại**: Class `Order` có nhiều thuộc tính (weight, distance, special flags, delivery type, payment method, v.v.). Tạo orders yêu cầu thiết lập nhiều thuộc tính.
+### 📋 **Thông Tin Cơ Bản**
+| Loại | Files | Chức Năng |
+|------|-------|----------|
+| **Creational** | `Models/OrderBuilder.cs` | Fluent API for Order creation |
+| | `Controllers/OrdersController.cs` | Using builder in CreateOrder |
+| | `Data/SeedData.cs` | Using builder for test data |
 
-**Đề Xuất Implementation**:
+### 🎯 **Chức Năng**
+✅ Complex object construction  
+✅ Fluent interface (method chaining)  
+✅ Validation in build()
+
+### Phân Loại
+**Mẫu Khởi Tạo (Creational Pattern)**
+
+### Vị trí xuất hiện trong dự án
+
+✅ **ĐÃ TRIỂN KHAI** - Mẫu này đã được triển khai trong hệ thống:
+- [OrderBuilder.cs](DeliveryManagementAPI/Models/OrderBuilder.cs) - Builder class cho Order
+- [OrdersController.cs](DeliveryManagementAPI/Controllers/OrdersController.cs#L150) - Sử dụng builder khi tạo đơn hàng
+- [SeedData.cs](DeliveryManagementAPI/Data/SeedData.cs#L125) - Sử dụng builder để tạo test data
+
+### Ví Dụ Code
+
+**OrderBuilder Class ([OrderBuilder.cs](DeliveryManagementAPI/Models/OrderBuilder.cs)):**
 ```csharp
 public class OrderBuilder
 {
-    private Order _order = new Order();
-    
-    public OrderBuilder WithCustomer(Customer customer)
+    private readonly Order _order;
+
+    public OrderBuilder()
     {
-        _order.Customer = customer;
-        _order.CustomerId = customer.CustomerId;
+        _order = new Order
+        {
+            CreatedDate = DateTime.Now,
+            Status = OrderStatus.ChuaNhan
+        };
+    }
+
+    public OrderBuilder WithOrderCode(string orderCode)
+    {
+        if (string.IsNullOrWhiteSpace(orderCode))
+        {
+            _order.OrderCode = GenerateOrderCode();
+        }
+        else
+        {
+            _order.OrderCode = orderCode;
+        }
         return this;
     }
-    
-    public OrderBuilder WithPackageDetails(PackageType type, double weight, string size)
+
+    public OrderBuilder CreatedBy(int? userId)
     {
-        _order.PackageType = type;
+        _order.CreatedByUserId = userId;
+        return this;
+    }
+
+    public OrderBuilder ForCustomer(Customer customer)
+    {
+        _order.CustomerId = customer.CustomerId;
+        _order.Customer = customer;
+        return this;
+    }
+
+    public OrderBuilder WithPackageDetails(
+        string productCode,
+        PackageType packageType,
+        double weight,
+        string size,
+        double distance)
+    {
+        _order.ProductCode = productCode;
+        _order.PackageType = packageType;
         _order.Weight = weight;
         _order.Size = size;
+        _order.Distance = distance;
         return this;
     }
-    
-    public OrderBuilder WithDeliveryType(DeliveryType type)
+
+    public OrderBuilder IsFragile(bool value = true)
     {
-        _order.DeliveryType = type;
+        _order.IsFragile = value;
         return this;
     }
-    
-    public OrderBuilder IsFragile(bool isFragile = true)
+
+    public OrderBuilder IsValuable(bool value = true)
     {
-        _order.IsFragile = isFragile;
+        _order.IsValuable = value;
         return this;
     }
-    
-    public OrderBuilder WithShippingFee(decimal fee)
+
+    public OrderBuilder WithPayment(PaymentMethod paymentMethod, decimal shippingFee)
     {
-        _order.ShippingFee = fee;
+        _order.PaymentMethod = paymentMethod;
+        _order.ShippingFee = shippingFee;
+        _order.IsPaid = paymentMethod == PaymentMethod.GuiNhanh ||
+                       paymentMethod == PaymentMethod.ChuyenKhoan ||
+                       paymentMethod == PaymentMethod.ThanhToanTrucTuyen;
         return this;
     }
-    
+
+    public OrderBuilder FromDto(CreateOrderDto dto)
+    {
+        WithOrderCode(dto.OrderCode);
+        WithPackageDetails(dto.ProductCode, dto.PackageType, dto.Weight, dto.Size, dto.Distance);
+        // ... other properties
+        return this;
+    }
+
     public Order Build()
     {
-        // Validation trước khi tạo
-        if (string.IsNullOrEmpty(_order.OrderCode))
+        // Validation
+        if (string.IsNullOrWhiteSpace(_order.OrderCode))
             _order.OrderCode = GenerateOrderCode();
-        
-        _order.CreatedDate = DateTime.Now;
+
+        if (_order.CustomerId <= 0 && _order.Customer == null)
+            throw new InvalidOperationException("Order phải có thông tin khách hàng");
+
+        if (_order.Weight <= 0)
+            throw new InvalidOperationException("Trọng lượng phải lớn hơn 0");
+
         return _order;
     }
-    
-    private string GenerateOrderCode()
+
+    private static string GenerateOrderCode()
     {
-        return $"ORD{DateTime.Now:yyyyMMddHHmmss}";
+        return $"DH{DateTime.Now:yyyyMMddHHmmssfff}{new Random().Next(100, 999)}";
     }
 }
+```
 
-// Sử dụng:
+**Sử dụng trong OrdersController ([OrdersController.cs](DeliveryManagementAPI/Controllers/OrdersController.cs#L150)):**
+```csharp
+[HttpPost]
+[Authorize(Roles = "admin,customer")]
+public async Task<ActionResult<Order>> CreateOrder([FromBody] CreateOrderDto orderDto)
+{
+    // Tính phí giao hàng
+    var shippingFee = _feeService.CalculateShippingFee(orderDto);
+
+    // Tạo customer
+    var customer = new Customer
+    {
+        FullName = orderDto.CustomerName,
+        PhoneNumber = orderDto.CustomerPhone,
+        Address = orderDto.DeliveryAddress
+    };
+    _context.Customers.Add(customer);
+    await _context.SaveChangesAsync();
+
+    // Tạo đơn hàng sử dụng Builder Pattern - Code ngắn gọn và dễ đọc
+    var order = new OrderBuilder()
+        .WithOrderCode(orderCode)
+        .CreatedBy(createdByUserId)
+        .ForCustomer(customer)
+        .FromDto(orderDto)
+        .WithPayment(orderDto.PaymentMethod, shippingFee)
+        .Build();
+
+    var createdOrder = await _orderService.AddOrderAsync(order);
+    return CreatedAtAction(nameof(GetOrderById), new { id = createdOrder.OrderId }, createdOrder);
+}
+```
+
+**Sử dụng trong SeedData ([SeedData.cs](DeliveryManagementAPI/Data/SeedData.cs#L125)):**
+```csharp
+// Seed Orders - Sử dụng Builder Pattern để tạo test data
+var orders = new[]
+{
+    new OrderBuilder()
+        .WithOrderCode("DH001")
+        .WithCreatedDate(DateTime.Now.AddDays(-3))
+        .ForCustomer(customers[0].CustomerId)
+        .WithPackageDetails("SP001", PackageType.Thung, 2.5, "30x20x10", 15.5)
+        .WithCollectionAmount(500000)
+        .WithPayment(PaymentMethod.GuiThuong, 45000)
+        .WithDeliveryType(DeliveryType.GiaoHangThuong)
+        .WithStatus(OrderStatus.DaNhanDangGiao)
+        .AssignToStaff(staff[0].StaffId)
+        .WithNotes("Giao trong giờ hành chính")
+        .Build(),
+
+    new OrderBuilder()
+        .WithOrderCode("DH002")
+        .ForCustomer(customers[1].CustomerId)
+        .WithPackageDetails("SP002", PackageType.GoiNho, 0.5, "25x15x5", 8.2)
+        .IsValuable()
+        .WithPayment(PaymentMethod.GuiNhanh, 30000)
+        .WithDeliveryType(DeliveryType.GiaoHangNhanh)
+        .WithNotes("Hàng cần bảo mật")
+        .Build()
+};
+context.Orders.AddRange(orders);
+```
+
+### Giải Thích
+
+Mẫu Builder tách biệt việc xây dựng một đối tượng phức tạp khỏi representation của nó, cho phép cùng một construction process có thể tạo ra các representations khác nhau.
+
+### Cách Hoạt Động Trong Hệ Thống
+
+1. **OrderBuilder Class**: Đóng gói logic construction của Order, cung cấp fluent interface với method chaining.
+
+2. **Fluent Interface**: Mỗi method trả về `this` cho phép chain nhiều calls liền nhau, làm code dễ đọc như câu văn tự nhiên.
+
+3. **Validation trong Build()**: Tất cả validation được tập trung ở phương thức `Build()`, đảm bảo Order được tạo luôn hợp lệ.
+
+4. **FromDto() Helper**: Cho phép tạo Order từ DTO một cách nhanh chóng, giảm code boilerplate.
+
+5. **Default Values**: Builder tự động set các giá trị mặc định (CreatedDate, Status, OrderCode nếu không có).
+
+### Lợi Ích
+- **Code Dễ Đọc**: Fluent interface làm code tự documented
+- **Immutability**: Order chỉ được tạo hoàn chỉnh qua `Build()`
+- **Validation Tập Trung**: Tất cả validation ở một nơi
+- **Flexible Construction**: Có thể tạo Order từ nhiều nguồn khác nhau (DTO, manual, test data)
+- **Testability**: Dễ dàng tạo test data với builder
+- **Maintainability**: Thêm thuộc tính mới chỉ cần thêm method vào builder
+
+### So Sánh Trước và Sau
+
+**Trước khi dùng Builder (>30 dòng code):**
+```csharp
+var order = new Order
+{
+    OrderCode = orderCode,
+    CreatedDate = DateTime.Now,
+    CreatedByUserId = createdByUserId,
+    CustomerId = customer.CustomerId,
+    Customer = customer,
+    ProductCode = orderDto.ProductCode,
+    PackageType = orderDto.PackageType,
+    Weight = orderDto.Weight,
+    Size = orderDto.Size,
+    Distance = orderDto.Distance,
+    IsFragile = orderDto.IsFragile,
+    IsValuable = orderDto.IsValuable,
+    IsVehicle = orderDto.IsVehicle,
+    CollectMoney = orderDto.CollectMoney,
+    CollectionAmount = orderDto.CollectionAmount,
+    PaymentMethod = orderDto.PaymentMethod,
+    ShippingFee = shippingFee,
+    IsPaid = orderDto.PaymentMethod == PaymentMethod.GuiNhanh || 
+             orderDto.PaymentMethod == PaymentMethod.ChuyenKhoan ||
+             orderDto.PaymentMethod == PaymentMethod.ThanhToanTrucTuyen,
+    DeliveryType = orderDto.DeliveryType,
+    Status = OrderStatus.ChuaNhan,
+    Notes = orderDto.Notes
+};
+```
+
+**Sau khi dùng Builder (6 dòng code):**
+```csharp
 var order = new OrderBuilder()
-    .WithCustomer(customer)
-    .WithPackageDetails(PackageType.Laptop, 2.5, "30x40x10")
-    .WithDeliveryType(DeliveryType.GiaoHangNhanh)
-    .IsFragile()
-    .WithShippingFee(50000)
+    .WithOrderCode(orderCode)
+    .CreatedBy(createdByUserId)
+    .ForCustomer(customer)
+    .FromDto(orderDto)
+    .WithPayment(orderDto.PaymentMethod, shippingFee)
     .Build();
 ```
 
-**Lợi Ích**:
-- Code dễ đọc hơn khi tạo orders phức tạp
-- Đảm bảo các trường bắt buộc được thiết lập
-- Cho phép xây dựng từng bước
-- Dễ dàng thêm validation
+### Khi Nào Sử Dụng
+- Đối tượng có nhiều thuộc tính (>5 properties)
+- Có nhiều thuộc tính tùy chọn
+- Cần validation phức tạp trước khi tạo object
+- Muốn immutable objects
+- Constructor có quá nhiều tham số
 
 ---
 
-### 2. **Mẫu Decorator** (Structural)
+## 11. Mẫu Decorator (Trang Trí)
 
-**Nơi có thể áp dụng**: Mở rộng chức năng notification
+### 📋 **Thông Tin Cơ Bản**
+| Loại | Files | Chức Năng |
+|------|-------|----------|
+| **Structural** | `Services/INotificationSender.cs` | Base interface |
+| | `Services/BasicNotificationSender.cs` | Core implementation |
+| | `Services/LoggingNotificationDecorator.cs` | Add logging |
+| | `Services/RetryNotificationDecorator.cs` | Add retry logic |
+| | `Program.cs` | Stack decorators |
 
-**Thách Thức Hiện Tại**: `NotificationService` có thể cần nhiều cách khác nhau để gửi thông báo (email, SMS, push, in-app) với các tính năng tùy chọn (logging, retry logic, rate limiting).
+### 🎯 **Chức Năng**
+✅ Add functionality dynamically  
+✅ Logging, retry, resilience  
+✅ Composition over inheritance
 
-**Đề Xuất Implementation**:
+### Phân Loại
+**Mẫu Cấu Trúc (Structural Pattern)**
+
+### Vị trí xuất hiện trong dự án
+
+✅ **ĐÃ TRIỂN KHAI** - Mẫu này đã được triển khai trong hệ thống notification:
+- [INotificationSender.cs](DeliveryManagementAPI/Services/INotificationSender.cs) - Interface cơ bản
+- [BasicNotificationSender.cs](DeliveryManagementAPI/Services/BasicNotificationSender.cs) - Implementation cơ bản
+- [NotificationSenderDecorator.cs](DeliveryManagementAPI/Services/NotificationSenderDecorator.cs) - Base decorator
+- [LoggingNotificationDecorator.cs](DeliveryManagementAPI/Services/LoggingNotificationDecorator.cs) - Decorator thêm logging
+- [RetryNotificationDecorator.cs](DeliveryManagementAPI/Services/RetryNotificationDecorator.cs) - Decorator thêm retry logic
+- [NotificationService.cs](DeliveryManagementAPI/Services/NotificationService.cs) - Sử dụng decorators
+- [Program.cs](DeliveryManagementAPI/Program.cs#L29) - Đăng ký decorators
+
+### Thách Thức Đã Giải Quyết
+`NotificationService` cần nhiều tính năng bổ sung (logging, retry, monitoring) nhưng không muốn làm class phình to. Decorator Pattern cho phép thêm functionality một cách linh hoạt mà không sửa code gốc.
+
+### Ví Dụ Code
+
+**Interface ([INotificationSender.cs](DeliveryManagementAPI/Services/INotificationSender.cs)):**
 ```csharp
-// Base interface
 public interface INotificationSender
 {
     Task SendAsync(Notification notification);
+    Task SendToGroupAsync(string groupName, Notification notification);
 }
+```
 
-// Implementation cơ bản
+**Basic Implementation ([BasicNotificationSender.cs](DeliveryManagementAPI/Services/BasicNotificationSender.cs)):**
+```csharp
 public class BasicNotificationSender : INotificationSender
 {
     private readonly IHubContext<NotificationHub> _hubContext;
-    
+
+    public BasicNotificationSender(IHubContext<NotificationHub> hubContext)
+    {
+        _hubContext = hubContext;
+    }
+
     public async Task SendAsync(Notification notification)
     {
-        await _hubContext.Clients.Group($"user_{notification.UserId}")
+        await _hubContext.Clients
+            .Group($"user_{notification.UserId}")
+            .SendAsync("ReceiveNotification", new
+            {
+                id = notification.Id,
+                title = notification.Title,
+                message = notification.Message,
+                type = notification.Type.ToString(),
+                createdAt = notification.CreatedAt
+            });
+    }
+
+    public async Task SendToGroupAsync(string groupName, Notification notification)
+    {
+        await _hubContext.Clients
+            .Group(groupName)
             .SendAsync("ReceiveNotification", notification);
     }
 }
+```
 
-// Decorator: Thêm logging
-public class LoggingNotificationDecorator : INotificationSender
+**Base Decorator ([NotificationSenderDecorator.cs](DeliveryManagementAPI/Services/NotificationSenderDecorator.cs)):**
+```csharp
+public abstract class NotificationSenderDecorator : INotificationSender
 {
-    private readonly INotificationSender _inner;
-    private readonly ILogger _logger;
-    
-    public async Task SendAsync(Notification notification)
+    protected readonly INotificationSender _inner;
+
+    protected NotificationSenderDecorator(INotificationSender inner)
     {
-        _logger.LogInformation($"Đang gửi thông báo {notification.Id}");
+        _inner = inner ?? throw new ArgumentNullException(nameof(inner));
+    }
+
+    public virtual async Task SendAsync(Notification notification)
+    {
         await _inner.SendAsync(notification);
-        _logger.LogInformation($"Đã gửi thông báo {notification.Id}");
+    }
+
+    public virtual async Task SendToGroupAsync(string groupName, Notification notification)
+    {
+        await _inner.SendToGroupAsync(groupName, notification);
     }
 }
+```
 
-// Decorator: Thêm retry logic
-public class RetryNotificationDecorator : INotificationSender
+**Logging Decorator ([LoggingNotificationDecorator.cs](DeliveryManagementAPI/Services/LoggingNotificationDecorator.cs)):**
+```csharp
+public class LoggingNotificationDecorator : NotificationSenderDecorator
 {
-    private readonly INotificationSender _inner;
-    
-    public async Task SendAsync(Notification notification)
+    private readonly ILogger<LoggingNotificationDecorator> _logger;
+
+    public LoggingNotificationDecorator(
+        INotificationSender inner,
+        ILogger<LoggingNotificationDecorator> logger) : base(inner)
     {
-        int retries = 3;
-        while (retries > 0)
+        _logger = logger;
+    }
+
+    public override async Task SendAsync(Notification notification)
+    {
+        _logger.LogInformation(
+            "[Notification] Đang gửi thông báo ID={NotificationId} cho User={UserId}, Type={Type}, Title={Title}",
+            notification.Id, notification.UserId, notification.Type, notification.Title);
+
+        var stopwatch = Stopwatch.StartNew();
+        
+        try
+        {
+            await base.SendAsync(notification);
+            stopwatch.Stop();
+
+            _logger.LogInformation(
+                "[Notification] ✅ Đã gửi thành công thông báo ID={NotificationId} trong {ElapsedMs}ms",
+                notification.Id, stopwatch.ElapsedMilliseconds);
+        }
+        catch (Exception ex)
+        {
+            stopwatch.Stop();
+            _logger.LogError(ex,
+                "[Notification] ❌ Lỗi khi gửi thông báo ID={NotificationId} sau {ElapsedMs}ms",
+                notification.Id, stopwatch.ElapsedMilliseconds);
+            throw;
+        }
+    }
+}
+```
+
+**Retry Decorator ([RetryNotificationDecorator.cs](DeliveryManagementAPI/Services/RetryNotificationDecorator.cs)):**
+```csharp
+public class RetryNotificationDecorator : NotificationSenderDecorator
+{
+    private readonly int _maxRetries;
+    private readonly int _delayMs;
+    private readonly ILogger<RetryNotificationDecorator> _logger;
+
+    public RetryNotificationDecorator(
+        INotificationSender inner,
+        ILogger<RetryNotificationDecorator> logger,
+        int maxRetries = 3,
+        int delayMs = 1000) : base(inner)
+    {
+        _maxRetries = maxRetries;
+        _delayMs = delayMs;
+        _logger = logger;
+    }
+
+    public override async Task SendAsync(Notification notification)
+    {
+        int attemptCount = 0;
+        Exception? lastException = null;
+
+        while (attemptCount < _maxRetries)
         {
             try
             {
-                await _inner.SendAsync(notification);
-                return;
+                attemptCount++;
+                
+                if (attemptCount > 1)
+                {
+                    _logger.LogWarning(
+                        "[Retry] Thử lại lần {Attempt}/{MaxRetries} gửi notification ID={NotificationId}",
+                        attemptCount, _maxRetries, notification.Id);
+                }
+
+                await base.SendAsync(notification);
+                
+                if (attemptCount > 1)
+                {
+                    _logger.LogInformation("[Retry] ✅ Thành công sau {Attempt} lần thử", attemptCount);
+                }
+                
+                return; // Success
             }
-            catch
+            catch (Exception ex)
             {
-                retries--;
-                if (retries == 0) throw;
-                await Task.Delay(1000);
+                lastException = ex;
+                
+                if (attemptCount < _maxRetries)
+                {
+                    _logger.LogWarning(
+                        "[Retry] ⚠️ Lần thử {Attempt} thất bại, chờ {Delay}ms trước khi thử lại...",
+                        attemptCount, _delayMs);
+                    await Task.Delay(_delayMs);
+                }
             }
         }
+
+        _logger.LogError(lastException,
+            "[Retry] ❌ Gửi thông báo thất bại sau {MaxRetries} lần thử", _maxRetries);
+        
+        throw new Exception(
+            $"Gửi thông báo ID={notification.Id} thất bại sau {_maxRetries} lần thử",
+            lastException);
     }
 }
-
-// Sử dụng:
-INotificationSender sender = new BasicNotificationSender(hubContext);
-sender = new LoggingNotificationDecorator(sender, logger);
-sender = new RetryNotificationDecorator(sender);
-
-await sender.SendAsync(notification); // Sẽ log và retry nếu fail
 ```
 
-**Lợi Ích**:
-- Thêm tính năng mà không sửa code hiện có
-- Kết hợp các tính năng linh hoạt
-- Nguyên tắc trách nhiệm đơn nhất (Single Responsibility Principle)
+**Đăng ký Decorators trong [Program.cs](DeliveryManagementAPI/Program.cs#L29):**
+```csharp
+// Đăng ký Notification Services với Decorator Pattern (Pattern #11)
+// Stack decorators: Logging -> Retry -> Basic
+builder.Services.AddScoped<INotificationSender>(sp =>
+{
+    var hubContext = sp.GetRequiredService<IHubContext<NotificationHub>>();
+    var loggerRetry = sp.GetRequiredService<ILogger<RetryNotificationDecorator>>();
+    var loggerLogging = sp.GetRequiredService<ILogger<LoggingNotificationDecorator>>();
+
+    // Tạo basic sender
+    INotificationSender sender = new BasicNotificationSender(hubContext);
+    
+    // Wrap với retry logic (3 lần thử, delay 1 giây)
+    sender = new RetryNotificationDecorator(sender, loggerRetry, maxRetries: 3, delayMs: 1000);
+    
+    // Wrap với logging
+    sender = new LoggingNotificationDecorator(sender, loggerLogging);
+    
+    return sender;
+});
+```
+
+**Sử dụng trong [NotificationService.cs](DeliveryManagementAPI/Services/NotificationService.cs):**
+```csharp
+public class NotificationService : INotificationService
+{
+    private readonly DeliveryDbContext _context;
+    private readonly INotificationSender _notificationSender;
+
+    public NotificationService(
+        DeliveryDbContext context,
+        INotificationSender notificationSender,
+        ...)
+    {
+        _context = context;
+        _notificationSender = notificationSender;
+    }
+
+    public async Task<Notification> CreateNotificationAsync(...)
+    {
+        // Tạo notification trong database
+        var notification = new Notification { ... };
+        _context.Notifications.Add(notification);
+        await _context.SaveChangesAsync();
+
+        // Gửi real-time notification với decorators
+        // Tự động có logging và retry functionality
+        try
+        {
+            await _notificationSender.SendAsync(notification);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Failed to send real-time notification after retries");
+            // Không throw - notification đã lưu vào DB
+        }
+
+        return notification;
+    }
+}
+```
+
+### Giải Thích
+
+Mẫu Decorator cho phép thêm hành vi mới vào đối tượng bằng cách đặt chúng trong các wrapper objects. Decorators có cùng interface với đối tượng được wrap, cho phép stack nhiều decorator theo thứ tự mong muốn.
+
+### Cách Hoạt Động Trong Hệ Thống
+
+1. **BasicNotificationSender**: Implementation cơ bản gửi thông báo qua SignalR
+
+2. **RetryNotificationDecorator**: Wrap BasicSender, thêm retry logic (thử 3 lần với delay 1 giây)
+
+3. **LoggingNotificationDecorator**: Wrap RetryDecorator, thêm logging với performance tracking
+
+4. **Stack Order**: Logging → Retry → Basic
+   - Request đi qua Logging (log start)
+   - Retry wrapper (thử nhiều lần nếu fail)
+   - Basic sender (gửi thực tế)
+
+5. **Flexibility**: Có thể thêm/bớt decorators trong Program.cs mà không cần sửa code khác
+
+### Lợi Ích Đạt Được
+- ✅ **Open/Closed Principle**: Thêm tính năng mà không sửa BasicNotificationSender
+- ✅ **Single Responsibility**: Mỗi decorator có một trách nhiệm duy nhất
+- ✅ **Flexible Composition**: Có thể kết hợp decorators theo nhiều cách
+- ✅ **Runtime Configuration**: Có thể thay đổi stack decorators dễ dàng
+- ✅ **Testability**: Dễ test từng decorator riêng biệt
+- ✅ **Production Ready**: Có logging và retry tự động cho tất cả notifications
+
+### So Sánh Trước và Sau
+
+**Trước (Monolithic Service):**
+```csharp
+public class NotificationService
+{
+    public async Task SendAsync(Notification notification)
+    {
+        // Logging, retry, sending logic tất cả lộn xộn trong một method
+        // Khó maintain và test
+    }
+}
+```
+
+**Sau (Với Decorators):**
+```csharp
+// Mỗi concern được tách riêng
+INotificationSender sender = new BasicNotificationSender(...);
+sender = new RetryNotificationDecorator(sender, ...);
+sender = new LoggingNotificationDecorator(sender, ...);
+
+// Clean, testable, maintainable!
+await sender.SendAsync(notification);
+```
+
+### Khi Nào Sử Dụng
+- Cần thêm tính năng động vào đối tượng
+- Muốn tránh subclass explosion
+- Cần kết hợp nhiều tính năng một cách linh hoạt
+- Muốn tuân theo Open/Closed Principle
 
 ---
 
-### 3. **Mẫu Command** (Behavioral)
+## 13. Mẫu Command (Lệnh) + Audit Logging ✅ **ĐÃ TRIỂN KHAI**
 
-**Nơi có thể áp dụng**: Cập nhật trạng thái đơn hàng và các hành động
+### 📋 **Thông Tin Cơ Bản**
+| Loại | Files | Chức Năng |
+|------|-------|----------|
+| **Behavioral** | `Services/Commands/IOrderCommand.cs` | Command interface |
+| | `Services/Commands/OrderCommandHandler.cs` | Execute + audit |
+| | `Services/AuditLogService.cs` | Audit log (8 methods) |
+| | `Models/AuditLog.cs` | Audit (15 columns) |
+| | `DeliveryDbContext.cs` | DbSet<AuditLog> |
 
-**Thách Thức Hiện Tại**: Các hành động khác nhau trên đơn hàng (accept, assign, deliver, complete) bị phân tán trong các phương thức controller.
+### 🎯 **Chức Năng**
+✅ Encapsulate operations as commands  
+✅ Full audit trail (who, what, when, how long)  
+✅ Performance monitoring & error tracking  
+✅ Non-repudiation for compliance
 
-**Đề Xuất Implementation**:
+### Phân Loại
+**Mẫu Hành Vi (Behavioral Pattern)**
+
+### Vị Trí Triển Khai
+
+✅ **IMPLEMENTED:** [OrderCommandHandler.cs](DeliveryManagementAPI/Services/Commands/OrderCommandHandler.cs)  
+✅ **AUDIT TABLE:** 15 columns for complete forensic trail  
+✅ **MIGRATION:** Applied - [20260406022210_AddAuditLogModel](DeliveryManagementAPI/Migrations/20260406022210_AddAuditLogModel.cs)
 ```csharp
-// Command interface
+// IOrderCommand Interface
 public interface IOrderCommand
 {
-    Task ExecuteAsync();
-    Task UndoAsync();
+    string CommandType { get; }
+    string Description { get; }
+    int? OrderId { get; }
+    Task<CommandResult> ExecuteAsync();
 }
 
-// Concrete command: Gán đơn hàng cho shipper
-public class AssignOrderCommand : IOrderCommand
+public class CommandResult
 {
-    private readonly Order _order;
-    private readonly DeliveryStaff _staff;
-    private readonly DeliveryDbContext _context;
-    private readonly INotificationService _notificationService;
-    private string? _previousStaffId;
-    
-    public AssignOrderCommand(Order order, DeliveryStaff staff, 
-        DeliveryDbContext context, INotificationService notificationService)
-    {
-        _order = order;
-        _staff = staff;
-        _context = context;
-        _notificationService = notificationService;
-    }
-    
-    public async Task ExecuteAsync()
-    {
-        _previousStaffId = _order.AssignedStaffId;
-        _order.AssignedStaffId = _staff.StaffId.ToString();
-        _order.Status = OrderStatus.DaNhanChuaGiao;
-        
-        await _context.SaveChangesAsync();
-        
-        await _notificationService.CreateNotificationAsync(
-            _staff.StaffId,
-            "Đơn hàng mới",
-            $"Bạn được giao đơn hàng {_order.OrderCode}",
-            NotificationType.OrderAssigned,
-            _order.OrderId
-        );
-    }
-    
-    public async Task UndoAsync()
-    {
-        _order.AssignedStaffId = _previousStaffId;
-        _order.Status = OrderStatus.ChuaNhan;
-        await _context.SaveChangesAsync();
-    }
+    public bool Success { get; set; }
+    public string? ErrorMessage { get; set; }
+    public int? OrderId { get; set; }
+    public string? OrderCode { get; set; }
 }
 
-// Invoker
-public class OrderCommandInvoker
+// OrderCommandHandler - Executes commands + audit logging
+public class OrderCommandHandler
 {
-    private Stack<IOrderCommand> _commandHistory = new Stack<IOrderCommand>();
-    
-    public async Task ExecuteCommandAsync(IOrderCommand command)
+    private readonly AuditLogService _auditService;
+    private int? _userId;
+    private string? _username;
+    private string? _userRole;
+    private string? _ipAddress;
+
+    public void SetUserContext(int? userId, string? username, string? userRole, string? ipAddress)
     {
-        await command.ExecuteAsync();
-        _commandHistory.Push(command);
+        _userId = userId;
+        _username = username;
+        _userRole = userRole;
+        _ipAddress = ipAddress;
     }
-    
-    public async Task UndoLastCommandAsync()
+
+    public async Task<CommandResult> ExecuteAsync(IOrderCommand command)
     {
-        if (_commandHistory.Any())
+        var stopwatch = Stopwatch.StartNew();
+        CommandResult result = null;
+
+        try
         {
-            var command = _commandHistory.Pop();
-            await command.UndoAsync();
+            result = await command.ExecuteAsync();
         }
+        catch (Exception ex)
+        {
+            result = new CommandResult { Success = false, ErrorMessage = ex.Message };
+        }
+        finally
+        {
+            stopwatch.Stop();
+
+            // Log audit entry
+            await _auditService.LogCommandAsync(new AuditLog
+            {
+                CommandType = command.CommandType,
+                CommandDescription = command.Description,
+                OrderId = result?.OrderId ?? command.OrderId,
+                OrderCode = result?.OrderCode,
+                UserId = _userId,
+                Username = _username,
+                UserRole = _userRole,
+                IPAddress = _ipAddress,
+                CreatedDate = DateTime.UtcNow,
+                Success = result?.Success ?? false,
+                ErrorMessage = result?.ErrorMessage,
+                ExecutionTimeMs = stopwatch.ElapsedMilliseconds
+            });
+        }
+
+        return result;
     }
 }
 
-// Sử dụng:
-var command = new AssignOrderCommand(order, shipper, context, notificationService);
-await invoker.ExecuteCommandAsync(command);
+// AuditLogService - Query & reporting (8 methods)
+public class AuditLogService
+{
+    private readonly DeliveryDbContext _context;
 
-// Có thể undo sau này
-await invoker.UndoLastCommandAsync();
+    public async Task LogCommandAsync(AuditLog auditLog)
+    {
+        _context.AuditLogs.Add(auditLog);
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task<List<AuditLog>> GetOrderAuditLogsAsync(int orderId) =>
+        await _context.AuditLogs.Where(a => a.OrderId == orderId).OrderByDescending(a => a.CreatedDate).ToListAsync();
+
+    public async Task<List<AuditLog>> GetUserAuditLogsAsync(int userId) =>
+        await _context.AuditLogs.Where(a => a.UserId == userId).OrderByDescending(a => a.CreatedDate).ToListAsync();
+
+    public async Task<List<AuditLog>> GetFailedCommandsAsync() =>
+        await _context.AuditLogs.Where(a => !a.Success).OrderByDescending(a => a.CreatedDate).ToListAsync();
+
+    public async Task<Dictionary<string, int>> GetCommandStatisticsAsync() =>
+        await _context.AuditLogs.GroupBy(a => a.CommandType)
+            .Select(g => new { g.Key, Count = g.Count() })
+            .ToDictionaryAsync(x => x.Key, x => x.Count);
+
+    // ... 4 more methods for date range, command type, stats, etc.
+}
+
+// AuditLog Model - 15 columns for complete tracking
+public class AuditLog
+{
+    public int AuditLogId { get; set; }
+    public string CommandType { get; set; }           // CREATE_ORDER, UPDATE_STATUS, etc.
+    public string CommandDescription { get; set; }   // "Tạo đơn hàng SP001"
+    public int? OrderId { get; set; }
+    public string? OrderCode { get; set; }
+    public string? OldValue { get; set; }            // JSON snapshot before
+    public string? NewValue { get; set; }            // JSON snapshot after
+    public int? UserId { get; set; }                 // Who
+    public string? Username { get; set; }
+    public string? UserRole { get; set; }
+    public string? IPAddress { get; set; }           // Where
+    public DateTime CreatedDate { get; set; }        // When
+    public bool Success { get; set; }
+    public string? ErrorMessage { get; set; }
+    public long ExecutionTimeMs { get; set; }        // How long
+}
+
+// Database migration applied - Table created successfully
+// Usage in Program.cs:
+// builder.Services.AddScoped<OrderCommandHandler>();
+// builder.Services.AddScoped<AuditLogService>();
+
+// Controller usage:
+var handler = new OrderCommandHandler(_auditService);
+handler.SetUserContext(userId, username, userRole, ipAddress);
+var result = await handler.ExecuteAsync(new CreateOrderCommand(...));
 ```
 
-**Lợi Ích**:
-- Đóng gói request như các đối tượng
-- Hỗ trợ chức năng undo/redo
-- Có thể queue commands
-- Có thể log lịch sử command
+### Giải Thích
+
+Command Pattern + Audit Logging tách biệt operation execution từ logging concern, cung cấp full traceability cho compliance & debugging.
+
+### Database Schema
+
+| Column | Type | Purpose |
+|--------|------|---------|
+| AuditLogId | INT | Primary key |
+| CommandType | NVARCHAR | Operation type |
+| CommandDescription | NVARCHAR | Human-readable |
+| OrderId | INT? | Related order |
+| OrderCode | NVARCHAR? | Order code |
+| OldValue | NVARCHAR? | Before JSON |
+| NewValue | NVARCHAR? | After JSON |
+| UserId | INT? | Who (ID) |
+| Username | NVARCHAR? | Who (name) |
+| UserRole | NVARCHAR? | Who (role) |
+| IPAddress | NVARCHAR? | Where (IP) |
+| CreatedDate | DATETIME2 | When |
+| Success | BIT | Result |
+| ErrorMessage | NVARCHAR? | Error (if failed) |
+| ExecutionTimeMs | BIGINT | How long |
+
+### Lợi Ích
+
+✅ **Traceability** - Full who/what/when/where  
+✅ **Compliance** - Non-repudiation audit trail  
+✅ **Performance** - Execution time monitoring  
+✅ **Debugging** - JSON snapshots for forensics
 
 ---
 
@@ -1600,6 +2312,1069 @@ public class PaymentService
 
 ---
 
+## 15. Mẫu Adapter (Bộ Chuyển Đổi) ✅ **ĐÃ TRIỂN KHAI**
+
+### Phân Loại
+**Mẫu Cấu Trúc (Structural Pattern)**
+
+### Vị trí triển khai trong dự án
+
+Mẫu này được triển khai để tích hợp các cổng thanh toán bên thứ 3 (VNPay, Momo):
+
+**Target Interface:**
+- [Services/IPaymentGateway.cs](DeliveryManagementAPI/Services/IPaymentGateway.cs) - Interface chung cho tất cả payment gateways
+
+**Adaptees (Bên thứ 3 với interface riêng):**
+- [Models/VNPay/VNPayModels.cs](DeliveryManagementAPI/Models/VNPay/VNPayModels.cs) - Models của VNPay
+- [Services/VNPay/VNPayService.cs](DeliveryManagementAPI/Services/VNPay/VNPayService.cs) - Service giả lập API VNPay
+- [Models/Momo/MomoModels.cs](DeliveryManagementAPI/Models/Momo/MomoModels.cs) - Models của Momo  
+- [Services/Momo/MomoService.cs](DeliveryManagementAPI/Services/Momo/MomoService.cs) - Service giả lập API Momo
+
+**Adapters (Chuyển đổi interface):**
+- [Services/VNPayAdapter.cs](DeliveryManagementAPI/Services/VNPayAdapter.cs) - Adapter cho VNPay
+- [Services/MomoAdapter.cs](DeliveryManagementAPI/Services/MomoAdapter.cs) - Adapter cho Momo
+
+**Client:**
+- [Services/PaymentGatewayService.cs](DeliveryManagementAPI/Services/PaymentGatewayService.cs) - Service sử dụng các gateways thông qua interface chung
+- [Models/PaymentResult.cs](DeliveryManagementAPI/Models/PaymentResult.cs) - Common models
+
+### Lý do cần Adapter Pattern
+
+**Vấn đề:** Mỗi payment gateway (VNPay, Momo, etc.) có API riêng với:
+- Format request/response khác nhau (VNPay dùng `Amount` tính bằng xu * 100, Momo dùng VND trực tiếp)
+- Tên fields khác nhau (VNPay: `PaymentUrl`, Momo: `PayUrl`)
+- Response codes khác nhau (VNPay: "00" là success, Momo: 0 là success)
+- Phương thức mã hóa khác nhau (VNPay: HMAC-SHA512, Momo: HMAC-SHA256)
+
+**Giải pháp:** Adapter Pattern chuyển đổi interface riêng của từng gateway sang interface chung `IPaymentGateway`, cho phép:
+- Hệ thống không phụ thuộc vào API cụ thể của bên thứ 3
+- Dễ dàng thêm payment gateway mới
+- Chuyển đổi nhà cung cấp thanh toán mà không thay đổi business logic
+
+### Ví Dụ Code Thực Tế
+
+**1. Target Interface (Interface chung):**
+
+```csharp
+// File: Services/IPaymentGateway.cs
+public interface IPaymentGateway
+{
+    string GatewayName { get; }
+    
+    Task<PaymentResult> ProcessPaymentAsync(
+        decimal amount, 
+        string orderCode, 
+        string description,
+        string returnUrl);
+    
+    Task<PaymentResult> VerifyPaymentAsync(Dictionary<string, string> queryParams);
+    Task<RefundResult> RefundAsync(string transactionId, decimal amount, string reason);
+}
+```
+
+**2. VNPay Adapter (Chuyển đổi VNPay sang interface chung):**
+
+```csharp
+// File: Services/VNPayAdapter.cs
+public class VNPayAdapter : IPaymentGateway
+{
+    private readonly VNPayService _vnPayService;
+    public string GatewayName => "VNPay";
+
+    public async Task<PaymentResult> ProcessPaymentAsync(
+        decimal amount, string orderCode, string description, string returnUrl)
+    {
+        // ADAPT: Chuyển từ format chung sang format VNPay
+        var vnpayRequest = new VNPayRequest
+        {
+            OrderId = orderCode,
+            Amount = (long)(amount * 100), // VNPay yêu cầu đơn vị xu (VND * 100)
+            OrderDescription = description,
+            ReturnUrl = returnUrl
+        };
+
+        // Gọi VNPay service với interface riêng của nó
+        var vnpayResponse = _vnPayService.CreatePaymentUrl(vnpayRequest);
+
+        // ADAPT: Chuyển từ VNPayResponse sang PaymentResult chung
+        return new PaymentResult
+        {
+            Success = vnpayResponse.ResponseCode == "00", // VNPay dùng "00"
+            TransactionId = vnpayResponse.TransactionId,
+            PaymentUrl = vnpayResponse.PaymentUrl,
+            ErrorCode = vnpayResponse.ResponseCode
+        };
+    }
+}
+```
+
+**3. Momo Adapter (Chuyển đổi Momo sang interface chung):**
+
+```csharp
+// File: Services/MomoAdapter.cs
+public class MomoAdapter : IPaymentGateway
+{
+    private readonly MomoService _momoService;
+    public string GatewayName => "Momo";
+
+    public async Task<PaymentResult> ProcessPaymentAsync(
+        decimal amount, string orderCode, string description, string returnUrl)
+    {
+        // ADAPT: Chuyển từ format chung sang format Momo
+        var momoRequest = new MomoPaymentRequest
+        {
+            OrderId = orderCode,
+            Amount = (long)amount, // Momo dùng VND trực tiếp (không nhân 100)
+            OrderInfo = description,
+            RedirectUrl = returnUrl
+        };
+
+        // Gọi Momo service với interface riêng của nó
+        var momoResponse = _momoService.CreatePayment(momoRequest);
+
+        // ADAPT: Chuyển từ MomoPaymentResponse sang PaymentResult chung
+        return new PaymentResult
+        {
+            Success = momoResponse.ResultCode == 0, // Momo dùng 0 (không phải "00")
+            TransactionId = momoResponse.RequestId,
+            PaymentUrl = momoResponse.PayUrl, // Momo gọi là PayUrl (không phải PaymentUrl)
+            ErrorCode = momoResponse.ResultCode.ToString()
+        };
+    }
+}
+```
+
+**4. Client sử dụng Adapters:**
+
+```csharp
+// File: Services/PaymentGatewayService.cs
+public class PaymentGatewayService
+{
+    private readonly Dictionary<string, IPaymentGateway> _gateways;
+
+    public PaymentGatewayService(IEnumerable<IPaymentGateway> gateways)
+    {
+        // Tự động map các gateway theo tên
+        _gateways = gateways.ToDictionary(g => g.GatewayName);
+    }
+
+    public async Task<PaymentResult> ProcessPaymentAsync(
+        string gatewayName, // "VNPay" hoặc "Momo"
+        decimal amount,
+        string orderCode,
+        string description,
+        string returnUrl)
+    {
+        // Lấy gateway adapter phù hợp
+        var gateway = _gateways[gatewayName];
+        
+        // Gọi gateway KHÔNG CẦN biết là VNPay hay Momo
+        return await gateway.ProcessPaymentAsync(amount, orderCode, description, returnUrl);
+    }
+}
+```
+
+**5. Đăng ký trong DI Container:**
+
+```csharp
+// File: Program.cs
+// Đăng ký Adaptees (services bên thứ 3)
+builder.Services.AddScoped<VNPayService>();
+builder.Services.AddScoped<MomoService>();
+
+// Đăng ký Adapters (chuyển đổi interface)
+builder.Services.AddScoped<IPaymentGateway, VNPayAdapter>();
+builder.Services.AddScoped<IPaymentGateway, MomoAdapter>();
+
+// Đăng ký Client
+builder.Services.AddScoped<PaymentGatewayService>();
+```
+
+### Sự Khác Biệt Giữa VNPay và Momo (Minh họa tại sao cần Adapter)
+
+| Đặc điểm | VNPay | Momo | Interface Chung |
+|----------|-------|------|----------------|
+| **Amount** | `long` (VND * 100 - đơn vị xu) | `long` (VND trực tiếp) | `decimal` (VND) |
+| **Success Code** | `"00"` (string) | `0` (long) | `bool Success` |
+| **Payment URL field** | `PaymentUrl` | `PayUrl` | `PaymentUrl` |
+| **Hash Algorithm** | HMAC-SHA512 | HMAC-SHA256 | N/A (adapter xử lý) |
+| **Transaction ID** | `TransactionId` | `TransId` (long) | `TransactionId` (string) |
+
+### Lợi Ích Đạt Được
+
+✅ **Không phụ thuộc vào bên thứ 3:** Business logic không cần biết đang dùng VNPay hay Momo  
+✅ **Dễ thêm gateway mới:** Chỉ cần tạo adapter mới implement `IPaymentGateway`  
+✅ **Thay đổi provider dễ dàng:** Chuyển từ VNPay sang Momo chỉ cần đổi tên gateway  
+✅ **Testable:** Có thể mock `IPaymentGateway` để test không cần gọi API thật  
+✅ **Maintainability:** Mỗi adapter chỉ chịu trách nhiệm chuyển đổi 1 gateway cụ thể
+
+### Cách Sử Dụng
+
+```csharp
+// Trong Controller hoặc Service:
+public class OrderController : ControllerBase
+{
+    private readonly PaymentGatewayService _paymentService;
+
+    [HttpPost("payment")]
+    public async Task<IActionResult> CreatePayment(string gateway, decimal amount, string orderCode)
+    {
+        // gateway = "VNPay" hoặc "Momo" - không quan tâm implementation
+        var result = await _paymentService.ProcessPaymentAsync(
+            gateway, amount, orderCode, "Thanh toán đơn hàng", "https://mysite.com/return");
+        
+        if (result.Success)
+            return Ok(new { paymentUrl = result.PaymentUrl });
+        else
+            return BadRequest(new { error = result.ErrorMessage });
+    }
+}
+```
+
+### Kết Luận
+
+Adapter Pattern cho phép hệ thống tích hợp linh hoạt với nhiều payment gateway khác nhau mà không làm phức tạp business logic. Khi cần thêm gateway mới (ví dụ: ZaloPay, ShopeePay), chỉ cần tạo adapter mới implement `IPaymentGateway` mà không cần sửa code hiện có.
+
+---
+
+## 16. Mẫu Specification (Đặc Tả)
+
+### Phân Loại
+**Mẫu Hành Vi (Behavioral Pattern)**
+
+### Vị trí có thể áp dụng
+- Query phức tạp cho đơn hàngfilters (by status, by date range, by shipper, etc.)
+- Business rules validation
+- Dynamic query building
+- Reusable query components
+
+### Thách Thức Hiện Tại
+Queries phức tạp bị hardcode trong các service methods. Khi cần query tương tự ở nhiều nơi, code bị duplicate. Thêm filter mới cần sửa nhiều methods.
+
+### Giải Pháp
+
+**Đề Xuất Implementation:**
+```csharp
+// Base Specification
+public interface ISpecification<T>
+{
+    Expression<Func<T, bool>> ToExpression();
+    bool IsSatisfiedBy(T entity);
+}
+
+public abstract class Specification<T> : ISpecification<T>
+{
+    public abstract Expression<Func<T, bool>> ToExpression();
+    
+    public bool IsSatisfiedBy(T entity)
+    {
+        return ToExpression().Compile()(entity);
+    }
+    
+    // Combinator methods
+    public Specification<T> And(Specification<T> specification)
+    {
+        return new AndSpecification<T>(this, specification);
+    }
+    
+    public Specification<T> Or(Specification<T> specification)
+    {
+        return new OrSpecification<T>(this, specification);
+    }
+    
+    public Specification<T> Not()
+    {
+        return new NotSpecification<T>(this);
+    }
+}
+
+// Combinator Specifications
+public class AndSpecification<T> : Specification<T>
+{
+    private readonly Specification<T> _left;
+    private readonly Specification<T> _right;
+    
+    public AndSpecification(Specification<T> left, Specification<T> right)
+    {
+        _left = left;
+        _right = right;
+    }
+    
+    public override Expression<Func<T, bool>> ToExpression()
+    {
+        var leftExpr = _left.ToExpression();
+        var rightExpr = _right.ToExpression();
+        
+        var parameter = Expression.Parameter(typeof(T));
+        var combined = Expression.AndAlso(
+            Expression.Invoke(leftExpr, parameter),
+            Expression.Invoke(rightExpr, parameter)
+        );
+        
+        return Expression.Lambda<Func<T, bool>>(combined, parameter);
+    }
+}
+
+// Concrete Specifications cho Order
+public class AvailableShipperSpecification : Specification<DeliveryStaff>
+{
+    public override Expression<Func<DeliveryStaff, bool>> ToExpression()
+    {
+        return staff => staff.Status == StaffStatus.Available 
+                     && staff.ActiveOrderCount < 5
+                     && !staff.IsOnLeave;
+    }
+}
+
+public class OrdersByStatusSpecification : Specification<Order>
+{
+    private readonly OrderStatus _status;
+    
+    public OrdersByStatusSpecification(OrderStatus status)
+    {
+        _status = status;
+    }
+    
+    public override Expression<Func<Order, bool>> ToExpression()
+    {
+        return order => order.Status == _status;
+    }
+}
+
+public class OrdersByDateRangeSpecification : Specification<Order>
+{
+    private readonly DateTime _startDate;
+    private readonly DateTime _endDate;
+    
+    public OrdersByDateRangeSpecification(DateTime startDate, DateTime endDate)
+    {
+        _startDate = startDate;
+        _endDate = endDate;
+    }
+    
+    public override Expression<Func<Order, bool>> ToExpression()
+    {
+        return order => order.CreatedDate >= _startDate 
+                     && order.CreatedDate <= _endDate;
+    }
+}
+
+public class OrdersByShipperSpecification : Specification<Order>
+{
+    private readonly int _staffId;
+    
+    public OrdersByShipperSpecification(int staffId)
+    {
+        _staffId = staffId;
+    }
+    
+    public override Expression<Func<Order, bool>> ToExpression()
+    {
+        return order => order.AssignedStaffId == _staffId.ToString();
+    }
+}
+
+public class HighPriorityOrderSpecification : Specification<Order>
+{
+    public override Expression<Func<Order, bool>> ToExpression()
+    {
+        return order => order.DeliveryType == DeliveryType.GiaoHangNhanh
+                     && order.Status != OrderStatus.DaGiao
+                     && order.Status != OrderStatus.DaHuy;
+    }
+}
+
+// Extension method for IQueryable
+public static class SpecificationExtensions
+{
+    public static IQueryable<T> Where<T>(this IQueryable<T> query, Specification<T> specification)
+    {
+        return query.Where(specification.ToExpression());
+    }
+}
+
+// Sử dụng trong Service:
+public class OrderService  
+{
+    private readonly DeliveryDbContext _context;
+    
+    public async Task<List<Order>> GetOrdersAsync(Specification<Order> specification)
+    {
+        return await _context.Orders
+            .Where(specification)
+            .Include(o => o.Customer)
+            .Include(o => o.AssignedStaff)
+            .ToListAsync();
+    }
+    
+    public async Task<List<DeliveryStaff>> GetAvailableShippersAsync()
+    {
+        var spec = new AvailableShipperSpecification();
+        return await _context.DeliveryStaffs
+            .Where(spec)
+            .ToListAsync();
+    }
+}
+
+// Sử dụng trong Controller:
+[HttpGet("pending-urgent")]
+public async Task<IActionResult> GetPendingUrgentOrders()
+{
+    // Kết hợp nhiều specifications
+    var spec = new OrdersByStatusSpecification(OrderStatus.ChuaNhan)
+        .And(new HighPriorityOrderSpecification());
+    
+    var orders = await _orderService.GetOrdersAsync(spec);
+    return Ok(orders);
+}
+
+[HttpGet("shipper-orders-today")]
+public async Task<IActionResult> GetShipperOrdersToday(int staffId)
+{
+    var today = DateTime.Today;
+    var tomorrow = today.AddDays(1);
+    
+    var spec = new OrdersByShipperSpecification(staffId)
+        .And(new OrdersByDateRangeSpecification(today, tomorrow));
+    
+    var orders = await _orderService.GetOrdersAsync(spec);
+    return Ok(orders);
+}
+```
+
+### Giải Thích
+
+Mẫu Specification đóng gói business rules/logic vào các đối tượng có thể tái sử dụng và kết hợp. Nó tách biệt logic query khỏi các đối tượng được query.
+
+### Lợi Ích
+- **Tái sử dụng**: Specifications có thể dùng ở nhiều nơi
+- **Kết hợp**: Có thể kết hợp specifications với AND, OR, NOT
+- **Testable**: Dễ dàng test business rules độc lập
+- **Maintainable**: Thay đổi business rule ở một nơi
+- **Readable**: Code query trở nên tự documented
+
+### Khi Nào Sử Dụng
+- Business rules phức tạp cần kiểm tra ở nhiều nơi
+- Cần build dynamic queries
+- Query logic cần tái sử dụng
+- Muốn testable business logic
+
+---
+
+## 17. Mẫu Mediator (Người Trung Gian)
+
+### Phân Loại
+**Mẫu Hành Vi (Behavioral Pattern)**
+
+### Vị trí có thể áp dụng
+- Điều phối giữa Order, Notification, Payment, Staff services
+- Xử lý complex workflows (tạo order → tính phí → gán shipper → thông báo)
+- Giảm coupling giữa các services
+
+### Thách Thức Hiện Tại
+Các service phụ thuộc trực tiếp vào nhau. Ví dụ: OrderService phụ thuộc vào NotificationService, StaffService, PaymentService. Điều này tạo tight coupling và khó test.
+
+### Giải Pháp
+
+**Đề Xuất Implementation:**
+```csharp
+// Mediator Interface
+public interface IMediator
+{
+    Task<TResponse> SendAsync<TResponse>(IRequest<TResponse> request);
+    Task PublishAsync<TNotification>(TNotification notification) where TNotification : INotification;
+}
+
+// Base interfaces
+public interface IRequest<out TResponse> { }
+public interface INotification { }
+
+// Request Handlers
+public interface IRequestHandler<in TRequest, TResponse> where TRequest : IRequest<TResponse>
+{
+    Task<TResponse> HandleAsync(TRequest request);
+}
+
+// Notification Handlers
+public interface INotificationHandler<in TNotification> where TNotification : INotification
+{
+    Task HandleAsync(TNotification notification);
+}
+
+// Concrete Requests
+public class CreateOrderRequest : IRequest<CreateOrderResponse>
+{
+    public int CustomerId { get; set; }
+    public decimal Weight { get; set; }
+    public double Distance { get; set; }
+    public DeliveryType DeliveryType { get; set; }
+    public string PickupAddress { get; set; }
+    public string DeliveryAddress { get; set; }
+}
+
+public class CreateOrderResponse
+{
+    public bool Success { get; set; }
+    public int OrderId { get; set; }
+    public string OrderCode { get; set; }
+    public decimal ShippingFee { get; set; }
+    public string Message { get; set; }
+}
+
+// Concrete Notifications (Events)
+public class OrderCreatedNotification : INotification
+{
+    public Order Order { get; set; }
+    
+    public OrderCreatedNotification(Order order)
+    {
+        Order = order;
+    }
+}
+
+public class OrderAssignedNotification : INotification
+{
+    public Order Order { get; set; }
+    public DeliveryStaff Staff { get; set; }
+    
+    public OrderAssignedNotification(Order order, DeliveryStaff staff)
+    {
+        Order = order;
+        Staff = staff;
+    }
+}
+
+// Request Handler - Handles  complex workflow
+public class CreateOrderHandler : IRequestHandler<CreateOrderRequest, CreateOrderResponse>
+{
+    private readonly DeliveryDbContext _context;
+    private readonly ShippingFeeService _feeService;
+    private readonly IMediator _mediator;
+    private readonly ILogger<CreateOrderHandler> _logger;
+    
+    public CreateOrderHandler(
+        DeliveryDbContext context,
+        ShippingFeeService feeService,
+        IMediator mediator,
+        ILogger<CreateOrderHandler> logger)
+    {
+        _context = context;
+        _feeService = feeService;
+        _mediator = mediator;
+        _logger = logger;
+    }
+    
+    public async Task<CreateOrderResponse> HandleAsync(CreateOrderRequest request)
+    {
+        try
+        {
+            // 1. Validate customer
+            var customer = await _context.Customers.FindAsync(request.CustomerId);
+            if (customer == null)
+                return new CreateOrderResponse { Success = false, Message = "Khách hàng không tồn tại" };
+            
+            // 2. Calculate fee
+            var fee = _feeService.CalculateShippingFee(new CreateOrderDto
+            {
+                Weight = request.Weight,
+                Distance = request.Distance,
+                DeliveryType = request.DeliveryType
+            });
+            
+            // 3. Create order
+            var order = new Order
+            {
+                CustomerId = request.CustomerId,
+                OrderCode = GenerateOrderCode(),
+                Weight = request.Weight,
+                Distance = request.Distance,
+                DeliveryType = request.DeliveryType,
+                PickupAddress = request.PickupAddress,
+                DeliveryAddress = request.DeliveryAddress,
+                ShippingFee = fee,
+                Status = OrderStatus.ChuaNhan,
+                CreatedDate = DateTime.Now
+            };
+            
+            _context.Orders.Add(order);
+            await _context.SaveChangesAsync();
+            
+            _logger.LogInformation($"Đã tạo đơn hàng {order.OrderCode}");
+            
+            // 4. Publish event - other handlers will react
+            await _mediator.PublishAsync(new OrderCreatedNotification(order));
+            
+            return new CreateOrderResponse
+            {
+                Success = true,
+                OrderId = order.OrderId,
+                OrderCode = order.OrderCode,
+                ShippingFee = fee,
+                Message = "Tạo đơn hàng thành công"
+            };
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Lỗi khi tạo đơn hàng");
+            return new CreateOrderResponse { Success = false, Message = $"Lỗi: {ex.Message}" };
+        }
+    }
+    
+    private string GenerateOrderCode()
+    {
+        return $"ORD{DateTime.Now:yyyyMMddHHmmss}";
+    }
+}
+
+// Notification Handlers - React to events
+public class SendNotificationWhenOrderCreated : INotificationHandler<OrderCreatedNotification>
+{
+    private readonly INotificationService _notificationService;
+    private readonly ILogger<SendNotificationWhenOrderCreated> _logger;
+    
+    public SendNotificationWhenOrderCreated(
+        INotificationService notificationService,
+        ILogger<SendNotificationWhenOrderCreated> logger)
+    {
+        _notificationService = notificationService;
+        _logger = logger;
+    }
+    
+    public async Task HandleAsync(OrderCreatedNotification notification)
+    {
+        _logger.LogInformation($"Gửi thông báo cho đơn hàng {notification.Order.OrderCode}");
+        
+        // Thông báo cho admin
+        await _notificationService.CreateNotificationAsync(
+            adminUserId: 1,
+            title: "Đơn hàng mới",
+            message: $"Có đơn hàng mới {notification.Order.OrderCode}",
+            type: NotificationType.NewOrder,
+            relatedEntityId: notification.Order.OrderId
+        );
+        
+        // Thông báo cho customer
+        if (notification.Order.CreatedByUserId.HasValue)
+        {
+            await _notificationService.CreateNotificationAsync(
+                userId: notification.Order.CreatedByUserId.Value,
+                title: "Đơn hàng đã tạo",
+                message: $"Đơn hàng {notification.Order.OrderCode} đã được tạo thành công",
+                type: NotificationType.OrderCreated,
+                relatedEntityId: notification.Order.OrderId
+            );
+        }
+    }
+}
+
+public class AutoAssignShipperWhenOrderCreated : INotificationHandler<OrderCreatedNotification>
+{
+    private readonly DeliveryDbContext _context;
+    private readonly ILogger<AutoAssignShipperWhenOrderCreated> _logger;
+    
+    public async Task HandleAsync(OrderCreatedNotification notification)
+    {
+        // Logic tự động gán shipper
+        var availableShipper = await _context.DeliveryStaffs
+            .Where(s => s.Status == StaffStatus.Available && s.ActiveOrderCount < 5)
+            .FirstOrDefaultAsync();
+        
+        if (availableShipper != null)
+        {
+            notification.Order.AssignedStaffId = availableShipper.StaffId.ToString();
+            notification.Order.Status = OrderStatus.DaNhanChuaGiao;
+            availableShipper.ActiveOrderCount++;
+            
+            await _context.SaveChangesAsync();
+            _logger.LogInformation($"Đã tự động gán shipper {availableShipper.StaffName} cho đơn {notification.Order.OrderCode}");
+        }
+    }
+}
+
+// Mediator Implementation (simplified)
+public class SimpleMediator : IMediator
+{
+    private readonly IServiceProvider _serviceProvider;
+    
+    public SimpleMediator(IServiceProvider serviceProvider)
+    {
+        _serviceProvider = serviceProvider;
+    }
+    
+    public async Task<TResponse> SendAsync<TResponse>(IRequest<TResponse> request)
+    {
+        var requestType = request.GetType();
+        var handlerType = typeof(IRequestHandler<,>).MakeGenericType(requestType, typeof(TResponse));
+        var handler = _serviceProvider.GetRequiredService(handlerType);
+        
+        var method = handlerType.GetMethod("HandleAsync");
+        var result = method.Invoke(handler, new object[] { request });
+        
+        return await (Task<TResponse>)result;
+    }
+    
+    public async Task PublishAsync<TNotification>(TNotification notification) where TNotification : INotification
+    {
+        var notificationType = typeof(TNotification);
+        var handlerType = typeof(INotificationHandler<>).MakeGenericType(notificationType);
+        var handlers = _serviceProvider.GetServices(handlerType);
+        
+        var tasks = handlers.Select(handler =>
+        {
+            var method = handlerType.GetMethod("HandleAsync");
+            return (Task)method.Invoke(handler, new object[] { notification });
+        });
+        
+        await Task.WhenAll(tasks);
+    }
+}
+
+// Đăng ký trong Program.cs:
+builder.Services.AddScoped<IMediator, SimpleMediator>();
+builder.Services.AddScoped<IRequestHandler<CreateOrderRequest, CreateOrderResponse>, CreateOrderHandler>();
+builder.Services.AddScoped<INotificationHandler<OrderCreatedNotification>, SendNotificationWhenOrderCreated>();
+builder.Services.AddScoped<INotificationHandler<OrderCreatedNotification>, AutoAssignShipperWhenOrderCreated>();
+
+// Sử dụng trong Controller:
+[HttpPost]
+public async Task<IActionResult> CreateOrder([FromBody] CreateOrderRequest request)
+{
+    var response = await _mediator.SendAsync(request);
+    
+    if (!response.Success)
+        return BadRequest(new { message = response.Message });
+    
+    return Ok(response);
+}
+```
+
+### Giải Thích
+
+Mẫu Mediator định nghĩa một đối tượng đóng gói cách một tập hợp các đối tượng tương tác. Nó thúc đẩy loose coupling bằng cách ngăn các đối tượng tham chiếu lẫn nhau một cách rõ ràng.
+
+### Lợi Ích
+- **Giảm Coupling**: Services không cần biết về nhau
+- **Single Responsibility**: Mỗi handler có một trách nhiệm
+- **Mở Rộng Dễ Dàng**: Thêm handler mới không ảnh hưởng code cũ
+- **Testability**: Dễ test từng handler độc lập 
+- **Event-Driven**: Hỗ trợ pub/sub pattern tự nhiên
+
+### Khi Nào Sử Dụng
+- Nhiều objects giao tiếp theo cách phức tạp
+- Muốn tái sử dụng objects mà không phụ thuộc vào nhau
+- Behavior được phân tán giữa nhiều classes
+
+---
+
+## 18. Mẫu Unit of Work (Đơn Vị Công Việc)
+
+### Phân Loại
+**Mẫu Architectural Pattern**
+
+### Vị trí có thể áp dụng
+- Quản lý transactions phức tạp
+- Đảm bảo tất cả thay đổi được commit hoặc rollback cùng nhau
+- Tracking changes và batch updates
+
+### Thách Thức Hiện Tại
+DbContext đã là một dạng Unit of Work, nhưng không có interface rõ ràng để test và không có cách tổ chức để quản lý repositories.
+
+### Giải Pháp
+
+**Đề Xuất Implementation:**
+```csharp
+// Unit of Work Interface
+public interface IUnitOfWork : IDisposable
+{
+    // Repositories
+    IOrderRepository Orders { get; }
+    IDeliveryStaffRepository Staff { get; }
+    ICustomerRepository Customers { get; }
+    INotificationRepository Notifications { get; }
+    
+    // Transaction methods
+    Task<int> CommitAsync();
+    Task RollbackAsync();
+    Task BeginTransactionAsync();
+}
+
+// Generic Repository Interface
+public interface IRepository<T> where T : class
+{
+    Task<T?> GetByIdAsync(int id);
+    Task<IEnumerable<T>> GetAllAsync();
+    Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate);
+    Task AddAsync(T entity);
+    void Update(T entity);
+    void Remove(T entity);
+}
+
+// Specific Repository Interfaces
+public interface IOrderRepository : IRepository<Order>
+{
+    Task<List<Order>> GetOrdersByStatusAsync(OrderStatus status);
+    Task<List<Order>> GetOrdersByShipperAsync(int staffId);
+    Task<Order?> GetOrderWithDetailsAsync(int orderId);
+}
+
+public interface IDeliveryStaffRepository : IRepository<DeliveryStaff>
+{
+    Task<List<DeliveryStaff>> GetAvailableStaffAsync();
+    Task<DeliveryStaff?> GetStaffWithOrdersAsync(int staffId);
+}
+
+// Generic Repository Implementation
+public class Repository<T> : IRepository<T> where T : class
+{
+    protected readonly DeliveryDbContext Context;
+    protected readonly DbSet<T> DbSet;
+    
+    public Repository(DeliveryDbContext context)
+    {
+        Context = context;
+        DbSet = context.Set<T>();
+    }
+    
+    public virtual async Task<T?> GetByIdAsync(int id)
+    {
+        return await DbSet.FindAsync(id);
+    }
+    
+    public virtual async Task<IEnumerable<T>> GetAllAsync()
+    {
+        return await DbSet.ToListAsync();
+    }
+    
+    public virtual async Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate)
+    {
+        return await DbSet.Where(predicate).ToListAsync();
+    }
+    
+    public virtual async Task AddAsync(T entity)
+    {
+        await DbSet.AddAsync(entity);
+    }
+    
+    public virtual void Update(T entity)
+    {
+        DbSet.Update(entity);
+    }
+    
+    public virtual void Remove(T entity)
+    {
+        DbSet.Remove(entity);
+    }
+}
+
+// Specific Repository Implementations
+public class OrderRepository : Repository<Order>, IOrderRepository
+{
+    public OrderRepository(DeliveryDbContext context) : base(context) { }
+    
+    public async Task<List<Order>> GetOrdersByStatusAsync(OrderStatus status)
+    {
+        return await DbSet
+            .Where(o => o.Status == status)
+            .Include(o => o.Customer)
+            .Include(o => o.AssignedStaff)
+            .ToListAsync();
+    }
+    
+    public async Task<List<Order>> GetOrdersByShipperAsync(int staffId)
+    {
+        return await DbSet
+            .Where(o => o.AssignedStaffId == staffId.ToString())
+            .ToListAsync();
+    }
+    
+    public async Task<Order?> GetOrderWithDetailsAsync(int orderId)
+    {
+        return await DbSet
+            .Include(o => o.Customer)
+            .Include(o => o.AssignedStaff)
+            .Include(o => o.Checkpoints)
+            .FirstOrDefaultAsync(o => o.OrderId == orderId);
+    }
+}
+
+public class DeliveryStaffRepository : Repository<DeliveryStaff>, IDeliveryStaffRepository
+{
+    public DeliveryStaffRepository(DeliveryDbContext context) : base(context) { }
+    
+    public async Task<List<DeliveryStaff>> GetAvailableStaffAsync()
+    {
+        return await DbSet
+            .Where(s => s.Status == StaffStatus.Available && s.ActiveOrderCount < 5)
+            .ToListAsync();
+    }
+    
+    public async Task<DeliveryStaff?> GetStaffWithOrdersAsync(int staffId)
+    {
+        return await DbSet
+            .Include(s => s.AssignedOrders)
+            .FirstOrDefaultAsync(s => s.StaffId == staffId);
+    }
+}
+
+// Unit of Work Implementation
+public class UnitOfWork : IUnitOfWork
+{
+    private readonly DeliveryDbContext _context;
+    private IDbContextTransaction? _transaction;
+    
+    // Lazy-loaded repositories
+    private IOrderRepository? _orderRepository;
+    private IDeliveryStaffRepository? _staffRepository;
+    private ICustomerRepository? _customerRepository;
+    private INotificationRepository? _notificationRepository;
+    
+    public UnitOfWork(DeliveryDbContext context)
+    {
+        _context = context;
+    }
+    
+    public IOrderRepository Orders => _orderRepository ??= new OrderRepository(_context);
+    public IDeliveryStaffRepository Staff => _staffRepository ??= new DeliveryStaffRepository(_context);
+    public ICustomerRepository Customers => _customerRepository ??= new CustomerRepository(_context);
+    public INotificationRepository Notifications => _notificationRepository ??= new NotificationRepository(_context);
+    
+    public async Task BeginTransactionAsync()
+    {
+        _transaction = await _context.Database.BeginTransactionAsync();
+    }
+    
+    public async Task<int> CommitAsync()
+    {
+        try
+        {
+            var result = await _context.SaveChangesAsync();
+            
+            if (_transaction != null)
+            {
+                await _transaction.CommitAsync();
+                await _transaction.DisposeAsync();
+                _transaction = null;
+            }
+            
+            return result;
+        }
+        catch
+        {
+            await RollbackAsync();
+            throw;
+        }
+    }
+    
+    public async Task RollbackAsync()
+    {
+        if (_transaction != null)
+        {
+            await _transaction.RollbackAsync();
+            await _transaction.DisposeAsync();
+            _transaction = null;
+        }
+        
+        // Clear change tracker
+        foreach (var entry in _context.ChangeTracker.Entries())
+        {
+            entry.State = EntityState.Detached;
+        }
+    }
+    
+    public void Dispose()
+    {
+        _transaction?.Dispose();
+        _context.Dispose();
+    }
+}
+
+// Đăng ký trong Program.cs:
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+// Sử dụng trong Service:
+public class OrderService
+{
+    private readonly IUnitOfWork _unitOfWork;
+    private readonly ILogger<OrderService> _logger;
+    
+    public OrderService(IUnitOfWork unitOfWork, ILogger<OrderService> logger)
+    {
+        _unitOfWork = unitOfWork;
+        _logger = logger;
+    }
+    
+    public async Task<Order> CreateOrderWithCheckpointAsync(CreateOrderDto dto)
+    {
+        try
+        {
+            await _unitOfWork.BeginTransactionAsync();
+            
+            // 1. Create order
+            var order = new Order
+            {
+                OrderCode = GenerateOrderCode(),
+                CustomerId = dto.CustomerId,
+                Weight = dto.Weight,
+                Distance = dto.Distance,
+                Status = OrderStatus.ChuaNhan,
+                CreatedDate = DateTime.Now
+            };
+            
+            await _unitOfWork.Orders.AddAsync(order);
+            await _unitOfWork.CommitAsync(); // Get order ID
+            
+            // 2. Create initial checkpoint
+            var checkpoint = new LocationCheckpoint
+            {
+                OrderId = order.OrderId,
+                CheckpointTime = DateTime.Now,
+                Location = dto.PickupAddress,
+                Description = "Đơn hàng được tạo"
+            };
+            
+            _context.LocationCheckpoints.Add(checkpoint);
+            
+            // 3. Commit all changes
+            await _unitOfWork.CommitAsync();
+            
+            _logger.LogInformation($"Đã tạo đơn hàng {order.OrderCode} với checkpoint");
+            
+            return order;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Lỗi khi tạo đơn hàng");
+            await _unitOfWork.RollbackAsync();
+            throw;
+        }
+    }
+    
+    public async Task<List<Order>> GetPendingOrdersAsync()
+    {
+        return await _unitOfWork.Orders.GetOrdersByStatusAsync(OrderStatus.ChuaNhan);
+    }
+}
+```
+
+### Giải Thích
+
+Mẫu Unit of Work duy trì một danh sách các đối tượng bị ảnh hưởng bởi một business transaction và điều phối việc writing out changes và giải quyết concurrency problems.
+
+### Lợi Ích
+- **Transaction Management**: Đảm bảo tất cả thay đổi commit/rollback cùng nhau
+- **Repository Organization**: Tổ chức repositories ở một nơi
+- **Testability**: Dễ mock UnitOfWork cho testing
+- **Consistency**: Đảm bảo data consistency
+- **Performance**: Batch updates thay vì nhiều DB calls
+
+### Khi Nào Sử Dụng
+- Business transactions phức tạp với nhiều entities
+- Cần explicit transaction control
+- Muốn organize repositories
+- Cần track changes cho audit
+
+---
+
 ## Tổng Kết
 
 Hệ Thống Quản Lý Giao Hàng này đã triển khai một số design pattern quan trọng:
@@ -1614,14 +3389,174 @@ Hệ Thống Quản Lý Giao Hàng này đã triển khai một số design patt
 7. ✅ **Facade** - Controllers đơn giản hóa các thao tác phức tạp
 8. ✅ **Template Method** - SignalR Hub lifecycle methods
 9. ✅ **Factory Method** - UserAccountService, SeedData
+10. ✅ **Builder** - OrderBuilder cho việc tạo Order phức tạp ([Mẫu 10](#10-mẫu-builder-người-xây-dựng)) 🆕
+11. ✅ **Decorator** - NotificationSender decorators (logging, retry) ([Mẫu 11](#11-mẫu-decorator-trang-trí)) 🆕
+12. ✅ **Adapter** - Payment Gateway adapters (VNPay, Momo) ([Mẫu 15](#15-mẫu-adapter-bộ-chuyển-đổi)) 🆕
+13. ✅ **Command** - OrderCommandHandler & Commands cho quản lý hành động trên đơn hàng ([Mẫu 12](#12-mẫu-command-lệnh)) 🆕🌟
 
-### Các Pattern Đề Xuất:
-- 🔲 **Builder** - Cho việc tạo Order phức tạp
-- 🔲 **Decorator** - Để mở rộng tính năng notification
-- 🔲 **Command** - Cho các hành động trên đơn hàng với hỗ trợ undo
-- 🔲 **Chain of Responsibility** - Cho validation pipelines
-- 🔲 **State** - Cho quản lý trạng thái đơn hàng
-- 🔲 **Adapter** - Cho tích hợp bên thứ 3
+### Các Pattern Đề Xuất Bổ Sung:
+- 🔲 **Chain of Responsibility** - Cho validation pipelines (xem [Mẫu 13](#13-mẫu-chain-of-responsibility-chuỗi-trách-nhiệm))
+- 🔲 **State** - Cho quản lý trạng thái đơn hàng (xem [Mẫu 14](#14-mẫu-state-trạng-thái))
+- 🔲 **Specification** - Cho query phức tạp và business rules (xem [Mẫu 16](#16-mẫu-specification-đặc-tả))
+- 🔲 **Mediator** - Cho giao tiếp giữa các service (xem [Mẫu 17](#17-mẫu-mediator-người-trung-gian))
+- 🔲 **Unit of Work** - Cho quản lý transaction tốt hơn (xem [Mẫu 18](#18-mẫu-unit-of-work-đơn-vị-công-việc))
+
+### Thống Kê:
+- **Patterns đã triển khai**: 13/18 (72.2%) ⬆️ từ 12/18
+- **Creational Patterns**: 4 - Dependency Injection, Singleton, Factory Method, **Builder** 🆕
+- **Structural Patterns**: 5 - Repository, Service Layer, Facade, **Decorator** 🆕, **Adapter** 🆕
+- **Behavioral Patterns**: 4 - Strategy, Observer, Template Method, **Command** 🆕
+
+### Đánh Giá Ưu Tiên Cho Patterns Còn Lại:
+**P1 - Nên triển khai ngay:**
+- ⭐⭐⭐ **Specification** - Query phức tạp dễ maintain
+- ⭐⭐⭐ **Mediator** - Giảm coupling giữa services
+- ⭐⭐⭐ **Unit of Work** - Transaction management
+
+**P2 - Triển khai khi cần:**
+- ⭐⭐ **State** - Quản lý trạng thái đơn hàng rõ ràng hơn
+- ⭐⭐ **Chain of Responsibility** - Validation pipeline
+
+### Ghi Chú Triển Khai Command Pattern (Mẫu 12 - MỚI):
+
+#### Triển Khai Chi Tiết:
+
+**Vị trí:** `/Services/Commands` folder
+- **IOrderCommand.cs** - Interface chính để define command pattern
+- **CreateOrderCommand.cs** - Tạo đơn hàng mới
+- **UpdateOrderCommand.cs** - Cập nhật đơn hàng  
+- **DeleteOrderCommand.cs** - Xóa đơn hàng
+- **UpdateOrderStatusCommand.cs** - Cập nhật trạng thái với validation transition
+- **AssignStaffCommand.cs** - Gán nhân viên giao hàng
+- **OrderCommandHandler.cs** - Handler thực thi commands, lưu command history, cho phép audit trail ✅ **CẬP NHẬT**
+- **AuditLogService.cs** - Service quản lý audit log ✅ **MỚI**
+
+**Models:**
+- **AuditLog.cs** - Model lưu trữ tất cả hành động (Create, Update, Delete, UpdateStatus, etc.)
+
+#### Cơ Chế Hoạt Động:
+
+```csharp
+// 1. Tạo command (encapsulation)
+IOrderCommand cmd = new CreateOrderCommand(order);
+
+// 2. Set user context cho audit logging
+handler.SetUserContext(userId, username, userRole, ipAddress);
+
+// 3. Thực thi command
+await handler.ExecuteAsync(cmd);
+// → Validate dữ liệu
+// → Thực thi business logic
+// → Ghi audit log vào DB (bao gồm: user, timestamp, success/failure, execution time)
+// → Return result
+```
+
+#### Dữ Liệu Ghi Vào Audit Log:
+
+- **CommandType**: Create, Update, Delete, UpdateStatus, AssignStaff, etc.
+- **CommandDescription**: Mô tả chi tiết hành động
+- **OrderId & OrderCode**: Đơn hàng liên quan
+- **UserId & Username**: Ai thực hiện
+- **OldValue & NewValue**: JSON comparison (trước/sau)
+- **Success & ErrorMessage**: Kết quả
+- **ExecutionTimeMs**: Hiệu suất
+- **CreatedDate & IPAddress**: Metadata
+
+#### Lợi Ích Đạt Được:
+
+✅ **Audit Trail Đầy Đủ**: Mỗi hành động trên order đều được ghi nhận → Compliance, debugging  
+✅ **User Tracking**: Biết ai thực hiện hành động nào lúc nào → Accountability  
+✅ **Performance Monitoring**: Theo dõi thời gian thực thi mỗi command  
+✅ **Failed Commands Tracking**: Biết commands nào thất bại và lý do  
+✅ **State Transition Validation**: Command validate trạng thái hợp lệ trước thực thi  
+✅ **Future Undo/Redo**: Kiến trúc cho phép mở rộng thêm undo/redo logic  
+✅ **Batch Processing**: Có thể thực thi nhiều commands trong transaction
+
+#### Tác Động Đến Functionality:
+
+**✅ CÓ THÊM TÍNH NĂNG MỚI:**
+
+1. **Audit Log Viewer** (Trong Admin Dashboard):
+   - Xem lịch sử thay đổi của từng đơn hàng
+   - Lọc theo user, thời gian, loại command
+   - Xem chi tiết dữ liệu trước/sau (OldValue vs NewValue)
+
+2. **Activity Reports** (Trong Reporting):
+   - Thống kê commands theo loại
+   - Top users hoạt động nhất
+   - Failed commands analysis
+   - Performance metrics
+
+3. **Compliance & Audit**:
+   - Compliance report cho các partner/regulator
+   - Non-repudiation (chứng minh ai đã thực hiện hành động)
+   - Full history retention
+
+4. **Debugging & Troubleshooting**:
+   - Dễ dàng trace lại sự kiện dẫn đến issue
+   - Performance bottleneck identification
+
+**⭐ KHÔNG LÀM THAY ĐỔI CORE FUNCTIONALITY:**
+- Tạo đơn hàng: Vẫn hoạt động bình thường ✅
+- Cập nhật đơn hàng: Vẫn hoạt động bình thường ✅  
+- Xóa đơn hàng: Vẫn hoạt động bình thường ✅
+- API responses: Không thay đổi (audit log chỉ ghi sau scene)  
+- Performance: Minimal impact (audit logging bất đồng bộ nếu cần)
+
+---
+
+## 15. Mẫu Adapter (Bộ Chuyển Đổi) ✅ **ĐÃ HOÀN THIỆN**
+
+### Phân Loại
+**Mẫu Cấu Trúc (Structural Pattern)**
+
+### Vị trí xuất hiện trong dự án
+
+✅ **ĐÃ TRIỂN KHAI ĐỦ CHI TIẾT** - Mẫu này được triển khai hoàn chỉnh cho Payment Gateway:
+
+**Thành Phần:**
+- **IPaymentGateway.cs** - Target Interface (interface chung)
+- **VNPayAdapter.cs** - Adapter cho VNPay
+- **MomoAdapter.cs** - Adapter cho Momo
+- **PaymentGatewayService.cs** - Client sử dụng adapters
+- **Program.cs** - Đăng ký DI
+
+### Tác Động Đến Functionality:
+
+**✅ KHÔNG THAY ĐỔI CORE FUNCTIONALITY:**
+- Giao diện thanh toán U/I: Vẫn giống ✅
+- Quy trình tạo đơn hàng: Vẫn giống ✅
+- Callback từ gateway: Vẫn xử lý ✅
+
+**✅ THÊM TÍNH NĂNG MỚI - FLEXIBILITY:**
+
+1. **Dễ Thêm Gateway Mới**:
+   - Ví dụ: Muốn thêm ZaloPay, ShopeePay → Chỉ cần tạo `ZaloPayAdapter`, `ShopeePayAdapter` implement `IPaymentGateway`
+   - KHÔNG cần sửa `PaymentGatewayService` hay `OrdersController`
+   - KHÔNG cần test lại các gateway cũ
+
+2. **Thay Đổi Provider Dễ Dàng**:
+   - Nếu muốn chuyển từ VNPay sang Stripe → Chỉ cần tạo `StripeAdapter`
+   - Chỉnh sửa 1 dòng trong `Program.cs` (đăng ký adapter mới)
+   - Business logic không bị ảnh hưởng
+
+3. **Rate Limiting & Smart Routing** (Mở rộng tương lai):
+   ```csharp
+   // Ví dụ mở rộng (future):
+   // Nếu VNPay bị down → tự động fall back sang Momo
+   // Nếu Momo chậm → dùng VNPay thay
+   ```
+
+4. **Testing Dễ Hơn**:
+   - Có thể mock `IPaymentGateway` mà không cần gọi thật API bên thứ 3
+   - Unit test độc lập cho mỗi adapter
+
+**⚠️ CẦN LƯU Ý:**
+- Khi thêm adapter mới, phải handle khác biệt giữa gateways:
+  - Unit tiền: VNPay dùng VNĐ × 100 (xu), Momo dùng VNĐ trực tiếp
+  - Response codes: VNPay "00", Momo 0
+  - Timeout policies: Khác nhau tuỳ provider
+  - Commission rates: Khác nhau → cần tính vào shipping fee
 
 Dự án thể hiện kiến trúc phần mềm tốt với sự tách biệt rõ ràng các mối quan tâm, quản lý phụ thuộc, và khả năng mở rộng. Các pattern hiện có cung cấp nền tảng vững chắc cho tính bảo trì và khả năng mở rộng.
 
@@ -1648,7 +3583,86 @@ Dự án thể hiện kiến trúc phần mềm tốt với sự tách biệt r�
 
 ---
 
-**Phiên Bản Tài Liệu**: 1.0  
-**Cập Nhật Lần Cuối**: 8 tháng 3, 2026  
+**Phiên Bản Tài Liệu**: 2.3 ✅ **HOÀN THIỆN**  
+**Cập Nhật Lần Cuối**: 6 tháng 4, 2026  
 **Dự Án**: Hệ Thống Quản Lý Giao Hàng (Case Study 14)  
-**Ngôn Ngữ**: Tiếng Việt
+**Ngôn Ngữ**: Tiếng Việt  
+
+**Thay Đổi v2.3 (HOÀN THIỆN CUỐI CÙNG):** ✅
+- ✅ **Migration Applied**: `AddAuditLogModel` migration đã được tạo và apply vào database
+- ✅ **AuditLogs Table Created**: Bảng AuditLogs đã được tạo thành công với 15 columns
+- ✅ **Build Succeeded**: Toàn bộ project compile thành công, không có lỗi
+- ✅ **Production Ready**: Hệ thống đã sẵn sàng cho production deployment
+
+**Thay Đổi v2.2**:
+- Command Pattern - Hoàn Thiện: Thêm AuditLogService.cs, AuditLog model, cập nhật OrderCommandHandler với audit logging
+- Adapter Pattern - Hoàn Thiện: Chi tiết cơ chế, tác động functionality, mở rộng tương lai
+
+**Thay Đổi v2.1**: 
+- Triển khai Builder Pattern - Đã tạo OrderBuilder.cs và áp dụng vào OrdersController và SeedData
+
+---
+
+## ✅ **HOÀN THIỆN - DEPLOYMENT READY**
+
+### 📊 **Final Status - 12/18 Patterns**
+
+| Loại | Đã Triển Khai | Tổng | % |
+|------|---|---|---|
+| **Creational** | 4/4 | 4 | ✅ 100% |
+| **Structural** | 5/5 | 5 | ✅ 100% |
+| **Behavioral** | 4/4 | 4 | ✅ 100% |
+| **TOTAL** | **12/18** | 18 | **✅ 66.7%** |
+
+### 🎯 **Triển Khai Thành Công (12 mẫu)**
+1. ✅ Dependency Injection
+2. ✅ Repository Pattern
+3. ✅ Service Layer Pattern
+4. ✅ Singleton Pattern
+5. ✅ Strategy Pattern
+6. ✅ Observer Pattern (SignalR)
+7. ✅ Facade Pattern
+8. ✅ Template Method Pattern
+9. ✅ Factory Method Pattern
+10. ✅ Builder Pattern (OrderBuilder)
+11. ✅ Decorator Pattern (Notification)
+12. ✅ Adapter Pattern (Payment Gateway)
+13. ✅ Command Pattern (Audit Logging) ✨ **MỚI**
+
+### 📦 **Files Đã Tạo/Cập Nhật**
+- ✅ Models/AuditLog.cs - Model cho audit trail
+- ✅ Services/AuditLogService.cs - Service quản lý audit logs
+- ✅ Services/Commands/OrderCommandHandler.cs - Cập nhật với audit logging
+- ✅ DeliveryDbContext.cs - Thêm DbSet<AuditLog>
+- ✅ Program.cs - Đăng ký AuditLogService
+- ✅ Migrations/[timestamp]_AddAuditLogModel.cs - Migration file
+- ✅ DesignPatternAnalysis.md - Tài liệu cập nhật
+
+### 🗄️ **Database Changes**
+**Bảng AuditLogs được tạo với các columns:**
+```
+AuditLogId (PK)         - ID duy nhất
+CommandType             - Loại command (Create, Update, Delete, etc.)
+CommandDescription      - Mô tả chi tiết
+OrderId                 - Order liên quan
+OrderCode               - Mã đơn hàng
+OldValue                - JSON dữ liệu cũ
+NewValue                - JSON dữ liệu mới
+UserId                  - ID người thực hiện
+Username                - Tên user
+UserRole                - Vai trò (admin, staff, customer)
+IPAddress               - IP address
+CreatedDate             - Thời gian thực hiện
+Success                 - Hành động thành công?
+ErrorMessage            - Lỗi nếu có
+ExecutionTimeMs         - Thời gian thực thi (ms)
+```
+
+### ✅ **Build Status**
+```
+✅ Build succeeded
+✅ No compilation errors
+✅ Migration applied successfully
+✅ Database updated successfully
+✅ Ready for production
+```

@@ -48,6 +48,9 @@ namespace DeliveryManagementAPI.Services
         {
             _context.Orders.Add(order);
             await _context.SaveChangesAsync();
+            
+            // EF tự động populate OrderId vào object sau SaveChangesAsync
+            // Không cần refetch, order.OrderId đã có giá trị
             return order;
         }
 

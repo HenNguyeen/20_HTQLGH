@@ -90,18 +90,34 @@ async function wireupCreateOrderForm() {
       IsVehicle: formData.isVehicle === 'on' || false,
       CollectMoney: false,
       CollectionAmount: 0,
-      PaymentMethod: 0,
+      PaymentMethod: +(formData.paymentMethod || 0),
+      PaymentGateway: +(formData.paymentMethod || 0) === 1 ? 'Momo' : null,
       DeliveryType: +(formData.deliveryType || 0),
       Notes: formData.notes || ''
     };
 
     try {
       const res = await apiService.createOrder(data);
-      utils.showToast('Tạo đơn thành công', 'success');
-      form.reset();
-      await loadMyOrders();
+      console.log('[DEBUG] createOrder response:', res);
+      
+      // Check if online payment is required
+      if (res.payment && res.payment.required && res.payment.paymentUrl) {
+        // Redirect to payment gateway
+        console.log('[DEBUG] Redirecting to payment URL:', res.payment.paymentUrl);
+        utils.showToast('Đang chuyển đến cổng thanh toán...', 'info');
+        setTimeout(() => {
+          window.location.href = res.payment.paymentUrl;
+        }, 1000);
+      } else {
+        // Cash payment - just show success and reload orders
+        console.log('[DEBUG] Not a payment order, showing success');
+        utils.showToast('Tạo đơn thành công', 'success');
+        form.reset();
+        await loadMyOrders();
+      }
     } catch (err) {
-      utils.showToast('Tạo đơn thất bại', 'danger');
+      console.error('[ERROR] createOrder failed:', err);
+      utils.showToast('Tạo đơn thất bại: ' + (err.message || 'Unknown error'), 'danger');
       console.error(err);
     }
   });
@@ -238,7 +254,7 @@ async function viewOrderDetail(orderId) {
         <div class="col-12">
           <h6 class="border-bottom pb-2"><i class="fas fa-dollar-sign text-info"></i> Thông tin thanh toán</h6>
           <p class="mb-1"><strong>Phí giao hàng:</strong> <span class="text-primary fs-5">${utils.formatCurrency(order.shippingFee || 0)}</span></p>
-          <p class="mb-1"><strong>Phương thức:</strong> ${order.paymentMethod === 0 ? 'Tiền mặt' : order.paymentMethod === 1 ? 'Thẻ' : 'Chuyển khoản'}</p>
+          <p class="mb-1"><strong>Phương thức:</strong> ${order.paymentMethod === 0 ? 'COD (Thanh toán khi giao)' : order.paymentMethod === 1 ? 'Momo' : 'Không xác định'}</p>
           ${order.paidAmount ? `<p class="mb-1"><strong>Đã thanh toán:</strong> ${utils.formatCurrency(order.paidAmount)}</p>` : ''}
           ${order.paymentTime ? `<p class="mb-1"><strong>Thời gian TT:</strong> ${utils.formatDate(order.paymentTime)}</p>` : ''}
         </div>

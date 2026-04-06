@@ -224,12 +224,23 @@ async function createOrder() {
         collectMoney: formData.get('collectMoney') === 'on',
         collectionAmount: parseFloat(formData.get('collectionAmount') || 0),
         paymentMethod: parseInt(formData.get('paymentMethod')),
+        paymentGateway: formData.get('paymentGateway') || '', // Thêm payment gateway (Momo/VNPay)
         deliveryType: parseInt(formData.get('deliveryType')),
         notes: formData.get('notes') || ''
     };
     
     try {
-        const newOrder = await apiService.createOrder(orderData);
+        const response = await apiService.createOrder(orderData);
+        
+        // Handle payment redirect nếu cần thanh toán online
+        if (response.payment && response.payment.required && response.payment.paymentUrl) {
+            utils.showToast('Đang chuyển hướng đến trang thanh toán ' + response.payment.gateway + '...', 'info');
+            setTimeout(() => {
+                window.location.href = response.payment.paymentUrl;
+            }, 1500);
+            return;
+        }
+        
         utils.showToast('Tạo đơn hàng thành công!', 'success');
         
         // Close modal and reload

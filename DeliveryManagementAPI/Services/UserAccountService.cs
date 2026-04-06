@@ -2,6 +2,7 @@ using DeliveryManagementAPI.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
 using System.Text;
+using BCrypt.Net;
 
 namespace DeliveryManagementAPI.Services
 {
@@ -46,7 +47,15 @@ namespace DeliveryManagementAPI.Services
         // Kiểm tra mật khẩu
         public bool CheckPassword(UserAccount user, string password)
         {
-            return user.PasswordHash == HashPassword(password);
+            try
+            {
+                return BCrypt.Net.BCrypt.Verify(password, user.PasswordHash);
+            }
+            catch
+            {
+                // In case of any error (e.g., invalid hash), return false
+                return false;
+            }
         }
 
         // Xác thực người dùng
@@ -103,12 +112,12 @@ namespace DeliveryManagementAPI.Services
             return true;
         }
 
-        // Hash mật khẩu
+        // Hash mật khẩu sử dụng bcrypt (an toàn hơn SHA256)
         public static string HashPassword(string password)
         {
-            using var sha256 = SHA256.Create();
-            var bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
-            return BitConverter.ToString(bytes).Replace("-", "").ToLower();
+            // Using bcrypt with default cost (10 rounds)
+            // This is more secure than SHA256 and provides built-in salt generation
+            return BCrypt.Net.BCrypt.HashPassword(password);
         }
 
         // Thiết lập token reset mật khẩu

@@ -12,8 +12,9 @@ namespace DeliveryManagementAPI
         public DbSet<DeliveryStaff> DeliveryStaffs { get; set; }
         public DbSet<LocationCheckpoint> LocationCheckpoints { get; set; }
         public DbSet<Customer> Customers { get; set; }
+        public DbSet<AuditLog> AuditLogs { get; set; } // Command Pattern - Audit Trail
 
-    public DbSet<Feedback> Feedbacks { get; set; }
+        public DbSet<Feedback> Feedbacks { get; set; }
         
         public DbSet<ChatMessage> ChatMessages { get; set; }
         

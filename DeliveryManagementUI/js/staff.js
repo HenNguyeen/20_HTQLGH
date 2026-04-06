@@ -272,6 +272,10 @@ async function addStaff() {
     const staffData = {
         fullName: formData.get('fullName'),
         phoneNumber: formData.get('phoneNumber'),
+        idCardNumber: formData.get('idCardNumber'),
+        hometown: formData.get('hometown'),
+        dateOfBirth: formData.get('dateOfBirth') ? new Date(formData.get('dateOfBirth')).toISOString() : null,
+        workingArea: formData.get('workingArea'),
         username: formData.get('username'),
         email: formData.get('email'),
         vehicleType: formData.get('vehicleType'),
@@ -475,6 +479,32 @@ async function viewStaffDetails(staffId) {
                                     <label class="text-muted small">Số Điện Thoại</label>
                                     <p class="mb-0"><strong>${staff.phoneNumber}</strong></p>
                                 </div>
+                            </div>
+                            
+                            <hr>
+                            <h6 class="mb-3"><i class="fas fa-id-card"></i> Thông Tin CCCD</h6>
+                            <div class="row">
+                                <div class="col-6 mb-3">
+                                    <label class="text-muted small">Số CCCD</label>
+                                    <p class="mb-0"><strong>${staff.idCardNumber || 'N/A'}</strong></p>
+                                </div>
+                                <div class="col-6 mb-3">
+                                    <label class="text-muted small">Ngày Sinh</label>
+                                    <p class="mb-0"><strong>${staff.dateOfBirth ? new Date(staff.dateOfBirth).toLocaleDateString('vi-VN') : 'N/A'}</strong></p>
+                                </div>
+                                <div class="col-12 mb-3">
+                                    <label class="text-muted small">Quê Quán</label>
+                                    <p class="mb-0"><strong>${staff.hometown || 'N/A'}</strong></p>
+                                </div>
+                                <div class="col-12 mb-3">
+                                    <label class="text-muted small">Khu Vực Hoạt Động</label>
+                                    <p class="mb-0"><strong>${staff.workingArea || 'N/A'}</strong></p>
+                                </div>
+                            </div>
+                            
+                            <hr>
+                            <h6 class="mb-3"><i class="fas fa-motorcycle"></i> Thông Tin Phương Tiện</h6>
+                            <div class="row">
                                 <div class="col-6 mb-3">
                                     <label class="text-muted small">Loại Xe</label>
                                     <p class="mb-0"><strong>${staff.vehicleType}</strong></p>

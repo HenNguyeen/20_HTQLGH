@@ -1,0 +1,344 @@
+{
+  "loginTestCases": [
+    {
+      "testCaseId": "Aut_DN_TC_01",
+      "description": "Đăng nhập thành công với tài khoản hợp lệ",
+      "username": "test@example.com",
+      "password": "Pass@123456",
+      "expectedResult": "Success",
+      "expectedMessage": "Dashboard",
+      "priority": "High",
+      "tags": ["smoke", "critical"]
+    },
+    {
+      "testCaseId": "Aut_DN_TC_02",
+      "description": "Đăng nhập thất bại khi sai mật khẩu",
+      "username": "test@example.com",
+      "password": "WrongPass@999",
+      "expectedResult": "Fail",
+      "expectedMessage": "Sai mật khẩu",
+      "priority": "High",
+      "tags": ["validation"]
+    },
+    {
+      "testCaseId": "Aut_DN_TC_03",
+      "description": "Đăng nhập với Email chưa tồn tại",
+      "username": "nonexistent@example.com",
+      "password": "Pass@123456",
+      "expectedResult": "Fail",
+      "expectedMessage": "không tồn tại",
+      "priority": "High",
+      "tags": ["validation"]
+    },
+    {
+      "testCaseId": "Aut_DN_TC_04",
+      "description": "Để trống tất cả các trường",
+      "username": "",
+      "password": "",
+      "expectedResult": "Fail",
+      "expectedMessage": "Vui lòng nhập",
+      "priority": "High",
+      "tags": ["validation"]
+    },
+    {
+      "testCaseId": "Aut_DN_TC_05",
+      "description": "Để trống trường Password",
+      "username": "test@example.com",
+      "password": "",
+      "expectedResult": "Fail",
+      "expectedMessage": "Vui lòng nhập",
+      "priority": "High",
+      "tags": ["validation"]
+    },
+    {
+      "testCaseId": "Aut_DN_TC_06",
+      "description": "Email sai định dạng (thiếu @)",
+      "username": "invalidemail",
+      "password": "Pass@123456",
+      "expectedResult": "Fail",
+      "expectedMessage": "Email không hợp lệ",
+      "priority": "High",
+      "tags": ["validation", "format"]
+    },
+    {
+      "testCaseId": "Aut_DN_TC_07",
+      "description": "Remember me checkbox",
+      "username": "test@example.com",
+      "password": "Pass@123456",
+      "rememberMe": true,
+      "expectedResult": "Success",
+      "expectedMessage": "Cookie lưu",
+      "priority": "Medium",
+      "tags": ["feature"]
+    },
+    {
+      "testCaseId": "Aut_DN_TC_08",
+      "description": "Đăng nhập bằng phím Enter",
+      "username": "test@example.com",
+      "password": "Pass@123456",
+      "submitMethod": "Enter",
+      "expectedResult": "Success",
+      "expectedMessage": "Dashboard",
+      "priority": "Medium",
+      "tags": ["keyboard", "feature"]
+    },
+    {
+      "testCaseId": "Aut_DN_TC_09",
+      "description": "Kiểm tra ẩn mật khẩu (password masking)",
+      "username": "test@example.com",
+      "password": "Pass@123456",
+      "testType": "UIValidation",
+      "expectedResult": "PasswordMasked",
+      "expectedMessage": "type=password",
+      "priority": "Medium",
+      "tags": ["security", "ui"]
+    },
+    {
+      "testCaseId": "Aut_DN_TC_10",
+      "description": "Đăng xuất thành công",
+      "username": "test@example.com",
+      "password": "Pass@123456",
+      "testType": "Logout",
+      "expectedResult": "Success",
+      "expectedMessage": "Chuyển hướng tới /login",
+      "priority": "High",
+      "tags": ["feature"]
+    },
+    {
+      "testCaseId": "Aut_DN_TC_11",
+      "description": "Tính hợp lệ của Session khi nhấn nút Back",
+      "username": "test@example.com",
+      "password": "Pass@123456",
+      "testType": "BackButton",
+      "expectedResult": "SessionValid",
+      "expectedMessage": "Đăng nhập vẫn hợp lệ",
+      "priority": "Medium",
+      "tags": ["session", "navigation"]
+    },
+    {
+      "testCaseId": "Aut_DN_TC_12",
+      "description": "Liên kết điều hướng sang trang Đăng ký",
+      "testType": "Navigation",
+      "expectedResult": "Success",
+      "expectedMessage": "/register",
+      "priority": "Medium",
+      "tags": ["navigation"]
+    },
+    {
+      "testCaseId": "Aut_DN_TC_13",
+      "description": "Tính năng khôi phục mật khẩu",
+      "testType": "ForgotPassword",
+      "username": "test@example.com",
+      "expectedResult": "Success",
+      "expectedMessage": "Email gửi",
+      "priority": "Medium",
+      "tags": ["feature", "email"]
+    },
+    {
+      "testCaseId": "Aut_DN_TC_14",
+      "description": "Phân biệt chữ hoa/thường của mật khẩu",
+      "username": "test@example.com",
+      "password": "pass@123456",
+      "expectedResult": "Fail",
+      "expectedMessage": "Sai mật khẩu",
+      "priority": "High",
+      "tags": ["validation", "security"]
+    },
+    {
+      "testCaseId": "Aut_DN_TC_15",
+      "description": "Tự động cắt khoảng trắng trong Email",
+      "username": " test@example.com ",
+      "password": "Pass@123456",
+      "expectedResult": "Success",
+      "expectedMessage": "Dashboard",
+      "priority": "Medium",
+      "tags": ["validation", "trim"]
+    },
+    {
+      "testCaseId": "Aut_DN_TC_16",
+      "description": "Chống tấn công SQL Injection",
+      "username": "admin' OR '1'='1",
+      "password": "' OR '1'='1",
+      "expectedResult": "Fail",
+      "expectedMessage": "Không tồn tại",
+      "priority": "High",
+      "tags": ["security", "injection"]
+    },
+    {
+      "testCaseId": "Aut_DN_TC_17",
+      "description": "Giới hạn độ dài mật khẩu (Max length)",
+      "username": "test@example.com",
+      "password": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "expectedResult": "Fail",
+      "expectedMessage": "Mật khẩu quá dài",
+      "priority": "Low",
+      "tags": ["boundary", "validation"]
+    },
+    {
+      "testCaseId": "Aut_DN_TC_18",
+      "description": "Đăng nhập với mật khẩu tối thiểu (1 ký tự)",
+      "username": "test@example.com",
+      "password": "a",
+      "expectedResult": "Fail",
+      "expectedMessage": "không đúng",
+      "priority": "Low",
+      "tags": ["boundary", "validation"]
+    },
+    {
+      "testCaseId": "Aut_DN_TC_19",
+      "description": "Di chuyển tiêu điểm bằng phím Tab",
+      "testType": "TabNavigation",
+      "expectedResult": "Success",
+      "expectedMessage": "Tab order đúng",
+      "priority": "Low",
+      "tags": ["accessibility", "keyboard"]
+    },
+    {
+      "testCaseId": "Aut_DN_TC_20",
+      "description": "Copy/Paste vào form Login",
+      "username": "test@example.com",
+      "password": "Pass@123456",
+      "testType": "CopyPaste",
+      "expectedResult": "Success",
+      "expectedMessage": "Dashboard",
+      "priority": "Medium",
+      "tags": ["feature"]
+    },
+    {
+      "testCaseId": "Aut_DN_TC_21",
+      "description": "Trạng thái form sau khi tải lại (F5)",
+      "testType": "Refresh",
+      "expectedResult": "FormReset",
+      "expectedMessage": "Form trống",
+      "priority": "Medium",
+      "tags": ["ui", "refresh"]
+    },
+    {
+      "testCaseId": "Aut_DN_TC_22",
+      "description": "Đồng bộ trạng thái đăng nhập trên nhiều Tab",
+      "testType": "MultiTab",
+      "expectedResult": "Synchronized",
+      "expectedMessage": "Tab được đồng bộ",
+      "priority": "Low",
+      "tags": ["feature", "performance"]
+    },
+    {
+      "testCaseId": "Aut_DN_TC_23",
+      "description": "Giao diện Login trên chế độ Mobile",
+      "testType": "ResponsiveMobile",
+      "expectedResult": "Success",
+      "expectedMessage": "Layout responsive",
+      "priority": "Medium",
+      "tags": ["responsive", "mobile"]
+    },
+    {
+      "testCaseId": "Aut_DN_TC_24",
+      "description": "Kiểm tra thời gian phản hồi khi đăng nhập",
+      "username": "test@example.com",
+      "password": "Pass@123456",
+      "testType": "Performance",
+      "expectedResult": "Success",
+      "maxResponseTime": 3000,
+      "priority": "Low",
+      "tags": ["performance"]
+    },
+    {
+      "testCaseId": "Aut_DN_TC_25",
+      "description": "Đăng nhập khi không có internet",
+      "testType": "Offline",
+      "expectedResult": "Fail",
+      "expectedMessage": "Không có kết nối",
+      "priority": "Medium",
+      "tags": ["network", "error-handling"]
+    },
+    {
+      "testCaseId": "Aut_DN_TC_26",
+      "description": "Quay lại trang chủ bằng Logo",
+      "testType": "Navigation",
+      "expectedResult": "Success",
+      "expectedMessage": "/home",
+      "priority": "Low",
+      "tags": ["navigation"]
+    },
+    {
+      "testCaseId": "Aut_DN_TC_27",
+      "description": "Email chứa ký tự đặc biệt không hợp lệ",
+      "username": "test@exam ple.com",
+      "password": "Pass@123456",
+      "expectedResult": "Fail",
+      "expectedMessage": "Email không hợp lệ",
+      "priority": "High",
+      "tags": ["validation", "security"]
+    },
+    {
+      "testCaseId": "Aut_DN_TC_28",
+      "description": "Tính năng tự động điền (Autofill)",
+      "testType": "Autofill",
+      "expectedResult": "Supported",
+      "expectedMessage": "Browser autofill hoạt động",
+      "priority": "Low",
+      "tags": ["feature"]
+    },
+    {
+      "testCaseId": "Aut_DN_TC_29",
+      "description": "Kiểm tra tiêu đề trang (Page Title)",
+      "testType": "PageTitle",
+      "expectedResult": "Success",
+      "expectedMessage": "Login | Delivery System",
+      "priority": "Low",
+      "tags": ["ui", "metadata"]
+    },
+    {
+      "testCaseId": "Aut_DN_TC_30",
+      "description": "Đăng nhập với tài khoản bị khóa",
+      "username": "locked@example.com",
+      "password": "Pass@123456",
+      "expectedResult": "Fail",
+      "expectedMessage": "Tài khoản bị khóa",
+      "priority": "High",
+      "tags": ["security", "account-status"]
+    },
+    {
+      "testCaseId": "Aut_DN_TC_31",
+      "description": "Thứ tự điền (Password trước, Email sau)",
+      "testType": "FieldOrder",
+      "expectedResult": "Success",
+      "priority": "Low",
+      "tags": ["ux"]
+    },
+    {
+      "testCaseId": "Aut_DN_TC_32",
+      "description": "Hành vi khi xóa dữ liệu sau khi nhập",
+      "testType": "Clearetext",
+      "expectedResult": "FieldCleared",
+      "priority": "Low",
+      "tags": ["ui"]
+    },
+    {
+      "testCaseId": "Aut_DN_TC_33",
+      "description": "Hiệu ứng nút Login khi di chuột (Hover)",
+      "testType": "HoverEffect",
+      "expectedResult": "VisualFeedback",
+      "priority": "Low",
+      "tags": ["ui"]
+    },
+    {
+      "testCaseId": "Aut_DN_TC_34",
+      "description": "Tự động đăng xuất khi hết hạn phiên",
+      "testType": "SessionTimeout",
+      "expectedResult": "AutoLogout",
+      "expectedMessage": "Session hết hạn",
+      "priority": "High",
+      "tags": ["security", "session"]
+    },
+    {
+      "testCaseId": "Aut_DN_TC_35",
+      "description": "Tính chính xác của URL trang đăng nhập",
+      "testType": "URLValidation",
+      "expectedResult": "Success",
+      "expectedMessage": "/login",
+      "priority": "Low",
+      "tags": ["navigation"]
+    }
+  ]
+}

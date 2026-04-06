@@ -5,9 +5,19 @@ namespace DeliveryManagementAPI.Models
     /// </summary>
     public class CreateStaffDto
     {
-        // Thông tin nhân viên
+        // Thông tin cơ bản
         public string FullName { get; set; } = string.Empty;
         public string PhoneNumber { get; set; } = string.Empty;
+        
+        // Thông tin CCCD (bắt buộc)
+        public string IdCardNumber { get; set; } = string.Empty; // Số CCCD
+        public string Hometown { get; set; } = string.Empty; // Quê quán
+        public DateTime? DateOfBirth { get; set; } // Ngày sinh
+        
+        // Khu vực hoạt động (bắt buộc)
+        public string WorkingArea { get; set; } = string.Empty;
+        
+        // Thông tin phương tiện
         public string VehicleType { get; set; } = string.Empty;
         public string VehiclePlate { get; set; } = string.Empty;
         public bool IsAvailable { get; set; } = true;

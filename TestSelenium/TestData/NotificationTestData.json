@@ -1,0 +1,172 @@
+{
+  "notificationTestCases": [
+    {
+      "testCaseId": "Noti_TBPhanCong_TC_01",
+      "description": "Nhận thông báo khi phân công đơn",
+      "notificationType": "OrderAssignment",
+      "orderId": "DH001",
+      "message": "Bạn được phân công đơn hàng DH001",
+      "recipientRole": "Shipper",
+      "expectedResult": "Success",
+      "expectedMessage": "Thông báo được nhận",
+      "priority": "High",
+      "tags": ["smoke", "critical"]
+    },
+    {
+      "testCaseId": "Noti_TBPhanCong_TC_02",
+      "description": "Kiểm tra nội dung thông báo",
+      "notificationType": "OrderAssignment",
+      "orderId": "DH002",
+      "message": "Đơn hàng DH002 cần giao ngay",
+      "recipientRole": "Shipper",
+      "expectedResult": "Success",
+      "expectedMessage": "Nội dung thông báo đúng",
+      "priority": "High",
+      "tags": ["smoke"]
+    },
+    {
+      "testCaseId": "Noti_TBTaoDH_TC_01",
+      "description": "Nhận thông báo khi tạo order",
+      "notificationType": "OrderCreated",
+      "orderId": "DH003",
+      "message": "Có đơn hàng mới được tạo: DH003",
+      "recipientRole": "Admin",
+      "expectedResult": "Success",
+      "expectedMessage": "Thông báo tạo đơn được gửi",
+      "priority": "High",
+      "tags": ["smoke"]
+    },
+    {
+      "testCaseId": "Noti_TBTaoDH_TC_02",
+      "description": "Kiểm tra gửi cho shipper khi tạo order",
+      "notificationType": "OrderCreated",
+      "orderId": "DH004",
+      "message": "Có đơn hàng mới giờ",
+      "recipientRole": "Shipper",
+      "expectedResult": "Success",
+      "expectedMessage": "Thông báo được gửi cho Shipper",
+      "priority": "High",
+      "tags": ["smoke"]
+    },
+    {
+      "testCaseId": "Noti_TBTaoDH_TC_03",
+      "description": "Kiểm tra gửi cho khách hàng khi tạo order",
+      "notificationType": "OrderCreated",
+      "orderId": "DH005",
+      "message": "Đơn hàng của bạn đã tạo thành công",
+      "recipientRole": "Customer",
+      "expectedResult": "Success",
+      "expectedMessage": "Thông báo được gửi cho Customer",
+      "priority": "High",
+      "tags": ["smoke"]
+    },
+    {
+      "testCaseId": "Noti_RealTime_TC_02",
+      "description": "Người dùng ngắt kết nối khỏi NotificationHub",
+      "notificationType": "SystemEvent",
+      "orderId": "",
+      "message": "Ngắt kết nối",
+      "recipientRole": "All",
+      "expectedResult": " Success",
+      "expectedMessage": "Kết nối bị ngắt",
+      "priority": "Medium",
+      "tags": ["functional"]
+    },
+    {
+      "testCaseId": "Noti_RealTime_TC_03",
+      "description": "Trạng thái đơn đổi → Đã nhận chưa giao",
+      "notificationType": "StatusChange",
+      "orderId": "DH006",
+      "message": "Đơn hàng DH006 đã nhận",
+      "recipientRole": "All",
+      "expectedResult": "Success",
+      "expectedMessage": "Thông báo cập nhật trạng thái",
+      "priority": "High",
+      "tags": ["smoke"]
+    },
+    {
+      "testCaseId": "Noti_RealTime_TC_04",
+      "description": "Trạng thái đơn đổi → Đang giao",
+      "notificationType": "StatusChange",
+      "orderId": "DH007",
+      "message": "Đơn hàng DH007 đang giao",
+      "recipientRole": "All",
+      "expectedResult": "Success",
+      "expectedMessage": "Thông báo đang giao",
+      "priority": "High",
+      "tags": ["smoke"]
+    },
+    {
+      "testCaseId": "Noti_RealTime_TC_05",
+      "description": "Trạng thái đơn đổi → Đã giao",
+      "notificationType": "StatusChange",
+      "orderId": "DH008",
+      "message": "Đơn hàng DH008 đã giao thành công",
+      "recipientRole": "All",
+      "expectedResult": "Success",
+      "expectedMessage": "Thông báo giao thành công",
+      "priority": "High",
+      "tags": ["smoke"]
+    },
+    {
+      "testCaseId": "Noti_RealTime_TC_06",
+      "description": "Giao shipper cho đơn hàng",
+      "notificationType": "ShipperAssigned",
+      "orderId": "DH009",
+      "message": "Shipper Nguyễn Văn A được giao DH009",
+      "recipientRole": "Shipper",
+      "expectedResult": "Success",
+      "expectedMessage": "Shipper nhận được thông báo",
+      "priority": "High",
+      "tags": ["smoke"]
+    },
+    {
+      "testCaseId": "Noti_RealTime_TC_07",
+      "description": "Gửi tin nhắn chat đến phòng đơn hàng",
+      "notificationType": "ChatMessage",
+      "orderId": "DH010",
+      "message": "Có tin nhắn mới trong phòng chat",
+      "recipientRole": "All",
+      "expectedResult": "Success",
+      "expectedMessage": "Thông báo tin nhắn được gửi",
+      "priority": "Medium",
+      "tags": ["functional"]
+    },
+    {
+      "testCaseId": "Noti_RealTime_TC_08",
+      "description": "Đánh dấu thông báo đã đọc",
+      "notificationType": "NotificationRead",
+      "orderId": "DH011",
+      "message": "Thông báo đã đọc",
+      "recipientRole": "All",
+      "expectedResult": "Success",
+      "expectedMessage": "Thông báo được đánh dấu đã đọc",
+      "priority": "Medium",
+      "tags": ["functional"]
+    },
+    {
+      "testCaseId": "Noti_RealTime_TC_09",
+      "description": "Xóa thông báo",
+      "notificationType": "NotificationDelete",
+      "orderId": "DH012",
+      "message": "Xóa thông báo",
+      "recipientRole": "All",
+      "expectedResult": "Success",
+      "expectedMessage": "Thông báo được xóa",
+      "priority": "Low",
+      "tags": ["functional"]
+    },
+    {
+      "testCaseId": "Noti_RealTime_TC_10",
+      "description": "Xóa tất cả thông báo",
+      "notificationType": "ClearAll",
+      "orderId": "",
+      "message": "Xóa tất cả",
+      "recipientRole": "All",
+      "expectedResult": "Success",
+      "expectedMessage": "Tất cả thông báo được xóa",
+      "priority": "Low",
+      "tags": ["functional"]
+    }
+  ]
+}

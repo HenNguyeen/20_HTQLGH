@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using DeliveryManagementAPI.Models;
 using DeliveryManagementAPI.Services;
+using DeliveryManagementAPI.Services.Commands;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 
 namespace DeliveryManagementAPI.Controllers
 {
@@ -11,26 +13,35 @@ namespace DeliveryManagementAPI.Controllers
     public class OrdersController : ControllerBase
     {
         private readonly OrderService _orderService;
+        private readonly OrderCommandHandler _commandHandler;
+        private readonly OrderStateService _orderStateService;
         private readonly DeliveryStaffService _staffService;
         private readonly ShippingFeeService _feeService;
         private readonly DeliveryDbContext _context;
         private readonly INotificationService _notificationService;
         private readonly ILogger<OrdersController> _logger;
+        private readonly PaymentGatewayService _paymentGatewayService;
 
         public OrdersController(
             OrderService orderService,
+            OrderCommandHandler commandHandler,
+            OrderStateService orderStateService,
             DeliveryStaffService staffService,
             ShippingFeeService feeService,
             DeliveryDbContext context,
             INotificationService notificationService,
-            ILogger<OrdersController> logger)
+            ILogger<OrdersController> logger,
+            PaymentGatewayService paymentGatewayService)
         {
             _orderService = orderService;
+            _commandHandler = commandHandler;
+            _orderStateService = orderStateService;
             _staffService = staffService;
             _feeService = feeService;
             _context = context;
             _notificationService = notificationService;
             _logger = logger;
+            _paymentGatewayService = paymentGatewayService;
         }
 
         /// <summary>
@@ -114,8 +125,101 @@ namespace DeliveryManagementAPI.Controllers
         {
             try
             {
-                // Tính phí giao hàng
-                var shippingFee = _feeService.CalculateShippingFee(orderDto);
+                // ========== VALIDATION - ALL REQUIRED FIELDS ==========
+                
+                // Validate Order Code
+                var orderCodeValidation = OrderValidationHelper.ValidateOrderCode(orderDto.OrderCode);
+                if (!orderCodeValidation.IsValid)
+                    return BadRequest(new { message = orderCodeValidation.ErrorMessage, field = "orderCode" });
+                
+                // Validate Customer Name
+                var customerNameValidation = OrderValidationHelper.ValidateCustomerName(orderDto.CustomerName);
+                if (!customerNameValidation.IsValid)
+                    return BadRequest(new { message = customerNameValidation.ErrorMessage, field = "customerName" });
+                
+                // Validate Phone Number
+                var phoneValidation = OrderValidationHelper.ValidatePhoneNumber(orderDto.CustomerPhone);
+                if (!phoneValidation.IsValid)
+                    return BadRequest(new { message = phoneValidation.ErrorMessage, field = "phoneNumber" });
+                
+                // Validate Delivery Address
+                var addressValidation = OrderValidationHelper.ValidateDeliveryAddress(orderDto.DeliveryAddress);
+                if (!addressValidation.IsValid)
+                    return BadRequest(new { message = addressValidation.ErrorMessage, field = "deliveryAddress" });
+                
+                // Validate Location (Ward, District, City)
+                var locationValidation = OrderValidationHelper.ValidateLocation(orderDto.Ward, orderDto.District, orderDto.City);
+                if (!locationValidation.IsValid)
+                    return BadRequest(new { message = locationValidation.ErrorMessage, field = "location" });
+                
+                // Validate Product Code
+                var productCodeValidation = OrderValidationHelper.ValidateProductCode(orderDto.ProductCode);
+                if (!productCodeValidation.IsValid)
+                    return BadRequest(new { message = productCodeValidation.ErrorMessage, field = "productCode" });
+                
+                // Validate Weight
+                var weightValidation = OrderValidationHelper.ValidateWeight(orderDto.Weight.ToString());
+                if (!weightValidation.IsValid)
+                    return BadRequest(new { message = weightValidation.ErrorMessage, field = "weight" });
+                
+                // Validate Dimensions
+                var dimensionsValidation = OrderValidationHelper.ValidateDimensions(
+                    orderDto.Size?.Split('x')?[0]?.Trim(),
+                    orderDto.Size?.Split('x')?[1]?.Trim(),
+                    orderDto.Size?.Split('x')?[2]?.Trim()
+                );
+                if (!dimensionsValidation.IsValid)
+                    return BadRequest(new { message = dimensionsValidation.ErrorMessage, field = "dimensions" });
+                
+                // Validate Distance
+                var distanceValidation = OrderValidationHelper.ValidateDistance(orderDto.Distance.ToString());
+                if (!distanceValidation.IsValid)
+                    return BadRequest(new { message = distanceValidation.ErrorMessage, field = "distance" });
+                
+                // Validate Payment Method
+                var paymentValidation = OrderValidationHelper.ValidatePaymentMethod(orderDto.PaymentMethod.ToString());
+                if (!paymentValidation.IsValid)
+                    return BadRequest(new { message = paymentValidation.ErrorMessage, field = "paymentMethod" });
+                
+                // Validate Delivery Type
+                var deliveryTypeValidation = OrderValidationHelper.ValidateDeliveryType(orderDto.DeliveryType.ToString());
+                if (!deliveryTypeValidation.IsValid)
+                    return BadRequest(new { message = deliveryTypeValidation.ErrorMessage, field = "deliveryType" });
+                
+                // Validate COD Amount (if applicable)
+                var codValidation = OrderValidationHelper.ValidateCODAmount(
+                    orderDto.CollectionAmount.ToString(),
+                    orderDto.CollectMoney
+                );
+                if (!codValidation.IsValid)
+                    return BadRequest(new { message = codValidation.ErrorMessage, field = "codAmount" });
+                
+                // Validate Note
+                var noteValidation = OrderValidationHelper.ValidateNote(orderDto.Notes);
+                if (!noteValidation.IsValid)
+                    return BadRequest(new { message = noteValidation.ErrorMessage, field = "note" });
+                
+                // Check Code Uniqueness
+                var existingOrder = await _context.Orders.FirstOrDefaultAsync(o => o.OrderCode == orderDto.OrderCode);
+                if (existingOrder != null)
+                    return BadRequest(new { message = "Mã đơn hàng đã tồn tại", field = "orderCode" });
+                
+                _logger.LogInformation($"[CreateOrder] All validations passed for order code: {orderDto.OrderCode}");
+                
+                // ========== CALCULATE SHIPPING FEE ==========
+                
+                var isFragile = orderDto.IsFragile;
+                var isHighValue = orderDto.IsValuable;
+                var isBulky = orderDto.IsVehicle;
+                
+                var shippingFee = OrderValidationHelper.CalculateShippingFee(
+                    (decimal)orderDto.Distance,
+                    (decimal)orderDto.Weight,
+                    orderDto.DeliveryType.ToString(),
+                    isFragile,
+                    isHighValue,
+                    isBulky
+                );
 
                 // Lấy UserId từ JWT để gắn người tạo đơn
                 int? createdByUserId = null;
@@ -136,49 +240,56 @@ namespace DeliveryManagementAPI.Controllers
                 // Tạo customer trước
                 var customer = new Customer
                 {
-                    FullName = orderDto.CustomerName,
+                    FullName = OrderValidationHelper.NormalizeInput(orderDto.CustomerName),
                     PhoneNumber = orderDto.CustomerPhone,
-                    Address = orderDto.DeliveryAddress,
+                    Address = OrderValidationHelper.NormalizeInput(orderDto.DeliveryAddress),
                     Ward = orderDto.Ward,
                     District = orderDto.District,
                     City = orderDto.City
                 };
                 _context.Customers.Add(customer);
                 await _context.SaveChangesAsync();
+                
+                _logger.LogInformation($"[CreateOrder] Customer created with ID: {customer.CustomerId}");
 
-                // Tạo đơn hàng mới
-                var order = new Order
+                // Tạo đơn hàng mới sử dụng Builder Pattern (Design Pattern 10)
+                var order = new OrderBuilder()
+                    .WithOrderCode(orderCode)
+                    .CreatedBy(createdByUserId)
+                    .ForCustomer(customer)
+                    .FromDto(orderDto)
+                    .WithPayment(orderDto.PaymentMethod, shippingFee)
+                    .Build();
+
+                _logger.LogInformation($"[CreateOrder] Order built: Code={order.OrderCode}, CustomerId={order.CustomerId}, ShippingFee={order.ShippingFee}");
+
+                // Thực thi Command Pattern (Design Pattern 12) để tạo đơn hàng
+                try
                 {
-                    OrderCode = orderCode,
-                    CreatedDate = DateTime.Now,
-                    CreatedByUserId = createdByUserId,
-                    CustomerId = customer.CustomerId,
-                    Customer = customer,
-                    
-                    ProductCode = orderDto.ProductCode,
-                    PackageType = orderDto.PackageType,
-                    Weight = orderDto.Weight,
-                    Size = orderDto.Size,
-                    Distance = orderDto.Distance,
-                    
-                    IsFragile = orderDto.IsFragile,
-                    IsValuable = orderDto.IsValuable,
-                    IsVehicle = orderDto.IsVehicle,
-                    CollectMoney = orderDto.CollectMoney,
-                    CollectionAmount = orderDto.CollectionAmount,
-                    
-                    PaymentMethod = orderDto.PaymentMethod,
-                    ShippingFee = shippingFee,
-                    IsPaid = orderDto.PaymentMethod == PaymentMethod.GuiNhanh || 
-                             orderDto.PaymentMethod == PaymentMethod.ChuyenKhoan ||
-                             orderDto.PaymentMethod == PaymentMethod.ThanhToanTrucTuyen,
-                    
-                    DeliveryType = orderDto.DeliveryType,
-                    Status = OrderStatus.ChuaNhan,
-                    Notes = orderDto.Notes
-                };
-
-                var createdOrder = await _orderService.AddOrderAsync(order);
+                    var createCommand = new CreateOrderCommand(order);
+                    await _commandHandler.ExecuteAsync(createCommand);
+                    _logger.LogInformation($"[CreateOrder] Command executed successfully for order: {orderCode}");
+                }
+                catch (InvalidOperationException ex)
+                {
+                    _logger.LogError($"[CreateOrder] Validation error: {ex.Message}");
+                    return BadRequest(new { success = false, message = $"Lỗi validate: {ex.Message}" });
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, $"[CreateOrder] Error executing CreateOrderCommand for order: {orderCode}");
+                    return StatusCode(500, new { success = false, message = $"Lỗi tạo đơn hàng: {ex.Message}" });
+                }
+                
+                // Sau khi Command execute, order object đã có OrderId được populate từ DB
+                var createdOrder = order;
+                if (createdOrder == null || createdOrder.OrderId == 0)
+                {
+                    _logger.LogError($"[CreateOrder] Order ID not populated: {orderCode}");
+                    return StatusCode(500, new { success = false, message = "Không thể tạo đơn hàng (ID không được generate)" });
+                }
+                
+                _logger.LogInformation($"[CreateOrder] Order created successfully: ID={createdOrder.OrderId}, Code={createdOrder.OrderCode}");
                 
                 // Gửi thông báo đơn hàng mới
                 try
@@ -191,10 +302,71 @@ namespace DeliveryManagementAPI.Controllers
                     // Không throw exception, vẫn trả về order thành công
                 }
                 
-                return CreatedAtAction(
-                    nameof(GetOrderById), 
-                    new { id = createdOrder.OrderId }, 
-                    createdOrder);
+                // Xử lý thanh toán online qua Momo (Adapter Pattern #15)
+                if (orderDto.PaymentMethod == PaymentMethod.Momo && !string.IsNullOrEmpty(orderDto.PaymentGateway))
+                {
+                    _logger.LogInformation("[Payment] Đơn hàng {OrderCode} thanh toán qua {Gateway}", orderCode, orderDto.PaymentGateway);
+                    
+                    try
+                    {
+                        // Tạo URL thanh toán qua gateway được chọn (VNPay, Momo, etc.)
+                        var returnUrl = $"{Request.Scheme}://{Request.Host}/api/payment/callback?gateway={orderDto.PaymentGateway}";
+                        var paymentResult = await _paymentGatewayService.ProcessPaymentAsync(
+                            orderDto.PaymentGateway,
+                            order.ShippingFee, // Thanh toán phí ship
+                            orderCode,
+                            $"Thanh toán đơn hàng {orderCode}",
+                            returnUrl
+                        );
+                        
+                        if (paymentResult.Success && !string.IsNullOrEmpty(paymentResult.PaymentUrl))
+                        {
+                            _logger.LogInformation("[Payment] ✅ Tạo payment URL thành công cho đơn {OrderCode}", orderCode);
+                            
+                            // Trả về order kèm payment URL để client redirect
+                            return Ok(new {
+                                success = true,
+                                order = createdOrder,
+                                payment = new {
+                                    required = true,
+                                    gateway = orderDto.PaymentGateway,
+                                    paymentUrl = paymentResult.PaymentUrl,
+                                    transactionId = paymentResult.TransactionId
+                                },
+                                message = "Đơn hàng đã được tạo. Vui lòng thanh toán để hoàn tất."
+                            });
+                        }
+                        else
+                        {
+                            _logger.LogWarning("[Payment] ❌ Không tạo được payment URL: {Error}", paymentResult.ErrorMessage);
+                            return BadRequest(new {
+                                success = false,
+                                message = $"Lỗi khi tạo link thanh toán: {paymentResult.ErrorMessage}"
+                            });
+                        }
+                    }
+                    catch (Exception paymentEx)
+                    {
+                        _logger.LogError(paymentEx, "[Payment] ❌ Lỗi xử lý payment cho đơn {OrderCode}", orderCode);
+                        return StatusCode(500, new {
+                            success = false,
+                            message = "Lỗi khi kết nối với cổng thanh toán. Vui lòng thử lại."
+                        });
+                    }
+                }
+                
+                // Thanh toán COD hoặc các phương thức khác - trả về order thống nhất
+                return Ok(new {
+                    success = true,
+                    order = createdOrder,
+                    payment = new {
+                        required = false,
+                        gateway = (string)null,
+                        paymentUrl = (string)null,
+                        transactionId = (string)null
+                    },
+                    message = "Đơn hàng đã được tạo thành công"
+                });
             }
             catch (Exception ex)
             {
@@ -221,28 +393,22 @@ namespace DeliveryManagementAPI.Controllers
                     return NotFound($"Không tìm thấy đơn hàng với ID: {id}");
                 }
 
-                // Cập nhật trạng thái
-                order.Status = statusDto.Status;
+                // Thực thi Command Pattern (Design Pattern 12) để cập nhật trạng thái
+                var updateStatusCommand = new UpdateOrderStatusCommand(id, statusDto.Status);
+                await _commandHandler.ExecuteAsync(updateStatusCommand);
+
+                // Cập nhật thông tin khác (ngoài trạng thái)
+                order = await _orderService.GetOrderByIdAsync(id);
                 
-                // Cập nhật thông tin theo trạng thái
                 switch (statusDto.Status)
                 {
                     case OrderStatus.DaNhanChuaGiao:
-                        order.ReceivedDate = DateTime.Now;
                         if (!string.IsNullOrEmpty(statusDto.StaffId))
                         {
                             var staffId = int.Parse(statusDto.StaffId);
                             order.AssignedStaffId = statusDto.StaffId;
                             order.AssignedStaff = await _staffService.GetStaffByIdAsync(staffId);
                         }
-                        break;
-                    
-                    case OrderStatus.DaNhanDangGiao:
-                        order.DeliveryStartDate = DateTime.Now;
-                        break;
-                    
-                    case OrderStatus.DaGiao:
-                        order.DeliveredDate = DateTime.Now;
                         break;
                 }
 
@@ -251,7 +417,7 @@ namespace DeliveryManagementAPI.Controllers
                     order.Notes += $"\n{DateTime.Now:yyyy-MM-dd HH:mm}: {statusDto.Notes}";
                 }
 
-                var updatedOrder = await _orderService.UpdateOrderAsync(order);
+                await _orderService.UpdateOrderAsync(order);
                 
                 // Gửi thông báo cập nhật trạng thái
                 try
@@ -277,7 +443,7 @@ namespace DeliveryManagementAPI.Controllers
                     _logger.LogError(notifEx, $"Error sending notification for order {id}");
                 }
                 
-                return Ok(updatedOrder);
+                return Ok(order);
             }
             catch (Exception ex)
             {
@@ -295,14 +461,22 @@ namespace DeliveryManagementAPI.Controllers
         {
             try
             {
-                var success = await _orderService.AssignStaffAsync(id, staffId);
-                
-                if (!success)
-                {
-                    return NotFound("Không tìm thấy đơn hàng hoặc nhân viên");
-                }
+                // Thực thi Command Pattern (Design Pattern 12) để gán nhân viên
+                var assignCommand = new AssignStaffCommand(id, staffId);
+                await _commandHandler.ExecuteAsync(assignCommand);
 
                 var order = await _orderService.GetOrderByIdAsync(id);
+
+                // Gửi thông báo cho shipper và khách hàng khi đơn được gán.
+                try
+                {
+                    await _notificationService.SendOrderNotificationAsync(id, "assigned");
+                }
+                catch (Exception notifEx)
+                {
+                    _logger.LogError(notifEx, "Error sending assigned notification for order {OrderId}", id);
+                }
+
                 return Ok(order);
             }
             catch (Exception ex)
@@ -397,12 +571,9 @@ namespace DeliveryManagementAPI.Controllers
         {
             try
             {
-                var result = await _orderService.DeleteOrderAsync(id);
-                
-                if (!result)
-                {
-                    return NotFound($"Không tìm thấy đơn hàng với ID: {id}");
-                }
+                // Thực thi Command Pattern (Design Pattern 12) để xóa đơn hàng
+                var deleteCommand = new DeleteOrderCommand(id);
+                await _commandHandler.ExecuteAsync(deleteCommand);
 
                 return NoContent();
             }
@@ -471,5 +642,162 @@ namespace DeliveryManagementAPI.Controllers
                 return StatusCode(500, "Lỗi khi tạo đơn hàng hàng loạt: " + ex.Message);
             }
         }
+
+        // ========== STATE PATTERN ENDPOINTS (Pattern #15) ==========
+
+        /// <summary>
+        /// Gán đơn hàng cho nhân viên giao hàng (State Pattern)
+        /// </summary>
+        [HttpPatch("{id}/state/assign-staff/{staffId}")]
+        [Authorize(Roles = "admin")]
+        public async Task<ActionResult> AssignStaffState(int id, string staffId)
+        {
+            try
+            {
+                var success = await _orderStateService.AssignOrderToStaffAsync(id, staffId);
+                if (!success)
+                    return BadRequest("Không thể gán đơn hàng ở trạng thái hiện tại");
+
+                var order = await _orderService.GetOrderByIdAsync(id);
+                await _notificationService.SendOrderNotificationAsync(id, "assigned");
+                
+                return Ok(order);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error assigning staff via state: {OrderId}", id);
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Bắt đầu giao hàng (State Pattern)
+        /// </summary>
+        [HttpPatch("{id}/state/start-delivery")]
+        [Authorize(Roles = "shipper,admin")]
+        public async Task<ActionResult> StartDeliveryState(int id)
+        {
+            try
+            {
+                var success = await _orderStateService.StartDeliveryAsync(id);
+                if (!success)
+                    return BadRequest("Không thể bắt đầu giao ở trạng thái hiện tại");
+
+                var order = await _orderService.GetOrderByIdAsync(id);
+                await _notificationService.SendOrderNotificationAsync(id, "in-transit");
+                
+                return Ok(order);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error starting delivery via state: {OrderId}", id);
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Hoàn tất giao hàng (State Pattern)
+        /// </summary>
+        [HttpPatch("{id}/state/complete-delivery")]
+        [Authorize(Roles = "shipper,admin")]
+        public async Task<ActionResult> CompleteDeliveryState(int id)
+        {
+            try
+            {
+                var success = await _orderStateService.CompleteDeliveryAsync(id);
+                if (!success)
+                    return BadRequest("Không thể hoàn tát giao ở trạng thái hiện tại");
+
+                var order = await _orderService.GetOrderByIdAsync(id);
+                await _notificationService.SendOrderNotificationAsync(id, "delivered");
+                
+                return Ok(order);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error completing delivery via state: {OrderId}", id);
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Hủy đơn hàng (State Pattern)
+        /// </summary>
+        [HttpPatch("{id}/state/cancel")]
+        [Authorize(Roles = "admin,customer")]
+        public async Task<ActionResult> CancelOrderState(int id, [FromBody] CancelOrderRequest request)
+        {
+            try
+            {
+                var success = await _orderStateService.CancelOrderAsync(id, request?.Reason ?? "Hủy từ API");
+                if (!success)
+                    return BadRequest("Không thể hủy đơn hàng ở trạng thái hiện tại");
+
+                var order = await _orderService.GetOrderByIdAsync(id);
+                
+                return Ok(order);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error cancelling order via state: {OrderId}", id);
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Lấy danh sách hành động được phép (State Pattern)
+        /// GET /api/orders/123/state/allowed-actions
+        /// </summary>
+        [HttpGet("{id}/state/allowed-actions")]
+        [Authorize]
+        public async Task<ActionResult<List<string>>> GetAllowedActions(int id)
+        {
+            try
+            {
+                var allowedActions = await _orderStateService.GetAllowedActionsAsync(id);
+                return Ok(allowedActions);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting allowed actions: {OrderId}", id);
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Lấy thông tin chi tiết trạng thái hiện tại (State Pattern)
+        /// GET /api/orders/123/state/current
+        /// </summary>
+        [HttpGet("{id}/state/current")]
+        [Authorize]
+        public async Task<ActionResult> GetCurrentState(int id)
+        {
+            try
+            {
+                var state = await _orderStateService.GetCurrentStateAsync(id);
+                if (state == null)
+                    return NotFound("Không tìm thấy đơn hàng");
+
+                return Ok(new
+                {
+                    stateName = state.StateName,
+                    status = state.Status,
+                    allowedActions = state.GetAllowedActions()
+                });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting current state: {OrderId}", id);
+                return StatusCode(500, ex.Message);
+            }
+        }
+    }
+
+    /// <summary>
+    /// DTO cho yêu cầu hủy đơn hàng
+    /// </summary>
+    public class CancelOrderRequest
+    {
+        public string? Reason { get; set; }
     }
 }

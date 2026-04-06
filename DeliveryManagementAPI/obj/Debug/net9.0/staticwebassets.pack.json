@@ -1,6 +1,14 @@
 {
   "Files": [
     {
+      "Id": "C:\\Users\\DELL\\Documents\\GitHub\\20_HTQLGH\\DeliveryManagementAPI\\wwwroot\\payment-failed.html",
+      "PackagePath": "staticwebassets\\payment-failed.html"
+    },
+    {
+      "Id": "C:\\Users\\DELL\\Documents\\GitHub\\20_HTQLGH\\DeliveryManagementAPI\\wwwroot\\payment-success.html",
+      "PackagePath": "staticwebassets\\payment-success.html"
+    },
+    {
       "Id": "C:\\Users\\DELL\\Documents\\GitHub\\20_HTQLGH\\DeliveryManagementAPI\\wwwroot\\uploads\\chat\\1a3585a3-1cb9-43c8-96f0-3cf46b912041.jpg",
       "PackagePath": "staticwebassets\\uploads\\chat\\1a3585a3-1cb9-43c8-96f0-3cf46b912041.jpg"
     },

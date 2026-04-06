@@ -1,3 +1,7 @@
+using DeliveryManagementAPI.Models.States;
+using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace DeliveryManagementAPI.Models
 {
     /// <summary>
@@ -60,5 +64,29 @@ namespace DeliveryManagementAPI.Models
         // Xác nhận đã nhận hàng bởi khách
         public bool ConfirmedReceived { get; set; } // Đã xác nhận nhận hàng
         public DateTime? ConfirmedAt { get; set; } // Thời điểm xác nhận
+
+        // ========== STATE PATTERN ==========
+        /// <summary>
+        /// Trạng thái hiện tại của đơn hàng (State Pattern)
+        /// Không lưu vào database, được khởi tạo từ Status enum
+        /// </summary>
+        [NotMapped]
+        public IOrderState? OrderState { get; set; }
+
+        /// <summary>
+        /// Khởi tạo OrderState từ Status enum
+        /// Gọi sau khi FetchData hoặc đổi Status
+        /// </summary>
+        public void InitializeState()
+        {
+            OrderState = Status switch
+            {
+                OrderStatus.ChuaNhan => new PendingOrderState(),
+                OrderStatus.DaNhanChuaGiao => new AssignedOrderState(),
+                OrderStatus.DaNhanDangGiao => new InTransitOrderState(),
+                OrderStatus.DaGiao => new DeliveredOrderState(),
+                _ => new PendingOrderState()
+            };
+        }
     }
 }

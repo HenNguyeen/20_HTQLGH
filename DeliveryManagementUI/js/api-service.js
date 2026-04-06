@@ -589,10 +589,8 @@ const utils = {
     // Get payment method text
     getPaymentMethodText(method) {
         const methodMap = {
-            0: 'COD',
-            1: 'Gửi Nhanh',
-            2: 'Chuyển Khoản',
-            3: 'Thanh Toán Online'
+            0: 'COD (Thanh toán khi giao)',
+            1: 'Momo'
         };
         return methodMap[method] || 'Không xác định';
     },

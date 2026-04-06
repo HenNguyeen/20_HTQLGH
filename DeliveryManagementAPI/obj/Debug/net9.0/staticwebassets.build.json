@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "IHgQPd9tr4K/kZHwzhc/dtkDZaAzPplOKUfvseH4DVo=",
+  "Hash": "SwOiLTahDGS7XBNliRlsstIinuWwfKGM0Ky7J01lpr0=",
   "Source": "DeliveryManagementAPI",
   "BasePath": "_content/DeliveryManagementAPI",
   "Mode": "Default",
@@ -16,6 +16,90 @@
     }
   ],
   "Assets": [
+    {
+      "Identity": "C:\\Users\\DELL\\Documents\\GitHub\\20_HTQLGH\\DeliveryManagementAPI\\obj\\Debug\\net9.0\\compressed\\01m8a5l65c-pckcglun1x.gz",
+      "SourceId": "DeliveryManagementAPI",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\DELL\\Documents\\GitHub\\20_HTQLGH\\DeliveryManagementAPI\\obj\\Debug\\net9.0\\compressed\\",
+      "BasePath": "_content/DeliveryManagementAPI",
+      "RelativePath": "payment-success#[.{fingerprint=pckcglun1x}]?.html.gz",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Alternative",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "C:\\Users\\DELL\\Documents\\GitHub\\20_HTQLGH\\DeliveryManagementAPI\\wwwroot\\payment-success.html",
+      "AssetTraitName": "Content-Encoding",
+      "AssetTraitValue": "gzip",
+      "Fingerprint": "vhs05s0hxm",
+      "Integrity": "Q+XV3qit5jZM/1erHYGEV2tNRe6NJOofuQ5vE9sBVVI=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "C:\\Users\\DELL\\Documents\\GitHub\\20_HTQLGH\\DeliveryManagementAPI\\wwwroot\\payment-success.html"
+    },
+    {
+      "Identity": "C:\\Users\\DELL\\Documents\\GitHub\\20_HTQLGH\\DeliveryManagementAPI\\obj\\Debug\\net9.0\\compressed\\0dcruslu14-0kf2vp620b.gz",
+      "SourceId": "DeliveryManagementAPI",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\DELL\\Documents\\GitHub\\20_HTQLGH\\DeliveryManagementAPI\\obj\\Debug\\net9.0\\compressed\\",
+      "BasePath": "_content/DeliveryManagementAPI",
+      "RelativePath": "payment-failed#[.{fingerprint=0kf2vp620b}]?.html.gz",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Alternative",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "C:\\Users\\DELL\\Documents\\GitHub\\20_HTQLGH\\DeliveryManagementAPI\\wwwroot\\payment-failed.html",
+      "AssetTraitName": "Content-Encoding",
+      "AssetTraitValue": "gzip",
+      "Fingerprint": "mu9snbn5py",
+      "Integrity": "3lOJOeTijuUwLpGRBs1FS7do6VGNfi7pfBvfzAiZK4E=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "C:\\Users\\DELL\\Documents\\GitHub\\20_HTQLGH\\DeliveryManagementAPI\\wwwroot\\payment-failed.html"
+    },
+    {
+      "Identity": "C:\\Users\\DELL\\Documents\\GitHub\\20_HTQLGH\\DeliveryManagementAPI\\wwwroot\\payment-failed.html",
+      "SourceId": "DeliveryManagementAPI",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\DELL\\Documents\\GitHub\\20_HTQLGH\\DeliveryManagementAPI\\wwwroot\\",
+      "BasePath": "_content/DeliveryManagementAPI",
+      "RelativePath": "payment-failed#[.{fingerprint}]?.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "0kf2vp620b",
+      "Integrity": "wOH29fC4HSmQbCfs/a62nqEJirVgJtpmsbFxI1PpRpo=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\payment-failed.html"
+    },
+    {
+      "Identity": "C:\\Users\\DELL\\Documents\\GitHub\\20_HTQLGH\\DeliveryManagementAPI\\wwwroot\\payment-success.html",
+      "SourceId": "DeliveryManagementAPI",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\DELL\\Documents\\GitHub\\20_HTQLGH\\DeliveryManagementAPI\\wwwroot\\",
+      "BasePath": "_content/DeliveryManagementAPI",
+      "RelativePath": "payment-success#[.{fingerprint}]?.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "pckcglun1x",
+      "Integrity": "CRaT86eu+iohLzgGj9q9aC6WZyNG85vMP+SKEajVGN0=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\payment-success.html"
+    },
     {
       "Identity": "C:\\Users\\DELL\\Documents\\GitHub\\20_HTQLGH\\DeliveryManagementAPI\\wwwroot\\uploads\\chat\\1a3585a3-1cb9-43c8-96f0-3cf46b912041.jpg",
       "SourceId": "DeliveryManagementAPI",
@@ -186,6 +270,602 @@
     }
   ],
   "Endpoints": [
+    {
+      "Route": "payment-failed.0kf2vp620b.html",
+      "AssetFile": "C:\\Users\\DELL\\Documents\\GitHub\\20_HTQLGH\\DeliveryManagementAPI\\obj\\Debug\\net9.0\\compressed\\0dcruslu14-0kf2vp620b.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.000549148819"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1820"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"3lOJOeTijuUwLpGRBs1FS7do6VGNfi7pfBvfzAiZK4E=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 09 Mar 2026 15:29:32 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"wOH29fC4HSmQbCfs/a62nqEJirVgJtpmsbFxI1PpRpo=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "0kf2vp620b"
+        },
+        {
+          "Name": "label",
+          "Value": "payment-failed.html"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-wOH29fC4HSmQbCfs/a62nqEJirVgJtpmsbFxI1PpRpo="
+        }
+      ]
+    },
+    {
+      "Route": "payment-failed.0kf2vp620b.html",
+      "AssetFile": "C:\\Users\\DELL\\Documents\\GitHub\\20_HTQLGH\\DeliveryManagementAPI\\wwwroot\\payment-failed.html",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "5932"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"wOH29fC4HSmQbCfs/a62nqEJirVgJtpmsbFxI1PpRpo=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 09 Mar 2026 15:29:32 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "0kf2vp620b"
+        },
+        {
+          "Name": "label",
+          "Value": "payment-failed.html"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-wOH29fC4HSmQbCfs/a62nqEJirVgJtpmsbFxI1PpRpo="
+        }
+      ]
+    },
+    {
+      "Route": "payment-failed.0kf2vp620b.html.gz",
+      "AssetFile": "C:\\Users\\DELL\\Documents\\GitHub\\20_HTQLGH\\DeliveryManagementAPI\\obj\\Debug\\net9.0\\compressed\\0dcruslu14-0kf2vp620b.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1820"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"3lOJOeTijuUwLpGRBs1FS7do6VGNfi7pfBvfzAiZK4E=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 09 Mar 2026 15:29:32 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "0kf2vp620b"
+        },
+        {
+          "Name": "label",
+          "Value": "payment-failed.html.gz"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-3lOJOeTijuUwLpGRBs1FS7do6VGNfi7pfBvfzAiZK4E="
+        }
+      ]
+    },
+    {
+      "Route": "payment-failed.html",
+      "AssetFile": "C:\\Users\\DELL\\Documents\\GitHub\\20_HTQLGH\\DeliveryManagementAPI\\obj\\Debug\\net9.0\\compressed\\0dcruslu14-0kf2vp620b.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.000549148819"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1820"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"3lOJOeTijuUwLpGRBs1FS7do6VGNfi7pfBvfzAiZK4E=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 09 Mar 2026 15:29:32 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"wOH29fC4HSmQbCfs/a62nqEJirVgJtpmsbFxI1PpRpo=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-wOH29fC4HSmQbCfs/a62nqEJirVgJtpmsbFxI1PpRpo="
+        }
+      ]
+    },
+    {
+      "Route": "payment-failed.html",
+      "AssetFile": "C:\\Users\\DELL\\Documents\\GitHub\\20_HTQLGH\\DeliveryManagementAPI\\wwwroot\\payment-failed.html",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "5932"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"wOH29fC4HSmQbCfs/a62nqEJirVgJtpmsbFxI1PpRpo=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 09 Mar 2026 15:29:32 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-wOH29fC4HSmQbCfs/a62nqEJirVgJtpmsbFxI1PpRpo="
+        }
+      ]
+    },
+    {
+      "Route": "payment-failed.html.gz",
+      "AssetFile": "C:\\Users\\DELL\\Documents\\GitHub\\20_HTQLGH\\DeliveryManagementAPI\\obj\\Debug\\net9.0\\compressed\\0dcruslu14-0kf2vp620b.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1820"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"3lOJOeTijuUwLpGRBs1FS7do6VGNfi7pfBvfzAiZK4E=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 09 Mar 2026 15:29:32 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-3lOJOeTijuUwLpGRBs1FS7do6VGNfi7pfBvfzAiZK4E="
+        }
+      ]
+    },
+    {
+      "Route": "payment-success.html",
+      "AssetFile": "C:\\Users\\DELL\\Documents\\GitHub\\20_HTQLGH\\DeliveryManagementAPI\\obj\\Debug\\net9.0\\compressed\\01m8a5l65c-pckcglun1x.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.000668896321"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1494"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"Q+XV3qit5jZM/1erHYGEV2tNRe6NJOofuQ5vE9sBVVI=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 09 Mar 2026 15:29:32 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"CRaT86eu+iohLzgGj9q9aC6WZyNG85vMP+SKEajVGN0=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-CRaT86eu+iohLzgGj9q9aC6WZyNG85vMP+SKEajVGN0="
+        }
+      ]
+    },
+    {
+      "Route": "payment-success.html",
+      "AssetFile": "C:\\Users\\DELL\\Documents\\GitHub\\20_HTQLGH\\DeliveryManagementAPI\\wwwroot\\payment-success.html",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "5094"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"CRaT86eu+iohLzgGj9q9aC6WZyNG85vMP+SKEajVGN0=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 09 Mar 2026 15:29:32 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-CRaT86eu+iohLzgGj9q9aC6WZyNG85vMP+SKEajVGN0="
+        }
+      ]
+    },
+    {
+      "Route": "payment-success.html.gz",
+      "AssetFile": "C:\\Users\\DELL\\Documents\\GitHub\\20_HTQLGH\\DeliveryManagementAPI\\obj\\Debug\\net9.0\\compressed\\01m8a5l65c-pckcglun1x.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1494"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"Q+XV3qit5jZM/1erHYGEV2tNRe6NJOofuQ5vE9sBVVI=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 09 Mar 2026 15:29:32 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-Q+XV3qit5jZM/1erHYGEV2tNRe6NJOofuQ5vE9sBVVI="
+        }
+      ]
+    },
+    {
+      "Route": "payment-success.pckcglun1x.html",
+      "AssetFile": "C:\\Users\\DELL\\Documents\\GitHub\\20_HTQLGH\\DeliveryManagementAPI\\obj\\Debug\\net9.0\\compressed\\01m8a5l65c-pckcglun1x.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.000668896321"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1494"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"Q+XV3qit5jZM/1erHYGEV2tNRe6NJOofuQ5vE9sBVVI=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 09 Mar 2026 15:29:32 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"CRaT86eu+iohLzgGj9q9aC6WZyNG85vMP+SKEajVGN0=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "pckcglun1x"
+        },
+        {
+          "Name": "label",
+          "Value": "payment-success.html"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-CRaT86eu+iohLzgGj9q9aC6WZyNG85vMP+SKEajVGN0="
+        }
+      ]
+    },
+    {
+      "Route": "payment-success.pckcglun1x.html",
+      "AssetFile": "C:\\Users\\DELL\\Documents\\GitHub\\20_HTQLGH\\DeliveryManagementAPI\\wwwroot\\payment-success.html",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "5094"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"CRaT86eu+iohLzgGj9q9aC6WZyNG85vMP+SKEajVGN0=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 09 Mar 2026 15:29:32 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "pckcglun1x"
+        },
+        {
+          "Name": "label",
+          "Value": "payment-success.html"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-CRaT86eu+iohLzgGj9q9aC6WZyNG85vMP+SKEajVGN0="
+        }
+      ]
+    },
+    {
+      "Route": "payment-success.pckcglun1x.html.gz",
+      "AssetFile": "C:\\Users\\DELL\\Documents\\GitHub\\20_HTQLGH\\DeliveryManagementAPI\\obj\\Debug\\net9.0\\compressed\\01m8a5l65c-pckcglun1x.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1494"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"Q+XV3qit5jZM/1erHYGEV2tNRe6NJOofuQ5vE9sBVVI=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 09 Mar 2026 15:29:32 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "pckcglun1x"
+        },
+        {
+          "Name": "label",
+          "Value": "payment-success.html.gz"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-Q+XV3qit5jZM/1erHYGEV2tNRe6NJOofuQ5vE9sBVVI="
+        }
+      ]
+    },
     {
       "Route": "uploads/chat/1a3585a3-1cb9-43c8-96f0-3cf46b912041.jpg",
       "AssetFile": "C:\\Users\\DELL\\Documents\\GitHub\\20_HTQLGH\\DeliveryManagementAPI\\wwwroot\\uploads\\chat\\1a3585a3-1cb9-43c8-96f0-3cf46b912041.jpg",

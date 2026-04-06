@@ -1,0 +1,34 @@
+{
+  "applicationSettings": {
+    "baseUrl": "http://localhost:5221",
+    "alternateBaseUrl": "http://localhost:5221",
+    "browserType": "chrome",
+    "headless": false,
+    "screenshotOnFailure": true
+  },
+  "timeoutSettings": {
+    "implicitWaitSeconds": 10,
+    "explicitWaitSeconds": 15,
+    "pageLoadTimeoutSeconds": 30,
+    "scriptTimeoutSeconds": 30
+  },
+  "testDataPaths": {
+    "loginTestDataPath": "TestData/LoginTestData.json",
+    "orderTestDataPath": "TestData/OrderTestData.json",
+    "registrationTestDataPath": "TestData/RegisterTestData.json"
+  },
+  "reportSettings": {
+    "screenshotsPath": "Screenshots",
+    "logsPath": "Logs",
+    "resultsPath": "TestResults"
+  },
+  "chromeDriverSettings": {
+    "disableImageLoading": false,
+    "acceptInsecureCertificates": true,
+    "maximizeWindow": true,
+    "arguments": [
+      "--start-maximized",
+      "--disable-blink-features=AutomationControlled"
+    ]
+  }
+}

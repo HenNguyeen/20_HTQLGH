@@ -1,0 +1,31 @@
+# Build results
+bin/
+obj/
+*.dll
+*.exe
+
+# NUnit results
+TestResults/
+*.trx
+
+# IDE
+.vs/
+.vscode/
+*.user
+*.sln.DotSettings
+
+# Dependencies
+.dotnet/
+*.lock
+
+# Test artifacts
+Screenshots/
+Logs/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temp files
+*.tmp
+*.temp

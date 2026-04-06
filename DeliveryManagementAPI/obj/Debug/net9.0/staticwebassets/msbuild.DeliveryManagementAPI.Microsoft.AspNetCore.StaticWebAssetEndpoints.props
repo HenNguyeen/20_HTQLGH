@@ -1,5 +1,29 @@
 ﻿<Project>
   <ItemGroup>
+    <StaticWebAssetEndpoint Include="_content/DeliveryManagementAPI/payment-failed.0kf2vp620b.html">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\payment-failed.html'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"0kf2vp620b"},{"Name":"integrity","Value":"sha256-wOH29fC4HSmQbCfs/a62nqEJirVgJtpmsbFxI1PpRpo="},{"Name":"label","Value":"_content/DeliveryManagementAPI/payment-failed.html"}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"5932"},{"Name":"Content-Type","Value":"text/html"},{"Name":"ETag","Value":"\u0022wOH29fC4HSmQbCfs/a62nqEJirVgJtpmsbFxI1PpRpo=\u0022"},{"Name":"Last-Modified","Value":"Mon, 09 Mar 2026 15:29:32 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/DeliveryManagementAPI/payment-failed.html">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\payment-failed.html'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-wOH29fC4HSmQbCfs/a62nqEJirVgJtpmsbFxI1PpRpo="}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"5932"},{"Name":"Content-Type","Value":"text/html"},{"Name":"ETag","Value":"\u0022wOH29fC4HSmQbCfs/a62nqEJirVgJtpmsbFxI1PpRpo=\u0022"},{"Name":"Last-Modified","Value":"Mon, 09 Mar 2026 15:29:32 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/DeliveryManagementAPI/payment-success.html">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\payment-success.html'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-CRaT86eu\u002BiohLzgGj9q9aC6WZyNG85vMP\u002BSKEajVGN0="}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"5094"},{"Name":"Content-Type","Value":"text/html"},{"Name":"ETag","Value":"\u0022CRaT86eu\u002BiohLzgGj9q9aC6WZyNG85vMP\u002BSKEajVGN0=\u0022"},{"Name":"Last-Modified","Value":"Mon, 09 Mar 2026 15:29:32 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/DeliveryManagementAPI/payment-success.pckcglun1x.html">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\payment-success.html'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"pckcglun1x"},{"Name":"integrity","Value":"sha256-CRaT86eu\u002BiohLzgGj9q9aC6WZyNG85vMP\u002BSKEajVGN0="},{"Name":"label","Value":"_content/DeliveryManagementAPI/payment-success.html"}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"5094"},{"Name":"Content-Type","Value":"text/html"},{"Name":"ETag","Value":"\u0022CRaT86eu\u002BiohLzgGj9q9aC6WZyNG85vMP\u002BSKEajVGN0=\u0022"},{"Name":"Last-Modified","Value":"Mon, 09 Mar 2026 15:29:32 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
     <StaticWebAssetEndpoint Include="_content/DeliveryManagementAPI/uploads/chat/1a3585a3-1cb9-43c8-96f0-3cf46b912041.jpg">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\uploads\chat\1a3585a3-1cb9-43c8-96f0-3cf46b912041.jpg'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>

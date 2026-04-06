@@ -3,7 +3,6 @@ C:\Users\DELL\Documents\GitHub\20_HTQLGH\DeliveryManagementAPI\bin\Debug\net9.0\
 C:\Users\DELL\Documents\GitHub\20_HTQLGH\DeliveryManagementAPI\bin\Debug\net9.0\Data\checkpoints.json
 C:\Users\DELL\Documents\GitHub\20_HTQLGH\DeliveryManagementAPI\bin\Debug\net9.0\Data\delivery-staff.json
 C:\Users\DELL\Documents\GitHub\20_HTQLGH\DeliveryManagementAPI\bin\Debug\net9.0\Data\orders.json
-C:\Users\DELL\Documents\GitHub\20_HTQLGH\DeliveryManagementAPI\bin\Debug\net9.0\Data\user-accounts.json
 C:\Users\DELL\Documents\GitHub\20_HTQLGH\DeliveryManagementAPI\bin\Debug\net9.0\DeliveryManagementAPI.staticwebassets.runtime.json
 C:\Users\DELL\Documents\GitHub\20_HTQLGH\DeliveryManagementAPI\bin\Debug\net9.0\DeliveryManagementAPI.staticwebassets.endpoints.json
 C:\Users\DELL\Documents\GitHub\20_HTQLGH\DeliveryManagementAPI\bin\Debug\net9.0\DeliveryManagementAPI.exe
@@ -11,8 +10,10 @@ C:\Users\DELL\Documents\GitHub\20_HTQLGH\DeliveryManagementAPI\bin\Debug\net9.0\
 C:\Users\DELL\Documents\GitHub\20_HTQLGH\DeliveryManagementAPI\bin\Debug\net9.0\DeliveryManagementAPI.runtimeconfig.json
 C:\Users\DELL\Documents\GitHub\20_HTQLGH\DeliveryManagementAPI\bin\Debug\net9.0\DeliveryManagementAPI.dll
 C:\Users\DELL\Documents\GitHub\20_HTQLGH\DeliveryManagementAPI\bin\Debug\net9.0\DeliveryManagementAPI.pdb
+C:\Users\DELL\Documents\GitHub\20_HTQLGH\DeliveryManagementAPI\bin\Debug\net9.0\AspNetCoreRateLimit.dll
 C:\Users\DELL\Documents\GitHub\20_HTQLGH\DeliveryManagementAPI\bin\Debug\net9.0\Azure.Core.dll
 C:\Users\DELL\Documents\GitHub\20_HTQLGH\DeliveryManagementAPI\bin\Debug\net9.0\Azure.Identity.dll
+C:\Users\DELL\Documents\GitHub\20_HTQLGH\DeliveryManagementAPI\bin\Debug\net9.0\BCrypt.Net-Next.dll
 C:\Users\DELL\Documents\GitHub\20_HTQLGH\DeliveryManagementAPI\bin\Debug\net9.0\Google.Apis.dll
 C:\Users\DELL\Documents\GitHub\20_HTQLGH\DeliveryManagementAPI\bin\Debug\net9.0\Google.Apis.Auth.dll
 C:\Users\DELL\Documents\GitHub\20_HTQLGH\DeliveryManagementAPI\bin\Debug\net9.0\Google.Apis.Core.dll
@@ -164,6 +165,8 @@ C:\Users\DELL\Documents\GitHub\20_HTQLGH\DeliveryManagementAPI\obj\Debug\net9.0\
 C:\Users\DELL\Documents\GitHub\20_HTQLGH\DeliveryManagementAPI\obj\Debug\net9.0\DeliveryManagementAPI.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\DELL\Documents\GitHub\20_HTQLGH\DeliveryManagementAPI\obj\Debug\net9.0\DeliveryManagementAPI.sourcelink.json
 C:\Users\DELL\Documents\GitHub\20_HTQLGH\DeliveryManagementAPI\obj\Debug\net9.0\scopedcss\bundle\DeliveryManagementAPI.styles.css
+C:\Users\DELL\Documents\GitHub\20_HTQLGH\DeliveryManagementAPI\obj\Debug\net9.0\compressed\0dcruslu14-0kf2vp620b.gz
+C:\Users\DELL\Documents\GitHub\20_HTQLGH\DeliveryManagementAPI\obj\Debug\net9.0\compressed\01m8a5l65c-pckcglun1x.gz
 C:\Users\DELL\Documents\GitHub\20_HTQLGH\DeliveryManagementAPI\obj\Debug\net9.0\staticwebassets.build.json
 C:\Users\DELL\Documents\GitHub\20_HTQLGH\DeliveryManagementAPI\obj\Debug\net9.0\staticwebassets.development.json
 C:\Users\DELL\Documents\GitHub\20_HTQLGH\DeliveryManagementAPI\obj\Debug\net9.0\staticwebassets.build.endpoints.json
