@@ -9,6 +9,7 @@ let routePolyline = null;
 let currentPosition = null;
 let trackingConnection = null;
 let currentOrderData = null;
+let locationUpdateInterval = null; // Periodic location update
 
 window.addEventListener('DOMContentLoaded', async () => {
   await loadShipperInfo();
@@ -271,8 +272,34 @@ window.openOrderDetailModal = async function(orderId) {
   setTimeout(() => initializeRouteMap(), 300);
   await getGPSAndShowRoute();
   
+  // Start periodic location update every 30 seconds
+  if (locationUpdateInterval) clearInterval(locationUpdateInterval);
+  locationUpdateInterval = setInterval(async () => {
+    if (currentPosition && currentOrderData) {
+      try {
+        await apiService.updateShipperLocationAPI(
+          currentOrderData.orderId, 
+          currentPosition.lat, 
+          currentPosition.lng, 
+          'Shipper in transit'
+        );
+        console.log('✓ Location updated for order', currentOrderData.orderId);
+      } catch (err) {
+        console.warn('Could not send location update:', err);
+      }
+    }
+  }, 30000); // Every 30 seconds
+  
   const modal = new bootstrap.Modal(document.getElementById('updateStatusModal'));
   modal.show();
+  
+  // Stop location update when modal is closed
+  document.getElementById('updateStatusModal').addEventListener('hidden.bs.modal', function() {
+    if (locationUpdateInterval) {
+      clearInterval(locationUpdateInterval);
+      locationUpdateInterval = null;
+    }
+  }, { once: true });
 };
 
 // Setup modal form submit
@@ -292,7 +319,18 @@ function setupUpdateStatusModal() {
     }
     
     try {
-      await apiService.updateOrderStatus(orderId, newStatus, gps, notes);
+      // Include staffInfo.staffId when updating status
+      const staffId = staffInfo ? staffInfo.staffId.toString() : null;
+      await apiService.updateOrderStatus(orderId, newStatus, gps, notes, staffId);
+      
+      // POST location to tracking API
+      if (currentPosition) {
+        try {
+          await apiService.updateShipperLocationAPI(orderId, currentPosition.lat, currentPosition.lng, 'Shipper in transit');
+        } catch (locErr) {
+          console.warn('Could not save location to tracking API:', locErr);
+        }
+      }
       
       if (shareLocation && trackingConnection && trackingConnection.state === signalR.HubConnectionState.Connected) {
         await trackingConnection.invoke("UpdateShipperLocation", staffInfo.staffId, parseInt(orderId), currentPosition.lat, currentPosition.lng);

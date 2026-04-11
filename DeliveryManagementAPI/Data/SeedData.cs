@@ -14,14 +14,31 @@ namespace DeliveryManagementAPI.Data
             using var context = new DeliveryDbContext(
                 serviceProvider.GetRequiredService<DbContextOptions<DeliveryDbContext>>());
 
-            // ❌ DISABLED: Seed data không được tải - database sẽ trống
-            /*
-            // FORCE: Clear ALL users and reseed fresh for development
+            // ✅ ENABLED: Seed data được tải vào database
+            // Chỉ seed khi database trống, không xóa user hiện tại
             var allUsers = context.UserAccounts.ToList();
+            
+            // Luôn kiểm tra và thêm Anh29112005 nếu chưa có
+            var anhUserExists = context.UserAccounts.Any(u => u.Username == "Anh29112005");
+            if (!anhUserExists)
+            {
+                var anhUser = new UserAccount
+                {
+                    Username = "Anh29112005",
+                    PasswordHash = UserAccountService.HashPassword("Anh29112005@"),
+                    FullName = "Anh User",
+                    Email = "anh29112005@example.com",
+                    PhoneNumber = "0967891234",
+                    Role = "customer"
+                };
+                context.UserAccounts.Add(anhUser);
+                await context.SaveChangesAsync();
+            }
+            
             if (allUsers.Any())
             {
-                context.UserAccounts.RemoveRange(allUsers);
-                await context.SaveChangesAsync();
+                // Database đã có user, không seed lại
+                return;
             }
 
             // Seed User Accounts fresh
@@ -62,10 +79,36 @@ namespace DeliveryManagementAPI.Data
                     Email = "shipper2@gmail.com",
                     PhoneNumber = "0934567890",
                     Role = "shipper"
+                },
+                new UserAccount
+                {
+                    Username = "TestUser123",
+                    PasswordHash = UserAccountService.HashPassword("User123@"),
+                    FullName = "Test User",
+                    Email = "testuser123@example.com",
+                    PhoneNumber = "0956789012",
+                    Role = "customer"
                 }
             };
             context.UserAccounts.AddRange(users);
             await context.SaveChangesAsync();
+
+            // Check if TestUser123 exists, if not add it
+            var testUserExists = context.UserAccounts.Any(u => u.Username == "TestUser123");
+            if (!testUserExists)
+            {
+                var testUser = new UserAccount
+                {
+                    Username = "TestUser123",
+                    PasswordHash = UserAccountService.HashPassword("User123@"),
+                    FullName = "Test User",
+                    Email = "testuser123@example.com",
+                    PhoneNumber = "0956789012",
+                    Role = "customer"
+                };
+                context.UserAccounts.Add(testUser);
+                await context.SaveChangesAsync();
+            }
 
             // Seed Delivery Staff
             var staff = new[]
@@ -214,10 +257,7 @@ namespace DeliveryManagementAPI.Data
             context.LocationCheckpoints.AddRange(checkpoints);
             await context.SaveChangesAsync();
 
-            Console.WriteLine("✅ Seed data completed successfully!");
-            */
-
-            Console.WriteLine("⚠️ Seed data bị DISABLED - database trống");
+            Console.WriteLine("✅ Seed data đã được tải thành công!");
         }
     }
 }

@@ -1,0 +1,431 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='UTF-8'>
+    <title>📊 Báo Cáo: OrderTests_DataDriven</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f5f5f5; }
+        .header { background-color: #2c3e50; color: white; padding: 20px; border-radius: 5px; margin-bottom: 20px; }
+        .header h1 { margin: 0; }
+        .summary { margin: 20px 0; display: flex; justify-content: space-around; flex-wrap: wrap; }
+        .stat { text-align: center; padding: 20px; border: 1px solid #ddd; border-radius: 5px; background: white; flex: 1; min-width: 120px; margin: 5px; }
+        .stat-pass { color: #27ae60; font-size: 24px; font-weight: bold; }
+        .stat-fail { color: #e74c3c; font-size: 24px; font-weight: bold; }
+        .stat-skip { color: #f39c12; font-size: 24px; font-weight: bold; }
+        table { border-collapse: collapse; width: 100%; margin-top: 20px; background: white; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background-color: #34495e; color: white; }
+        tr:nth-child(even) { background-color: #f2f2f2; }
+        .pass { color: #27ae60; font-weight: bold; }
+        .fail { color: #e74c3c; font-weight: bold; }
+        .skip { color: #f39c12; font-weight: bold; }
+        .error-detail { background-color: #ffe6e6; padding: 10px; border-left: 4px solid #e74c3c; margin-top: 5px; }
+        .footer { margin-top: 30px; text-align: center; color: #888; font-size: 12px; }
+    </style>
+</head>
+<body>
+    <div class='header'>
+        <h1>📊 Báo Cáo: OrderTests_DataDriven</h1>
+        <p>📁 Class: <strong>OrderTests_DataDriven</strong></p>
+        <p>🕐 Generated: 2026-04-11 01:39:38</p>
+    </div>
+
+    <div class='summary'>
+        <div class='stat'>
+            <div class='stat-pass'>0</div>
+            <div>Passed</div>
+        </div>
+        <div class='stat'>
+            <div class='stat-fail'>0</div>
+            <div>Failed</div>
+        </div>
+        <div class='stat'>
+            <div class='stat-skip'>0</div>
+            <div>Skipped</div>
+        </div>
+        <div class='stat'>
+            <div>39</div>
+            <div>Total</div>
+        </div>
+        <div class='stat'>
+            <div>0%</div>
+            <div>Pass Rate</div>
+        </div>
+        <div class='stat'>
+            <div>499.14s</div>
+            <div>Duration</div>
+        </div>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Test Name</th>
+                <th>Status</th>
+                <th>Duration (ms)</th>
+                <th>Timestamp</th>
+                <th>Details</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr>
+                <td>1</td>
+                <td><strong>OrderCreate_Ord_ThemDH_TC_01: Tạo đơn hàng thành công với dữ liệu hợp lệ đầy đủ</strong></td>
+                <td><span class='passed'>✓ Passed</span></td>
+                <td>12982</td>
+                <td>01:31:23</td>
+                <td>-</td>
+            </tr>
+
+            <tr>
+                <td>2</td>
+                <td><strong>OrderCreate_Ord_ThemDH_TC_02: Tạo đơn hàng nhanh (Delivery Type: Nhanh)</strong></td>
+                <td><span class='passed'>✓ Passed</span></td>
+                <td>12991</td>
+                <td>01:31:36</td>
+                <td>-</td>
+            </tr>
+
+            <tr>
+                <td>3</td>
+                <td><strong>OrderCreate_Ord_ThemDH_TC_03: Tạo đơn hàng hàng dễ vỡ</strong></td>
+                <td><span class='passed'>✓ Passed</span></td>
+                <td>12712</td>
+                <td>01:31:49</td>
+                <td>-</td>
+            </tr>
+
+            <tr>
+                <td>4</td>
+                <td><strong>OrderCreate_Ord_ThemDH_TC_04: Tạo đơn hàng hàng giá trị cao</strong></td>
+                <td><span class='passed'>✓ Passed</span></td>
+                <td>12980</td>
+                <td>01:32:03</td>
+                <td>-</td>
+            </tr>
+
+            <tr>
+                <td>5</td>
+                <td><strong>OrderCreate_Ord_ThemDH_TC_05: Tạo đơn hàng có thu tiền</strong></td>
+                <td><span class='passed'>✓ Passed</span></td>
+                <td>12870</td>
+                <td>01:32:16</td>
+                <td>-</td>
+            </tr>
+
+            <tr>
+                <td>6</td>
+                <td><strong>OrderCreate_Ord_ThemDH_TC_06: Tạo đơn hàng với khoảng cách lớn (50km)</strong></td>
+                <td><span class='passed'>✓ Passed</span></td>
+                <td>14646</td>
+                <td>01:32:31</td>
+                <td>-</td>
+            </tr>
+
+            <tr>
+                <td>7</td>
+                <td><strong>OrderCreate_Ord_ThemDH_TC_07: Tạo đơn hàng với cân nặng nhẹ (0.1kg)</strong></td>
+                <td><span class='passed'>✓ Passed</span></td>
+                <td>12312</td>
+                <td>01:32:43</td>
+                <td>-</td>
+            </tr>
+
+            <tr>
+                <td>8</td>
+                <td><strong>OrderCreate_Ord_ThemDH_TC_08: Tạo đơn hàng VNPay payment</strong></td>
+                <td><span class='passed'>✓ Passed</span></td>
+                <td>12613</td>
+                <td>01:32:56</td>
+                <td>-</td>
+            </tr>
+
+            <tr>
+                <td>9</td>
+                <td><strong>OrderCreate_Ord_ThemDH_TC_09: Để trống tên khách hàng</strong></td>
+                <td><span class='passed'>✓ Passed</span></td>
+                <td>12466</td>
+                <td>01:33:09</td>
+                <td>-</td>
+            </tr>
+
+            <tr>
+                <td>10</td>
+                <td><strong>OrderCreate_Ord_ThemDH_TC_10: Để trống số điện thoại</strong></td>
+                <td><span class='passed'>✓ Passed</span></td>
+                <td>12023</td>
+                <td>01:33:21</td>
+                <td>-</td>
+            </tr>
+
+            <tr>
+                <td>11</td>
+                <td><strong>OrderCreate_Ord_ThemDH_TC_11: Số điện thoại sai định dạng (quá ngắn)</strong></td>
+                <td><span class='passed'>✓ Passed</span></td>
+                <td>12619</td>
+                <td>01:33:34</td>
+                <td>-</td>
+            </tr>
+
+            <tr>
+                <td>12</td>
+                <td><strong>OrderCreate_Ord_ThemDH_TC_12: Để trống địa chỉ giao hàng</strong></td>
+                <td><span class='passed'>✓ Passed</span></td>
+                <td>11986</td>
+                <td>01:33:46</td>
+                <td>-</td>
+            </tr>
+
+            <tr>
+                <td>13</td>
+                <td><strong>OrderCreate_Ord_ThemDH_TC_13: Để trống loại hàng (Package Type)</strong></td>
+                <td><span class='passed'>✓ Passed</span></td>
+                <td>12075</td>
+                <td>01:33:58</td>
+                <td>-</td>
+            </tr>
+
+            <tr>
+                <td>14</td>
+                <td><strong>OrderCreate_Ord_ThemDH_TC_14: Cân nặng âm (Invalid weight)</strong></td>
+                <td><span class='passed'>✓ Passed</span></td>
+                <td>12387</td>
+                <td>01:34:11</td>
+                <td>-</td>
+            </tr>
+
+            <tr>
+                <td>15</td>
+                <td><strong>OrderCreate_Ord_ThemDH_TC_15: Cân nặng quá lớn (>1000kg)</strong></td>
+                <td><span class='passed'>✓ Passed</span></td>
+                <td>12190</td>
+                <td>01:34:23</td>
+                <td>-</td>
+            </tr>
+
+            <tr>
+                <td>16</td>
+                <td><strong>OrderCreate_Ord_ThemDH_TC_16: Khoảng cách âm (Invalid distance)</strong></td>
+                <td><span class='passed'>✓ Passed</span></td>
+                <td>12333</td>
+                <td>01:34:36</td>
+                <td>-</td>
+            </tr>
+
+            <tr>
+                <td>17</td>
+                <td><strong>OrderCreate_Ord_ThemDH_TC_17: Để trống phương thức thanh toán</strong></td>
+                <td><span class='passed'>✓ Passed</span></td>
+                <td>14340</td>
+                <td>01:34:50</td>
+                <td>-</td>
+            </tr>
+
+            <tr>
+                <td>18</td>
+                <td><strong>OrderCreate_Ord_ThemDH_TC_18: Thu tiền nhưng không nhập số tiền</strong></td>
+                <td><span class='passed'>✓ Passed</span></td>
+                <td>13012</td>
+                <td>01:35:03</td>
+                <td>-</td>
+            </tr>
+
+            <tr>
+                <td>19</td>
+                <td><strong>OrderCreate_Ord_ThemDH_TC_19: Email sai định dạng</strong></td>
+                <td><span class='passed'>✓ Passed</span></td>
+                <td>12917</td>
+                <td>01:35:17</td>
+                <td>-</td>
+            </tr>
+
+            <tr>
+                <td>20</td>
+                <td><strong>OrderCreate_Ord_ThemDH_TC_20: Để trống tỉnh/thành phố</strong></td>
+                <td><span class='passed'>✓ Passed</span></td>
+                <td>11971</td>
+                <td>01:35:29</td>
+                <td>-</td>
+            </tr>
+
+            <tr>
+                <td>21</td>
+                <td><strong>OrderCreate_Ord_ThemDH_TC_21: Để trống quận/huyện</strong></td>
+                <td><span class='passed'>✓ Passed</span></td>
+                <td>13064</td>
+                <td>01:35:42</td>
+                <td>-</td>
+            </tr>
+
+            <tr>
+                <td>22</td>
+                <td><strong>OrderCreate_Ord_ThemDH_TC_22: Để trống phường/xã</strong></td>
+                <td><span class='passed'>✓ Passed</span></td>
+                <td>13451</td>
+                <td>01:35:56</td>
+                <td>-</td>
+            </tr>
+
+            <tr>
+                <td>23</td>
+                <td><strong>OrderCreate_Ord_ThemDH_TC_23: Tên khách hàng quá dài (>100 ký tự)</strong></td>
+                <td><span class='passed'>✓ Passed</span></td>
+                <td>13008</td>
+                <td>01:36:09</td>
+                <td>-</td>
+            </tr>
+
+            <tr>
+                <td>24</td>
+                <td><strong>OrderCreate_Ord_ThemDH_TC_24: Địa chỉ quá dài (>255 ký tự)</strong></td>
+                <td><span class='passed'>✓ Passed</span></td>
+                <td>12478</td>
+                <td>01:36:22</td>
+                <td>-</td>
+            </tr>
+
+            <tr>
+                <td>25</td>
+                <td><strong>OrderCreate_Ord_ThemDH_TC_25: Tính phí vận chuyển đúng (Khoảng cách 5km, cân nặng 1kg, COD)</strong></td>
+                <td><span class='passed'>✓ Passed</span></td>
+                <td>12990</td>
+                <td>01:36:35</td>
+                <td>-</td>
+            </tr>
+
+            <tr>
+                <td>26</td>
+                <td><strong>OrderCreate_Ord_ThemDH_TC_26: Tính phí vận chuyển hàng dễ vỡ (+20%)</strong></td>
+                <td><span class='passed'>✓ Passed</span></td>
+                <td>16633</td>
+                <td>01:36:52</td>
+                <td>-</td>
+            </tr>
+
+            <tr>
+                <td>27</td>
+                <td><strong>OrderCreate_Ord_ThemDH_TC_27: Tính phí vận chuyển giao nhanh (+30%)</strong></td>
+                <td><span class='passed'>✓ Passed</span></td>
+                <td>12282</td>
+                <td>01:37:04</td>
+                <td>-</td>
+            </tr>
+
+            <tr>
+                <td>28</td>
+                <td><strong>OrderCreate_Ord_ThemDH_TC_28: Tính phí vận chuyển hàng giá trị (+15%)</strong></td>
+                <td><span class='passed'>✓ Passed</span></td>
+                <td>14254</td>
+                <td>01:37:19</td>
+                <td>-</td>
+            </tr>
+
+            <tr>
+                <td>29</td>
+                <td><strong>OrderCreate_Ord_ThemDH_TC_29: Mã đơn hàng tự động phát sinh đúng format</strong></td>
+                <td><span class='passed'>✓ Passed</span></td>
+                <td>11872</td>
+                <td>01:37:31</td>
+                <td>-</td>
+            </tr>
+
+            <tr>
+                <td>30</td>
+                <td><strong>OrderCreate_Ord_ThemDH_TC_30: Mã đơn hàng phải unique (không trùng)</strong></td>
+                <td><span class='passed'>✓ Passed</span></td>
+                <td>12216</td>
+                <td>01:37:43</td>
+                <td>-</td>
+            </tr>
+
+            <tr>
+                <td>31</td>
+                <td><strong>OrderCreate_Ord_ThemDH_TC_31: Trạng thái đơn mới tạo là Pending</strong></td>
+                <td><span class='passed'>✓ Passed</span></td>
+                <td>12042</td>
+                <td>01:37:55</td>
+                <td>-</td>
+            </tr>
+
+            <tr>
+                <td>32</td>
+                <td><strong>OrderCreate_Ord_ThemDH_TC_32: Chỉ Admin/Manager mới tạo đơn được (Authorization)</strong></td>
+                <td><span class='passed'>✓ Passed</span></td>
+                <td>12344</td>
+                <td>01:38:08</td>
+                <td>-</td>
+            </tr>
+
+            <tr>
+                <td>33</td>
+                <td><strong>OrderCreate_Ord_ThemDH_TC_33: Tên khách hàng chứa ký tự đặc biệt không hợp lệ</strong></td>
+                <td><span class='passed'>✓ Passed</span></td>
+                <td>12193</td>
+                <td>01:38:20</td>
+                <td>-</td>
+            </tr>
+
+            <tr>
+                <td>34</td>
+                <td><strong>OrderCreate_Ord_ThemDH_TC_35: Cân nặng 1000kg (maximum acceptable)</strong></td>
+                <td><span class='passed'>✓ Passed</span></td>
+                <td>12911</td>
+                <td>01:38:34</td>
+                <td>-</td>
+            </tr>
+
+            <tr>
+                <td>35</td>
+                <td><strong>OrderCreate_Ord_ThemDH_TC_36: Khoảng cách 1km (minimum)</strong></td>
+                <td><span class='passed'>✓ Passed</span></td>
+                <td>12159</td>
+                <td>01:38:46</td>
+                <td>-</td>
+            </tr>
+
+            <tr>
+                <td>36</td>
+                <td><strong>OrderCreate_Ord_ThemDH_TC_37: Khoảng cách 500km (maximum)</strong></td>
+                <td><span class='passed'>✓ Passed</span></td>
+                <td>12146</td>
+                <td>01:38:58</td>
+                <td>-</td>
+            </tr>
+
+            <tr>
+                <td>37</td>
+                <td><strong>OrderCreate_Ord_ThemDH_TC_38: SQL Injection payload trong tên khách hàng</strong></td>
+                <td><span class='passed'>✓ Passed</span></td>
+                <td>12431</td>
+                <td>01:39:11</td>
+                <td>-</td>
+            </tr>
+
+            <tr>
+                <td>38</td>
+                <td><strong>OrderCreate_Ord_ThemDH_TC_39: XSS payload trong ghi chú</strong></td>
+                <td><span class='passed'>✓ Passed</span></td>
+                <td>13409</td>
+                <td>01:39:24</td>
+                <td>-</td>
+            </tr>
+
+            <tr>
+                <td>39</td>
+                <td><strong>OrderCreate_Ord_ThemDH_TC_40: Tạo đơn với đầy đủ dữ liệu và tất cả options</strong></td>
+                <td><span class='passed'>✓ Passed</span></td>
+                <td>12833</td>
+                <td>01:39:38</td>
+                <td>-</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class='footer'>
+        <p>Generated by TestSelenium Automation Framework</p>
+    </div>
+</body>
+</html>

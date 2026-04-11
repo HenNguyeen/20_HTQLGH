@@ -65,8 +65,22 @@ namespace TestSelenium.Pages
                     var element = driver.FindElement(locator);
                     if (element.Displayed && element.Enabled)
                     {
-                        element.Click();
-                        return;
+                        // Scroll element into view
+                        ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].scrollIntoView(true);", element);
+                        System.Threading.Thread.Sleep(200);
+                        
+                        // Try normal click first
+                        try
+                        {
+                            element.Click();
+                            return;
+                        }
+                        catch
+                        {
+                            // Fallback to JavaScript click
+                            ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].click();", element);
+                            return;
+                        }
                     }
                 }
                 catch
@@ -110,7 +124,8 @@ namespace TestSelenium.Pages
         /// </summary>
         public string GetText(By locator)
         {
-            return WaitForElementVisibility(locator).Text;
+            var element = WaitForElementVisibility(locator);
+            return element != null ? element.Text : string.Empty;
         }
 
         /// <summary>

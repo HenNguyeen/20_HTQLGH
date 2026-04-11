@@ -46,8 +46,8 @@ namespace DeliveryManagementAPI.Middleware
                     
                     var errorResponse = new 
                     { 
-                        message = "Quá nhiều yêu cầu. Vui lòng thử lại sau 15 phút.",
-                        retryAfter = 900
+                        message = "Quá nhiều yêu cầu. Vui lòng thử lại sau 5 phút.",
+                        retryAfter = 300
                     };
                     
                     await context.Response.WriteAsJsonAsync(errorResponse);
@@ -109,7 +109,7 @@ namespace DeliveryManagementAPI.Middleware
 
             // Cập nhật số yêu cầu
             var now = DateTime.UtcNow;
-            var resetTime = now.AddMinutes(15); // Reset sau 15 phút
+            var resetTime = now.AddMinutes(5); // Reset sau 5 phút
 
             var result = RequestCounts.AddOrUpdate(key, 
                 (1, resetTime), 
@@ -144,17 +144,17 @@ namespace DeliveryManagementAPI.Middleware
             }
             
             if (endpoint.StartsWith("/api/auth/register"))
-                return 5; // 5 yêu cầu mỗi 15 phút
+                return 5; // 5 yêu cầu mỗi 5 phút
             
             if (endpoint.StartsWith("/api/auth/login"))
-                return 10; // 10 yêu cầu mỗi 15 phút
+                return 30; // 30 yêu cầu mỗi 5 phút
             
             if (endpoint.StartsWith("/api/auth/forgot-password") || 
                 endpoint.StartsWith("/api/auth/reset-password"))
-                return 5; // 5 yêu cầu mỗi 15 phút
+                return 5; // 5 yêu cầu mỗi 5 phút
             
             if (endpoint.StartsWith("/api/auth/verify-2fa"))
-                return 10; // 10 yêu cầu mỗi 15 phút
+                return 20; // 20 yêu cầu mỗi 5 phút
 
             return 100; // Default limit
         }

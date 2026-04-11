@@ -197,14 +197,18 @@ function renderOrders() {
 
 // Create Order
 async function createOrder() {
+    console.log('[createOrder] START');
     const form = document.getElementById('createOrderForm');
     
     if (!form.checkValidity()) {
+        console.log('[createOrder] Form validation failed');
         form.reportValidity();
         return;
     }
     
+    console.log('[createOrder] Form valid, collecting data...');
     const formData = new FormData(form);
+    const packageType = parseInt(formData.get('packageType'));
     const orderData = {
         orderCode: formData.get('orderCode'),
         customerName: formData.get('customerName'),
@@ -213,8 +217,8 @@ async function createOrder() {
         ward: formData.get('ward'),
         district: formData.get('district'),
         city: formData.get('city'),
-        productCode: formData.get('productCode'),
-        packageType: parseInt(formData.get('packageType')),
+        productId: packageType + 1,
+        packageType: packageType,
         weight: parseFloat(formData.get('weight')),
         size: formData.get('size'),
         distance: parseFloat(formData.get('distance')),
@@ -230,10 +234,13 @@ async function createOrder() {
     };
     
     try {
+        console.log('[createOrder] Calling API with data:', orderData);
         const response = await apiService.createOrder(orderData);
+        console.log('[createOrder] API Response:', response);
         
         // Handle payment redirect nếu cần thanh toán online
         if (response.payment && response.payment.required && response.payment.paymentUrl) {
+            console.log('[createOrder] Showing payment redirect toast');
             utils.showToast('Đang chuyển hướng đến trang thanh toán ' + response.payment.gateway + '...', 'info');
             setTimeout(() => {
                 window.location.href = response.payment.paymentUrl;
@@ -241,6 +248,7 @@ async function createOrder() {
             return;
         }
         
+        console.log('[createOrder] Order created successfully, showing toast');
         utils.showToast('Tạo đơn hàng thành công!', 'success');
         
         // Close modal and reload
@@ -250,7 +258,8 @@ async function createOrder() {
         
         await loadOrders();
     } catch (error) {
-        console.error('Error creating order:', error);
+        console.error('[createOrder] ERROR:', error);
+        console.error('[createOrder] Error message:', error.message);
         utils.showToast('Lỗi khi tạo đơn hàng: ' + error.message, 'danger');
     }
 }

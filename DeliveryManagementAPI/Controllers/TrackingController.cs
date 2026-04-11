@@ -128,7 +128,23 @@ namespace DeliveryManagementAPI.Controllers
                 
                 if (latestCheckpoint == null)
                 {
-                    return NotFound("Chưa có thông tin vị trí cho đơn hàng này");
+                    // Nếu chưa có checkpoint, kiểm tra order có tồn tại không
+                    var order = await _orderService.GetOrderByIdAsync(orderId);
+                    if (order == null)
+                    {
+                        return NotFound(new { message = "Không tìm thấy đơn hàng" });
+                    }
+                    
+                    // Return default location (nơi admin/shipper start)
+                    return Ok(new LocationCheckpoint
+                    {
+                        OrderId = orderId,
+                        Latitude = 10.7769, // Hà Nội default
+                        Longitude = 106.7009,
+                        LocationName = "Điểm xuất phát",
+                        CheckInTime = DateTime.UtcNow,
+                        Notes = "Chưa có thông tin vị trí"
+                    });
                 }
 
                 return Ok(latestCheckpoint);
@@ -155,10 +171,25 @@ namespace DeliveryManagementAPI.Controllers
                     return NotFound("Đơn hàng không tồn tại");
                 }
 
-                // Cập nhật vị trí vào database (nếu cần lưu lịch sử)
-                // Hoặc chỉ broadcast qua SignalR để tracking realtime
+                // Tạo checkpoint từ ShipperLocationDto
+                var checkpoint = new LocationCheckpoint
+                {
+                    OrderId = locationDto.OrderId,
+                    Latitude = locationDto.Latitude,
+                    Longitude = locationDto.Longitude,
+                    LocationName = "Vị trí giao hàng", // Default name since ShipperLocationDto không có
+                    CheckInTime = locationDto.Timestamp,
+                    Notes = $"Shipper cập nhật vị trí"
+                };
+
+                // Lưu checkpoint vào database
+                var result = await _checkpointService.AddCheckpointAsync(checkpoint);
                 
-                return Ok(new { message = "Đã cập nhật vị trí", timestamp = DateTime.UtcNow });
+                return Ok(new { 
+                    message = "Đã cập nhật vị trí", 
+                    checkpointId = result.CheckpointId,
+                    timestamp = DateTime.UtcNow 
+                });
             }
             catch (Exception ex)
             {

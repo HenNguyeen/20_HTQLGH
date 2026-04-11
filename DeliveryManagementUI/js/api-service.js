@@ -159,6 +159,51 @@ class ApiService {
                 throw new Error('Forbidden');
             }
 
+            // Handle 500 Internal Server Error
+            if (response.status === 500) {
+                let errorMessage = 'Lỗi server';
+                try {
+                    const clonedResponse = response.clone();
+                    const errorData = await clonedResponse.json();
+                    console.log('[DEBUG] 500 Response:', errorData);
+                    if (errorData.message) {
+                        errorMessage = errorData.message;
+                    }
+                } catch (e) {
+                    console.log('[DEBUG] Could not parse 500 response:', e);
+                    errorMessage = 'Lỗi server: ' + e.message;
+                }
+                console.error('[ERROR] Server error:', errorMessage);
+                throw new Error(errorMessage);
+            }
+
+            // Handle 400 Bad Request - extract error message from response
+            if (response.status === 400) {
+                let errorMessage = 'Yêu cầu không hợp lệ';
+                try {
+                    const clonedResponse = response.clone();
+                    const errorData = await clonedResponse.json();
+                    console.log('[DEBUG] 400 Response:', errorData); // Debug log
+                    // Backend có thể trả về {message: "...", field: "..."} hoặc {message: "..."}
+                    if (errorData.message) {
+                        errorMessage = errorData.message;
+                        if (errorData.field) {
+                            errorMessage += ` (Trường: ${errorData.field})`;
+                        }
+                    } else if (errorData.errors) {
+                        // ASP.NET validation errors format
+                        console.log('[DEBUG] Validation errors:', errorData.errors);
+                        errorMessage = Object.entries(errorData.errors)
+                            .map(([key, msgs]) => `${key}: ${msgs.join(', ')}`)
+                            .join('\n');
+                    }
+                } catch (e) {
+                    console.log('[DEBUG] Error parsing response:', e);
+                }
+                console.log('[DEBUG] Final error message:', errorMessage);
+                throw new Error(errorMessage);
+            }
+
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
@@ -205,12 +250,12 @@ class ApiService {
     }
 
     // Cập nhật trạng thái đơn hàng, cho phép truyền GPS location (nếu có)
-    async updateOrderStatus(id, status, gpsLocation = null, notes = null) {
+    async updateOrderStatus(id, status, gpsLocation = null, notes = null, staffId = null) {
         // Backend expects UpdateOrderStatusDto format
         const payload = {
             status: parseInt(status),
             orderId: id.toString(),
-            staffId: "", // Optional
+            staffId: staffId || "", // Pass staff ID if available
             notes: notes || ""
         };
         
@@ -369,6 +414,18 @@ class ApiService {
 
     async getCurrentLocation(orderId) {
         return await this.request(`/tracking/location/${orderId}`);
+    }
+
+    async updateShipperLocationAPI(orderId, latitude, longitude, locationName = '') {
+        return await this.request('/tracking/update-shipper-location', {
+            method: 'POST',
+            body: JSON.stringify({
+                orderId: parseInt(orderId),
+                latitude: parseFloat(latitude),
+                longitude: parseFloat(longitude),
+                locationName: locationName
+            })
+        });
     }
 
         // Auth API

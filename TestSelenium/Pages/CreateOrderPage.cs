@@ -22,29 +22,31 @@ namespace TestSelenium.Pages
     /// </summary>
     public class CreateOrderPage : BasePage
     {
-        // Form field locators - Based on actual HTML
-        private By orderCodeField = By.Name("orderCode");
+        // Form field locators - Based on actual HTML from orders.html modal
+        // Note: orderCode, productCode là readonly (auto-generated)
+        private By orderCodeDisplay = By.Id("orderCodeValue");  // Hiển thị mã đơn (read-only)
         private By customerNameField = By.Name("customerName");
         private By customerPhoneField = By.Name("customerPhone");
-        private By customerEmailField = By.Name("customerEmail");
         private By deliveryAddressField = By.Name("deliveryAddress");
         private By wardField = By.Name("ward");
         private By districtField = By.Name("district");
         private By cityField = By.Name("city");
-        private By productCodeField = By.Name("productCode");
         private By packageTypeDropdown = By.Name("packageType");
-        private By packageDescriptionField = By.Name("packageDescription");
         private By weightField = By.Name("weight");
+        private By sizeField = By.Name("size");  // Kích Thước (LxWxH cm)
         private By distanceField = By.Name("distance");
         private By isFragileCheckbox = By.Name("isFragile");
         private By isValuableCheckbox = By.Name("isValuable");
+        private By isVehicleCheckbox = By.Name("isVehicle");  // Hàng Là Xe
         private By collectMoneyCheckbox = By.Name("collectMoney");
         private By collectionAmountField = By.Name("collectionAmount");
         private By paymentMethodDropdown = By.Name("paymentMethod");
         private By deliveryTypeDropdown = By.Name("deliveryType");
         private By notesField = By.Name("notes");
-        private By createOrderButton = By.CssSelector("#createOrderModal .modal-footer .btn-primary");
-        private By cancelButton = By.CssSelector("#createOrderModal .modal-footer .btn-secondary");
+        private By estimatedFeeDisplay = By.Id("estimatedFee");  // Hiển thị phí dự kiến
+        // Button "Tạo Đơn Hàng" - tìm bằng onclick attribute hoặc XPath chứa text
+        private By createOrderButton = By.XPath("//button[contains(@onclick, 'createOrder')] | //button[.//text()[contains(., 'Tạo Đơn Hàng')]]");
+        private By cancelButton = By.XPath("//button[.//text()[contains(., 'Hủy')]]");
         private By successMessage = By.CssSelector(".alert-success");
         private By errorMessage = By.CssSelector(".alert-danger");
 
@@ -115,18 +117,19 @@ namespace TestSelenium.Pages
         }
 
         /// <summary>
-        /// Enter product code
+        /// Select package type from dropdown by value (số)
+        /// Test Data: 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
         /// </summary>
-        public void EnterProductCode(string code)
+        public void SelectPackageType(int value)
         {
-            SetText(productCodeField, code);
+            SelectDropdownByValue(packageTypeDropdown, value.ToString());
         }
 
         /// <summary>
-        /// Select package type from dropdown
+        /// Select package type from dropdown by text (từ JSON nếu là text)
         /// Test Data: "Gói Nhỏ", "Bọc", "Thùng", etc.
         /// </summary>
-        public void SelectPackageType(string type)
+        public void SelectPackageTypeByText(string type)
         {
             SelectDropdownByText(packageTypeDropdown, type);
         }
@@ -141,6 +144,15 @@ namespace TestSelenium.Pages
         }
 
         /// <summary>
+        /// Enter package size (LxWxH in cm)
+        /// Test Data: "30x20x10", "50x50x50"
+        /// </summary>
+        public void EnterPackageSize(string size)
+        {
+            SetText(sizeField, size);
+        }
+
+        /// <summary>
         /// Enter distance (in km)
         /// Test Data: "5", "10", "20"
         /// </summary>
@@ -151,20 +163,53 @@ namespace TestSelenium.Pages
 
         /// <summary>
         /// Select payment method from dropdown
-        /// Test Data: "Thanh toán khi nhận" (0), "Chuyển khoản" (1), "Online" (2)
+        /// Test Data: "COD" -> 0, "Momo" -> 1, "Online" -> (cần update form hoặc JSON)
         /// </summary>
         public void SelectPaymentMethod(string method)
         {
-            SelectDropdownByText(paymentMethodDropdown, method);
+            int value = 0;
+            switch(method?.ToLower() ?? "")
+            {
+                case "cod":
+                case "thanh toán khi giao":
+                    value = 0;
+                    break;
+                case "momo":
+                    value = 1;
+                    break;
+                case "online":
+                case "vnpay":
+                    value = 1; // Fallback to Momo
+                    break;
+                default:
+                    value = 0;
+                    break;
+            }
+            SelectDropdownByValue(paymentMethodDropdown, value.ToString());
         }
 
         /// <summary>
         /// Select delivery type from dropdown
-        /// Test Data: "Thường", "Nhanh"
+        /// Test Data: "Thường" -> 0, "Nhanh" -> 1
         /// </summary>
         public void SelectDeliveryType(string type)
         {
-            SelectDropdownByText(deliveryTypeDropdown, type);
+            int value = 0;
+            switch(type?.ToLower() ?? "")
+            {
+                case "thường":
+                case "giao thường":
+                    value = 0;
+                    break;
+                case "nhanh":
+                case "giao nhanh":
+                    value = 1;
+                    break;
+                default:
+                    value = 0;
+                    break;
+            }
+            SelectDropdownByValue(deliveryTypeDropdown, value.ToString());
         }
 
         /// <summary>
@@ -194,7 +239,7 @@ namespace TestSelenium.Pages
         /// Step 1: Navigate to orders page with create order modal
         /// Step 2-4: Enter customer info (name, phone, address)
         /// Step 5-7: Enter location (ward, district, city)
-        /// Step 8-10: Enter package info (product code, type, weight, distance)
+        /// Step 8-10: Enter package info (type, weight, distance - productCode auto-generated)
         /// Step 11: Select payment method and create order
         /// </summary>
         public void PerformCreateOrder(
@@ -205,12 +250,11 @@ namespace TestSelenium.Pages
             string ward,
             string district,
             string city,
-            string productCode,
-            string packageType,
+            int packageType,
             string weight,
             string distance,
             string paymentMethod = "COD",
-            string deliveryType = "Normal"
+            string deliveryType = "Thường"
         )
         {
             NavigateToCreateOrder(baseUrl);
@@ -220,7 +264,6 @@ namespace TestSelenium.Pages
             EnterWard(ward);
             EnterDistrict(district);
             EnterCity(city);
-            EnterProductCode(productCode);
             SelectPackageType(packageType);
             EnterPackageWeight(weight);
             EnterDistance(distance);
@@ -255,12 +298,21 @@ namespace TestSelenium.Pages
         }
 
         /// <summary>
-        /// Get generated order code
+        /// Get generated order code (read-only display)
         /// Expected format: DH{yyyyMMddHHmmssfff}{nnn}
         /// </summary>
         public string GetOrderCode()
         {
-            return GetText(orderCodeField);
+            return GetText(orderCodeDisplay);
+        }
+
+        /// <summary>
+        /// Get estimated delivery fee displayed in modal
+        /// Expected format: "1,234,567 VND" or "--"
+        /// </summary>
+        public string GetEstimatedFee()
+        {
+            return GetText(estimatedFeeDisplay);
         }
 
         /// <summary>
@@ -286,24 +338,6 @@ namespace TestSelenium.Pages
                    ElementExists(weightField) &&
                    ElementExists(paymentMethodDropdown) &&
                    ElementExists(createOrderButton);
-        }
-
-        /// <summary>
-        /// Enter customer email
-        /// Validation: Valid email format
-        /// </summary>
-        public void EnterCustomerEmail(string email)
-        {
-            SetText(customerEmailField, email);
-        }
-
-        /// <summary>
-        /// Enter package description
-        /// Test Data: "Điện thoại", "Quần áo", "Laptop"
-        /// </summary>
-        public void EnterPackageDescription(string description)
-        {
-            SetText(packageDescriptionField, description);
         }
 
         /// <summary>
@@ -345,6 +379,22 @@ namespace TestSelenium.Pages
         public void UncheckValuableItem()
         {
             UncheckCheckbox(isValuableCheckbox);
+        }
+
+        /// <summary>
+        /// Check Vehicle Item checkbox (Hàng Là Xe)
+        /// </summary>
+        public void CheckVehicleItem()
+        {
+            CheckCheckbox(isVehicleCheckbox);
+        }
+
+        /// <summary>
+        /// Uncheck Vehicle Item checkbox
+        /// </summary>
+        public void UncheckVehicleItem()
+        {
+            UncheckCheckbox(isVehicleCheckbox);
         }
 
         /// <summary>
@@ -394,14 +444,6 @@ namespace TestSelenium.Pages
             SetText(cityField, "");
             SetText(weightField, "");
             SetText(distanceField, "");
-        }
-
-        /// <summary>
-        /// Wait for page to load
-        /// </summary>
-        private void WaitForPageLoad()
-        {
-            System.Threading.Thread.Sleep(500);
         }
     }
 }

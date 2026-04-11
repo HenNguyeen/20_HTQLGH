@@ -177,9 +177,9 @@ using (var scope = app.Services.CreateScope())
     var services = scope.ServiceProvider;
     try
     {
-        // ❌ DISABLED: Seed data không được tải
-        // await DeliveryManagementAPI.Data.SeedData.Initialize(services);
-        Console.WriteLine("⚠️ Seed data bị DISABLED - database trống");
+        // ✅ ENABLED: Seed data được tải
+        await DeliveryManagementAPI.Data.SeedData.Initialize(services);
+        Console.WriteLine("✅ Seed data đã được tải thành công");
     }
     catch (Exception ex)
     {

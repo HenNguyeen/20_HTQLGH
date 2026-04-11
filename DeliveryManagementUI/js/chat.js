@@ -1,13 +1,15 @@
 // Chat với SignalR Real-time
 let connection = null;
 let currentOrderId = null;
+let currentConversationUserId = null; // Cho admin chat
 let currentUser = null;
 let uploadedImageUrl = null;
+let isAdminChat = false; // Biến theo dõi xem có phải admin chat không
 
 // Khởi tạo
 document.addEventListener('DOMContentLoaded', async () => {
     checkAuth();
-    await loadOrders();
+    await loadConversationsOrOrders();
     initializeSignalR();
     setupEventListeners();
 });
@@ -24,6 +26,10 @@ function checkAuth() {
         fullName: userInfo.fullName,
         role: userInfo.role
     };
+    
+    // Check xem có phải admin không
+    isAdminChat = userInfo.role === 'admin';
+    
     document.getElementById('navbarUserName').textContent = userInfo.fullName || 'User';
 }
 
@@ -44,9 +50,17 @@ async function initializeSignalR() {
 
     // Lắng nghe tin nhắn mới
     connection.on("ReceiveMessage", (message) => {
-        if (message.OrderId === currentOrderId) {
+        // Xử lý tin nhắn cho order chat
+        if (message.OrderId === currentOrderId && currentOrderId !== null) {
             appendMessage(message);
             scrollToBottom();
+        }
+        // Xử lý tin nhắn cho general support (admin chat với khách hàng)
+        else if (message.OrderId === 0 || message.OrderId === null) {
+            if (currentConversationUserId && (message.SenderId === currentConversationUserId || message.ReceiverId === currentConversationUserId)) {
+                appendMessage(message);
+                scrollToBottom();
+            }
         }
         updateOrderLastMessage(message.OrderId, message);
     });
@@ -67,6 +81,16 @@ async function initializeSignalR() {
     try {
         await connection.start();
         console.log("SignalR Connected");
+        
+        // Admin tự động join vào Order_0 group (general support)
+        if (isAdminChat) {
+            try {
+                await connection.invoke("JoinOrderChat", 0);
+                console.log("Admin joined general support group");
+            } catch (err) {
+                console.error('Error admin joining general support:', err);
+            }
+        }
     } catch (err) {
         console.error("SignalR Connection Error: ", err);
         setTimeout(initializeSignalR, 5000);
@@ -88,14 +112,34 @@ async function initializeSignalR() {
     });
 }
 
-// Load danh sách đơn hàng
-async function loadOrders() {
+// Load danh sách đơn hàng hoặc conversations (dựa trên role)
+async function loadConversationsOrOrders() {
     try {
-        const orders = await apiService.getChatOrders();
-        renderOrdersList(orders);
+        if (isAdminChat) {
+            // Admin: Load danh sách đơn hàng để có thể chat về tất cả đơn hàng
+            const sidebarTitle = document.getElementById('sidebarTitle');
+            if (sidebarTitle) {
+                sidebarTitle.innerHTML = '<i class="fas fa-list"></i> Danh Sách Đơn Hàng';
+            }
+            document.getElementById('searchOrders').placeholder = 'Tìm kiếm đơn hàng...';
+            
+            // Load orders thay vì conversations để admin có thể chat với bất kỳ đơn hàng nào
+            const orders = await apiService.getChatOrders();
+            renderOrdersList(orders);
+        } else {
+            // Customer/Staff: Load danh sách đơn hàng
+            const sidebarTitle = document.getElementById('sidebarTitle');
+            if (sidebarTitle) {
+                sidebarTitle.innerHTML = '<i class="fas fa-list"></i> Danh Sách Đơn Hàng';
+            }
+            document.getElementById('searchOrders').placeholder = 'Tìm kiếm đơn hàng...';
+            
+            const orders = await apiService.getChatOrders();
+            renderOrdersList(orders);
+        }
     } catch (error) {
-        console.error('Error loading orders:', error);
-        showToast('Không thể tải danh sách đơn hàng', 'error');
+        console.error('Error loading conversations/orders:', error);
+        showToast('Không thể tải danh sách', 'error');
     }
 }
 
@@ -125,12 +169,41 @@ function renderOrdersList(orders) {
     `).join('');
 }
 
+// Render danh sách conversations cho admin
+function renderConversationsList(conversations) {
+    const container = document.getElementById('ordersList');
+    if (!conversations || conversations.length === 0) {
+        container.innerHTML = '<div class="text-center text-muted p-3">Chưa có tin nhắn nào</div>';
+        return;
+    }
+
+    container.innerHTML = conversations.map(conv => `
+        <div class="chat-order-item ${conv.UnreadCount > 0 ? 'has-unread' : ''}" 
+             data-user-id="${conv.UserId}"
+             data-user-name="${escapeHtmlAttr(conv.UserName)}"
+             onclick="selectConversationFromElement(this)">
+            <div class="order-info">
+                <div class="order-code"><i class="fas fa-user"></i> ${escapeHtml(conv.UserName)}</div>
+                <div class="order-customer">Khách hàng</div>
+                <div class="order-last-message">
+                    ${conv.LastMessage ? conv.LastMessage.Content || '<i class="fas fa-image"></i> Hình ảnh' : 'Chưa có tin nhắn'}
+                </div>
+            </div>
+            <div class="order-meta">
+                ${conv.UnreadCount > 0 ? `<span class="badge bg-danger rounded-pill">${conv.UnreadCount}</span>` : ''}
+                ${conv.LastMessage ? `<small class="text-muted">${formatTime(conv.LastMessage.CreatedAt)}</small>` : ''}
+            </div>
+        </div>
+    `).join('');
+}
+
 async function selectOrder(orderId, orderCode, status, customerName) {
     if (currentOrderId) {
         await leaveOrderChat(currentOrderId);
     }
 
     currentOrderId = orderId;
+    currentConversationUserId = null;
     
     // Update header
     document.getElementById('chatOrderInfo').textContent = `Đơn hàng #${orderCode} - ${customerName}`;
@@ -150,6 +223,56 @@ async function selectOrder(orderId, orderCode, status, customerName) {
 
     // Enable input
     document.getElementById('messageInput').disabled = false;
+}
+
+// Hàm mới cho admin chat với khách hàng
+async function selectConversation(userId, userName, elementClicked = null) {
+    if (currentConversationUserId) {
+        // Leave previous conversation if any (optional for direct messages)
+    }
+
+    currentConversationUserId = userId;
+    currentOrderId = null;
+    
+    // Update header
+    document.getElementById('chatOrderInfo').textContent = `Chat với ${userName}`;
+    document.getElementById('chatOrderStatus').innerHTML = '<span class="badge bg-info">Khách hàng</span>';
+
+    // Load messages
+    await loadMessagesByUser(userId);
+
+    // Join SignalR group (Order_0 là group chung cho general support)
+    if (connection && connection.state === signalR.HubConnectionState.Connected) {
+        try {
+            await connection.invoke("JoinOrderChat", 0); // 0 = general support group
+        } catch (err) {
+            console.error('Error joining general support chat:', err);
+        }
+    }
+
+    // Highlight selected conversation
+    document.querySelectorAll('.chat-order-item').forEach(item => {
+        item.classList.remove('active');
+    });
+    
+    // Highlight the clicked element or event.currentTarget
+    const targetElement = elementClicked || event.currentTarget;
+    if (targetElement) {
+        targetElement.classList.add('active');
+    }
+
+    // Enable input
+    document.getElementById('messageInput').disabled = false;
+}
+
+// Wrapper function để gọi selectConversation từ data attributes
+async function selectConversationFromElement(element) {
+    const userId = parseInt(element.dataset.userId);
+    const userName = element.dataset.userName;
+    
+    if (!isNaN(userId) && userName) {
+        await selectConversation(userId, userName, element);
+    }
 }
 
 async function joinOrderChat(orderId) {
@@ -175,6 +298,18 @@ async function leaveOrderChat(orderId) {
 async function loadMessages(orderId) {
     try {
         const messages = await apiService.getChatMessages(orderId);
+        renderMessages(messages);
+        scrollToBottom();
+    } catch (error) {
+        console.error('Error loading messages:', error);
+        showToast('Không thể tải tin nhắn', 'error');
+    }
+}
+
+// Hàm mới: Load tin nhắn với user cụ thể (cho admin)
+async function loadMessagesByUser(userId) {
+    try {
+        const messages = await apiService.getUserMessages(userId);
         renderMessages(messages);
         scrollToBottom();
     } catch (error) {
@@ -228,17 +363,28 @@ async function sendMessage() {
         return;
     }
 
-    if (!currentOrderId) {
-        showToast('Vui lòng chọn đơn hàng', 'warning');
+    if (!currentOrderId && !currentConversationUserId) {
+        showToast('Vui lòng chọn yêu cầu chat', 'warning');
         return;
     }
 
     try {
-        await apiService.sendChatMessage({
-            orderId: currentOrderId,
-            content: content,
-            imageUrl: uploadedImageUrl
-        });
+        if (isAdminChat && currentConversationUserId) {
+            // Admin chat: gửi cho user cụ thể
+            await apiService.sendChatMessage({
+                orderId: null,
+                receiverId: currentConversationUserId,
+                content: content,
+                imageUrl: uploadedImageUrl
+            });
+        } else if (currentOrderId) {
+            // Order chat
+            await apiService.sendChatMessage({
+                orderId: currentOrderId,
+                content: content,
+                imageUrl: uploadedImageUrl
+            });
+        }
 
         input.value = '';
         uploadedImageUrl = null;
@@ -301,7 +447,9 @@ function handleKeyPress(event) {
 }
 
 function refreshMessages() {
-    if (currentOrderId) {
+    if (isAdminChat && currentConversationUserId) {
+        loadMessagesByUser(currentConversationUserId);
+    } else if (currentOrderId) {
         loadMessages(currentOrderId);
     }
 }
@@ -318,6 +466,9 @@ function setupEventListeners() {
     document.getElementById('messageInput').addEventListener('input', () => {
         if (currentOrderId && connection && connection.state === signalR.HubConnectionState.Connected) {
             connection.invoke("NotifyTyping", currentOrderId, currentUser.fullName);
+        } else if (currentConversationUserId && connection && connection.state === signalR.HubConnectionState.Connected) {
+            // Cho admin chat: thông báo đang gõ trong group general support
+            connection.invoke("NotifyTyping", 0, currentUser.fullName);
         }
     });
 }
@@ -387,6 +538,16 @@ function escapeHtml(text) {
     const div = document.createElement('div');
     div.textContent = text;
     return div.innerHTML;
+}
+
+function escapeHtmlAttr(text) {
+    if (!text) return '';
+    return text
+        .replace(/&/g, '&amp;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#x27;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
 }
 
 function showToast(message, type = 'info') {

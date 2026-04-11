@@ -15,10 +15,11 @@ namespace TestSelenium.Utilities
         public ScreenshotHelper(IWebDriver driver)
         {
             _driver = driver;
-            _screenshotPath = Path.Combine(
-                AppDomain.CurrentDomain.BaseDirectory,
-                "Screenshots"
-            );
+            // Navigate từ bin/Debug/net8.0 lên project root (3 level up)
+            string baseDir = AppDomain.CurrentDomain.BaseDirectory;
+            string projectRoot = Path.Combine(baseDir, "..", "..", "..");
+            _screenshotPath = Path.Combine(projectRoot, "Screenshots");
+            _screenshotPath = Path.GetFullPath(_screenshotPath); // Normalize path
 
             // Tạo thư mục nếu chưa tồn tại
             if (!Directory.Exists(_screenshotPath))

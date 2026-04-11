@@ -1,0 +1,443 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='UTF-8'>
+    <title>📊 Báo Cáo: LoginTests_DataDriven</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f5f5f5; }
+        .header { background-color: #2c3e50; color: white; padding: 20px; border-radius: 5px; margin-bottom: 20px; }
+        .header h1 { margin: 0; }
+        .summary { margin: 20px 0; display: flex; justify-content: space-around; flex-wrap: wrap; }
+        .stat { text-align: center; padding: 20px; border: 1px solid #ddd; border-radius: 5px; background: white; flex: 1; min-width: 120px; margin: 5px; }
+        .stat-pass { color: #27ae60; font-size: 24px; font-weight: bold; }
+        .stat-fail { color: #e74c3c; font-size: 24px; font-weight: bold; }
+        .stat-skip { color: #f39c12; font-size: 24px; font-weight: bold; }
+        table { border-collapse: collapse; width: 100%; margin-top: 20px; background: white; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background-color: #34495e; color: white; }
+        tr:nth-child(even) { background-color: #f2f2f2; }
+        .pass { color: #27ae60; font-weight: bold; }
+        .fail { color: #e74c3c; font-weight: bold; }
+        .skip { color: #f39c12; font-weight: bold; }
+        .error-detail { background-color: #ffe6e6; padding: 10px; border-left: 4px solid #e74c3c; margin-top: 5px; }
+        .footer { margin-top: 30px; text-align: center; color: #888; font-size: 12px; }
+    </style>
+</head>
+<body>
+    <div class='header'>
+        <h1>📊 Báo Cáo: LoginTests_DataDriven</h1>
+        <p>📁 Class: <strong>LoginTests_DataDriven</strong></p>
+        <p>🕐 Generated: 2026-04-11 00:58:34</p>
+    </div>
+
+    <div class='summary'>
+        <div class='stat'>
+            <div class='stat-pass'>0</div>
+            <div>Passed</div>
+        </div>
+        <div class='stat'>
+            <div class='stat-fail'>0</div>
+            <div>Failed</div>
+        </div>
+        <div class='stat'>
+            <div class='stat-skip'>0</div>
+            <div>Skipped</div>
+        </div>
+        <div class='stat'>
+            <div>39</div>
+            <div>Total</div>
+        </div>
+        <div class='stat'>
+            <div>0%</div>
+            <div>Pass Rate</div>
+        </div>
+        <div class='stat'>
+            <div>426.06s</div>
+            <div>Duration</div>
+        </div>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Test Name</th>
+                <th>Status</th>
+                <th>Duration (ms)</th>
+                <th>Timestamp</th>
+                <th>Details</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr>
+                <td>1</td>
+                <td><strong>Login_Aut_DN_TC_01: Đăng nhập thành công với tài khoản hợp lệ</strong></td>
+                <td><span class='passed'>✓ Passed</span></td>
+                <td>5372</td>
+                <td>00:51:07</td>
+                <td>-</td>
+            </tr>
+
+            <tr>
+                <td>2</td>
+                <td><strong>Login_Aut_DN_TC_02: Đăng nhập thất bại khi sai mật khẩu</strong></td>
+                <td><span class='failed'>✓ Failed</span></td>
+                <td>13662</td>
+                <td>00:51:22</td>
+                <td><div class='error-detail'><strong>Error:</strong> OpenQA.Selenium.WebDriverTimeoutException : Timed out after 10 seconds</div><div class='error-detail'><strong>Screenshot:</strong> C:\Users\DELL\Documents\GitHub\20_HTQLGH\TestSelenium\bin\Debug\net8.0\Screenshots\Login_Aut_DN_TC_02: Đăng nhập thất bại khi sai mật khẩu_20260411_005122.png</div></td>
+            </tr>
+
+            <tr>
+                <td>3</td>
+                <td><strong>Login_Aut_DN_TC_03: Đăng nhập với Email chưa tồn tại</strong></td>
+                <td><span class='failed'>✓ Failed</span></td>
+                <td>13751</td>
+                <td>00:51:36</td>
+                <td><div class='error-detail'><strong>Error:</strong> OpenQA.Selenium.WebDriverTimeoutException : Timed out after 10 seconds</div><div class='error-detail'><strong>Screenshot:</strong> C:\Users\DELL\Documents\GitHub\20_HTQLGH\TestSelenium\bin\Debug\net8.0\Screenshots\Login_Aut_DN_TC_03: Đăng nhập với Email chưa tồn tại_20260411_005136.png</div></td>
+            </tr>
+
+            <tr>
+                <td>4</td>
+                <td><strong>Login_Aut_DN_TC_04: Để trống tất cả các trường</strong></td>
+                <td><span class='failed'>✓ Failed</span></td>
+                <td>13209</td>
+                <td>00:51:51</td>
+                <td><div class='error-detail'><strong>Error:</strong> OpenQA.Selenium.WebDriverTimeoutException : Timed out after 10 seconds</div><div class='error-detail'><strong>Screenshot:</strong> C:\Users\DELL\Documents\GitHub\20_HTQLGH\TestSelenium\bin\Debug\net8.0\Screenshots\Login_Aut_DN_TC_04: Để trống tất cả các trường_20260411_005151.png</div></td>
+            </tr>
+
+            <tr>
+                <td>5</td>
+                <td><strong>Login_Aut_DN_TC_05: Để trống trường Password</strong></td>
+                <td><span class='failed'>✓ Failed</span></td>
+                <td>13401</td>
+                <td>00:52:05</td>
+                <td><div class='error-detail'><strong>Error:</strong> OpenQA.Selenium.WebDriverTimeoutException : Timed out after 10 seconds</div><div class='error-detail'><strong>Screenshot:</strong> C:\Users\DELL\Documents\GitHub\20_HTQLGH\TestSelenium\bin\Debug\net8.0\Screenshots\Login_Aut_DN_TC_05: Để trống trường Password_20260411_005205.png</div></td>
+            </tr>
+
+            <tr>
+                <td>6</td>
+                <td><strong>Login_Aut_DN_TC_06: Email sai định dạng (thiếu @)</strong></td>
+                <td><span class='failed'>✓ Failed</span></td>
+                <td>13514</td>
+                <td>00:52:20</td>
+                <td><div class='error-detail'><strong>Error:</strong> OpenQA.Selenium.WebDriverTimeoutException : Timed out after 10 seconds</div><div class='error-detail'><strong>Screenshot:</strong> C:\Users\DELL\Documents\GitHub\20_HTQLGH\TestSelenium\bin\Debug\net8.0\Screenshots\Login_Aut_DN_TC_06: Email sai định dạng (thiếu @)_20260411_005220.png</div></td>
+            </tr>
+
+            <tr>
+                <td>7</td>
+                <td><strong>Login_Aut_DN_TC_07: Remember me checkbox</strong></td>
+                <td><span class='passed'>✓ Passed</span></td>
+                <td>4494</td>
+                <td>00:52:24</td>
+                <td>-</td>
+            </tr>
+
+            <tr>
+                <td>8</td>
+                <td><strong>Login_Aut_DN_TC_08: Đăng nhập bằng phím Enter</strong></td>
+                <td><span class='passed'>✓ Passed</span></td>
+                <td>4332</td>
+                <td>00:52:29</td>
+                <td>-</td>
+            </tr>
+
+            <tr>
+                <td>9</td>
+                <td><strong>Login_Aut_DN_TC_09: Kiểm tra ẩn mật khẩu (password masking)</strong></td>
+                <td><span class='failed'>✓ Failed</span></td>
+                <td>15059</td>
+                <td>00:52:44</td>
+                <td><div class='error-detail'><strong>Error:</strong>   Thông báo lỗi phải được hiển thị cho dữ liệu nhập: Anh29112005
+Assert.That(errorDisplayed, Is.True)
+  Expected: True
+  But was:  False
+</div><div class='error-detail'><strong>Screenshot:</strong> C:\Users\DELL\Documents\GitHub\20_HTQLGH\TestSelenium\bin\Debug\net8.0\Screenshots\Login_Aut_DN_TC_09: Kiểm tra ẩn mật khẩu (password masking)_20260411_005244.png</div></td>
+            </tr>
+
+            <tr>
+                <td>10</td>
+                <td><strong>Login_Aut_DN_TC_10: Đăng xuất thành công</strong></td>
+                <td><span class='passed'>✓ Passed</span></td>
+                <td>5501</td>
+                <td>00:52:50</td>
+                <td>-</td>
+            </tr>
+
+            <tr>
+                <td>11</td>
+                <td><strong>Login_Aut_DN_TC_11: Tính hợp lệ của Session khi nhấn nút Back</strong></td>
+                <td><span class='failed'>✓ Failed</span></td>
+                <td>14472</td>
+                <td>00:53:05</td>
+                <td><div class='error-detail'><strong>Error:</strong>   Thông báo lỗi phải được hiển thị cho dữ liệu nhập: Anh29112005
+Assert.That(errorDisplayed, Is.True)
+  Expected: True
+  But was:  False
+</div><div class='error-detail'><strong>Screenshot:</strong> C:\Users\DELL\Documents\GitHub\20_HTQLGH\TestSelenium\bin\Debug\net8.0\Screenshots\Login_Aut_DN_TC_11: Tính hợp lệ của Session khi nhấn nút Back_20260411_005305.png</div></td>
+            </tr>
+
+            <tr>
+                <td>12</td>
+                <td><strong>Login_Aut_DN_TC_12: Liên kết điều hướng sang trang Đăng ký</strong></td>
+                <td><span class='failed'>✓ Failed</span></td>
+                <td>14310</td>
+                <td>00:53:20</td>
+                <td><div class='error-detail'><strong>Error:</strong> OpenQA.Selenium.WebDriverTimeoutException : Timed out after 10 seconds</div><div class='error-detail'><strong>Screenshot:</strong> C:\Users\DELL\Documents\GitHub\20_HTQLGH\TestSelenium\bin\Debug\net8.0\Screenshots\Login_Aut_DN_TC_12: Liên kết điều hướng sang trang Đăng ký_20260411_005320.png</div></td>
+            </tr>
+
+            <tr>
+                <td>13</td>
+                <td><strong>Login_Aut_DN_TC_13: Tính năng khôi phục mật khẩu</strong></td>
+                <td><span class='failed'>✓ Failed</span></td>
+                <td>13418</td>
+                <td>00:53:34</td>
+                <td><div class='error-detail'><strong>Error:</strong> OpenQA.Selenium.WebDriverTimeoutException : Timed out after 10 seconds</div><div class='error-detail'><strong>Screenshot:</strong> C:\Users\DELL\Documents\GitHub\20_HTQLGH\TestSelenium\bin\Debug\net8.0\Screenshots\Login_Aut_DN_TC_13: Tính năng khôi phục mật khẩu_20260411_005334.png</div></td>
+            </tr>
+
+            <tr>
+                <td>14</td>
+                <td><strong>Login_Aut_DN_TC_14: Phân biệt chữ hoa/thường của mật khẩu</strong></td>
+                <td><span class='failed'>✓ Failed</span></td>
+                <td>13439</td>
+                <td>00:53:49</td>
+                <td><div class='error-detail'><strong>Error:</strong> OpenQA.Selenium.WebDriverTimeoutException : Timed out after 10 seconds</div></td>
+            </tr>
+
+            <tr>
+                <td>15</td>
+                <td><strong>Login_Aut_DN_TC_15: Tự động cắt khoảng trắng trong Email</strong></td>
+                <td><span class='passed'>✓ Passed</span></td>
+                <td>4426</td>
+                <td>00:53:53</td>
+                <td>-</td>
+            </tr>
+
+            <tr>
+                <td>16</td>
+                <td><strong>Login_Aut_DN_TC_16: Chống tấn công SQL Injection</strong></td>
+                <td><span class='failed'>✓ Failed</span></td>
+                <td>14030</td>
+                <td>00:54:08</td>
+                <td><div class='error-detail'><strong>Error:</strong> OpenQA.Selenium.WebDriverTimeoutException : Timed out after 10 seconds</div><div class='error-detail'><strong>Screenshot:</strong> C:\Users\DELL\Documents\GitHub\20_HTQLGH\TestSelenium\bin\Debug\net8.0\Screenshots\Login_Aut_DN_TC_16: Chống tấn công SQL Injection_20260411_005408.png</div></td>
+            </tr>
+
+            <tr>
+                <td>17</td>
+                <td><strong>Login_Aut_DN_TC_17: Giới hạn độ dài mật khẩu (Max length)</strong></td>
+                <td><span class='failed'>✓ Failed</span></td>
+                <td>13540</td>
+                <td>00:54:22</td>
+                <td><div class='error-detail'><strong>Error:</strong> OpenQA.Selenium.WebDriverTimeoutException : Timed out after 10 seconds</div><div class='error-detail'><strong>Screenshot:</strong> C:\Users\DELL\Documents\GitHub\20_HTQLGH\TestSelenium\bin\Debug\net8.0\Screenshots\Login_Aut_DN_TC_17: Giới hạn độ dài mật khẩu (Max length)_20260411_005422.png</div></td>
+            </tr>
+
+            <tr>
+                <td>18</td>
+                <td><strong>Login_Aut_DN_TC_18: Đăng nhập với mật khẩu tối thiểu (1 ký tự)</strong></td>
+                <td><span class='failed'>✓ Failed</span></td>
+                <td>13383</td>
+                <td>00:54:37</td>
+                <td><div class='error-detail'><strong>Error:</strong> OpenQA.Selenium.WebDriverTimeoutException : Timed out after 10 seconds</div><div class='error-detail'><strong>Screenshot:</strong> C:\Users\DELL\Documents\GitHub\20_HTQLGH\TestSelenium\bin\Debug\net8.0\Screenshots\Login_Aut_DN_TC_18: Đăng nhập với mật khẩu tối thiểu (1 ký tự)_20260411_005437.png</div></td>
+            </tr>
+
+            <tr>
+                <td>19</td>
+                <td><strong>Login_Aut_DN_TC_19: Di chuyển tiêu điểm bằng phím Tab</strong></td>
+                <td><span class='failed'>✓ Failed</span></td>
+                <td>13113</td>
+                <td>00:54:51</td>
+                <td><div class='error-detail'><strong>Error:</strong> OpenQA.Selenium.WebDriverTimeoutException : Timed out after 10 seconds</div><div class='error-detail'><strong>Screenshot:</strong> C:\Users\DELL\Documents\GitHub\20_HTQLGH\TestSelenium\bin\Debug\net8.0\Screenshots\Login_Aut_DN_TC_19: Di chuyển tiêu điểm bằng phím Tab_20260411_005450.png</div></td>
+            </tr>
+
+            <tr>
+                <td>20</td>
+                <td><strong>Login_Aut_DN_TC_20: Copy/Paste vào form Login</strong></td>
+                <td><span class='passed'>✓ Passed</span></td>
+                <td>5238</td>
+                <td>00:54:56</td>
+                <td>-</td>
+            </tr>
+
+            <tr>
+                <td>21</td>
+                <td><strong>Login_Aut_DN_TC_21: Trạng thái form sau khi tải lại (F5)</strong></td>
+                <td><span class='failed'>✓ Failed</span></td>
+                <td>13876</td>
+                <td>00:55:11</td>
+                <td><div class='error-detail'><strong>Error:</strong> OpenQA.Selenium.WebDriverTimeoutException : Timed out after 10 seconds</div><div class='error-detail'><strong>Screenshot:</strong> C:\Users\DELL\Documents\GitHub\20_HTQLGH\TestSelenium\bin\Debug\net8.0\Screenshots\Login_Aut_DN_TC_21: Trạng thái form sau khi tải lại (F5)_20260411_005511.png</div></td>
+            </tr>
+
+            <tr>
+                <td>22</td>
+                <td><strong>Login_Aut_DN_TC_22: Đồng bộ trạng thái đăng nhập trên nhiều Tab</strong></td>
+                <td><span class='failed'>✓ Failed</span></td>
+                <td>13997</td>
+                <td>00:55:26</td>
+                <td><div class='error-detail'><strong>Error:</strong> OpenQA.Selenium.WebDriverTimeoutException : Timed out after 10 seconds</div><div class='error-detail'><strong>Screenshot:</strong> C:\Users\DELL\Documents\GitHub\20_HTQLGH\TestSelenium\bin\Debug\net8.0\Screenshots\Login_Aut_DN_TC_22: Đồng bộ trạng thái đăng nhập trên nhiều Tab_20260411_005526.png</div></td>
+            </tr>
+
+            <tr>
+                <td>23</td>
+                <td><strong>Login_Aut_DN_TC_23: Giao diện Login trên chế độ Mobile</strong></td>
+                <td><span class='failed'>✓ Failed</span></td>
+                <td>13258</td>
+                <td>00:55:40</td>
+                <td><div class='error-detail'><strong>Error:</strong> OpenQA.Selenium.WebDriverTimeoutException : Timed out after 10 seconds</div><div class='error-detail'><strong>Screenshot:</strong> C:\Users\DELL\Documents\GitHub\20_HTQLGH\TestSelenium\bin\Debug\net8.0\Screenshots\Login_Aut_DN_TC_23: Giao diện Login trên chế độ Mobile_20260411_005540.png</div></td>
+            </tr>
+
+            <tr>
+                <td>24</td>
+                <td><strong>Login_Aut_DN_TC_24: Kiểm tra thời gian phản hồi khi đăng nhập</strong></td>
+                <td><span class='passed'>✓ Passed</span></td>
+                <td>4775</td>
+                <td>00:55:45</td>
+                <td>-</td>
+            </tr>
+
+            <tr>
+                <td>25</td>
+                <td><strong>Login_Aut_DN_TC_25: Đăng nhập khi không có internet</strong></td>
+                <td><span class='failed'>✓ Failed</span></td>
+                <td>13424</td>
+                <td>00:56:00</td>
+                <td><div class='error-detail'><strong>Error:</strong> OpenQA.Selenium.WebDriverTimeoutException : Timed out after 10 seconds</div><div class='error-detail'><strong>Screenshot:</strong> C:\Users\DELL\Documents\GitHub\20_HTQLGH\TestSelenium\bin\Debug\net8.0\Screenshots\Login_Aut_DN_TC_25: Đăng nhập khi không có internet_20260411_005600.png</div></td>
+            </tr>
+
+            <tr>
+                <td>26</td>
+                <td><strong>Login_Aut_DN_TC_26: Quay lại trang chủ bằng Logo</strong></td>
+                <td><span class='failed'>✓ Failed</span></td>
+                <td>13232</td>
+                <td>00:56:14</td>
+                <td><div class='error-detail'><strong>Error:</strong> OpenQA.Selenium.WebDriverTimeoutException : Timed out after 10 seconds</div><div class='error-detail'><strong>Screenshot:</strong> C:\Users\DELL\Documents\GitHub\20_HTQLGH\TestSelenium\bin\Debug\net8.0\Screenshots\Login_Aut_DN_TC_26: Quay lại trang chủ bằng Logo_20260411_005614.png</div></td>
+            </tr>
+
+            <tr>
+                <td>27</td>
+                <td><strong>Login_Aut_DN_TC_27: Email chứa ký tự đặc biệt không hợp lệ</strong></td>
+                <td><span class='failed'>✓ Failed</span></td>
+                <td>13570</td>
+                <td>00:56:28</td>
+                <td><div class='error-detail'><strong>Error:</strong> OpenQA.Selenium.WebDriverTimeoutException : Timed out after 10 seconds</div><div class='error-detail'><strong>Screenshot:</strong> C:\Users\DELL\Documents\GitHub\20_HTQLGH\TestSelenium\bin\Debug\net8.0\Screenshots\Login_Aut_DN_TC_27: Email chứa ký tự đặc biệt không hợp lệ_20260411_005628.png</div></td>
+            </tr>
+
+            <tr>
+                <td>28</td>
+                <td><strong>Login_Aut_DN_TC_28: Tính năng tự động điền (Autofill)</strong></td>
+                <td><span class='failed'>✓ Failed</span></td>
+                <td>13144</td>
+                <td>00:56:42</td>
+                <td><div class='error-detail'><strong>Error:</strong> OpenQA.Selenium.WebDriverTimeoutException : Timed out after 10 seconds</div><div class='error-detail'><strong>Screenshot:</strong> C:\Users\DELL\Documents\GitHub\20_HTQLGH\TestSelenium\bin\Debug\net8.0\Screenshots\Login_Aut_DN_TC_28: Tính năng tự động điền (Autofill)_20260411_005642.png</div></td>
+            </tr>
+
+            <tr>
+                <td>29</td>
+                <td><strong>Login_Aut_DN_TC_29: Kiểm tra tiêu đề trang (Page Title)</strong></td>
+                <td><span class='failed'>✓ Failed</span></td>
+                <td>13785</td>
+                <td>00:56:57</td>
+                <td><div class='error-detail'><strong>Error:</strong> OpenQA.Selenium.WebDriverTimeoutException : Timed out after 10 seconds</div><div class='error-detail'><strong>Screenshot:</strong> C:\Users\DELL\Documents\GitHub\20_HTQLGH\TestSelenium\bin\Debug\net8.0\Screenshots\Login_Aut_DN_TC_29: Kiểm tra tiêu đề trang (Page Title)_20260411_005657.png</div></td>
+            </tr>
+
+            <tr>
+                <td>30</td>
+                <td><strong>Login_Aut_DN_TC_30: Đăng nhập với tài khoản bị khóa</strong></td>
+                <td><span class='failed'>✓ Failed</span></td>
+                <td>13503</td>
+                <td>00:57:11</td>
+                <td><div class='error-detail'><strong>Error:</strong> OpenQA.Selenium.WebDriverTimeoutException : Timed out after 10 seconds</div><div class='error-detail'><strong>Screenshot:</strong> C:\Users\DELL\Documents\GitHub\20_HTQLGH\TestSelenium\bin\Debug\net8.0\Screenshots\Login_Aut_DN_TC_30: Đăng nhập với tài khoản bị khóa_20260411_005711.png</div></td>
+            </tr>
+
+            <tr>
+                <td>31</td>
+                <td><strong>Login_Aut_DN_TC_31: Thứ tự điền (Password trước, Email sau)</strong></td>
+                <td><span class='failed'>✓ Failed</span></td>
+                <td>13161</td>
+                <td>00:57:25</td>
+                <td><div class='error-detail'><strong>Error:</strong> OpenQA.Selenium.WebDriverTimeoutException : Timed out after 10 seconds</div><div class='error-detail'><strong>Screenshot:</strong> C:\Users\DELL\Documents\GitHub\20_HTQLGH\TestSelenium\bin\Debug\net8.0\Screenshots\Login_Aut_DN_TC_31: Thứ tự điền (Password trước, Email sau)_20260411_005725.png</div></td>
+            </tr>
+
+            <tr>
+                <td>32</td>
+                <td><strong>Login_Aut_DN_TC_32: Hành vi khi xóa dữ liệu sau khi nhập</strong></td>
+                <td><span class='failed'>✓ Failed</span></td>
+                <td>13190</td>
+                <td>00:57:39</td>
+                <td><div class='error-detail'><strong>Error:</strong> OpenQA.Selenium.WebDriverTimeoutException : Timed out after 10 seconds</div><div class='error-detail'><strong>Screenshot:</strong> C:\Users\DELL\Documents\GitHub\20_HTQLGH\TestSelenium\bin\Debug\net8.0\Screenshots\Login_Aut_DN_TC_32: Hành vi khi xóa dữ liệu sau khi nhập_20260411_005739.png</div></td>
+            </tr>
+
+            <tr>
+                <td>33</td>
+                <td><strong>Login_Aut_DN_TC_33: Hiệu ứng nút Login khi di chuột (Hover)</strong></td>
+                <td><span class='failed'>✓ Failed</span></td>
+                <td>13058</td>
+                <td>00:57:53</td>
+                <td><div class='error-detail'><strong>Error:</strong> OpenQA.Selenium.WebDriverTimeoutException : Timed out after 10 seconds</div><div class='error-detail'><strong>Screenshot:</strong> C:\Users\DELL\Documents\GitHub\20_HTQLGH\TestSelenium\bin\Debug\net8.0\Screenshots\Login_Aut_DN_TC_33: Hiệu ứng nút Login khi di chuột (Hover)_20260411_005753.png</div></td>
+            </tr>
+
+            <tr>
+                <td>34</td>
+                <td><strong>Login_Aut_DN_TC_34: Tự động đăng xuất khi hết hạn phiên</strong></td>
+                <td><span class='failed'>✓ Failed</span></td>
+                <td>13114</td>
+                <td>00:58:07</td>
+                <td><div class='error-detail'><strong>Error:</strong> OpenQA.Selenium.WebDriverTimeoutException : Timed out after 10 seconds</div><div class='error-detail'><strong>Screenshot:</strong> C:\Users\DELL\Documents\GitHub\20_HTQLGH\TestSelenium\bin\Debug\net8.0\Screenshots\Login_Aut_DN_TC_34: Tự động đăng xuất khi hết hạn phiên_20260411_005807.png</div></td>
+            </tr>
+
+            <tr>
+                <td>35</td>
+                <td><strong>Login_Aut_DN_TC_35: Tính chính xác của URL trang đăng nhập</strong></td>
+                <td><span class='failed'>✓ Failed</span></td>
+                <td>13131</td>
+                <td>00:58:20</td>
+                <td><div class='error-detail'><strong>Error:</strong> OpenQA.Selenium.WebDriverTimeoutException : Timed out after 10 seconds</div><div class='error-detail'><strong>Screenshot:</strong> C:\Users\DELL\Documents\GitHub\20_HTQLGH\TestSelenium\bin\Debug\net8.0\Screenshots\Login_Aut_DN_TC_35: Tính chính xác của URL trang đăng nhập_20260411_005820.png</div></td>
+            </tr>
+
+            <tr>
+                <td>36</td>
+                <td><strong>Aut_UI_TC_01_LoginPageLoads</strong></td>
+                <td><span class='passed'>✓ Passed</span></td>
+                <td>2438</td>
+                <td>00:58:23</td>
+                <td>-</td>
+            </tr>
+
+            <tr>
+                <td>37</td>
+                <td><strong>Aut_UI_TC_02_PasswordFieldMasking</strong></td>
+                <td><span class='passed'>✓ Passed</span></td>
+                <td>2480</td>
+                <td>00:58:26</td>
+                <td>-</td>
+            </tr>
+
+            <tr>
+                <td>38</td>
+                <td><strong>Aut_UI_TC_03_InvalidLoginShowsError</strong></td>
+                <td><span class='failed'>✓ Failed</span></td>
+                <td>4826</td>
+                <td>00:58:31</td>
+                <td><div class='error-detail'><strong>Error:</strong>   Thông báo lỗi phải được hiển thị
+Assert.That(errorDisplayed, Is.True)
+  Expected: True
+  But was:  False
+</div><div class='error-detail'><strong>Screenshot:</strong> C:\Users\DELL\Documents\GitHub\20_HTQLGH\TestSelenium\bin\Debug\net8.0\Screenshots\Aut_UI_TC_03_InvalidLoginShowsError_20260411_005831.png</div></td>
+            </tr>
+
+            <tr>
+                <td>39</td>
+                <td><strong>Aut_UI_TC_04_FormFieldInputAcceptance</strong></td>
+                <td><span class='passed'>✓ Passed</span></td>
+                <td>2439</td>
+                <td>00:58:34</td>
+                <td>-</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class='footer'>
+        <p>Generated by TestSelenium Automation Framework</p>
+    </div>
+</body>
+</html>

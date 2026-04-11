@@ -11,8 +11,9 @@
           "type": 0,
           "lang": "vi",
           "speech": [
-            "Xin lỗi, tôi chưa hiểu câu hỏi của bạn. Bạn có thể hỏi lại được không?",
-            "Tôi chưa rõ ý bạn. Bạn có thể nói rõ hơn không?"
+            "Xin lỗi, tôi chưa hiểu câu hỏi của bạn. Vui lòng hỏi lại với các từ khóa: tra cứu, kiểm tra, trạng thái, shipper, hoặc chính sách giao hàng.",
+            "Tôi chưa rõ ý bạn. Bạn có thể nói rõ hơn không? Ví dụ: 'tra cứu đơn DH001' hoặc 'kiểm tra trạng thái đơn'",
+            "Đơn xin lỗi! Tôi không tìm được thông tin bạn yêu cầu. Vui lòng thử lại hoặc liên hệ với đội hỗ trợ."
           ]
         }
       ]

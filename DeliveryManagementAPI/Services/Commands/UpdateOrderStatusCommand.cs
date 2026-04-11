@@ -47,6 +47,7 @@ namespace DeliveryManagementAPI.Services.Commands
         /// <summary>
         /// Kiểm tra xem chuyển đổi trạng thái có hợp lệ không
         /// Quy tắc: ChuaNhan -> DaNhanChuaGiao -> DaNhanDangGiao -> DaGiao (không thể quay lại)
+        /// Ngoại lệ: Shipper có thể chuyển từ ChuaNhan sang DaNhanDangGiao trực tiếp (tự gán)
         /// </summary>
         private bool IsValidStatusTransition(OrderStatus currentStatus, OrderStatus newStatus)
         {
@@ -57,7 +58,7 @@ namespace DeliveryManagementAPI.Services.Commands
             // Định nghĩa các chuyển đổi trạng thái hợp lệ (một chiều)
             var validTransitions = new Dictionary<OrderStatus, List<OrderStatus>>
             {
-                { OrderStatus.ChuaNhan, new() { OrderStatus.DaNhanChuaGiao } },
+                { OrderStatus.ChuaNhan, new() { OrderStatus.DaNhanChuaGiao, OrderStatus.DaNhanDangGiao } }, // Allow shipper to directly start delivery
                 { OrderStatus.DaNhanChuaGiao, new() { OrderStatus.DaNhanDangGiao } },
                 { OrderStatus.DaNhanDangGiao, new() { OrderStatus.DaGiao } },
                 { OrderStatus.DaGiao, new() } // Final state, không thể chuyển tiếp

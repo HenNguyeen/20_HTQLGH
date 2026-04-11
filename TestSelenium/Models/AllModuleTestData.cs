@@ -33,11 +33,13 @@ namespace TestSelenium.Models
         public int? PackageType { get; set; }
         public string PackageDescription { get; set; }
         public decimal? PackageWeight { get; set; }
+        public string PackageSize { get; set; }  // Kích Thước (LxWxH cm)
         public decimal? EstimatedDistance { get; set; }
         
         // Special Flags
         public bool? IsFragile { get; set; }
         public bool? IsValuable { get; set; }
+        public bool? IsVehicle { get; set; }  // Hàng Là Xe
         public bool? CollectMoney { get; set; }
         public decimal? CollectionAmount { get; set; }
         
@@ -110,14 +112,28 @@ namespace TestSelenium.Models
         public string Description { get; set; }
         public string Action { get; set; } // Create, Update, Delete
         
-        // Customer Fields
+        // Customer Fields - Định Danh
         public string CustomerId { get; set; }
         public string FullName { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
+
+        // Customer Fields - Địa Chỉ
         public string Address { get; set; }
+        public string Ward { get; set; }
+        public string District { get; set; }
         public string City { get; set; }
+        public string AddressType { get; set; } // Kho hàng, Nhà riêng, Văn phòng
+
+        // Customer Fields - Công Ty
         public string CompanyName { get; set; }
+
+        // Customer Fields - Tài Chính & Đối Soát
+        public string BankAccountNumber { get; set; }
+        public string BankAccountName { get; set; }
+        public string BankName { get; set; }
+        public string BankBranch { get; set; }
+        public string SettlementCycle { get; set; } // Daily, Weekly, Monthly, OnDemand, MinimumBalance
         public string TaxCode { get; set; }
         
         // Expected Results

@@ -1,0 +1,133 @@
+[
+  {
+    "data": [
+      {"text": "kiểm tra trạng thái đơn ", "userDefined": false},
+      {"text": "DH001", "alias": "order-id", "meta": "@sys.any", "userDefined": true}
+    ],
+    "isTemplate": false,
+    "count": 0
+  },
+  {
+    "data": [
+      {"text": "tình trạng giao hàng ", "userDefined": false},
+      {"text": "DH002", "alias": "order-id", "meta": "@sys.any", "userDefined": true}
+    ],
+    "isTemplate": false,
+    "count": 0
+  },
+  {
+    "data": [
+      {"text": "đơn hàng đang ở đâu ", "userDefined": false},
+      {"text": "1", "alias": "order-id", "meta": "@sys.any", "userDefined": true}
+    ],
+    "isTemplate": false,
+    "count": 0
+  },
+  {
+    "data": [
+      {"text": "đơn ", "userDefined": false},
+      {"text": "DH003", "alias": "order-id", "meta": "@sys.any", "userDefined": true},
+      {"text": " đã giao chưa", "userDefined": false}
+    ],
+    "isTemplate": false,
+    "count": 0
+  },
+  {
+    "data": [
+      {"text": "kiểm tra xem đơn ", "userDefined": false},
+      {"text": "DH004", "alias": "order-id", "meta": "@sys.any", "userDefined": true},
+      {"text": " thế nào rồi", "userDefined": false}
+    ],
+    "isTemplate": false,
+    "count": 0
+  },
+  {
+    "data": [
+      {"text": "vị trí đơn hàng ", "userDefined": false},
+      {"text": "2", "alias": "order-id", "meta": "@sys.any", "userDefined": true}
+    ],
+    "isTemplate": false,
+    "count": 0
+  },
+  {
+    "data": [
+      {"text": "anh shipper đang ở đâu rồi ", "userDefined": false},
+      {"text": "DH005", "alias": "order-id", "meta": "@sys.any", "userDefined": true}
+    ],
+    "isTemplate": false,
+    "count": 0
+  },
+  {
+    "data": [
+      {"text": "thời gian giao hàng ", "userDefined": false},
+      {"text": "DH006", "alias": "order-id", "meta": "@sys.any", "userDefined": true}
+    ],
+    "isTemplate": false,
+    "count": 0
+  },
+  {
+    "data": [
+      {"text": "khi nào thì nhận được ", "userDefined": false},
+      {"text": "DH007", "alias": "order-id", "meta": "@sys.any", "userDefined": true}
+    ],
+    "isTemplate": false,
+    "count": 0
+  },
+  {
+    "data": [
+      {"text": "mã đơn ", "userDefined": false},
+      {"text": "DH008", "alias": "order-id", "meta": "@sys.any", "userDefined": true},
+      {"text": " giao rồi không", "userDefined": false}
+    ],
+    "isTemplate": false,
+    "count": 0
+  },
+  {
+    "data": [
+      {"text": "cho tôi xem trạng thái đơn ", "userDefined": false},
+      {"text": "3", "alias": "order-id", "meta": "@sys.any", "userDefined": true}
+    ],
+    "isTemplate": false,
+    "count": 0
+  },
+  {
+    "data": [
+      {"text": "đơn hàng của tôi ở đâu ", "userDefined": false},
+      {"text": "DH009", "alias": "order-id", "meta": "@sys.any", "userDefined": true}
+    ],
+    "isTemplate": false,
+    "count": 0
+  },
+  {
+    "data": [
+      {"text": "nhân viên giao hàng là ai ", "userDefined": false},
+      {"text": "DH010", "alias": "order-id", "meta": "@sys.any", "userDefined": true}
+    ],
+    "isTemplate": false,
+    "count": 0
+  },
+  {
+    "data": [
+      {"text": "liên hệ shipper đơn ", "userDefined": false},
+      {"text": "DH011", "alias": "order-id", "meta": "@sys.any", "userDefined": true}
+    ],
+    "isTemplate": false,
+    "count": 0
+  },
+  {
+    "data": [
+      {"text": "gọi shipper ", "userDefined": false},
+      {"text": "DH012", "alias": "order-id", "meta": "@sys.any", "userDefined": true}
+    ],
+    "isTemplate": false,
+    "count": 0
+  },
+  {
+    "data": [
+      {"text": "nhắn tin shipper đơn ", "userDefined": false},
+      {"text": "DH013", "alias": "order-id", "meta": "@sys.any", "userDefined": true}
+    ],
+    "isTemplate": false,
+    "count": 0
+  }
+]

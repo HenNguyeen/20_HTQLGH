@@ -27,7 +27,11 @@ namespace DeliveryManagementAPI.Services
         // Thêm checkpoint mới
         public async Task<LocationCheckpoint> AddCheckpointAsync(LocationCheckpoint checkpoint)
         {
-            checkpoint.CheckInTime = DateTime.Now;
+            // Nếu CheckInTime chưa được set, dùng thời gian hiện tại
+            if (checkpoint.CheckInTime == default(DateTime))
+            {
+                checkpoint.CheckInTime = DateTime.Now;
+            }
             _context.LocationCheckpoints.Add(checkpoint);
             await _context.SaveChangesAsync();
             return checkpoint;

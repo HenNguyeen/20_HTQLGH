@@ -13,6 +13,19 @@
           "required": false,
           "dataType": "@sys.any",
           "value": "$shipper-name",
+          "prompts": [
+            {
+              "lang": "vi",
+              "value": "Bạn muốn kiểm tra thông tin shipper nào? (Vui lòng nhập tên hoặc mã nhân viên)"
+            }
+          ],
+          "isList": false
+        },
+        {
+          "name": "order-id",
+          "required": false,
+          "dataType": "@sys.any",
+          "value": "$order-id",
           "prompts": [],
           "isList": false
         }
@@ -21,7 +34,10 @@
         {
           "type": 0,
           "lang": "vi",
-          "speech": []
+          "speech": [
+            "Đang tìm kiếm thông tin nhân viên giao hàng...",
+            "Xin chờ một chút..."
+          ]
         }
       ]
     }

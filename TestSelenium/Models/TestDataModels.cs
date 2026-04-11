@@ -168,4 +168,29 @@ namespace TestSelenium.Models
             return $"[{TestCaseId}] {Description}";
         }
     }
+
+    /// <summary>
+    /// Data model for ChatBot AI test cases
+    /// </summary>
+    public class ChatBotAITestCase
+    {
+        public string TestCaseId { get; set; }
+        public string Scope { get; set; } // "Chatbot"
+        public string Functionality { get; set; }
+        public string Description { get; set; }
+        public string UserInput { get; set; }
+        public string Intent { get; set; }
+        public Dictionary<string, object> Parameters { get; set; } = new();
+        public string ExpectedResult { get; set; }
+        public string ExpectedResponse { get; set; }
+        public List<string> ShouldContain { get; set; } = new();
+        public string Priority { get; set; }
+        public List<string> Tags { get; set; } = new();
+
+        public override string ToString()
+        {
+            return $"[{TestCaseId}] {Description}";
+        }
+    }
 }
+

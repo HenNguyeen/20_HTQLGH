@@ -183,8 +183,11 @@
                             <div class="col-md-6">
                                 <h6 class="text-primary mb-3"><i class="fas fa-user"></i> Thông Tin Khách Hàng</h6>
                                 <div class="mb-3">
-                                    <label class="form-label">Mã Đơn Hàng *</label>
-                                    <input type="text" class="form-control" name="orderCode" required>
+                                    <label class="form-label">Mã Đơn Hàng <small class="text-muted">(Tự động sinh)</small></label>
+                                    <input type="hidden" name="orderCode" id="orderCode">
+                                    <div class="alert alert-info mb-0" id="orderCodeDisplay">
+                                        <strong>Mã đơn: </strong><span id="orderCodeValue">Sẽ được sinh kỳ khi tạo</span>
+                                    </div>
                                     <div class="invalid-feedback d-block" style="display:none;"></div>
                                 </div>
                                 <div class="mb-3">
@@ -224,11 +227,6 @@
                             <!-- Package Information -->
                             <div class="col-md-6">
                                 <h6 class="text-primary mb-3"><i class="fas fa-box"></i> Thông Tin Hàng Hóa</h6>
-                                <div class="mb-3">
-                                    <label class="form-label">Mã Sản Phẩm *</label>
-                                    <input type="text" class="form-control" name="productCode" required>
-                                    <div class="invalid-feedback d-block" style="display:none;"></div>
-                                </div>
                                 <div class="mb-3">
                                     <label class="form-label">Loại Hàng *</label>
                                     <select class="form-select" name="packageType" required>

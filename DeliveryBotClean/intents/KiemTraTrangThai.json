@@ -1,0 +1,37 @@
+{
+  "name": "KiemTraTrangThaiGiaoHang",
+  "auto": true,
+  "webhookUsed": true,
+  "fallbackIntent": false,
+  "responses": [
+    {
+      "resetContexts": false,
+      "action": "kiem-tra-trang-thai-giao-hang",
+      "parameters": [
+        {
+          "name": "order-id",
+          "required": true,
+          "dataType": "@sys.any",
+          "value": "$order-id",
+          "prompts": [
+            {
+              "lang": "vi",
+              "value": "Vui lòng cho tôi biết mã đơn hàng để kiểm tra trạng thái (ví dụ: DH001 hoặc 1)"
+            }
+          ],
+          "isList": false
+        }
+      ],
+      "messages": [
+        {
+          "type": 0,
+          "lang": "vi",
+          "speech": [
+            "Đang kiểm tra trạng thái đơn hàng của bạn...",
+            "Xin chờ một chút tôi lấy thông tin..."
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -87,16 +87,20 @@ namespace TestSelenium.TestCase
             try
             {
                 var screenshot = ((ITakesScreenshot)driver).GetScreenshot();
+                // Navigate từ bin/Debug/net8.0 lên project root
+                string baseDir = AppDomain.CurrentDomain.BaseDirectory;
+                string projectRoot = System.IO.Path.Combine(baseDir, "..", "..", "..");
+                projectRoot = System.IO.Path.GetFullPath(projectRoot);
+                
+                string screenshotDir = System.IO.Path.Combine(projectRoot, "Screenshots");
                 string screenshotPath = System.IO.Path.Combine(
-                    System.IO.Directory.GetCurrentDirectory(),
-                    "Screenshots",
+                    screenshotDir,
                     $"{testName}_{System.DateTime.Now:yyyyMMdd_HHmmss}.png"
                 );
 
                 // Create directory if not exists
-                string directory = System.IO.Path.GetDirectoryName(screenshotPath);
-                if (!System.IO.Directory.Exists(directory))
-                    System.IO.Directory.CreateDirectory(directory);
+                if (!System.IO.Directory.Exists(screenshotDir))
+                    System.IO.Directory.CreateDirectory(screenshotDir);
 
                 screenshot.SaveAsFile(screenshotPath);
                 TestContext.WriteLine($"Screenshot saved to: {screenshotPath}");

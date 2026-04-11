@@ -70,55 +70,99 @@ namespace DeliveryManagementAPI.Controllers
         {
             try
             {
-                if (parameters == null || !parameters.ContainsKey("order-id"))
+                if (parameters == null)
                 {
-                    return "Vui lòng cung cấp mã đơn hàng để tôi tra cứu cho bạn. Ví dụ: 'tra cứu đơn 1' hoặc 'xem đơn DH001'.";
+                    return "Vui lòng cung cấp thông tin để tra cứu: mã đơn, số điện thoại hoặc email.";
                 }
 
-                // Lấy giá trị order-id và xử lý
-                var orderParam = parameters["order-id"];
-                string orderCodeOrId = string.Empty;
+                Order? order = null;
 
-                // Xử lý nhiều kiểu dữ liệu từ Dialogflow
-                if (orderParam.ValueKind == JsonValueKind.Number)
+                // Cách 1: Tra cứu bằng mã đơn (order-id)
+                if (parameters.ContainsKey("order-id"))
                 {
-                    orderCodeOrId = orderParam.GetInt32().ToString();
-                }
-                else if (orderParam.ValueKind == JsonValueKind.String)
-                {
-                    orderCodeOrId = orderParam.GetString()?.Trim() ?? string.Empty;
-                }
-                else
-                {
-                    orderCodeOrId = orderParam.ToString().Trim();
-                }
+                    var orderParam = parameters["order-id"];
+                    string orderCodeOrId = string.Empty;
 
-                if (string.IsNullOrWhiteSpace(orderCodeOrId))
-                {
-                    return "Không thể nhận diện mã đơn hàng. Vui lòng thử lại!";
+                    if (orderParam.ValueKind == JsonValueKind.Number)
+                    {
+                        orderCodeOrId = orderParam.GetInt32().ToString();
+                    }
+                    else if (orderParam.ValueKind == JsonValueKind.String)
+                    {
+                        orderCodeOrId = orderParam.GetString()?.Trim() ?? string.Empty;
+                    }
+                    else
+                    {
+                        orderCodeOrId = orderParam.ToString().Trim();
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(orderCodeOrId))
+                    {
+                        _logger.LogInformation($"Searching for order by ID: {orderCodeOrId}");
+
+                        // Thử tìm theo OrderCode trước (DH001, DH002...)
+                        order = await _context.Orders
+                            .Include(o => o.Customer)
+                            .Include(o => o.AssignedStaff)
+                            .FirstOrDefaultAsync(o => o.OrderCode == orderCodeOrId);
+                        
+                        // Nếu không tìm thấy, thử tìm theo OrderId (số)
+                        if (order == null && int.TryParse(orderCodeOrId, out int orderId))
+                        {
+                            order = await _context.Orders
+                                .Include(o => o.Customer)
+                                .Include(o => o.AssignedStaff)
+                                .FirstOrDefaultAsync(o => o.OrderId == orderId);
+                        }
+                    }
                 }
-
-                _logger.LogInformation($"Searching for order: {orderCodeOrId}");
-
-                // Thử tìm theo OrderCode trước (DH001, DH002...)
-                var order = await _context.Orders
-                    .Include(o => o.Customer)
-                    .Include(o => o.AssignedStaff)
-                    .FirstOrDefaultAsync(o => o.OrderCode == orderCodeOrId);
-                
-                // Nếu không tìm thấy, thử tìm theo OrderId (số)
-                if (order == null && int.TryParse(orderCodeOrId, out int orderId))
+                // Cách 2: Tra cứu bằng số điện thoại khách hàng (phone)
+                else if (parameters.ContainsKey("phone"))
                 {
-                    order = await _context.Orders
-                        .Include(o => o.Customer)
-                        .Include(o => o.AssignedStaff)
-                        .FirstOrDefaultAsync(o => o.OrderId == orderId);
+                    var phoneParam = parameters["phone"];
+                    string phone = phoneParam.ValueKind == JsonValueKind.String 
+                        ? phoneParam.GetString()?.Trim() ?? string.Empty 
+                        : phoneParam.ToString().Trim();
+
+                    if (!string.IsNullOrWhiteSpace(phone))
+                    {
+                        _logger.LogInformation($"Searching for order by phone: {phone}");
+
+                        // Tìm khách hàng theo SĐT rồi lấy đơn hàng mới nhất
+                        order = await _context.Orders
+                            .Include(o => o.Customer)
+                            .Include(o => o.AssignedStaff)
+                            .Where(o => o.Customer != null && o.Customer.PhoneNumber == phone)
+                            .OrderByDescending(o => o.OrderId)
+                            .FirstOrDefaultAsync();
+                    }
+                }
+                // Cách 3: Tra cứu bằng email khách hàng (email)
+                else if (parameters.ContainsKey("email"))
+                {
+                    var emailParam = parameters["email"];
+                    string email = emailParam.ValueKind == JsonValueKind.String 
+                        ? emailParam.GetString()?.Trim() ?? string.Empty 
+                        : emailParam.ToString().Trim();
+
+                    if (!string.IsNullOrWhiteSpace(email))
+                    {
+                        _logger.LogInformation($"Searching for order by email: {email}");
+
+                        // Tìm khách hàng theo email rồi lấy đơn hàng mới nhất
+                        order = await _context.Orders
+                            .Include(o => o.Customer)
+                            .Include(o => o.AssignedStaff)
+                            .Where(o => o.Customer != null && o.Customer.Email == email)
+                            .OrderByDescending(o => o.OrderId)
+                            .FirstOrDefaultAsync();
+                    }
                 }
 
                 if (order == null)
                 {
-                    return $"❌ Không tìm thấy đơn hàng với mã '{orderCodeOrId}'.\n\n" +
-                           $"💡 Gợi ý: Vui lòng kiểm tra lại mã đơn hàng hoặc thử tra cứu bằng số (ví dụ: 1, 2, 3...).";
+                    return $"❌ Không tìm thấy đơn hàng với thông tin bạn cung cấp.\n\n" +
+                           $"💡 Gợi ý: Hãy thử với mã đơn (DH001), số điện thoại (0912345678) hoặc email (example@mail.com).";
                 }
 
                 var statusText = GetStatusText(order.Status);

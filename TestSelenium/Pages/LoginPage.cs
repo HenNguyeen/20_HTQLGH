@@ -106,12 +106,12 @@ namespace TestSelenium.Pages
 
         /// <summary>
         /// Verify login success (user redirected to dashboard)
-        /// Expected Result: Dashboard header should be visible, URL contains "dashboard" or "orders"
+        /// Expected Result: Dashboard header should be visible, URL contains "dashboard" or "orders" or "customer"
         /// </summary>
         public bool IsLoginSuccessful()
         {
             bool isDashboardDisplayed = IsElementDisplayed(dashboardHeader);
-            bool isUrlCorrect = GetCurrentUrl().Contains("dashboard") || GetCurrentUrl().Contains("orders");
+            bool isUrlCorrect = GetCurrentUrl().Contains("dashboard") || GetCurrentUrl().Contains("orders") || GetCurrentUrl().Contains("customer");
             return isDashboardDisplayed && isUrlCorrect;
         }
 

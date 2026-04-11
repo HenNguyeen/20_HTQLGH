@@ -23,55 +23,39 @@ namespace TestSelenium.TestCase
     /// Total: 9 scenarios via TestCaseSource
     /// </summary>
     [TestFixture]
-    public class EmployeeTests_DataDriven
+    public class EmployeeTests_DataDriven : BaseTest
     {
-        private IWebDriver driver;
         private WebDriverWait wait;
         private AddStaffPage addStaffPage;
         private LoginPage loginPage;
-        private const string BaseUrl = "http://localhost:5221";
         private const string AdminEmail = "admin";
         private const string AdminPassword = "admin123";
         private const int DefaultTimeoutSeconds = 10;
 
-        [OneTimeSetUp]
-        public void OneTimeSetUp()
-        {
-            TestContext.WriteLine("[EMPLOYEE SETUP] Khởi tạo Google Chrome WebDriver");
-        }
-
         [SetUp]
-        public void Setup()
+        public override void Setup()
         {
-            TestContext.WriteLine("[EMPLOYEE SETUP] Bắt đầu test case");
-            var chromeOptions = new ChromeOptions();
-            chromeOptions.AddArguments("--no-sandbox", "--disable-gpu");
+            // Gọi base setup
+            base.Setup();
             
-            driver = new ChromeDriver(chromeOptions);
+            TestContext.WriteLine("[EMPLOYEE SETUP] Bắt đầu test case");
             wait = new WebDriverWait(driver, TimeSpan.FromSeconds(DefaultTimeoutSeconds));
             addStaffPage = new AddStaffPage(driver);
             loginPage = new LoginPage(driver);
             
             // Đăng nhập admin
             TestContext.WriteLine("[EMPLOYEE SETUP] Đăng nhập tài khoản admin");
-            loginPage.PerformLogin(BaseUrl, AdminEmail, AdminPassword);
+            loginPage.PerformLogin(baseUrl, AdminEmail, AdminPassword);
             System.Threading.Thread.Sleep(2000); // Chờ đăng nhập hoàn tất
             
             TestContext.WriteLine("[EMPLOYEE SETUP] WebDriver và Page Object đã sẵn sàng");
         }
 
         [TearDown]
-        public void TearDown()
+        public override void TearDown()
         {
-            TestContext.WriteLine("[EMPLOYEE TEARDOWN] Đóng WebDriver");
-            try
-            {
-                driver?.Quit();
-            }
-            catch (Exception ex)
-            {
-                TestContext.WriteLine($"[EMPLOYEE TEARDOWN ERROR] Lỗi khi đóng WebDriver: {ex.Message}");
-            }
+            // Gọi base teardown
+            base.TearDown();
         }
 
         // ============================================
@@ -166,7 +150,7 @@ namespace TestSelenium.TestCase
             try
             {
                 TestContext.WriteLine("[OK] Điều hướng đến trang staff");
-                addStaffPage.NavigateToAddStaff(BaseUrl);
+                addStaffPage.NavigateToAddStaff(baseUrl);
                 wait.Until(d => d.FindElement(By.CssSelector(".table")));
 
                 TestContext.WriteLine($"[OK] Kết quả Mong Muốn: {testCase.ExpectedResult}");
@@ -195,7 +179,7 @@ namespace TestSelenium.TestCase
             try
             {
                 TestContext.WriteLine("[OK] Điều hướng đến trang staff");
-                addStaffPage.NavigateToAddStaff(BaseUrl);
+                addStaffPage.NavigateToAddStaff(baseUrl);
                 wait.Until(d => d.FindElement(By.CssSelector(".table")));
 
                 TestContext.WriteLine($"[OK] Kết quả Mong Muốn: {testCase.ExpectedResult}");

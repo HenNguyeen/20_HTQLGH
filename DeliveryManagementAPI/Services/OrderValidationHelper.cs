@@ -154,6 +154,20 @@ namespace DeliveryManagementAPI.Services
         }
 
         /// <summary>
+        /// Xác định tính hợp lệ của ID Sản Phẩm
+        /// - Bắt buộc
+        /// - Phải là số nguyên > 0
+        /// - Sản phẩm phải tồn tại trong database (kiểm tra ở controller)
+        /// </summary>
+        public static (bool IsValid, string ErrorMessage) ValidateProductId(int productId)
+        {
+            if (productId <= 0)
+                return (false, "Vui lòng chọn một sản phẩm hợp lệ");
+            
+            return (true, string.Empty);
+        }
+
+        /// <summary>
         /// Xác định tính hợp lệ của Trọng Lượng (kg)
         /// - Bắt buộc
         /// - Phải là số > 0
@@ -356,6 +370,18 @@ namespace DeliveryManagementAPI.Services
                 return string.Empty;
             
             return Regex.Replace(input.Trim(), @"\s+", " ");
+        }
+
+        /// <summary>
+        /// Sinh mã đơn hàng tự động
+        /// Format: DH + yyyyMMddHHmmss + 3 chữ số random
+        /// Example: DH20260406104530987
+        /// </summary>
+        public static string GenerateOrderCode()
+        {
+            var timestamp = DateTime.Now.ToString("yyyyMMddHHmmss");
+            var random = new Random().Next(100, 1000); // 3 digits: 100-999
+            return $"DH{timestamp}{random}";
         }
     }
 }

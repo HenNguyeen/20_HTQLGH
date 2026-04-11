@@ -34,6 +34,10 @@ namespace DeliveryManagementAPI
             modelBuilder.Entity<Order>()
                 .Property(o => o.CollectionAmount)
                 .HasPrecision(18, 2);
+
+            modelBuilder.Entity<Order>()
+                .Property(o => o.PaidAmount)
+                .HasPrecision(18, 2);
         }
     }
 }

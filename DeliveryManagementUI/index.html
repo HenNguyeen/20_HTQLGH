@@ -255,6 +255,28 @@
             }
         });
     </script>
+
+    <!-- Dialogflow Messenger -->
+    <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+    <df-messenger
+      chat-title="Chatbot_AI_HTQLGH"
+      agent-id="e80d0c21-a3ab-4e6b-bb43-0c113cf3e2c5"
+      language-code="vi"
+    ></df-messenger>
+    
+    <style>
+        df-messenger {
+            --df-messenger-font-color: #000;
+            --df-messenger-font-family: 'Segoe UI', Roboto, sans-serif;
+            --df-messenger-chat-bubble-styling-backdrop: transparent;
+        }
+        
+        df-messenger[df-messenger] {
+            bottom: 20px;
+            right: 20px;
+            z-index: 999;
+        }
+    </style>
     
         <script>
             // Render a small landing chooser overlay when flagged by the head script

@@ -58,7 +58,7 @@ namespace DeliveryManagementAPI.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error getting all orders");
-                return StatusCode(500, "Lỗi khi lấy danh sách đơn hàng");
+                return StatusCode(500, new { success = false, message = "Lỗi khi lấy danh sách đơn hàng: " + ex.Message });
             }
         }
 
@@ -88,7 +88,7 @@ namespace DeliveryManagementAPI.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error getting my orders");
-                return StatusCode(500, "Lỗi khi lấy danh sách đơn hàng của tôi");
+                return StatusCode(500, new { success = false, message = "Lỗi khi lấy danh sách đơn hàng của tôi: " + ex.Message });
             }
         }
 
@@ -112,7 +112,7 @@ namespace DeliveryManagementAPI.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error getting order by ID: {OrderId}", id);
-                return StatusCode(500, "Lỗi khi lấy thông tin đơn hàng");
+                return StatusCode(500, new { success = false, message = "Lỗi khi lấy thông tin đơn hàng: " + ex.Message });
             }
         }
 
@@ -127,10 +127,7 @@ namespace DeliveryManagementAPI.Controllers
             {
                 // ========== VALIDATION - ALL REQUIRED FIELDS ==========
                 
-                // Validate Order Code
-                var orderCodeValidation = OrderValidationHelper.ValidateOrderCode(orderDto.OrderCode);
-                if (!orderCodeValidation.IsValid)
-                    return BadRequest(new { message = orderCodeValidation.ErrorMessage, field = "orderCode" });
+                // NOTE: OrderCode validation is skipped - backend will auto-generate if empty
                 
                 // Validate Customer Name
                 var customerNameValidation = OrderValidationHelper.ValidateCustomerName(orderDto.CustomerName);
@@ -152,10 +149,10 @@ namespace DeliveryManagementAPI.Controllers
                 if (!locationValidation.IsValid)
                     return BadRequest(new { message = locationValidation.ErrorMessage, field = "location" });
                 
-                // Validate Product Code
-                var productCodeValidation = OrderValidationHelper.ValidateProductCode(orderDto.ProductCode);
-                if (!productCodeValidation.IsValid)
-                    return BadRequest(new { message = productCodeValidation.ErrorMessage, field = "productCode" });
+                // Validate Product ID
+                var productIdValidation = OrderValidationHelper.ValidateProductId(orderDto.ProductId);
+                if (!productIdValidation.IsValid)
+                    return BadRequest(new { message = productIdValidation.ErrorMessage, field = "productId" });
                 
                 // Validate Weight
                 var weightValidation = OrderValidationHelper.ValidateWeight(orderDto.Weight.ToString());
@@ -181,10 +178,6 @@ namespace DeliveryManagementAPI.Controllers
                 if (!paymentValidation.IsValid)
                     return BadRequest(new { message = paymentValidation.ErrorMessage, field = "paymentMethod" });
                 
-                // Validate Delivery Type
-                var deliveryTypeValidation = OrderValidationHelper.ValidateDeliveryType(orderDto.DeliveryType.ToString());
-                if (!deliveryTypeValidation.IsValid)
-                    return BadRequest(new { message = deliveryTypeValidation.ErrorMessage, field = "deliveryType" });
                 
                 // Validate COD Amount (if applicable)
                 var codValidation = OrderValidationHelper.ValidateCODAmount(
@@ -260,6 +253,12 @@ namespace DeliveryManagementAPI.Controllers
                     .FromDto(orderDto)
                     .WithPayment(orderDto.PaymentMethod, shippingFee)
                     .Build();
+
+                // Auto-generate ProductCode if empty (set same as OrderCode for simplicity)
+                if (string.IsNullOrEmpty(order.ProductCode))
+                {
+                    order.ProductCode = order.OrderCode;
+                }
 
                 _logger.LogInformation($"[CreateOrder] Order built: Code={order.OrderCode}, CustomerId={order.CustomerId}, ShippingFee={order.ShippingFee}");
 
@@ -371,7 +370,7 @@ namespace DeliveryManagementAPI.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error creating order");
-                return StatusCode(500, "Lỗi khi tạo đơn hàng");
+                return StatusCode(500, new { success = false, message = "Lỗi khi tạo đơn hàng: " + ex.Message });
             }
         }
 
@@ -391,6 +390,22 @@ namespace DeliveryManagementAPI.Controllers
                 if (order == null)
                 {
                     return NotFound($"Không tìm thấy đơn hàng với ID: {id}");
+                }
+
+                var previousStatus = order.Status;
+
+                // Nếu shipper chuyển từ ChuaNhan sang DaNhanDangGiao trực tiếp, tự động gán shipper
+                if (previousStatus == OrderStatus.ChuaNhan && statusDto.Status == OrderStatus.DaNhanDangGiao)
+                {
+                    int staffId = 0;
+                    
+                    if (!string.IsNullOrEmpty(statusDto.StaffId))
+                    {
+                        staffId = int.Parse(statusDto.StaffId);
+                        order.AssignedStaffId = statusDto.StaffId;
+                        order.AssignedStaff = await _staffService.GetStaffByIdAsync(staffId);
+                        order.ReceivedDate = DateTime.Now;
+                    }
                 }
 
                 // Thực thi Command Pattern (Design Pattern 12) để cập nhật trạng thái
@@ -448,7 +463,7 @@ namespace DeliveryManagementAPI.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error updating order status: {OrderId}", id);
-                return StatusCode(500, "Lỗi khi cập nhật trạng thái đơn hàng");
+                return StatusCode(500, new { success = false, message = "Lỗi khi cập nhật trạng thái đơn hàng: " + ex.Message });
             }
         }
 
@@ -482,7 +497,7 @@ namespace DeliveryManagementAPI.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error assigning staff to order: {OrderId}", id);
-                return StatusCode(500, "Lỗi khi gán nhân viên");
+                return StatusCode(500, new { success = false, message = "Lỗi khi gán nhân viên: " + ex.Message });
             }
         }
 
@@ -580,7 +595,7 @@ namespace DeliveryManagementAPI.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error deleting order: {OrderId}", id);
-                return StatusCode(500, "Lỗi khi xóa đơn hàng");
+                return StatusCode(500, new { success = false, message = "Lỗi khi xóa đơn hàng: " + ex.Message });
             }
         }
 

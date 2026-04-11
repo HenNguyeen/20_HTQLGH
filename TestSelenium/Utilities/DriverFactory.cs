@@ -19,18 +19,29 @@ namespace TestSelenium.Utilities
         {
             if (driver == null)
             {
-                // Cũ lại: Chrome driver từ C:\WebDriver\chromedriver.exe
-                // Hoặc dùng default system PATH
                 var options = new ChromeOptions();
                 options.AddArgument("--start-maximized");
                 options.AddArgument("--disable-blink-features=AutomationControlled");
-                options.AddArgument("disable-blink-features=AutomationControlled");
                 options.AddExcludedArgument("enable-automation");
+                
+                // Disable loading external resources to prevent hanging
+                options.AddArgument("--disable-extensions");
+                options.AddArgument("--no-first-run");
+                options.AddArgument("--no-default-browser-check");
+                options.AddArgument("--disable-popup-blocking");
+                
+                // Better performance for Selenium
+                options.AddArgument("--disable-component-extensions-with-background-pages");
+                options.AddArgument("--disable-default-apps");
+                options.AddArgument("--disable-plugins");
                 
                 // Uncomment để chạy headless (không mở GUI)
                 // options.AddArgument("--headless");
 
                 driver = new ChromeDriver(options);
+                
+                // Set page load timeout to prevent hanging
+                driver.Manage().Timeouts().PageLoad = System.TimeSpan.FromSeconds(30);
             }
             return driver;
         }

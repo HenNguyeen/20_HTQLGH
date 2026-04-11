@@ -10,15 +10,26 @@
       "parameters": [
         {
           "name": "order-id",
-          "required": true,
+          "required": false,
           "dataType": "@sys.any",
           "value": "$order-id",
-          "prompts": [
-            {
-              "lang": "vi",
-              "value": "Vui lòng cho tôi biết mã đơn hàng (ví dụ: DH001, DH002 hoặc 1, 2, 3) để tôi tra cứu cho bạn nhé!"
-            }
-          ],
+          "prompts": [],
+          "isList": false
+        },
+        {
+          "name": "phone",
+          "required": false,
+          "dataType": "@sys.phone-number",
+          "value": "$phone",
+          "prompts": [],
+          "isList": false
+        },
+        {
+          "name": "email",
+          "required": false,
+          "dataType": "@sys.email",
+          "value": "$email",
+          "prompts": [],
           "isList": false
         }
       ],
@@ -26,7 +37,10 @@
         {
           "type": 0,
           "lang": "vi",
-          "speech": []
+          "speech": [
+            "Đang tìm kiếm thông tin đơn hàng của bạn...",
+            "Xin vui lòng chờ tôi kiểm tra..."
+          ]
         }
       ]
     }

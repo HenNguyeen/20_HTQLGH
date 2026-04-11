@@ -12,49 +12,34 @@ using System.Text.Json;
 namespace TestSelenium.TestCase
 {
     [TestFixture]
-    public class NotificationTests_DataDriven
+    public class NotificationTests_DataDriven : BaseTest
     {
-        private IWebDriver _driver;
         private NotificationPage _notificationPage;
         private LoginPage _loginPage;
-        private const string BaseUrl = "http://localhost:5221";
         private const string AdminUsername = "admin";
         private const string AdminPassword = "admin123";
 
-        [OneTimeSetUp]
-        public void OneTimeSetUp()
-        {
-            var chromeOptions = new ChromeOptions();
-            chromeOptions.AddArgument("--no-sandbox");
-            chromeOptions.AddArgument("--disable-gpu");
-            _driver = new ChromeDriver(chromeOptions);
-            _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
-        }
-
         [SetUp]
-        public void SetUp()
+        public override void Setup()
         {
+            base.Setup();
+            
+            driver = driver;
+            _loginPage = new LoginPage(driver);
+            _notificationPage = new NotificationPage(driver);
+            
             // Navigate to login page and login as admin
-            _driver.Navigate().GoToUrl($"{BaseUrl}/login.html");
-            _loginPage = new LoginPage(_driver);
+            driver.Navigate().GoToUrl($"{baseUrl}/login.html");
             _loginPage.EnterUsername(AdminUsername);
             _loginPage.EnterPassword(AdminPassword);
             _loginPage.ClickLoginButton();
             System.Threading.Thread.Sleep(2000); // Wait for login to complete
-            
-            _notificationPage = new NotificationPage(_driver);
         }
 
         [TearDown]
-        public void TearDown()
+        public override void TearDown()
         {
-            // Clear notification state if needed
-        }
-
-        [OneTimeTearDown]
-        public void OneTimeTearDown()
-        {
-            _driver?.Quit();
+            base.TearDown();
         }
 
         [TestCaseSource(nameof(GetNotificationTestData))]
@@ -63,7 +48,7 @@ namespace TestSelenium.TestCase
             try
             {
                 // Navigate to a page where notifications would appear
-                _driver.Navigate().GoToUrl($"{BaseUrl}/");
+                driver.Navigate().GoToUrl($"{baseUrl}/");
                 System.Threading.Thread.Sleep(1000);
 
                 // Open notification panel

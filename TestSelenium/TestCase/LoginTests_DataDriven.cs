@@ -126,9 +126,9 @@ namespace TestSelenium.TestCase
                 loginPage.ClickLoginButton();
                 TestContext.WriteLine("[OK] Đã nhấp nút đăng nhập");
 
-                // Chờ phản hồi
-                System.Threading.Thread.Sleep(1500);
-
+               wait.Until(driver => 
+    loginPage.IsLoginSuccessful() || loginPage.IsErrorMessageDisplayed()
+);
                 // Xác minh kết quả
                 if (expectedResult == "Success")
                 {

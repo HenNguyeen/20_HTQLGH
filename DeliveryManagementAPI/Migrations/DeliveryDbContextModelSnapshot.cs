@@ -484,6 +484,7 @@ namespace DeliveryManagementAPI.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal?>("PaidAmount")
+                        .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("PaymentMethod")
@@ -495,6 +496,9 @@ namespace DeliveryManagementAPI.Migrations
                     b.Property<string>("ProductCode")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("ReceivedDate")
                         .HasColumnType("datetime2");

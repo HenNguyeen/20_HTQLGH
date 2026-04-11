@@ -20,5 +20,90 @@
     ],
     "isTemplate": false,
     "count": 0
+  },
+  {
+    "data": [
+      {"text": "tìm nhân viên giao hàng ", "userDefined": false},
+      {"text": "Trần Văn B", "alias": "shipper-name", "meta": "@sys.any", "userDefined": true}
+    ],
+    "isTemplate": false,
+    "count": 0
+  },
+  {
+    "data": [
+      {"text": "kiểm tra rating shipper ", "userDefined": false},
+      {"text": "Phạm Văn C", "alias": "shipper-name", "meta": "@sys.any", "userDefined": true}
+    ],
+    "isTemplate": false,
+    "count": 0
+  },
+  {
+    "data": [
+      {"text": "thông tin anh ", "userDefined": false},
+      {"text": "Lê Văn D", "alias": "shipper-name", "meta": "@sys.any", "userDefined": true}
+    ],
+    "isTemplate": false,
+    "count": 0
+  },
+  {
+    "data": [
+      {"text": "kiểm tra nhân viên cho đơn ", "userDefined": false},
+      {"text": "DH001", "alias": "order-id", "meta": "@sys.any", "userDefined": true}
+    ],
+    "isTemplate": false,
+    "count": 0
+  },
+  {
+    "data": [
+      {"text": "ai sẽ giao đơn ", "userDefined": false},
+      {"text": "DH002", "alias": "order-id", "meta": "@sys.any", "userDefined": true}
+    ],
+    "isTemplate": false,
+    "count": 0
+  },
+  {
+    "data": [
+      {"text": "shipper của đơn ", "userDefined": false},
+      {"text": "1", "alias": "order-id", "meta": "@sys.any", "userDefined": true}
+    ],
+    "isTemplate": false,
+    "count": 0
+  },
+  {
+    "data": [
+      {"text": "liên hệ shipper", "userDefined": false}
+    ],
+    "isTemplate": false,
+    "count": 0
+  },
+  {
+    "data": [
+      {"text": "gọi cho nhân viên giao hàng", "userDefined": false}
+    ],
+    "isTemplate": false,
+    "count": 0
+  },
+  {
+    "data": [
+      {"text": "nhắn tin shipper", "userDefined": false}
+    ],
+    "isTemplate": false,
+    "count": 0
+  },
+  {
+    "data": [
+      {"text": "mã nhân viên ", "userDefined": false},
+      {"text": "SP001", "alias": "shipper-name", "meta": "@sys.any", "userDefined": true}
+    ],
+    "isTemplate": false,
+    "count": 0
+  },
+  {
+    "data": [
+      {"text": "tìm shipper ", "userDefined": false},
+      {"text": "SP002", "alias": "shipper-name", "meta": "@sys.any", "userDefined": true}
+    ],
+    "isTemplate": false,
+    "count": 0
   }
 ]

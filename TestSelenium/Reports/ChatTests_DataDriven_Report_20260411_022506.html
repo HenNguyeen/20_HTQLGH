@@ -1,0 +1,386 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='UTF-8'>
+    <title>📊 Báo Cáo: ChatTests_DataDriven</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f5f5f5; }
+        .header { background-color: #2c3e50; color: white; padding: 20px; border-radius: 5px; margin-bottom: 20px; }
+        .header h1 { margin: 0; }
+        .summary { margin: 20px 0; display: flex; justify-content: space-around; flex-wrap: wrap; }
+        .stat { text-align: center; padding: 20px; border: 1px solid #ddd; border-radius: 5px; background: white; flex: 1; min-width: 120px; margin: 5px; }
+        .stat-pass { color: #27ae60; font-size: 24px; font-weight: bold; }
+        .stat-fail { color: #e74c3c; font-size: 24px; font-weight: bold; }
+        .stat-skip { color: #f39c12; font-size: 24px; font-weight: bold; }
+        table { border-collapse: collapse; width: 100%; margin-top: 20px; background: white; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background-color: #34495e; color: white; }
+        tr:nth-child(even) { background-color: #f2f2f2; }
+        .pass { color: #27ae60; font-weight: bold; }
+        .fail { color: #e74c3c; font-weight: bold; }
+        .skip { color: #f39c12; font-weight: bold; }
+        .error-detail { background-color: #ffe6e6; padding: 10px; border-left: 4px solid #e74c3c; margin-top: 5px; }
+        .footer { margin-top: 30px; text-align: center; color: #888; font-size: 12px; }
+    </style>
+</head>
+<body>
+    <div class='header'>
+        <h1>📊 Báo Cáo: ChatTests_DataDriven</h1>
+        <p>📁 Class: <strong>ChatTests_DataDriven</strong></p>
+        <p>🕐 Generated: 2026-04-11 02:25:06</p>
+    </div>
+
+    <div class='summary'>
+        <div class='stat'>
+            <div class='stat-pass'>0</div>
+            <div>Passed</div>
+        </div>
+        <div class='stat'>
+            <div class='stat-fail'>0</div>
+            <div>Failed</div>
+        </div>
+        <div class='stat'>
+            <div class='stat-skip'>0</div>
+            <div>Skipped</div>
+        </div>
+        <div class='stat'>
+            <div>30</div>
+            <div>Total</div>
+        </div>
+        <div class='stat'>
+            <div>0%</div>
+            <div>Pass Rate</div>
+        </div>
+        <div class='stat'>
+            <div>782.46s</div>
+            <div>Duration</div>
+        </div>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Test Name</th>
+                <th>Status</th>
+                <th>Duration (ms)</th>
+                <th>Timestamp</th>
+                <th>Details</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr>
+                <td>1</td>
+                <td><strong>Chat_DataDriven_ChatMessagingTest([Chat_TC_01] Gửi tin nhắn thành công)</strong></td>
+                <td><span class='passed'>✓ Passed</span></td>
+                <td>26224</td>
+                <td>02:12:21</td>
+                <td>-</td>
+            </tr>
+
+            <tr>
+                <td>2</td>
+                <td><strong>Chat_DataDriven_ChatMessagingTest([Chat_TC_02] Nhận tin nhắn thành công)</strong></td>
+                <td><span class='failed'>✓ Failed</span></td>
+                <td>25167</td>
+                <td>02:12:47</td>
+                <td><div class='error-detail'><strong>Error:</strong>   Thông báo tin nhắn không chứa: Tôi đã nhận được đơn hàng
+Assert.That(lastMessage, Does.Contain(testCase.MessageContent))
+  Expected: String containing "Tôi đã nhận được đơn hàng"
+  But was:  "Xin chào, tôi là khách hàng
+02:12"
+</div><div class='error-detail'><strong>Screenshot:</strong> C:\Users\DELL\Documents\GitHub\20_HTQLGH\TestSelenium\Screenshots\Chat_DataDriven_ChatMessagingTest([Chat_TC_02] Nhận tin nhắn thành công)_20260411_021247.png</div></td>
+            </tr>
+
+            <tr>
+                <td>3</td>
+                <td><strong>Chat_DataDriven_ChatMessagingTest([Chat_TC_03] Kiểm tra gửi tin đã đọc)</strong></td>
+                <td><span class='passed'>✓ Passed</span></td>
+                <td>26720</td>
+                <td>02:13:13</td>
+                <td>-</td>
+            </tr>
+
+            <tr>
+                <td>4</td>
+                <td><strong>Chat_DataDriven_ChatMessagingTest([Chat_TC_04] Kiểm tra chi tiết đọc tính (Timestamp))</strong></td>
+                <td><span class='passed'>✓ Passed</span></td>
+                <td>26880</td>
+                <td>02:13:41</td>
+                <td>-</td>
+            </tr>
+
+            <tr>
+                <td>5</td>
+                <td><strong>Chat_DataDriven_ChatMessagingTest([Chat_TC_05] Kiểm tra lịch sử tin nhắn)</strong></td>
+                <td><span class='passed'>✓ Passed</span></td>
+                <td>26791</td>
+                <td>02:14:08</td>
+                <td>-</td>
+            </tr>
+
+            <tr>
+                <td>6</td>
+                <td><strong>Chat_DataDriven_ChatMessagingTest([Chat_TC_06] Kiểm tra upload file)</strong></td>
+                <td><span class='failed'>✓ Failed</span></td>
+                <td>24181</td>
+                <td>02:14:32</td>
+                <td><div class='error-detail'><strong>Error:</strong>   Thông báo tin nhắn không chứa: document.pdf
+Assert.That(lastMessage, Does.Contain(testCase.MessageContent))
+  Expected: String containing "document.pdf"
+  But was:  "Lịch sử
+02:14"
+</div><div class='error-detail'><strong>Screenshot:</strong> C:\Users\DELL\Documents\GitHub\20_HTQLGH\TestSelenium\Screenshots\Chat_DataDriven_ChatMessagingTest([Chat_TC_06] Kiểm tra upload file)_20260411_021432.png</div></td>
+            </tr>
+
+            <tr>
+                <td>7</td>
+                <td><strong>Chat_DataDriven_ChatMessagingTest([Chat_TC_07] Kiểm tra upload hình ảnh)</strong></td>
+                <td><span class='failed'>✓ Failed</span></td>
+                <td>24357</td>
+                <td>02:14:57</td>
+                <td><div class='error-detail'><strong>Error:</strong>   Thông báo tin nhắn không chứa: image.jpg
+Assert.That(lastMessage, Does.Contain(testCase.MessageContent))
+  Expected: String containing "image.jpg"
+  But was:  "Lịch sử
+02:14"
+</div><div class='error-detail'><strong>Screenshot:</strong> C:\Users\DELL\Documents\GitHub\20_HTQLGH\TestSelenium\Screenshots\Chat_DataDriven_ChatMessagingTest([Chat_TC_07] Kiểm tra upload hình ảnh)_20260411_021457.png</div></td>
+            </tr>
+
+            <tr>
+                <td>8</td>
+                <td><strong>Chat_DataDriven_ChatMessagingTest([Chat_TC_08] Kiểm tra upload video)</strong></td>
+                <td><span class='failed'>✓ Failed</span></td>
+                <td>24421</td>
+                <td>02:15:22</td>
+                <td><div class='error-detail'><strong>Error:</strong>   Thông báo tin nhắn không chứa: video.mp4
+Assert.That(lastMessage, Does.Contain(testCase.MessageContent))
+  Expected: String containing "video.mp4"
+  But was:  "Lịch sử
+02:14"
+</div><div class='error-detail'><strong>Screenshot:</strong> C:\Users\DELL\Documents\GitHub\20_HTQLGH\TestSelenium\Screenshots\Chat_DataDriven_ChatMessagingTest([Chat_TC_08] Kiểm tra upload video)_20260411_021522.png</div></td>
+            </tr>
+
+            <tr>
+                <td>9</td>
+                <td><strong>Chat_DataDriven_ChatMessagingTest([Chat_TC_09] Kiểm tra emoji)</strong></td>
+                <td><span class='failed'>✓ Failed</span></td>
+                <td>23505</td>
+                <td>02:15:45</td>
+                <td><div class='error-detail'><strong>Error:</strong> System.Exception : Failed to send message: unknown error: ChromeDriver only supports characters in the BMP
+  (Session info: chrome=146.0.7680.178)
+  ----> OpenQA.Selenium.WebDriverException : unknown error: ChromeDriver only supports characters in the BMP
+  (Session info: chrome=146.0.7680.178)</div><div class='error-detail'><strong>Screenshot:</strong> C:\Users\DELL\Documents\GitHub\20_HTQLGH\TestSelenium\Screenshots\Chat_DataDriven_ChatMessagingTest([Chat_TC_09] Kiểm tra emoji)_20260411_021545.png</div></td>
+            </tr>
+
+            <tr>
+                <td>10</td>
+                <td><strong>Chat_DataDriven_ChatMessagingTest([Chat_TC_10] Kiểm tra mention)</strong></td>
+                <td><span class='passed'>✓ Passed</span></td>
+                <td>26986</td>
+                <td>02:16:13</td>
+                <td>-</td>
+            </tr>
+
+            <tr>
+                <td>11</td>
+                <td><strong>Chat_DataDriven_ChatMessagingTest([Chat_TC_11] Kiểm tra URL preview)</strong></td>
+                <td><span class='passed'>✓ Passed</span></td>
+                <td>26797</td>
+                <td>02:16:40</td>
+                <td>-</td>
+            </tr>
+
+            <tr>
+                <td>12</td>
+                <td><strong>Chat_DataDriven_ChatMessagingTest([Chat_TC_12] Kiểm tra italic/bold formatting)</strong></td>
+                <td><span class='passed'>✓ Passed</span></td>
+                <td>26859</td>
+                <td>02:17:07</td>
+                <td>-</td>
+            </tr>
+
+            <tr>
+                <td>13</td>
+                <td><strong>Chat_DataDriven_ChatMessagingTest([Chat_TC_13] Kiểm tra search tin nhắn)</strong></td>
+                <td><span class='passed'>✓ Passed</span></td>
+                <td>26551</td>
+                <td>02:17:34</td>
+                <td>-</td>
+            </tr>
+
+            <tr>
+                <td>14</td>
+                <td><strong>Chat_DataDriven_ChatMessagingTest([Chat_TC_14] Kiểm tra filter theo cuộc hội thoại)</strong></td>
+                <td><span class='passed'>✓ Passed</span></td>
+                <td>26542</td>
+                <td>02:18:00</td>
+                <td>-</td>
+            </tr>
+
+            <tr>
+                <td>15</td>
+                <td><strong>Chat_DataDriven_ChatMessagingTest([Chat_TC_15] Kiểm tra đơn ghi thời gian)</strong></td>
+                <td><span class='passed'>✓ Passed</span></td>
+                <td>26614</td>
+                <td>02:18:27</td>
+                <td>-</td>
+            </tr>
+
+            <tr>
+                <td>16</td>
+                <td><strong>Chat_DataDriven_ChatMessagingTest([Chat_TC_16] Kiểm tra xóa tin nhắn)</strong></td>
+                <td><span class='failed'>✓ Failed</span></td>
+                <td>24276</td>
+                <td>02:18:52</td>
+                <td><div class='error-detail'><strong>Error:</strong>   Thông báo tin nhắn không chứa: Tin nhắn sẽ bị xóa
+Assert.That(lastMessage, Does.Contain(testCase.MessageContent))
+  Expected: String containing "Tin nhắn sẽ bị xóa"
+  But was:  "Thời gian test
+02:18"
+</div><div class='error-detail'><strong>Screenshot:</strong> C:\Users\DELL\Documents\GitHub\20_HTQLGH\TestSelenium\Screenshots\Chat_DataDriven_ChatMessagingTest([Chat_TC_16] Kiểm tra xóa tin nhắn)_20260411_021852.png</div></td>
+            </tr>
+
+            <tr>
+                <td>17</td>
+                <td><strong>Chat_DataDriven_ChatMessagingTest([Chat_TC_17] Kiểm tra sửa tin nhắn)</strong></td>
+                <td><span class='failed'>✓ Failed</span></td>
+                <td>24137</td>
+                <td>02:19:16</td>
+                <td><div class='error-detail'><strong>Error:</strong>   Thông báo tin nhắn không chứa: Tin nhắn được sửa
+Assert.That(lastMessage, Does.Contain(testCase.MessageContent))
+  Expected: String containing "Tin nhắn được sửa"
+  But was:  "Thời gian test
+02:18"
+</div><div class='error-detail'><strong>Screenshot:</strong> C:\Users\DELL\Documents\GitHub\20_HTQLGH\TestSelenium\Screenshots\Chat_DataDriven_ChatMessagingTest([Chat_TC_17] Kiểm tra sửa tin nhắn)_20260411_021916.png</div></td>
+            </tr>
+
+            <tr>
+                <td>18</td>
+                <td><strong>Chat_DataDriven_ChatMessagingTest([Chat_TC_18] Kiểm tra reply tin nhắn)</strong></td>
+                <td><span class='passed'>✓ Passed</span></td>
+                <td>26581</td>
+                <td>02:19:43</td>
+                <td>-</td>
+            </tr>
+
+            <tr>
+                <td>19</td>
+                <td><strong>Chat_DataDriven_ChatMessagingTest([Chat_TC_19] Kiểm tra React emoji)</strong></td>
+                <td><span class='failed'>✓ Failed</span></td>
+                <td>23243</td>
+                <td>02:20:07</td>
+                <td><div class='error-detail'><strong>Error:</strong> System.Exception : Failed to send message: unknown error: ChromeDriver only supports characters in the BMP
+  (Session info: chrome=146.0.7680.178)
+  ----> OpenQA.Selenium.WebDriverException : unknown error: ChromeDriver only supports characters in the BMP
+  (Session info: chrome=146.0.7680.178)</div><div class='error-detail'><strong>Screenshot:</strong> C:\Users\DELL\Documents\GitHub\20_HTQLGH\TestSelenium\Screenshots\Chat_DataDriven_ChatMessagingTest([Chat_TC_19] Kiểm tra React emoji)_20260411_022007.png</div></td>
+            </tr>
+
+            <tr>
+                <td>20</td>
+                <td><strong>Chat_DataDriven_ChatMessagingTest([Chat_TC_20] Kiểm tra forward tin nhắn)</strong></td>
+                <td><span class='passed'>✓ Passed</span></td>
+                <td>26757</td>
+                <td>02:20:34</td>
+                <td>-</td>
+            </tr>
+
+            <tr>
+                <td>21</td>
+                <td><strong>Chat_DataDriven_ChatMessagingTest([Chat_TC_21] Kiểm tra pin tin nhắn)</strong></td>
+                <td><span class='passed'>✓ Passed</span></td>
+                <td>27488</td>
+                <td>02:21:01</td>
+                <td>-</td>
+            </tr>
+
+            <tr>
+                <td>22</td>
+                <td><strong>Chat_DataDriven_ChatMessagingTest([Chat_TC_22] Kiểm tra tính năng không đọc)</strong></td>
+                <td><span class='passed'>✓ Passed</span></td>
+                <td>27023</td>
+                <td>02:21:29</td>
+                <td>-</td>
+            </tr>
+
+            <tr>
+                <td>23</td>
+                <td><strong>Chat_DataDriven_ChatMessagingTest([Chat_TC_23] Kiểm tra hệ thống quảng cáo (Alert))</strong></td>
+                <td><span class='passed'>✓ Passed</span></td>
+                <td>26654</td>
+                <td>02:21:56</td>
+                <td>-</td>
+            </tr>
+
+            <tr>
+                <td>24</td>
+                <td><strong>Chat_DataDriven_ChatMessagingTest([Chat_TC_24] Kiểm tra âm thanh thông báo)</strong></td>
+                <td><span class='passed'>✓ Passed</span></td>
+                <td>27204</td>
+                <td>02:22:23</td>
+                <td>-</td>
+            </tr>
+
+            <tr>
+                <td>25</td>
+                <td><strong>Chat_DataDriven_ChatMessagingTest([Chat_TC_25] Kiểm tra giao diện Responsive)</strong></td>
+                <td><span class='passed'>✓ Passed</span></td>
+                <td>26987</td>
+                <td>02:22:50</td>
+                <td>-</td>
+            </tr>
+
+            <tr>
+                <td>26</td>
+                <td><strong>Chat_DataDriven_ChatMessagingTest([Chat_TC_26] Kiểm tra thời gian phản hồi)</strong></td>
+                <td><span class='passed'>✓ Passed</span></td>
+                <td>26559</td>
+                <td>02:23:17</td>
+                <td>-</td>
+            </tr>
+
+            <tr>
+                <td>27</td>
+                <td><strong>Chat_DataDriven_ChatMessagingTest([Chat_TC_27] Kiểm tra offline message sync)</strong></td>
+                <td><span class='passed'>✓ Passed</span></td>
+                <td>26567</td>
+                <td>02:23:44</td>
+                <td>-</td>
+            </tr>
+
+            <tr>
+                <td>28</td>
+                <td><strong>Chat_DataDriven_ChatMessagingTest([Chat_TC_28] Kiểm tra encryption)</strong></td>
+                <td><span class='passed'>✓ Passed</span></td>
+                <td>26941</td>
+                <td>02:24:11</td>
+                <td>-</td>
+            </tr>
+
+            <tr>
+                <td>29</td>
+                <td><strong>Chat_DataDriven_ChatMessagingTest([Chat_TC_29] Kiểm tra session timeout)</strong></td>
+                <td><span class='passed'>✓ Passed</span></td>
+                <td>26606</td>
+                <td>02:24:38</td>
+                <td>-</td>
+            </tr>
+
+            <tr>
+                <td>30</td>
+                <td><strong>Chat_DataDriven_ChatMessagingTest([Chat_TC_30] Kiểm tra Connection lost recovery)</strong></td>
+                <td><span class='passed'>✓ Passed</span></td>
+                <td>26842</td>
+                <td>02:25:05</td>
+                <td>-</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class='footer'>
+        <p>Generated by TestSelenium Automation Framework</p>
+    </div>
+</body>
+</html>

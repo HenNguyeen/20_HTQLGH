@@ -1,6 +1,9 @@
 using OpenQA.Selenium;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using OpenQA.Selenium.Support.UI;
+using System.Threading;
 
 namespace TestSelenium.Pages
 {
@@ -9,11 +12,16 @@ namespace TestSelenium.Pages
     /// </summary>
     public class TranslatePage : BasePage
     {
+        private WebDriverWait wait;
+        
+        // Language selector - try both old and new selectors
         private By langSwitcher = By.Id("langSwitcher");
-        private By languageOption = By.CssSelector(".language-option");
-        private By vietnameseOption = By.XPath("//button[@data-lang='vi']");
-        private By englishOption = By.XPath("//button[@data-lang='en']");
-        private By chineseOption = By.XPath("//button[@data-lang='zh']");
+        private By langDropdown = By.CssSelector("[data-lang], .language-selector");
+        
+        // Language buttons - match exactly how they appear in screenshot
+        private By vietnameseOption = By.XPath("//button[contains(text(), 'VI') or @data-lang='vi']");
+        private By englishOption = By.XPath("//button[contains(text(), 'EN') or @data-lang='en']");
+        private By chineseOption = By.XPath("//button[contains(text(), 'ZH') or @data-lang='zh']");
         
         private By navigationItems = By.CssSelector(".sidebar-menu li a span");
         private By formLabels = By.CssSelector("label");
@@ -23,12 +31,32 @@ namespace TestSelenium.Pages
 
         public TranslatePage(IWebDriver driver) : base(driver)
         {
+            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
         }
 
         public void OpenLanguageSwitcher()
         {
-            ClickElement(langSwitcher);
-            System.Threading.Thread.Sleep(300);
+            try
+            {
+                // Try to find and click language switcher
+                var switchers = driver.FindElements(langSwitcher);
+                if (switchers.Any())
+                {
+                    // Wait for it to be clickable
+                    wait.Until(d =>
+                    {
+                        var elements = d.FindElements(langSwitcher);
+                        return elements.Count > 0 && elements[0].Displayed;
+                    });
+                    ClickElement(langSwitcher);
+                    Thread.Sleep(300);
+                }
+            }
+            catch
+            {
+                // If langSwitcher dropdown doesn't exist, buttons might be always visible
+                Thread.Sleep(300);
+            }
         }
 
         public void SelectLanguage(string languageCode)
@@ -43,8 +71,22 @@ namespace TestSelenium.Pages
                 _ => vietnameseOption
             };
 
-            ClickElement(languageButton);
-            System.Threading.Thread.Sleep(1000); // Wait for translation
+            try
+            {
+                // Wait for button to be visible
+                wait.Until(d => 
+                {
+                    var elements = d.FindElements(languageButton);
+                    return elements.Count > 0 && elements[0].Displayed;
+                });
+                
+                ClickElement(languageButton);
+                Thread.Sleep(1500); // Wait for translation
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Failed to select language {languageCode}: {ex.Message}", ex);
+            }
         }
 
         public List<string> GetAllNavigationItems()

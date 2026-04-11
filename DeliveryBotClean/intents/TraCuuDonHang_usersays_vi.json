@@ -1,8 +1,16 @@
 [
   {
     "data": [
-      {"text": "tra cứu đơn hàng ", "userDefined": false},
+      {"text": "tra cứu đơn ", "userDefined": false},
       {"text": "DH001", "alias": "order-id", "meta": "@sys.any", "userDefined": true}
+    ],
+    "isTemplate": false,
+    "count": 0
+  },
+  {
+    "data": [
+      {"text": "tra cứu đơn ", "userDefined": false},
+      {"text": "DH011", "alias": "order-id", "meta": "@sys.any", "userDefined": true}
     ],
     "isTemplate": false,
     "count": 0
@@ -111,7 +119,71 @@
   {
     "data": [
       {"text": "kiểm tra đơn hàng mã ", "userDefined": false},
-      {"text": "DH011", "alias": "order-id", "meta": "@sys.any", "userDefined": true}
+      {"text": "DH012", "alias": "order-id", "meta": "@sys.any", "userDefined": true}
+    ],
+    "isTemplate": false,
+    "count": 0
+  },
+  {
+    "data": [
+      {"text": "tra cứu đơn bằng số điện thoại ", "userDefined": false},
+      {"text": "0912345678", "alias": "phone", "meta": "@sys.phone-number", "userDefined": true}
+    ],
+    "isTemplate": false,
+    "count": 0
+  },
+  {
+    "data": [
+      {"text": "kiểm tra đơn với số điện thoại ", "userDefined": false},
+      {"text": "0987654321", "alias": "phone", "meta": "@sys.phone-number", "userDefined": true}
+    ],
+    "isTemplate": false,
+    "count": 0
+  },
+  {
+    "data": [
+      {"text": "tìm đơn hàng số điện thoại ", "userDefined": false},
+      {"text": "0901234567", "alias": "phone", "meta": "@sys.phone-number", "userDefined": true}
+    ],
+    "isTemplate": false,
+    "count": 0
+  },
+  {
+    "data": [
+      {"text": "đơn hàng của khách ", "userDefined": false},
+      {"text": "0913456789", "alias": "phone", "meta": "@sys.phone-number", "userDefined": true}
+    ],
+    "isTemplate": false,
+    "count": 0
+  },
+  {
+    "data": [
+      {"text": "tra cứu đơn bằng email ", "userDefined": false},
+      {"text": "customer@example.com", "alias": "email", "meta": "@sys.email", "userDefined": true}
+    ],
+    "isTemplate": false,
+    "count": 0
+  },
+  {
+    "data": [
+      {"text": "kiểm tra đơn email ", "userDefined": false},
+      {"text": "user@example.com", "alias": "email", "meta": "@sys.email", "userDefined": true}
+    ],
+    "isTemplate": false,
+    "count": 0
+  },
+  {
+    "data": [
+      {"text": "tìm đơn hàng email ", "userDefined": false},
+      {"text": "info@example.com", "alias": "email", "meta": "@sys.email", "userDefined": true}
+    ],
+    "isTemplate": false,
+    "count": 0
+  },
+  {
+    "data": [
+      {"text": "đơn hàng khách ", "userDefined": false},
+      {"text": "test@example.com", "alias": "email", "meta": "@sys.email", "userDefined": true}
     ],
     "isTemplate": false,
     "count": 0

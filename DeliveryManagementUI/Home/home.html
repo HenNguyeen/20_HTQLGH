@@ -391,26 +391,10 @@
   <footer>
     <p>© 2025 GiaoHangTocDo. All rights reserved.</p>
   </footer>
-  <!-- Dialogflow Messenger Chatbot -->
-  <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
-  <df-messenger
-    chat-title="HTQLGH"
-    agent-id="bdc55ff6-110d-4ef5-8a6b-be0d655b8d0c"
-    language-code="vi"
-  ></df-messenger>
   
-  <style>
-    df-messenger {
-      --df-messenger-bot-message: #4285f4;
-      --df-messenger-button-titlebar-color: #ffc107;
-      --df-messenger-chat-background-color: #fafafa;
-      --df-messenger-font-color: white;
-      --df-messenger-send-icon: #ffc107;
-      --df-messenger-user-message: #ffc107;
-      z-index: 999;
-    }
-  </style>
-
+  <!-- Custom ChatBot AI Widget -->
+  <script src="../js/chatbot-ai-widget.js"></script>
+  
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="../js/api-service.js"></script>
   <script src="../js/ui-customization.js"></script>
@@ -490,6 +474,14 @@
       input.addEventListener('keydown', function(e){ if (e.key === 'Enter') doSearch(); });
     })();
   </script>
+
+  <!-- Dialogflow Messenger -->
+  <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+  <df-messenger
+    chat-title="Chatbot_AI_HTQLGH"
+    agent-id="e80d0c21-a3ab-4e6b-bb43-0c113cf3e2c5"
+    language-code="vi"
+  ></df-messenger>
 
   </body>
   </html>

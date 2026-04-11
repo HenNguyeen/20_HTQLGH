@@ -672,8 +672,12 @@ namespace TestSelenium.Utilities
                             TestCaseId = testCase.GetProperty("testCaseId").GetString(),
                             Description = testCase.GetProperty("description").GetString(),
                             Scenario = testCase.GetProperty("scenario").GetString(),
+                            OrderId = testCase.TryGetProperty("orderId", out var oi) ? oi.GetString() : "",
                             MessageContent = testCase.TryGetProperty("messageContent", out var mc) ? mc.GetString() : "",
+                            RecipientUser = testCase.TryGetProperty("recipientUser", out var ru) ? ru.GetString() : "",
+                            MessageType = testCase.TryGetProperty("messageType", out var mt) ? mt.GetString() : "text",
                             ExpectedResult = testCase.GetProperty("expectedResult").GetString(),
+                            ExpectedMessage = testCase.TryGetProperty("expectedMessage", out var em) ? em.GetString() : "",
                             Priority = testCase.GetProperty("priority").GetString(),
                             Tags = testCase.GetProperty("tags").EnumerateArray()
                                 .Select(t => t.GetString())

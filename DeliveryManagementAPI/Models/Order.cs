@@ -23,6 +23,7 @@ namespace DeliveryManagementAPI.Models
         
         // Thông tin hàng hóa
         public string ProductCode { get; set; } = string.Empty; // Mã hàng
+        public int ProductId { get; set; } // ID Sản phẩm (Foreign Key)
         public PackageType PackageType { get; set; }
         public double Weight { get; set; } // Cân nặng (kg)
         public string Size { get; set; } = string.Empty; // Kích thước

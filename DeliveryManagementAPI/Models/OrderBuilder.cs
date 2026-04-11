@@ -81,6 +81,15 @@ namespace DeliveryManagementAPI.Models
         }
 
         /// <summary>
+        /// Thiết lập ID sản phẩm (ProductId)
+        /// </summary>
+        public OrderBuilder WithProductId(int productId)
+        {
+            _order.ProductId = productId;
+            return this;
+        }
+
+        /// <summary>
         /// Thiết lập các đặc điểm đặc biệt của hàng hóa
         /// </summary>
         public OrderBuilder WithSpecialCharacteristics(
@@ -209,13 +218,12 @@ namespace DeliveryManagementAPI.Models
         {
             WithOrderCode(dto.OrderCode);
             
-            WithPackageDetails(
-                dto.ProductCode,
-                dto.PackageType,
-                dto.Weight,
-                dto.Size,
-                dto.Distance
-            );
+            WithProductId(dto.ProductId);
+            
+            _order.PackageType = dto.PackageType;
+            _order.Weight = dto.Weight;
+            _order.Size = dto.Size;
+            _order.Distance = dto.Distance;
 
             WithSpecialCharacteristics(
                 dto.IsFragile,
